@@ -35,14 +35,14 @@ include <../util/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // test the bottom shape profile
-    drawBorderBottomShape(
+    // test the bottom border profile
+    borderBottomProfile(
         slotWidth = getSlotWidth(),
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge
     );
-    // test the top shape profile
-    %drawBorderTopShape(
+    // test the top border profile
+    %borderTopProfile(
         slotWidth = getSlotWidth(),
         slotDepth = borderSlotDepth,
         edge = borderTopEdge

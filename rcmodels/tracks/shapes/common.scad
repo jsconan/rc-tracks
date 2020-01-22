@@ -37,7 +37,7 @@
  * @param Number edge - The width of each edge of the border mount.
  * @returns Vector[]
  */
-function getBorderBottomProfile(slotWidth, slotDepth, edge) =
+function getBorderBottomPoints(slotWidth, slotDepth, edge) =
     let(
         width = edge * 4 + slotWidth
     )
@@ -62,7 +62,7 @@ function getBorderBottomProfile(slotWidth, slotDepth, edge) =
  * @param Number edge - The width of each edge of the border mount.
  * @returns Vector[]
  */
-function getBorderTopProfile(slotWidth, slotDepth, edge) =
+function getBorderTopPoints(slotWidth, slotDepth, edge) =
     let(
         width = edge * 2 + slotWidth,
         height = edge + slotDepth
@@ -80,13 +80,13 @@ function getBorderTopProfile(slotWidth, slotDepth, edge) =
 ;
 
 /**
- * Draws the shape of a the bottom border mount.
+ * Draws the profile of the bottom border mount.
  * @param Number slotWidth - The width of the slot that will hold the border sheet.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number edge - The width of each edge of the border mount.
  */
-module drawBorderBottomShape(slotWidth, slotDepth, edge) {
-    polygon(getBorderBottomProfile(
+module borderBottomProfile(slotWidth, slotDepth, edge) {
+    polygon(getBorderBottomPoints(
         slotWidth = slotWidth,
         slotDepth = slotDepth,
         edge = edge
@@ -94,13 +94,13 @@ module drawBorderBottomShape(slotWidth, slotDepth, edge) {
 }
 
 /**
- * Draws the shape of a the top border mount.
+ * Draws the profile of the top border mount.
  * @param Number slotWidth - The width of the slot that will hold the border sheet.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number edge - The width of each edge of the border mount.
  */
-module drawBorderTopShape(slotWidth, slotDepth, edge) {
-    polygon(getBorderTopProfile(
+module borderTopProfile(slotWidth, slotDepth, edge) {
+    polygon(getBorderTopPoints(
         slotWidth = slotWidth,
         slotDepth = slotDepth,
         edge = edge
