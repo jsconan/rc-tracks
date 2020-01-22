@@ -42,3 +42,9 @@ function adjustToLayer(height) = roundBy(height, printResolution);
  * @returns Number
  */
 function adjustToNozzle(width) = roundBy(width, nozzle);
+
+/**
+ * Gets the width of the slot that will hold the border sheet.
+ * @returns Number
+ */
+function getSlotWidth() = borderThickness + wallDistance;

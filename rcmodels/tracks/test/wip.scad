@@ -37,7 +37,7 @@ include <../util/setup.scad>
 applyMode(mode=renderMode) {
     // test the bottom shape profile
     drawBorderBottomShape(
-        slotWidth = borderThickness,
+        slotWidth = getSlotWidth(),
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge
     );
