@@ -41,4 +41,10 @@ applyMode(mode=renderMode) {
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge
     );
+    // test the top shape profile
+    %drawBorderTopShape(
+        slotWidth = getSlotWidth(),
+        slotDepth = borderSlotDepth,
+        edge = borderTopEdge
+    );
 }
