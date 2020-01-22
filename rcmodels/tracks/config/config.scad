@@ -42,7 +42,7 @@ chunkLength = 200;
 
 // The constraints of the track border
 borderHeight = 50;
-borderSheetThickness = 3 * printResolution;
-borderClipThickness = 1;
-borderMountEdge = 2;
-borderMountSlotDepth = 6;
+borderThickness = 3 * printResolution;
+borderTopEdge = 1;
+borderBottomEdge = 2;
+borderSlotDepth = 6;
