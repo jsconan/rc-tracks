@@ -29,3 +29,42 @@
  * @author jsconan
  * @version 0.1.0
  */
+
+/**
+ * Computes the points defining the profile of the bottom border mount.
+ * @param Number slotWidth - The width of the slot that will hold the border sheet.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ * @returns Vector[]
+ */
+function getBorderBottomProfile(slotWidth, slotDepth, edge) =
+    let(
+        width = edge * 4 + slotWidth
+    )
+    path([
+        ["P", -width / 2, 0],
+        ["V", edge],
+        ["L", edge, slotDepth],
+        ["H", edge],
+        ["V", -slotDepth],
+        ["H", slotWidth],
+        ["V", slotDepth],
+        ["H", edge],
+        ["L", edge, -slotDepth],
+        ["V", -edge]
+    ])
+;
+
+/**
+ * Draws the shape of a the bottom border mount.
+ * @param Number slotWidth - The width of the slot that will hold the border sheet.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ */
+module drawBorderBottomShape(slotWidth, slotDepth, edge) {
+    polygon(getBorderBottomProfile(
+        slotWidth = slotWidth,
+        slotDepth = slotDepth,
+        edge = edge
+    ));
+}
