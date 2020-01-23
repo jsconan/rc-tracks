@@ -37,4 +37,4 @@ include <../config/config.scad>
 include <functions.scad>
 
 // Finally, include the shapes
-include <../shapes/common.scad>
+include <../shapes/profiles.scad>

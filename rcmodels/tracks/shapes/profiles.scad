@@ -24,7 +24,7 @@
 /**
  * A 1/24 RC track system.
  *
- * Defines some shared shapes.
+ * Defines some profile shapes.
  *
  * @author jsconan
  * @version 0.1.0
