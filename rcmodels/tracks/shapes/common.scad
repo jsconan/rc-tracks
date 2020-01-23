@@ -80,6 +80,29 @@ function getBorderTopPoints(slotWidth, slotDepth, edge) =
 ;
 
 /**
+ * Computes the points defining the profile of a border mount tooth.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ * @param Number [direction] - The direction of the shape (1: right, -1: left)
+ * @param Boolean [negative] - The shape will be used in a difference operation
+ * @returns Vector[]
+ */
+function getBorderToothPoints(slotDepth, edge, direction=1, negative=false) =
+    let(
+        start = negative ? 1 : 0,
+        direction = direction >= 0 ? 1 : -1,
+        width = edge * 2
+    )
+    path([
+        ["P", direction * -start, slotDepth],
+        ["H", direction * (edge + start)],
+        ["L", direction * edge, -slotDepth],
+        ["V", -start],
+        ["H", direction * -(width + start)]
+    ])
+;
+
+/**
  * Draws the profile of the bottom border mount.
  * @param Number slotWidth - The width of the slot that will hold the border sheet.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
@@ -104,5 +127,21 @@ module borderTopProfile(slotWidth, slotDepth, edge) {
         slotWidth = slotWidth,
         slotDepth = slotDepth,
         edge = edge
+    ));
+}
+
+/**
+ * Draws the profile of a border mount tooth.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ * @param Number [direction] - The direction of the shape (1: right, -1: left)
+ * @param Boolean [negative] - The shape will be used in a difference operation
+ */
+module borderToothProfile(slotDepth, edge, direction=1, negative=false) {
+    polygon(getBorderToothPoints(
+        slotDepth = slotDepth,
+        edge = edge,
+        direction = direction,
+        negative = negative
     ));
 }
