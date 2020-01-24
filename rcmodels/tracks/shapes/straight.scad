@@ -135,3 +135,59 @@ module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdg
         }
     }
 }
+
+/**
+ * Draws the border sheet for a straight chunk
+ * @param Number length - The length of the chunk
+ * @param Number height - The height of the chunk
+ * @param Number thickness - The thickness of the border sheet.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number toothEdge - The width of a tooth edge.
+ */
+module borderSheet(length, height, thickness, slotDepth, toothEdge) {
+    difference() {
+        box(size = [length, height, thickness], center = true);
+
+        repeatMirror(axis=[0, 1, 0]) {
+            translateY(-height / 2) {
+                translateX(-length / 2) {
+                    borderTeeth(
+                        length = length,
+                        thickness = thickness + 1,
+                        slotDepth = slotDepth,
+                        edge = toothEdge,
+                        negative = true,
+                        center = true
+                    );
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Draws the complete border sheet for a straight chunk
+ * @param Number length - The length of the chunk
+ * @param Number height - The height of the chunk
+ * @param Number thickness - The thickness of the border sheet.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number toothEdge - The width of a tooth edge.
+ */
+module borderSheetComplete(length, height, thickness, slotDepth, toothEdge) {
+    difference() {
+        box(size = [length, height, thickness], center = true);
+
+        repeatMirror(axis=[0, 1, 0]) {
+            translateY(-height / 2) {
+                borderTeethComplete(
+                    length = length,
+                    thickness = thickness + 1,
+                    slotDepth = slotDepth,
+                    edge = toothEdge,
+                    negative = true,
+                    center = true
+                );
+            }
+        }
+    }
+}

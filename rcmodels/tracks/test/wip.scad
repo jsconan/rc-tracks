@@ -94,11 +94,27 @@ applyMode(mode=renderMode) {
         toothEdge = borderToothEdge
     );
     // test the top border mount shape for a straight chunk
-    straightBorderTop(
+    *straightBorderTop(
         length = chunkLength,
         sheetThickness = getSlotWidth(),
         slotDepth = borderSlotDepth,
         borderEdge = borderTopEdge,
+        toothEdge = borderToothEdge
+    );
+    // test the border sheet shape for a straight chunk
+    *borderSheet(
+        length = chunkLength / 2,
+        height = borderHeight,
+        thickness = borderThickness,
+        slotDepth = borderSlotDepth,
+        toothEdge = borderToothEdge
+    );
+    // test the complete border sheet shape for a straight chunk
+    borderSheetComplete(
+        length = chunkLength,
+        height = borderHeight,
+        thickness = borderThickness,
+        slotDepth = borderSlotDepth,
         toothEdge = borderToothEdge
     );
 }
