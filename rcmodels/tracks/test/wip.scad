@@ -48,16 +48,30 @@ applyMode(mode=renderMode) {
         edge = borderTopEdge
     );
     // test the border tooth profile
-    borderToothProfile(
+    *borderToothProfile(
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge,
         direction = -1,
         negative = true
     );
-    borderToothProfile(
+    *borderToothProfile(
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge,
         direction = 1,
+        negative = true
+    );
+    // test the border teeth profile
+    *borderTeethProfile(
+        length = chunkLength / 2,
+        slotDepth = borderSlotDepth,
+        edge = borderBottomEdge,
+        negative = true
+    );
+    // test the border teeth profile for a complete chunk
+    borderTeethChunkProfile(
+        length = chunkLength,
+        slotDepth = borderSlotDepth,
+        edge = borderBottomEdge,
         negative = true
     );
 }
