@@ -67,6 +67,15 @@ applyMode(mode=renderMode) {
         edge = borderBottomEdge,
         negative = true
     );
+    // test the border tooth extrusion
+    borderTooth(
+        thickness = getSlotWidth(),
+        slotDepth = borderSlotDepth,
+        edge = borderBottomEdge,
+        direction = -1,
+        negative = true,
+        center = true
+    );
     // test the border teeth extrusion
     *borderTeeth(
         length = chunkLength,
@@ -110,7 +119,7 @@ applyMode(mode=renderMode) {
         toothEdge = borderToothEdge
     );
     // test the complete border sheet shape for a straight chunk
-    borderSheetComplete(
+    *borderSheetComplete(
         length = chunkLength,
         height = borderHeight,
         thickness = borderThickness,

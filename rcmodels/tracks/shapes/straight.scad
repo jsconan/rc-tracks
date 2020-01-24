@@ -31,6 +31,26 @@
  */
 
 /**
+ * Draws the extrusion of border mount tooth.
+ * @param Number thickness - The thickness of the extrusion
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ * @param Number [direction] - The direction of the shape (1: right, -1: left)
+ * @param Boolean [negative] - The shape will be used in a difference operation
+ * @param Boolean [center] - The shape is centered vertically
+ */
+module borderTooth(thickness, slotDepth, edge, direction=1, negative=false, center=false) {
+    negativeExtrude(height=thickness, center=center) {
+        polygon(getBorderToothPoints(
+            slotDepth = slotDepth,
+            edge = edge,
+            direction = direction,
+            negative = negative
+        ));
+    }
+}
+
+/**
  * Draws the extrusion of border mount teeth.
  * @param Number length - The length of the chunk
  * @param Number thickness - The thickness of the extrusion
