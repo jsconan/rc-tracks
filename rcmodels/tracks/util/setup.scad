@@ -38,3 +38,4 @@ include <functions.scad>
 
 // Finally, include the shapes
 include <../shapes/profiles.scad>
+include <../shapes/straight.scad>

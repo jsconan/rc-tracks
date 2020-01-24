@@ -68,10 +68,26 @@ applyMode(mode=renderMode) {
         negative = true
     );
     // test the border teeth profile for a complete chunk
-    borderTeethChunkProfile(
+    *borderTeethChunkProfile(
         length = chunkLength,
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge,
         negative = true
+    );
+    // test the border teeth extrusion for a complete chunk
+    *borderTeethChunk(
+        length = chunkLength,
+        thickness = borderThickness * 2,
+        slotDepth = borderSlotDepth,
+        edge = borderBottomEdge,
+        negative = true,
+        center = true
+    );
+    // test the bottom border mount shape for a straight chunk
+    straightBorderBottom(
+        length = chunkLength,
+        sheetThickness = borderThickness,
+        slotDepth = borderSlotDepth,
+        edge = borderBottomEdge
     );
 }
