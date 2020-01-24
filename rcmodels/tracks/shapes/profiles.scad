@@ -169,21 +169,3 @@ module borderTeethProfile(length, slotDepth, edge, negative=false) {
         );
     }
 }
-
-/**
- * Draws the profile of border mount teeth for a complete chunk.
- * @param Number length - The length of the chunk
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
- * @param Boolean [negative] - The shape will be used in a difference operation
- */
-module borderTeethChunkProfile(length, slotDepth, edge, negative=false) {
-    repeatMirror() {
-        borderTeethProfile(
-            length = chunkLength / 2,
-            slotDepth = slotDepth,
-            edge = edge,
-            negative = negative
-        );
-    }
-}

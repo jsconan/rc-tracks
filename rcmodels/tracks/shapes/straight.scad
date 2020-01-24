@@ -31,6 +31,26 @@
  */
 
 /**
+ * Draws the extrusion of border mount teeth.
+ * @param Number length - The length of the chunk
+ * @param Number thickness - The thickness of the extrusion
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number edge - The width of each edge of the border mount.
+ * @param Boolean [negative] - The shape will be used in a difference operation
+ * @param Boolean [center] - The shape is centered vertically
+ */
+module borderTeeth(length, thickness, slotDepth, edge, negative=false, center=false) {
+    negativeExtrude(height=thickness, center=center) {
+        borderTeethProfile(
+            length = length,
+            slotDepth = slotDepth,
+            edge = edge,
+            negative = negative
+        );
+    }
+}
+
+/**
  * Draws the extrusion of border mount teeth for a complete chunk.
  * @param Number length - The length of the chunk
  * @param Number thickness - The thickness of the extrusion
@@ -39,13 +59,15 @@
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @param Boolean [center] - The shape is centered vertically
  */
-module borderTeethChunk(length, thickness, slotDepth, edge, negative=false, center=false) {
-    negativeExtrude(height=thickness, center=center) {
-        borderTeethChunkProfile(
+module borderTeethComplete(length, thickness, slotDepth, edge, negative=false, center=false) {
+    repeatMirror() {
+        borderTeeth(
             length = length / 2,
+            thickness = thickness,
             slotDepth = slotDepth,
             edge = edge,
-            negative = negative
+            negative = negative,
+            center = center
         );
     }
 }
@@ -70,9 +92,9 @@ module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, tooth
     }
     translateZ(borderEdge) {
         rotateX(90) {
-            borderTeethChunk(
+            borderTeethComplete(
                 length = length,
-                thickness = sheetThickness * 2,
+                thickness = sheetThickness,
                 slotDepth = slotDepth,
                 edge = toothEdge,
                 negative = false,
@@ -102,9 +124,9 @@ module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdg
     }
     translateZ(borderEdge) {
         rotateX(90) {
-            borderTeethChunk(
+            borderTeethComplete(
                 length = length,
-                thickness = sheetThickness * 2,
+                thickness = sheetThickness,
                 slotDepth = slotDepth,
                 edge = toothEdge,
                 negative = false,
