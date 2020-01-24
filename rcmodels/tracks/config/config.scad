@@ -44,5 +44,6 @@ chunkLength = 200;
 borderHeight = 50;
 borderThickness = 3 * printResolution;
 borderTopEdge = 1;
+borderToothEdge = 2;
 borderBottomEdge = 2;
 borderSlotDepth = 6;

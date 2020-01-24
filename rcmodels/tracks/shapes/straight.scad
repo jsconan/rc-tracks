@@ -55,25 +55,58 @@ module borderTeethChunk(length, thickness, slotDepth, edge, negative=false, cent
  * @param Number length - The length of the chunk
  * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number borderEdge - The width of each edge of the border mount.
+ * @param Number toothEdge - The width of a tooth edge.
  */
-module straightBorderBottom(length, sheetThickness, slotDepth, edge) {
+module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, toothEdge) {
     rotate([90, 0, 90]) {
         negativeExtrude(height=length, center=true) {
             borderBottomProfile(
                 slotWidth = sheetThickness,
                 slotDepth = slotDepth,
-                edge = edge
+                edge = borderEdge
             );
         }
     }
-    translateZ(edge) {
+    translateZ(borderEdge) {
         rotateX(90) {
             borderTeethChunk(
                 length = length,
                 thickness = sheetThickness * 2,
                 slotDepth = slotDepth,
-                edge = edge,
+                edge = toothEdge,
+                negative = false,
+                center = true
+            );
+        }
+    }
+}
+
+/**
+ * Draws the top border mount for a straight chunk
+ * @param Number length - The length of the chunk
+ * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
+ * @param Number slotDepth - The depth of the slot that will hold the border sheet.
+ * @param Number borderEdge - The width of each edge of the border mount.
+ * @param Number toothEdge - The width of a tooth edge.
+ */
+module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdge) {
+    rotate([90, 0, 90]) {
+        negativeExtrude(height=length, center=true) {
+            borderTopProfile(
+                slotWidth = sheetThickness,
+                slotDepth = slotDepth,
+                edge = borderEdge
+            );
+        }
+    }
+    translateZ(borderEdge) {
+        rotateX(90) {
+            borderTeethChunk(
+                length = length,
+                thickness = sheetThickness * 2,
+                slotDepth = slotDepth,
+                edge = toothEdge,
                 negative = false,
                 center = true
             );
