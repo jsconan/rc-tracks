@@ -152,6 +152,7 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, toothEdg
         }
     }
 }
+
 /**
  * Draws the top border mount for a curved chunk
  * @param Number length - The length of a chunk
