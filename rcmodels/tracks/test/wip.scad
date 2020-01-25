@@ -68,7 +68,7 @@ applyMode(mode=renderMode) {
         negative = true
     );
     // test the border tooth extrusion
-    borderTooth(
+    *borderTooth(
         thickness = getSlotWidth(),
         slotDepth = borderSlotDepth,
         edge = borderBottomEdge,
@@ -109,6 +109,33 @@ applyMode(mode=renderMode) {
         slotDepth = borderSlotDepth,
         borderEdge = borderTopEdge,
         toothEdge = borderToothEdge
+    );
+    // test the curved border tooth
+    *curveBorderTooth(
+        radius = chunkLength,
+        thickness = getSlotWidth(),
+        slotDepth = borderSlotDepth,
+        edge = borderToothEdge,
+        direction = 1,
+        negative = true
+    );
+    // test the bottom border mount shape for a curved chunk
+    curveBorderBottom(
+        length = chunkLength,
+        sheetThickness = getSlotWidth(),
+        slotDepth = borderSlotDepth,
+        borderEdge = borderBottomEdge,
+        toothEdge = borderToothEdge,
+        ratio = 1
+    );
+    // test the top border mount shape for a curved chunk
+    *curveBorderTop(
+        length = chunkLength,
+        sheetThickness = getSlotWidth(),
+        slotDepth = borderSlotDepth,
+        borderEdge = borderTopEdge,
+        toothEdge = borderToothEdge,
+        ratio = 1
     );
     // test the border sheet shape for a straight chunk
     *borderSheet(
