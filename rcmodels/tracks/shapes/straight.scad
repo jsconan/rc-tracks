@@ -31,8 +31,8 @@
  */
 
 /**
- * Draws the extrusion of border mount tooth.
- * @param Number thickness - The thickness of the extrusion
+ * Draws the shape of border mount tooth.
+ * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number edge - The width of each edge of the border mount.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
@@ -51,9 +51,9 @@ module borderTooth(thickness, slotDepth, edge, direction=1, negative=false, cent
 }
 
 /**
- * Draws the extrusion of border mount teeth.
+ * Draws the shape of border mount teeth.
  * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the extrusion
+ * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number edge - The width of each edge of the border mount.
  * @param Boolean [negative] - The shape will be used in a difference operation
@@ -71,15 +71,15 @@ module borderTeeth(length, thickness, slotDepth, edge, negative=false, center=fa
 }
 
 /**
- * Draws the extrusion of border mount teeth for a complete chunk.
+ * Draws the shape of border mount teeth for a full chunk.
  * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the extrusion
+ * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number edge - The width of each edge of the border mount.
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @param Boolean [center] - The shape is centered vertically
  */
-module borderTeethComplete(length, thickness, slotDepth, edge, negative=false, center=false) {
+module borderTeethFull(length, thickness, slotDepth, edge, negative=false, center=false) {
     repeatMirror() {
         borderTeeth(
             length = length / 2,
@@ -112,7 +112,7 @@ module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, tooth
     }
     translateZ(borderEdge) {
         rotateX(90) {
-            borderTeethComplete(
+            borderTeethFull(
                 length = length,
                 thickness = sheetThickness,
                 slotDepth = slotDepth,
@@ -144,7 +144,7 @@ module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdg
     }
     translateZ(borderEdge) {
         rotateX(90) {
-            borderTeethComplete(
+            borderTeethFull(
                 length = length,
                 thickness = sheetThickness,
                 slotDepth = slotDepth,
@@ -186,20 +186,20 @@ module borderSheet(length, height, thickness, slotDepth, toothEdge) {
 }
 
 /**
- * Draws the complete border sheet for a straight chunk
+ * Draws the full border sheet for a straight chunk
  * @param Number length - The length of the chunk
  * @param Number height - The height of the chunk
  * @param Number thickness - The thickness of the border sheet.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number toothEdge - The width of a tooth edge.
  */
-module borderSheetComplete(length, height, thickness, slotDepth, toothEdge) {
+module borderSheetFull(length, height, thickness, slotDepth, toothEdge) {
     difference() {
         box(size = [length, height, thickness], center = true);
 
         repeatMirror(axis=[0, 1, 0]) {
             translateY(-height / 2) {
-                borderTeethComplete(
+                borderTeethFull(
                     length = length,
                     thickness = thickness + 1,
                     slotDepth = slotDepth,

@@ -76,7 +76,7 @@ module curveBorderTooth(radius, thickness, slotDepth, edge, direction=1, negativ
 }
 
 /**
- * Draws the shape of a curved border mount teeth for a complete chunk.
+ * Draws the shape of a curved border mount teeth for a full chunk.
  * @param Number radius - The radius of the curve.
  * @param Number length - The length of a chunk
  * @param Number angle - The angle of the curve

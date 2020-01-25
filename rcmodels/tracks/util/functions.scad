@@ -94,13 +94,13 @@ function getBorderHeight() =
 function getMinSheetLength() = 5 * borderToothEdge;
 
 /**
- * Gets the minimal length for a complete straight sheet
+ * Gets the minimal length for a straight chunk
  * @returns Number
  */
 function getMinStraightLength() = 2 * getMinSheetLength();
 
 /**
- * Gets the minimal length for a complete curved sheet
+ * Gets the minimal arc length for a curved chunk
  * @returns Number
  */
 function getMinCurveLength() = 3 * getMinSheetLength();
