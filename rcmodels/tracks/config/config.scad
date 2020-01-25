@@ -34,7 +34,7 @@ renderMode = MODE_PROD;
 
 // Defines the constraints of the print.
 printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
+nozzleWidth = 0.4;      // the size of the print nozzle
 printTolerance = 0.1;   // the print tolerance when pieces need to be assembled
 
 // Defines options
@@ -45,7 +45,7 @@ chunkLength = 200;
 
 // The constraints of the track border
 borderHeight = 50;
-borderThickness = 3 * printResolution;
+borderThickness = 0.6;
 borderTopEdge = 1;
 borderToothEdge = 2;
 borderBottomEdge = 2;

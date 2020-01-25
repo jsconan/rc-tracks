@@ -41,13 +41,49 @@ function adjustToLayer(height) = roundBy(height, printResolution);
  * @param Number width
  * @returns Number
  */
-function adjustToNozzle(width) = roundBy(width, nozzle);
+function adjustToNozzle(width) = roundBy(width, nozzleWidth);
+
+/**
+ * Gets the thickness of the border sheet, adjusted to better fit the printer.
+ * @returns Number
+ */
+function getSheetThickness() = adjustToLayer(borderThickness);
+
+/**
+ * Gets the width of the bottom border edge, adjusted to better fit the printer.
+ * @returns Number
+ */
+function getBottomEdge() = adjustToNozzle(borderBottomEdge);
+
+/**
+ * Gets the width of the top border edge, adjusted to better fit the printer.
+ * @returns Number
+ */
+function getTopEdge() = adjustToNozzle(borderTopEdge);
+
+/**
+ * Gets the width of the border tooth edge, adjusted to better fit the printer.
+ * @returns Number
+ */
+function getToothEdge() = adjustToNozzle(borderToothEdge);
 
 /**
  * Gets the width of the slot that will hold the border sheet.
  * @returns Number
  */
-function getSlotWidth() = borderThickness + printTolerance;
+function getSlotWidth() = getSheetThickness() + printTolerance;
+
+/**
+ * Gets the depth of the slot that will hold the border sheet.
+ * @returns Number
+ */
+function getSlotDepth() = adjustToLayer(borderSlotDepth);
+
+/**
+ * Gets the length of a track chunk.
+ * @returns Number
+ */
+function getChunkLength() = chunkLength;
 
 /**
  * Gets the length of a curved chunk (the length of the arc of the curve).
@@ -91,7 +127,7 @@ function getBorderHeight() =
  * Gets the minimal length for a simple sheet (a sheet that should fit between 2 border teeth)
  * @returns Number
  */
-function getMinSheetLength() = 5 * borderToothEdge;
+function getMinSheetLength() = 5 * getToothEdge();
 
 /**
  * Gets the minimal length for a straight chunk

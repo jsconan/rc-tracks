@@ -38,11 +38,11 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     curveBorderBottom(
-        length = chunkLength,
+        length = getChunkLength(),
         sheetThickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        borderEdge = borderBottomEdge,
-        toothEdge = borderToothEdge,
+        slotDepth = getSlotDepth(),
+        borderEdge = getBottomEdge(),
+        toothEdge = getToothEdge(),
         ratio = 1
     );
 }

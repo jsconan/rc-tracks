@@ -38,10 +38,10 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     borderSheetFull(
-        length = chunkLength,
+        length = getChunkLength(),
         height = getSheetHeight(),
-        thickness = borderThickness,
-        slotDepth = borderSlotDepth,
-        toothEdge = borderToothEdge
+        thickness = getSheetThickness(),
+        slotDepth = getSlotDepth(),
+        toothEdge = getToothEdge()
     );
 }

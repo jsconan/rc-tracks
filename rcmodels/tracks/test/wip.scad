@@ -38,119 +38,113 @@ applyMode(mode=renderMode) {
     // test the bottom border profile
     *borderBottomProfile(
         slotWidth = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge()
     );
     // test the top border profile
     *borderTopProfile(
         slotWidth = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderTopEdge
+        slotDepth = getSlotDepth(),
+        edge = getTopEdge()
     );
     // test the border tooth profile
     *borderToothProfile(
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge(),
         direction = -1,
-        negative = true
-    );
-    *borderToothProfile(
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
-        direction = 1,
         negative = true
     );
     // test the border teeth profile
     *borderTeethProfile(
-        length = chunkLength / 2,
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
+        length = getChunkLength() / 2,
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge(),
         negative = true
     );
     // test the border tooth shape
     *borderTooth(
         thickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge(),
         direction = -1,
         negative = true,
         center = true
     );
     // test the border teeth shape
     *borderTeeth(
-        length = chunkLength,
+        length = getChunkLength(),
         thickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge(),
         negative = true,
         center = true
     );
     // test the border teeth shape for a full chunk
     *borderTeethFull(
-        length = chunkLength,
+        length = getChunkLength(),
         thickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderBottomEdge,
+        slotDepth = getSlotDepth(),
+        edge = getBottomEdge(),
         negative = true,
         center = true
     );
     // test the bottom border mount shape for a straight chunk
     *straightBorderBottom(
-        length = chunkLength,
+        length = getChunkLength(),
         sheetThickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        borderEdge = borderBottomEdge,
-        toothEdge = borderToothEdge
+        slotDepth = getSlotDepth(),
+        borderEdge = getBottomEdge(),
+        toothEdge = getToothEdge()
     );
     // test the top border mount shape for a straight chunk
     *straightBorderTop(
-        length = chunkLength,
+        length = getChunkLength(),
         sheetThickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        borderEdge = borderTopEdge,
-        toothEdge = borderToothEdge
+        slotDepth = getSlotDepth(),
+        borderEdge = getTopEdge(),
+        toothEdge = getToothEdge()
     );
     // test the curved border tooth
     *curveBorderTooth(
-        radius = chunkLength,
+        radius = getChunkLength(),
         thickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        edge = borderToothEdge,
+        slotDepth = getSlotDepth(),
+        edge = getToothEdge(),
         direction = 1,
         negative = true
     );
     // test the bottom border mount shape for a curved chunk
-    curveBorderBottom(
-        length = chunkLength,
+    *curveBorderBottom(
+        length = getChunkLength(),
         sheetThickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        borderEdge = borderBottomEdge,
-        toothEdge = borderToothEdge,
+        slotDepth = getSlotDepth(),
+        borderEdge = getBottomEdge(),
+        toothEdge = getToothEdge(),
         ratio = 1
     );
     // test the top border mount shape for a curved chunk
     *curveBorderTop(
-        length = chunkLength,
+        length = getChunkLength(),
         sheetThickness = getSlotWidth(),
-        slotDepth = borderSlotDepth,
-        borderEdge = borderTopEdge,
-        toothEdge = borderToothEdge,
+        slotDepth = getSlotDepth(),
+        borderEdge = getTopEdge(),
+        toothEdge = getToothEdge(),
         ratio = 1
     );
     // test the border sheet shape for a straight chunk
     *borderSheet(
-        length = getCurveRemainingLength(chunkLength),
-        height = borderHeight,
-        thickness = borderThickness,
-        slotDepth = borderSlotDepth,
-        toothEdge = borderToothEdge
+        length = getCurveRemainingLength(getChunkLength()),
+        height = getSheetHeight(),
+        thickness = getSheetThickness(),
+        slotDepth = getSlotDepth(),
+        toothEdge = getToothEdge()
     );
     // test the full border sheet shape for a straight chunk
-    *borderSheetFull(
-        length = chunkLength,
-        height = borderHeight,
-        thickness = borderThickness,
-        slotDepth = borderSlotDepth,
-        toothEdge = borderToothEdge
+    borderSheetFull(
+        length = getChunkLength(),
+        height = getSheetHeight(),
+        thickness = getSheetThickness(),
+        slotDepth = getSlotDepth(),
+        toothEdge = getToothEdge()
     );
 }
