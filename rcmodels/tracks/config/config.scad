@@ -44,9 +44,9 @@ heightWithFasteners = true;    // Should the height be with or without the faste
 chunkLength = 200;
 
 // The constraints of the track border
-borderHeight = 50;
+borderHeight = 40;
 borderThickness = 0.6;
 borderTopEdge = 1;
-borderToothEdge = 2;
+borderToothEdge = 1;
 borderBottomEdge = 2;
-borderSlotDepth = 6;
+borderSlotDepth = 8;
