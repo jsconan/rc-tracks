@@ -94,7 +94,7 @@ applyMode(mode=renderMode) {
         sheetThickness = getSlotWidth(),
         slotDepth = getSlotDepth(),
         borderEdge = getBottomEdge(),
-        toothEdge = getToothEdge()
+        toothEdge = getToothEdge() - printTolerance
     );
     // test the top border mount shape for a straight chunk
     *straightBorderTop(
@@ -102,7 +102,7 @@ applyMode(mode=renderMode) {
         sheetThickness = getSlotWidth(),
         slotDepth = getSlotDepth(),
         borderEdge = getTopEdge(),
-        toothEdge = getToothEdge()
+        toothEdge = getToothEdge() - printTolerance
     );
     // test the curved border tooth
     *curveBorderTooth(
@@ -119,7 +119,7 @@ applyMode(mode=renderMode) {
         sheetThickness = getSlotWidth(),
         slotDepth = getSlotDepth(),
         borderEdge = getBottomEdge(),
-        toothEdge = getToothEdge(),
+        toothEdge = getToothEdge() - printTolerance,
         ratio = 1
     );
     // test the top border mount shape for a curved chunk
@@ -128,7 +128,7 @@ applyMode(mode=renderMode) {
         sheetThickness = getSlotWidth(),
         slotDepth = getSlotDepth(),
         borderEdge = getTopEdge(),
-        toothEdge = getToothEdge(),
+        toothEdge = getToothEdge() - printTolerance,
         ratio = 1
     );
     // test the border sheet shape for a straight chunk
@@ -137,7 +137,7 @@ applyMode(mode=renderMode) {
         height = getSheetHeight(),
         thickness = getSheetThickness(),
         slotDepth = getSlotDepth(),
-        toothEdge = getToothEdge()
+        toothEdge = getToothEdge() + printTolerance
     );
     // test the full border sheet shape for a straight chunk
     borderSheetFull(
@@ -145,6 +145,6 @@ applyMode(mode=renderMode) {
         height = getSheetHeight(),
         thickness = getSheetThickness(),
         slotDepth = getSlotDepth(),
-        toothEdge = getToothEdge()
+        toothEdge = getToothEdge() + printTolerance
     );
 }
