@@ -41,12 +41,12 @@
  */
 module borderTooth(thickness, slotDepth, edge, direction=1, negative=false, center=false) {
     negativeExtrude(height=thickness, center=center) {
-        polygon(getBorderToothPoints(
+        borderToothProfile(
             slotDepth = slotDepth,
             edge = edge,
             direction = direction,
             negative = negative
-        ));
+        );
     }
 }
 
