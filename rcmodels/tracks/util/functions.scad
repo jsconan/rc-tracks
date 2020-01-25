@@ -47,4 +47,60 @@ function adjustToNozzle(width) = roundBy(width, nozzle);
  * Gets the width of the slot that will hold the border sheet.
  * @returns Number
  */
-function getSlotWidth() = borderThickness + wallDistance;
+function getSlotWidth() = borderThickness + printTolerance;
+
+/**
+ * Gets the length of a curved chunk (the length of the arc of the curve).
+ * @param Number chunkLength - The length of a straight chunk
+ * @returns Number
+ */
+function getCurveLength(chunkLength) = getArcLength(radius = chunkLength, angle = 90);
+
+/**
+ * Gets the difference between the length of a curved chunk and a regular straight chunk
+ * @param Number chunkLength - The length of a straight chunk
+ * @returns Number
+ */
+function getCurveRemainingLength(chunkLength) = getCurveLength(chunkLength) - chunkLength;
+
+/**
+ * Gets the height of the border sheet, depending on the option heightWithFasteners
+ * @returns Number
+ */
+function getSheetHeight() =
+    let(
+        correction = heightWithFasteners
+       ?-(borderBottomEdge + borderTopEdge)
+       :borderSlotDepth * 2
+    )
+    borderHeight + correction
+;
+
+/**
+ * Gets the height of the assembled border, depending on the option heightWithFasteners
+ * @returns Number
+ */
+function getBorderHeight() =
+    let(
+        correction = heightWithFasteners ? 0 : borderBottomEdge + borderTopEdge + borderSlotDepth * 2
+    )
+    borderHeight + correction
+;
+
+/**
+ * Gets the minimal length for a simple sheet (a sheet that should fit between 2 border teeth)
+ * @returns Number
+ */
+function getMinSheetLength() = 5 * borderToothEdge;
+
+/**
+ * Gets the minimal length for a complete straight sheet
+ * @returns Number
+ */
+function getMinStraightLength() = 2 * getMinSheetLength();
+
+/**
+ * Gets the minimal length for a complete curved sheet
+ * @returns Number
+ */
+function getMinCurveLength() = 3 * getMinSheetLength();

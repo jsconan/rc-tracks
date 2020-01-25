@@ -40,3 +40,23 @@ include <functions.scad>
 include <../shapes/profiles.scad>
 include <../shapes/straight.scad>
 include <../shapes/curve.scad>
+
+// Validate the critical constraints
+assert(
+    chunkLength >= getMinStraightLength(),
+    str(
+        "The length for a track chunk is too small! The minimum length for a straight element is ",
+        getMinStraightLength(),
+        ". The current value is ",
+        chunkLength
+    )
+);
+assert(
+    getArcLength(radius = chunkLength, angle = 90) >= getMinCurveLength(),
+    str(
+        "The length for a track chunk is too small! The minimum arc length for a curved element is ",
+        getMinCurveLength(),
+        ". The current value is ",
+        getArcLength(radius = chunkLength, angle = 90)
+    )
+);

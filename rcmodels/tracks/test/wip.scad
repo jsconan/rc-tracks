@@ -139,7 +139,7 @@ applyMode(mode=renderMode) {
     );
     // test the border sheet shape for a straight chunk
     *borderSheet(
-        length = chunkLength / 2,
+        length = getCurveRemainingLength(chunkLength),
         height = borderHeight,
         thickness = borderThickness,
         slotDepth = borderSlotDepth,

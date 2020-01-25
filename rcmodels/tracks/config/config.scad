@@ -35,7 +35,10 @@ renderMode = MODE_PROD;
 // Defines the constraints of the print.
 printResolution = 0.2;  // the target layer height
 nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
+printTolerance = 0.1;   // the print tolerance when pieces need to be assembled
+
+// Defines options
+heightWithFasteners = true;    // Should the height be with or without the fastener elements?
 
 // The dimensions of a track chunk
 chunkLength = 200;
