@@ -22,7 +22,7 @@
  */
 
 /**
- * A 1/24 RC track system.
+ * A race track system for 1/24 to 1/32 scale RC cars.
  *
  * A top border mount for a straight track chunk.
  *

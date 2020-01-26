@@ -21,7 +21,9 @@
 #
 
 #
-# Generates the STL files for the 1/24 RC track system.
+# A race track system for 1/24 to 1/32 scale RC cars.
+#
+# Generates the STL files for the project.
 #
 # @author jsconan
 #
