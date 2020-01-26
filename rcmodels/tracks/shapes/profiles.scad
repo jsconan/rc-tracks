@@ -31,139 +31,101 @@
  */
 
 /**
- * Computes the points defining the profile of the bottom border mount.
- * @param Number slotWidth - The width of the slot that will hold the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * Computes the points defining the profile of the barrier holder.
+ * @param Number slotWidth - The width of the slot that will hold the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier holder.
  * @returns Vector[]
  */
-function getBorderBottomPoints(slotWidth, slotDepth, edge) =
+function getBarrierHolderPoints(slotWidth, slotDepth, base) =
     let(
-        width = edge * 4 + slotWidth
+        width = base * 4 + slotWidth
     )
     path([
         ["P", -width / 2, 0],
-        ["V", edge],
-        ["L", edge, slotDepth],
-        ["H", edge],
+        ["V", base],
+        ["L", base, slotDepth],
+        ["H", base],
         ["V", -slotDepth],
         ["H", slotWidth],
         ["V", slotDepth],
-        ["H", edge],
-        ["L", edge, -slotDepth],
-        ["V", -edge]
+        ["H", base],
+        ["L", base, -slotDepth],
+        ["V", -base]
     ])
 ;
 
 /**
- * Computes the points defining the profile of the top border mount.
- * @param Number slotWidth - The width of the slot that will hold the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
- * @returns Vector[]
- */
-function getBorderTopPoints(slotWidth, slotDepth, edge) =
-    let(
-        width = edge * 2 + slotWidth,
-        height = edge + slotDepth
-    )
-    path([
-        ["P", -width / 2, 0],
-        ["V", height],
-        ["H", edge],
-        ["V", -slotDepth],
-        ["H", slotWidth],
-        ["V", slotDepth],
-        ["H", edge],
-        ["V", -height]
-    ])
-;
-
-/**
- * Computes the points defining the profile of a border mount notch.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * Computes the points defining the profile of a barrier holder notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @returns Vector[]
  */
-function getBorderNotchPoints(slotDepth, edge, direction=1, negative=false) =
+function getBarrierNotchPoints(slotDepth, base, direction=1, negative=false) =
     let(
         start = negative ? 1 : 0,
         direction = direction >= 0 ? 1 : -1,
-        width = edge * 2
+        width = base * 2
     )
     path([
         ["P", direction * -start, slotDepth],
-        ["H", direction * (edge + start)],
-        ["L", direction * edge, -slotDepth],
+        ["H", direction * (base + start)],
+        ["L", direction * base, -slotDepth],
         ["V", -start],
         ["H", direction * -(width + start)]
     ])
 ;
 
 /**
- * Draws the profile of the bottom border mount.
- * @param Number slotWidth - The width of the slot that will hold the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * Draws the profile of the barrier holder.
+ * @param Number slotWidth - The width of the slot that will hold the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier holder.
  */
-module borderBottomProfile(slotWidth, slotDepth, edge) {
-    polygon(getBorderBottomPoints(
+module barrierHolderProfile(slotWidth, slotDepth, base) {
+    polygon(getBarrierHolderPoints(
         slotWidth = slotWidth,
         slotDepth = slotDepth,
-        edge = edge
+        base = base
     ));
 }
 
 /**
- * Draws the profile of the top border mount.
- * @param Number slotWidth - The width of the slot that will hold the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
- */
-module borderTopProfile(slotWidth, slotDepth, edge) {
-    polygon(getBorderTopPoints(
-        slotWidth = slotWidth,
-        slotDepth = slotDepth,
-        edge = edge
-    ));
-}
-
-/**
- * Draws the profile of a border mount notch.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * Draws the profile of a barrier holder notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module borderNotchProfile(slotDepth, edge, direction=1, negative=false) {
-    polygon(getBorderNotchPoints(
+module barrierNotchProfile(slotDepth, base, direction=1, negative=false) {
+    polygon(getBarrierNotchPoints(
         slotDepth = slotDepth,
-        edge = edge,
+        base = base,
         direction = direction,
         negative = negative
     ));
 }
 
 /**
- * Draws the profile of a set of border mount notches.
+ * Draws the profile of a set of barrier holder notches.
  * @param Number length - The length of the set
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module borderNotchesProfile(length, slotDepth, edge, negative=false) {
-    borderNotchProfile(
+module barrierNotchesProfile(length, slotDepth, base, negative=false) {
+    barrierNotchProfile(
         slotDepth = slotDepth,
-        edge = edge,
+        base = base,
         direction = 1,
         negative = negative
     );
     translateX(length) {
-        borderNotchProfile(
+        barrierNotchProfile(
             slotDepth = slotDepth,
-            edge = edge,
+            base = base,
             direction = -1,
             negative = negative
         );

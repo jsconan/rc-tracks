@@ -44,99 +44,93 @@ function adjustToLayer(height) = roundBy(height, printResolution);
 function adjustToNozzle(width) = roundBy(width, nozzleWidth);
 
 /**
- * Gets the thickness of the border sheet, adjusted to better fit the printer.
+ * Gets the thickness of the barrier body, adjusted to better fit the printer.
  * @returns Number
  */
-function getSheetThickness() = adjustToLayer(borderThickness);
+function getBarrierThickness() = adjustToLayer(barrierThickness);
 
 /**
- * Gets the width of the bottom border edge, adjusted to better fit the printer.
+ * Gets the base value used to design the barrier holder, adjusted to better fit the printer.
  * @returns Number
  */
-function getBottomEdge() = adjustToNozzle(borderBottomEdge);
+function getBarrierHolderBase() = adjustToNozzle(barrierHolderBase);
 
 /**
- * Gets the width of the top border edge, adjusted to better fit the printer.
+ * Gets the base value used to design the barrier notches, adjusted to better fit the printer.
  * @returns Number
  */
-function getTopEdge() = adjustToNozzle(borderTopEdge);
+function getBarrierNotchBase() = adjustToNozzle(barrierNotchBase);
 
 /**
- * Gets the width of the border notch edge, adjusted to better fit the printer.
+ * Gets the width of the slot that will hold the barrier body.
  * @returns Number
  */
-function getNotchEdge() = adjustToNozzle(borderNotchEdge);
+function getSlotWidth() = getBarrierThickness();
 
 /**
- * Gets the width of the slot that will hold the border sheet.
+ * Gets the depth of the slot that will hold the barrier body.
  * @returns Number
  */
-function getSlotWidth() = getSheetThickness();
+function getBarrierHolderDepth() = adjustToLayer(barrierHolderDepth);
 
 /**
- * Gets the depth of the slot that will hold the border sheet.
+ * Gets the nominal size of a track chunk.
  * @returns Number
  */
-function getSlotDepth() = adjustToLayer(borderSlotDepth);
-
-/**
- * Gets the length of a track chunk.
- * @returns Number
- */
-function getChunkLength() = chunkLength;
+function getChunkSize() = chunkSize;
 
 /**
  * Gets the length of a curved chunk (the length of the arc of the curve).
- * @param Number chunkLength - The length of a straight chunk
+ * @param Number chunkSize - The length of a straight chunk
  * @returns Number
  */
-function getCurveLength(chunkLength) = getArcLength(radius = chunkLength, angle = 90);
+function getCurveLength(chunkSize) = getArcLength(radius = chunkSize, angle = 90);
 
 /**
  * Gets the difference between the length of a curved chunk and a regular straight chunk
- * @param Number chunkLength - The length of a straight chunk
+ * @param Number chunkSize - The length of a straight chunk
  * @returns Number
  */
-function getCurveRemainingLength(chunkLength) = getCurveLength(chunkLength) - chunkLength;
+function getCurveRemainingLength(chunkSize) = getCurveLength(chunkSize) - chunkSize;
 
 /**
- * Gets the height of the border sheet, depending on the option heightWithFasteners
+ * Gets the height of the barrier body, depending on the option heightWithFasteners
  * @returns Number
  */
-function getSheetHeight() =
+function getBarrierBodyHeight() =
     let(
         correction = heightWithFasteners
-       ?-(borderBottomEdge + borderTopEdge)
-       :borderSlotDepth * 2
+       ?-barrierHolderBase * 2
+       :barrierHolderDepth * 2
     )
-    borderHeight + correction
+    barrierHeight + correction
 ;
 
 /**
- * Gets the height of the assembled border, depending on the option heightWithFasteners
+ * Gets the height of the assembled barrier, depending on the option heightWithFasteners
  * @returns Number
  */
-function getBorderHeight() =
+function getBarrierHeight() =
     let(
-        correction = heightWithFasteners ? 0 : borderBottomEdge + borderTopEdge + borderSlotDepth * 2
+        correction = heightWithFasteners ? 0 : (barrierHolderBase + barrierHolderDepth) * 2
     )
-    borderHeight + correction
+    barrierHeight + correction
 ;
 
 /**
- * Gets the minimal length for a simple sheet (a sheet that should fit between 2 border notches)
+ * Gets the minimal length for a simple body body (a body that should fit between 2 barrier notches)
  * @returns Number
  */
-function getMinSheetLength() = 5 * getNotchEdge();
+function getMinBodyLength() = 5 * getBarrierNotchBase();
 
 /**
  * Gets the minimal length for a straight chunk
  * @returns Number
  */
-function getMinStraightLength() = 2 * getMinSheetLength();
+function getMinStraightLength() = 2 * getMinBodyLength();
 
 /**
  * Gets the minimal arc length for a curved chunk
  * @returns Number
  */
-function getMinCurveLength() = 3 * getMinSheetLength();
+function getMinCurveLength() = 3 * getMinBodyLength();

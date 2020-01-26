@@ -24,43 +24,43 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some straight chunk shapes.
+ * Defines some straight track parts.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
 /**
- * Draws the shape of a border mount hook.
- * @param Number edge - The width of each edge of the hook.
+ * Draws the shape of a barrier holder hook.
+ * @param Number base - The width of each base of the hook.
  * @param Number thickness - The thickness of the hook
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module borderHook(edge, thickness, negative=false) {
+module barrierHook(base, thickness, negative=false) {
     start = negative ? 1 : 0;
-    edge = adjustToNozzle(edge / 2) * 2;
+    base = adjustToNozzle(base / 2) * 2;
     translateZ(-start) {
-        box([edge * 2, edge, thickness + start]);
-        translateX(-edge) {
-            slot([edge, edge * 2, thickness + start]);
+        box([base * 2, base, thickness + start]);
+        translateX(-base) {
+            slot([base, base * 2, thickness + start]);
         }
     }
 }
 
 /**
- * Draws the shape of border mount notch.
+ * Draws the shape of barrier holder notch.
  * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @param Boolean [center] - The shape is centered vertically
  */
-module borderNotch(thickness, slotDepth, edge, direction=1, negative=false, center=false) {
+module barrierNotch(thickness, slotDepth, base, direction=1, negative=false, center=false) {
     negativeExtrude(height=thickness, center=center) {
-        borderNotchProfile(
+        barrierNotchProfile(
             slotDepth = slotDepth,
-            edge = edge,
+            base = base,
             direction = direction,
             negative = negative
         );
@@ -68,41 +68,41 @@ module borderNotch(thickness, slotDepth, edge, direction=1, negative=false, cent
 }
 
 /**
- * Draws the shape of border mount notches.
+ * Draws the shape of barrier holder notches.
  * @param Number length - The length of the chunk
  * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @param Boolean [center] - The shape is centered vertically
  */
-module borderNotches(length, thickness, slotDepth, edge, negative=false, center=false) {
+module barrierNotches(length, thickness, slotDepth, base, negative=false, center=false) {
     negativeExtrude(height=thickness, center=center) {
-        borderNotchesProfile(
+        barrierNotchesProfile(
             length = length,
             slotDepth = slotDepth,
-            edge = edge,
+            base = base,
             negative = negative
         );
     }
 }
 
 /**
- * Draws the shape of border mount notches for a full chunk.
+ * Draws the shape of barrier holder notches for a full chunk.
  * @param Number length - The length of the chunk
  * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @param Boolean [center] - The shape is centered vertically
  */
-module borderNotchesFull(length, thickness, slotDepth, edge, negative=false, center=false) {
+module barrierNotchesFull(length, thickness, slotDepth, base, negative=false, center=false) {
     repeatMirror() {
-        borderNotches(
+        barrierNotches(
             length = length / 2,
             thickness = thickness,
             slotDepth = slotDepth,
-            edge = edge,
+            base = base,
             negative = negative,
             center = center
         );
@@ -110,49 +110,49 @@ module borderNotchesFull(length, thickness, slotDepth, edge, negative=false, cen
 }
 
 /**
- * Draws the bottom border mount for a straight chunk
+ * Draws the barrier holder for a straight chunk
  * @param Number length - The length of the chunk
- * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number notchEdge - The width of a notch edge.
+ * @param Number bodyThickness - The thickness of the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number barrierBase - The base value used to design the barrier holder.
+ * @param Number notchBase - The width of a notch base.
  */
-module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdge) {
+module straightBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBase) {
     difference() {
         union() {
             rotate([90, 0, 90]) {
                 negativeExtrude(height=length, center=true) {
-                    borderBottomProfile(
-                        slotWidth = sheetThickness + printTolerance,
+                    barrierHolderProfile(
+                        slotWidth = bodyThickness + printTolerance,
                         slotDepth = slotDepth,
-                        edge = borderEdge
+                        base = barrierBase
                     );
                 }
             }
-            translateZ(borderEdge) {
+            translateZ(barrierBase) {
                 rotateX(90) {
-                    borderNotchesFull(
+                    barrierNotchesFull(
                         length = length,
-                        thickness = sheetThickness + borderEdge,
+                        thickness = bodyThickness + barrierBase,
                         slotDepth = slotDepth,
-                        edge = notchEdge - printTolerance,
+                        base = notchBase - printTolerance,
                         negative = false,
                         center = true
                     );
                 }
             }
             translateX(-length / 2) {
-                borderHook(
-                    edge = notchEdge,
-                    thickness = borderEdge - printResolution * 2,
+                barrierHook(
+                    base = notchBase,
+                    thickness = barrierBase - printResolution * 2,
                     negative = false
                 );
             }
         }
         translateX(length / 2) {
-            borderHook(
-                edge = notchEdge + printTolerance,
-                thickness = borderEdge - printResolution,
+            barrierHook(
+                base = notchBase + printTolerance,
+                thickness = barrierBase - printResolution,
                 negative = true
             );
         }
@@ -160,75 +160,25 @@ module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, notch
 }
 
 /**
- * Draws the top border mount for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number notchEdge - The width of a notch edge.
- */
-module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, notchEdge) {
-    difference() {
-        union() {
-            rotate([90, 0, 90]) {
-                negativeExtrude(height=length, center=true) {
-                    borderTopProfile(
-                        slotWidth = sheetThickness + printTolerance,
-                        slotDepth = slotDepth,
-                        edge = borderEdge
-                    );
-                }
-            }
-            translateZ(borderEdge) {
-                rotateX(90) {
-                    borderNotchesFull(
-                        length = length,
-                        thickness = sheetThickness + borderEdge,
-                        slotDepth = slotDepth,
-                        edge = notchEdge - printTolerance,
-                        negative = false,
-                        center = true
-                    );
-                }
-            }
-            translateX(-length / 2) {
-                borderHook(
-                    edge = notchEdge,
-                    thickness = borderEdge - printResolution * 2,
-                    negative = false
-                );
-            }
-        }
-        translateX(length / 2) {
-            borderHook(
-                edge = notchEdge + printTolerance,
-                thickness = borderEdge - printResolution,
-                negative = true
-            );
-        }
-    }
-}
-
-/**
- * Draws the border sheet for a straight chunk
+ * Draws the barrier body for a straight chunk
  * @param Number length - The length of the chunk
  * @param Number height - The height of the chunk
- * @param Number thickness - The thickness of the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number notchEdge - The width of a notch edge.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number notchBase - The width of a notch base.
  */
-module borderSheet(length, height, thickness, slotDepth, notchEdge) {
+module barrierBody(length, height, thickness, slotDepth, notchBase) {
     difference() {
         box(size = [length, height, thickness], center = true);
 
         repeatMirror(axis=[0, 1, 0]) {
             translateY(-height / 2) {
                 translateX(-length / 2) {
-                    borderNotches(
+                    barrierNotches(
                         length = length,
                         thickness = thickness + 1,
                         slotDepth = slotDepth,
-                        edge = notchEdge + printTolerance,
+                        base = notchBase + printTolerance,
                         negative = true,
                         center = true
                     );
@@ -239,24 +189,24 @@ module borderSheet(length, height, thickness, slotDepth, notchEdge) {
 }
 
 /**
- * Draws the full border sheet for a straight chunk
+ * Draws the full barrier body for a straight chunk
  * @param Number length - The length of the chunk
  * @param Number height - The height of the chunk
- * @param Number thickness - The thickness of the border sheet.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number notchEdge - The width of a notch edge.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number notchBase - The width of a notch base.
  */
-module borderSheetFull(length, height, thickness, slotDepth, notchEdge) {
+module barrierBodyFull(length, height, thickness, slotDepth, notchBase) {
     difference() {
         box(size = [length, height, thickness], center = true);
 
         repeatMirror(axis=[0, 1, 0]) {
             translateY(-height / 2) {
-                borderNotchesFull(
+                barrierNotchesFull(
                     length = length,
                     thickness = thickness + 1,
                     slotDepth = slotDepth,
-                    edge = notchEdge + printTolerance,
+                    base = notchBase + printTolerance,
                     negative = true,
                     center = true
                 );

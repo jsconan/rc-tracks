@@ -24,7 +24,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A top border mount for a straight track chunk.
+ * An additional barrier body for a curved track part.
  *
  * @author jsconan
  * @version 0.1.0
@@ -37,11 +37,11 @@ include <util/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBorderTop(
-        length = getChunkLength(),
-        sheetThickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        borderEdge = getTopEdge(),
-        notchEdge = getNotchEdge()
+    barrierBody(
+        length = getCurveRemainingLength(getChunkSize()),
+        height = getBarrierBodyHeight(),
+        thickness = getBarrierThickness(),
+        slotDepth = getBarrierHolderDepth(),
+        notchBase = getBarrierNotchBase()
     );
 }

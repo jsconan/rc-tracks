@@ -35,122 +35,99 @@ include <../util/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // test the bottom border profile
-    *borderBottomProfile(
+    // test the barrier profile
+    *barrierHolderProfile(
         slotWidth = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getBottomEdge()
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierHolderBase()
     );
-    // test the top border profile
-    *borderTopProfile(
-        slotWidth = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getTopEdge()
-    );
-    // test the border notch profile
-    *borderNotchProfile(
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+    // test the barrier notch profile
+    *barrierNotchProfile(
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         direction = -1,
         negative = true
     );
-    // test the border notches profile
-    *borderNotchesProfile(
-        length = getChunkLength() / 2,
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+    // test the barrier notches profile
+    *barrierNotchesProfile(
+        length = getChunkSize() / 2,
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         negative = true
     );
-    // test the border hook shape
-    *borderHook(
-        edge = getNotchEdge(),
-        thickness = getNotchEdge(),
+    // test the barrier hook shape
+    *barrierHook(
+        base = getBarrierNotchBase(),
+        thickness = getBarrierNotchBase(),
         negative=false
     );
-    // test the border notch shape
-    *borderNotch(
+    // test the barrier notch shape
+    *barrierNotch(
         thickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         direction = -1,
         negative = true,
         center = true
     );
-    // test the border notches shape
-    *borderNotches(
-        length = getChunkLength(),
+    // test the barrier notches shape
+    *barrierNotches(
+        length = getChunkSize(),
         thickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         negative = true,
         center = true
     );
-    // test the border notches shape for a full chunk
-    *borderNotchesFull(
-        length = getChunkLength(),
+    // test the barrier notches shape for a full chunk
+    *barrierNotchesFull(
+        length = getChunkSize(),
         thickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         negative = true,
         center = true
     );
-    // test the bottom border mount shape for a straight chunk
-    *straightBorderBottom(
-        length = getChunkLength(),
-        sheetThickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        borderEdge = getBottomEdge(),
-        notchEdge = getNotchEdge()
+    // test the barrier holder shape for a straight chunk
+    *straightBarrierHolder(
+        length = getChunkSize(),
+        bodyThickness = getSlotWidth(),
+        slotDepth = getBarrierHolderDepth(),
+        barrierBase = getBarrierHolderBase(),
+        notchBase = getBarrierNotchBase()
     );
-    // test the top border mount shape for a straight chunk
-    *straightBorderTop(
-        length = getChunkLength(),
-        sheetThickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        borderEdge = getTopEdge(),
-        notchEdge = getNotchEdge()
-    );
-    // test the curved border notch
-    *curveBorderNotch(
-        radius = getChunkLength(),
+    // test the curved barrier notch
+    *curveBarrierNotch(
+        radius = getChunkSize(),
         thickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        edge = getNotchEdge(),
+        slotDepth = getBarrierHolderDepth(),
+        base = getBarrierNotchBase(),
         direction = 1,
         negative = true
     );
-    // test the bottom border mount shape for a curved chunk
-    *curveBorderBottom(
-        length = getChunkLength(),
-        sheetThickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        borderEdge = getBottomEdge(),
-        notchEdge = getNotchEdge(),
+    // test the barrier holder shape for a curved chunk
+    *curveBarrierHolder(
+        length = getChunkSize(),
+        bodyThickness = getSlotWidth(),
+        slotDepth = getBarrierHolderDepth(),
+        barrierBase = getBarrierHolderBase(),
+        notchBase = getBarrierNotchBase(),
         ratio = 1
     );
-    // test the top border mount shape for a curved chunk
-    *curveBorderTop(
-        length = getChunkLength(),
-        sheetThickness = getSlotWidth(),
-        slotDepth = getSlotDepth(),
-        borderEdge = getTopEdge(),
-        notchEdge = getNotchEdge(),
-        ratio = 1
+    // test the barrier body shape for a straight chunk
+    *barrierBody(
+        length = getCurveRemainingLength(getChunkSize()),
+        height = getBarrierBodyHeight(),
+        thickness = getBarrierThickness(),
+        slotDepth = getBarrierHolderDepth(),
+        notchBase = getBarrierNotchBase()
     );
-    // test the border sheet shape for a straight chunk
-    *borderSheet(
-        length = getCurveRemainingLength(getChunkLength()),
-        height = getSheetHeight(),
-        thickness = getSheetThickness(),
-        slotDepth = getSlotDepth(),
-        notchEdge = getNotchEdge()
-    );
-    // test the full border sheet shape for a straight chunk
-    borderSheetFull(
-        length = getChunkLength(),
-        height = getSheetHeight(),
-        thickness = getSheetThickness(),
-        slotDepth = getSlotDepth(),
-        notchEdge = getNotchEdge()
+    // test the full barrier body shape for a straight chunk
+    *barrierBodyFull(
+        length = getChunkSize(),
+        height = getBarrierBodyHeight(),
+        thickness = getBarrierThickness(),
+        slotDepth = getBarrierHolderDepth(),
+        notchBase = getBarrierNotchBase()
     );
 }

@@ -24,25 +24,25 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some curved chunk shapes.
+ * Defines some curved track parts.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
 /**
- * Draws the shape of a curved border mount notch.
+ * Draws the shape of a curved barrier holder notch.
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module curveBorderNotch(radius, thickness, slotDepth, edge, direction=1, negative=false) {
+module curveBarrierNotch(radius, thickness, slotDepth, base, direction=1, negative=false) {
     start = negative ? 1 : 0;
     direction = direction >= 0 ? 1 : -1;
-    length = edge * 2;
+    length = base * 2;
     angle = getArcAngle(radius = radius, length = length);
     chord = getChordLength(radius = radius, angle = angle / 2);
 
@@ -76,34 +76,34 @@ module curveBorderNotch(radius, thickness, slotDepth, edge, direction=1, negativ
 }
 
 /**
- * Draws the shape of a curved border mount notches for a full chunk.
+ * Draws the shape of a curved barrier holder notches for a full chunk.
  * @param Number radius - The radius of the curve.
  * @param Number length - The length of a chunk
  * @param Number angle - The angle of the curve
  * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the notch.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number base - The base value used to design the barrier notches.
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module curveBorderNotches(radius, length, angle, thickness, slotDepth, edge, negative=false) {
+module curveBarrierNotches(radius, length, angle, thickness, slotDepth, base, negative=false) {
     rotateZ(angle) {
         repeatMirror(axis=[0, 1, 0]) {
             rotateZ(-angle) {
-                curveBorderNotch(
+                curveBarrierNotch(
                     radius = radius,
                     thickness = thickness,
                     slotDepth = slotDepth,
-                    edge = edge,
+                    base = base,
                     direction = 1,
                     negative = negative
                 );
                 rotateZ(getArcAngle(radius = radius, length = length / 2)) {
                     repeatMirror(axis=[0, 1, 0]) {
-                        curveBorderNotch(
+                        curveBarrierNotch(
                             radius = radius,
                             thickness = thickness,
                             slotDepth = slotDepth,
-                            edge = edge,
+                            base = base,
                             direction = -1,
                             negative = negative
                         );
@@ -115,15 +115,15 @@ module curveBorderNotches(radius, length, angle, thickness, slotDepth, edge, neg
 }
 
 /**
- * Draws the bottom border mount for a curved chunk
+ * Draws the barrier holder for a curved chunk
  * @param Number length - The length of a chunk
- * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number notchEdge - The width of a notch edge.
+ * @param Number bodyThickness - The thickness of the barrier body.
+ * @param Number slotDepth - The depth of the slot that will hold the barrier body.
+ * @param Number barrierBase - The base value used to design the barrier holder.
+ * @param Number notchBase - The width of a notch base.
  * @param Number ratio - The ratio of the chunk
  */
-module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdge, ratio = 1) {
+module curveBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBase, ratio = 1) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
@@ -134,29 +134,29 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdg
             union() {
                 rotate_extrude(angle=angle, convexity=10) {
                     translateX(radius) {
-                        borderBottomProfile(
-                            slotWidth = sheetThickness + printTolerance,
+                        barrierHolderProfile(
+                            slotWidth = bodyThickness + printTolerance,
                             slotDepth = slotDepth,
-                            edge = borderEdge
+                            base = barrierBase
                         );
                     }
                 }
-                translateZ(borderEdge) {
-                    curveBorderNotches(
+                translateZ(barrierBase) {
+                    curveBarrierNotches(
                         radius = radius,
                         length = length,
                         angle = angle / 2,
-                        thickness = borderEdge + borderEdge,
+                        thickness = barrierBase + barrierBase,
                         slotDepth = slotDepth,
-                        edge = notchEdge - printTolerance,
+                        base = notchBase - printTolerance,
                         negative=false
                     );
                 }
                 rotateZ(-ratioAngle) {
                     translateY(radius) {
-                        borderHook(
-                            edge = notchEdge,
-                            thickness = borderEdge - printResolution * 2,
+                        barrierHook(
+                            base = notchBase,
+                            thickness = barrierBase - printResolution * 2,
                             negative = false
                         );
                     }
@@ -164,71 +164,9 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdg
             }
             translateX(radius) {
                 rotateZ(-90) {
-                    borderHook(
-                        edge = notchEdge + printTolerance,
-                        thickness = borderEdge - printResolution,
-                        negative = true
-                    );
-                }
-            }
-        }
-    }
-}
-
-/**
- * Draws the top border mount for a curved chunk
- * @param Number length - The length of a chunk
- * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
- * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number notchEdge - The width of a notch edge.
- * @param Number ratio - The ratio of the chunk
- */
-module curveBorderTop(length, sheetThickness, slotDepth, borderEdge, notchEdge, ratio = 1) {
-    radius = length * ratio;
-    defaultAngle = 90;
-    angle = defaultAngle / ratio;
-    ratioAngle = defaultAngle - angle;
-
-    rotateZ(ratioAngle / 2) {
-        difference() {
-            union() {
-                rotate_extrude(angle=angle, convexity=10) {
-                    translateX(radius) {
-                        borderTopProfile(
-                            slotWidth = sheetThickness + printTolerance,
-                            slotDepth = slotDepth,
-                            edge = borderEdge
-                        );
-                    }
-                }
-
-                translateZ(borderEdge) {
-                    curveBorderNotches(
-                        radius = radius,
-                        length = length,
-                        angle = angle / 2,
-                        thickness = borderEdge + borderEdge,
-                        slotDepth = slotDepth,
-                        edge = notchEdge - printTolerance,
-                        negative=false
-                    );
-                }
-                rotateZ(-ratioAngle) {
-                    translateY(radius) {
-                        borderHook(
-                            edge = notchEdge,
-                            thickness = borderEdge - printResolution * 2,
-                            negative = false
-                        );
-                    }
-                }
-            }
-            translateX(radius) {
-                rotateZ(-90) {
-                    borderHook(
-                        edge = notchEdge + printTolerance,
-                        thickness = borderEdge - printResolution,
+                    barrierHook(
+                        base = notchBase + printTolerance,
+                        thickness = barrierBase - printResolution,
                         negative = true
                     );
                 }

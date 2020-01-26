@@ -30,8 +30,8 @@
 
 # application params
 heightWithFasteners=
-chunkLength=
-borderHeight=
+chunkSize=
+barrierHeight=
 
 # script config
 scriptpath=$(dirname $0)
@@ -44,12 +44,12 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # load parameters
 while (( "$#" )); do
     case $1 in
-        "-l"|"--chunkLength")
-            chunkLength=$2
+        "-l"|"--chunkSize")
+            chunkSize=$2
             shift
         ;;
-        "-w"|"--borderHeight")
-            borderHeight=$2
+        "-w"|"--barrierHeight")
+            barrierHeight=$2
             shift
         ;;
         "-i"|"--innerHeight")
@@ -64,10 +64,10 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
-            echo -e "${C_MSG}  -l,  --chunkLength  ${C_RST}Set the length of a track chunk"
-            echo -e "${C_MSG}  -w   --borderHeight ${C_RST}Set the height of the track border"
-            echo -e "${C_MSG}  -i,  --innerHeight  ${C_RST}The height of the border does not contains the size of the mount fasteners"
-            echo -e "${C_MSG}  -o,  --outerHeight  ${C_RST}The height of the border contains the size of the mount fasteners"
+            echo -e "${C_MSG}  -l,  --chunkSize  ${C_RST}Set the length of a track chunk"
+            echo -e "${C_MSG}  -w   --barrierHeight ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -i,  --innerHeight  ${C_RST}The height of the barrier does not contains the size of the holders"
+            echo -e "${C_MSG}  -o,  --outerHeight  ${C_RST}The height of the barrier contains the size of the holders"
             echo
             exit 0
         ;;
@@ -88,6 +88,6 @@ scadcheck
 
 # render the files, if exist
 scadtostlall "${srcpath}" "${dstpath}" "" \
-    "$(varif "chunkLength" ${chunkLength})" \
-    "$(varif "borderHeight" ${borderHeight})" \
+    "$(varif "chunkSize" ${chunkSize})" \
+    "$(varif "barrierHeight" ${barrierHeight})" \
     "$(varif "heightWithFasteners" ${heightWithFasteners})"
