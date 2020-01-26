@@ -61,6 +61,12 @@ applyMode(mode=renderMode) {
         edge = getNotchEdge(),
         negative = true
     );
+    // test the border hook shape
+    *borderHook(
+        edge = getNotchEdge(),
+        thickness = getNotchEdge(),
+        negative=false
+    );
     // test the border notch shape
     *borderNotch(
         thickness = getSlotWidth(),

@@ -31,6 +31,23 @@
  */
 
 /**
+ * Draws the shape of a border mount hook.
+ * @param Number edge - The width of each edge of the hook.
+ * @param Number thickness - The thickness of the hook
+ * @param Boolean [negative] - The shape will be used in a difference operation
+ */
+module borderHook(edge, thickness, negative=false) {
+    start = negative ? 1 : 0;
+    edge = adjustToNozzle(edge / 2) * 2;
+    translateZ(-start) {
+        box([edge * 2, edge, thickness + start]);
+        translateX(-edge) {
+            slot([edge, edge * 2, thickness + start]);
+        }
+    }
+}
+
+/**
  * Draws the shape of border mount notch.
  * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
@@ -101,24 +118,42 @@ module borderNotchesFull(length, thickness, slotDepth, edge, negative=false, cen
  * @param Number notchEdge - The width of a notch edge.
  */
 module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdge) {
-    rotate([90, 0, 90]) {
-        negativeExtrude(height=length, center=true) {
-            borderBottomProfile(
-                slotWidth = sheetThickness,
-                slotDepth = slotDepth,
-                edge = borderEdge
-            );
+    difference() {
+        union() {
+            rotate([90, 0, 90]) {
+                negativeExtrude(height=length, center=true) {
+                    borderBottomProfile(
+                        slotWidth = sheetThickness + printTolerance,
+                        slotDepth = slotDepth,
+                        edge = borderEdge
+                    );
+                }
+            }
+            translateZ(borderEdge) {
+                rotateX(90) {
+                    borderNotchesFull(
+                        length = length,
+                        thickness = sheetThickness + borderEdge,
+                        slotDepth = slotDepth,
+                        edge = notchEdge - printTolerance,
+                        negative = false,
+                        center = true
+                    );
+                }
+            }
+            translateX(-length / 2) {
+                borderHook(
+                    edge = notchEdge,
+                    thickness = borderEdge - printResolution * 2,
+                    negative = false
+                );
+            }
         }
-    }
-    translateZ(borderEdge) {
-        rotateX(90) {
-            borderNotchesFull(
-                length = length,
-                thickness = sheetThickness,
-                slotDepth = slotDepth,
-                edge = notchEdge,
-                negative = false,
-                center = true
+        translateX(length / 2) {
+            borderHook(
+                edge = notchEdge + printTolerance,
+                thickness = borderEdge - printResolution,
+                negative = true
             );
         }
     }
@@ -133,24 +168,42 @@ module straightBorderBottom(length, sheetThickness, slotDepth, borderEdge, notch
  * @param Number notchEdge - The width of a notch edge.
  */
 module straightBorderTop(length, sheetThickness, slotDepth, borderEdge, notchEdge) {
-    rotate([90, 0, 90]) {
-        negativeExtrude(height=length, center=true) {
-            borderTopProfile(
-                slotWidth = sheetThickness,
-                slotDepth = slotDepth,
-                edge = borderEdge
-            );
+    difference() {
+        union() {
+            rotate([90, 0, 90]) {
+                negativeExtrude(height=length, center=true) {
+                    borderTopProfile(
+                        slotWidth = sheetThickness + printTolerance,
+                        slotDepth = slotDepth,
+                        edge = borderEdge
+                    );
+                }
+            }
+            translateZ(borderEdge) {
+                rotateX(90) {
+                    borderNotchesFull(
+                        length = length,
+                        thickness = sheetThickness + borderEdge,
+                        slotDepth = slotDepth,
+                        edge = notchEdge - printTolerance,
+                        negative = false,
+                        center = true
+                    );
+                }
+            }
+            translateX(-length / 2) {
+                borderHook(
+                    edge = notchEdge,
+                    thickness = borderEdge - printResolution * 2,
+                    negative = false
+                );
+            }
         }
-    }
-    translateZ(borderEdge) {
-        rotateX(90) {
-            borderNotchesFull(
-                length = length,
-                thickness = sheetThickness,
-                slotDepth = slotDepth,
-                edge = notchEdge,
-                negative = false,
-                center = true
+        translateX(length / 2) {
+            borderHook(
+                edge = notchEdge + printTolerance,
+                thickness = borderEdge - printResolution,
+                negative = true
             );
         }
     }
@@ -175,7 +228,7 @@ module borderSheet(length, height, thickness, slotDepth, notchEdge) {
                         length = length,
                         thickness = thickness + 1,
                         slotDepth = slotDepth,
-                        edge = notchEdge,
+                        edge = notchEdge + printTolerance,
                         negative = true,
                         center = true
                     );
@@ -203,7 +256,7 @@ module borderSheetFull(length, height, thickness, slotDepth, notchEdge) {
                     length = length,
                     thickness = thickness + 1,
                     slotDepth = slotDepth,
-                    edge = notchEdge,
+                    edge = notchEdge + printTolerance,
                     negative = true,
                     center = true
                 );

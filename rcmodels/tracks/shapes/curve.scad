@@ -127,28 +127,50 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdg
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
+    ratioAngle = defaultAngle - angle;
 
-    rotateZ((defaultAngle - angle) / 2) {
-        rotate_extrude(angle=angle, convexity=10) {
-            translateX(radius) {
-                borderBottomProfile(
-                    slotWidth = sheetThickness,
-                    slotDepth = slotDepth,
-                    edge = borderEdge
-                );
+    rotateZ(ratioAngle / 2) {
+        difference() {
+            union() {
+                rotate_extrude(angle=angle, convexity=10) {
+                    translateX(radius) {
+                        borderBottomProfile(
+                            slotWidth = sheetThickness + printTolerance,
+                            slotDepth = slotDepth,
+                            edge = borderEdge
+                        );
+                    }
+                }
+                translateZ(borderEdge) {
+                    curveBorderNotches(
+                        radius = radius,
+                        length = length,
+                        angle = angle / 2,
+                        thickness = borderEdge + borderEdge,
+                        slotDepth = slotDepth,
+                        edge = notchEdge - printTolerance,
+                        negative=false
+                    );
+                }
+                rotateZ(-ratioAngle) {
+                    translateY(radius) {
+                        borderHook(
+                            edge = notchEdge,
+                            thickness = borderEdge - printResolution * 2,
+                            negative = false
+                        );
+                    }
+                }
             }
-        }
-
-        translateZ(borderEdge) {
-            curveBorderNotches(
-                radius = radius,
-                length = length,
-                angle = angle / 2,
-                thickness = borderEdge,
-                slotDepth = slotDepth,
-                edge = notchEdge,
-                negative=false
-            );
+            translateX(radius) {
+                rotateZ(-90) {
+                    borderHook(
+                        edge = notchEdge + printTolerance,
+                        thickness = borderEdge - printResolution,
+                        negative = true
+                    );
+                }
+            }
         }
     }
 }
@@ -166,28 +188,51 @@ module curveBorderTop(length, sheetThickness, slotDepth, borderEdge, notchEdge, 
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
+    ratioAngle = defaultAngle - angle;
 
-    rotateZ((defaultAngle - angle) / 2) {
-        rotate_extrude(angle=angle, convexity=10) {
-            translateX(radius) {
-                borderTopProfile(
-                    slotWidth = sheetThickness,
-                    slotDepth = slotDepth,
-                    edge = borderEdge
-                );
+    rotateZ(ratioAngle / 2) {
+        difference() {
+            union() {
+                rotate_extrude(angle=angle, convexity=10) {
+                    translateX(radius) {
+                        borderTopProfile(
+                            slotWidth = sheetThickness + printTolerance,
+                            slotDepth = slotDepth,
+                            edge = borderEdge
+                        );
+                    }
+                }
+
+                translateZ(borderEdge) {
+                    curveBorderNotches(
+                        radius = radius,
+                        length = length,
+                        angle = angle / 2,
+                        thickness = borderEdge + borderEdge,
+                        slotDepth = slotDepth,
+                        edge = notchEdge - printTolerance,
+                        negative=false
+                    );
+                }
+                rotateZ(-ratioAngle) {
+                    translateY(radius) {
+                        borderHook(
+                            edge = notchEdge,
+                            thickness = borderEdge - printResolution * 2,
+                            negative = false
+                        );
+                    }
+                }
             }
-        }
-
-        translateZ(borderEdge) {
-            curveBorderNotches(
-                radius = radius,
-                length = length,
-                angle = angle / 2,
-                thickness = borderEdge,
-                slotDepth = slotDepth,
-                edge = notchEdge,
-                negative=false
-            );
+            translateX(radius) {
+                rotateZ(-90) {
+                    borderHook(
+                        edge = notchEdge + printTolerance,
+                        thickness = borderEdge - printResolution,
+                        negative = true
+                    );
+                }
+            }
         }
     }
 }

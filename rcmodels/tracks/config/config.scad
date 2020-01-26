@@ -46,7 +46,7 @@ chunkLength = 200;
 // The constraints of the track border
 borderHeight = 40;
 borderThickness = 0.6;
-borderTopEdge = 1;
-borderNotchEdge = 1;
+borderTopEdge = 2;
 borderBottomEdge = 2;
-borderSlotDepth = 8;
+borderNotchEdge = 2;
+borderSlotDepth = 6;

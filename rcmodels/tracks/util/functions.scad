@@ -71,7 +71,7 @@ function getNotchEdge() = adjustToNozzle(borderNotchEdge);
  * Gets the width of the slot that will hold the border sheet.
  * @returns Number
  */
-function getSlotWidth() = getSheetThickness() + printTolerance;
+function getSlotWidth() = getSheetThickness();
 
 /**
  * Gets the depth of the slot that will hold the border sheet.
