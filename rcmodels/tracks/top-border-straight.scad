@@ -42,6 +42,6 @@ applyMode(mode=renderMode) {
         sheetThickness = getSlotWidth(),
         slotDepth = getSlotDepth(),
         borderEdge = getTopEdge(),
-        toothEdge = getToothEdge() - printTolerance
+        notchEdge = getNotchEdge() - printTolerance
     );
 }

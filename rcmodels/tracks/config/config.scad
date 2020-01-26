@@ -47,6 +47,6 @@ chunkLength = 200;
 borderHeight = 40;
 borderThickness = 0.6;
 borderTopEdge = 1;
-borderToothEdge = 1;
+borderNotchEdge = 1;
 borderBottomEdge = 2;
 borderSlotDepth = 8;

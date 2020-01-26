@@ -80,14 +80,14 @@ function getBorderTopPoints(slotWidth, slotDepth, edge) =
 ;
 
 /**
- * Computes the points defining the profile of a border mount tooth.
+ * Computes the points defining the profile of a border mount notch.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number edge - The width of each edge of the notch.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  * @returns Vector[]
  */
-function getBorderToothPoints(slotDepth, edge, direction=1, negative=false) =
+function getBorderNotchPoints(slotDepth, edge, direction=1, negative=false) =
     let(
         start = negative ? 1 : 0,
         direction = direction >= 0 ? 1 : -1,
@@ -131,14 +131,14 @@ module borderTopProfile(slotWidth, slotDepth, edge) {
 }
 
 /**
- * Draws the profile of a border mount tooth.
+ * Draws the profile of a border mount notch.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number edge - The width of each edge of the notch.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module borderToothProfile(slotDepth, edge, direction=1, negative=false) {
-    polygon(getBorderToothPoints(
+module borderNotchProfile(slotDepth, edge, direction=1, negative=false) {
+    polygon(getBorderNotchPoints(
         slotDepth = slotDepth,
         edge = edge,
         direction = direction,
@@ -147,21 +147,21 @@ module borderToothProfile(slotDepth, edge, direction=1, negative=false) {
 }
 
 /**
- * Draws the profile of a set of border mount teeth.
+ * Draws the profile of a set of border mount notches.
  * @param Number length - The length of the set
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number edge - The width of each edge of the notch.
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module borderTeethProfile(length, slotDepth, edge, negative=false) {
-    borderToothProfile(
+module borderNotchesProfile(length, slotDepth, edge, negative=false) {
+    borderNotchProfile(
         slotDepth = slotDepth,
         edge = edge,
         direction = 1,
         negative = negative
     );
     translateX(length) {
-        borderToothProfile(
+        borderNotchProfile(
             slotDepth = slotDepth,
             edge = edge,
             direction = -1,

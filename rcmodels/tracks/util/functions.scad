@@ -62,10 +62,10 @@ function getBottomEdge() = adjustToNozzle(borderBottomEdge);
 function getTopEdge() = adjustToNozzle(borderTopEdge);
 
 /**
- * Gets the width of the border tooth edge, adjusted to better fit the printer.
+ * Gets the width of the border notch edge, adjusted to better fit the printer.
  * @returns Number
  */
-function getToothEdge() = adjustToNozzle(borderToothEdge);
+function getNotchEdge() = adjustToNozzle(borderNotchEdge);
 
 /**
  * Gets the width of the slot that will hold the border sheet.
@@ -124,10 +124,10 @@ function getBorderHeight() =
 ;
 
 /**
- * Gets the minimal length for a simple sheet (a sheet that should fit between 2 border teeth)
+ * Gets the minimal length for a simple sheet (a sheet that should fit between 2 border notches)
  * @returns Number
  */
-function getMinSheetLength() = 5 * getToothEdge();
+function getMinSheetLength() = 5 * getNotchEdge();
 
 /**
  * Gets the minimal length for a straight chunk

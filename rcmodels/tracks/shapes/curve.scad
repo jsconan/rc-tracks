@@ -31,15 +31,15 @@
  */
 
 /**
- * Draws the shape of a curved border mount tooth.
+ * Draws the shape of a curved border mount notch.
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number edge - The width of each edge of the notch.
  * @param Number [direction] - The direction of the shape (1: right, -1: left)
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module curveBorderTooth(radius, thickness, slotDepth, edge, direction=1, negative=false) {
+module curveBorderNotch(radius, thickness, slotDepth, edge, direction=1, negative=false) {
     start = negative ? 1 : 0;
     direction = direction >= 0 ? 1 : -1;
     length = edge * 2;
@@ -76,20 +76,20 @@ module curveBorderTooth(radius, thickness, slotDepth, edge, direction=1, negativ
 }
 
 /**
- * Draws the shape of a curved border mount teeth for a full chunk.
+ * Draws the shape of a curved border mount notches for a full chunk.
  * @param Number radius - The radius of the curve.
  * @param Number length - The length of a chunk
  * @param Number angle - The angle of the curve
  * @param Number thickness - The thickness of the shape
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
- * @param Number edge - The width of each edge of the border mount.
+ * @param Number edge - The width of each edge of the notch.
  * @param Boolean [negative] - The shape will be used in a difference operation
  */
-module curveBorderTeeth(radius, length, angle, thickness, slotDepth, edge, negative=false) {
+module curveBorderNotches(radius, length, angle, thickness, slotDepth, edge, negative=false) {
     rotateZ(angle) {
         repeatMirror(axis=[0, 1, 0]) {
             rotateZ(-angle) {
-                curveBorderTooth(
+                curveBorderNotch(
                     radius = radius,
                     thickness = thickness,
                     slotDepth = slotDepth,
@@ -99,7 +99,7 @@ module curveBorderTeeth(radius, length, angle, thickness, slotDepth, edge, negat
                 );
                 rotateZ(getArcAngle(radius = radius, length = length / 2)) {
                     repeatMirror(axis=[0, 1, 0]) {
-                        curveBorderTooth(
+                        curveBorderNotch(
                             radius = radius,
                             thickness = thickness,
                             slotDepth = slotDepth,
@@ -120,10 +120,10 @@ module curveBorderTeeth(radius, length, angle, thickness, slotDepth, edge, negat
  * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number toothEdge - The width of a tooth edge.
+ * @param Number notchEdge - The width of a notch edge.
  * @param Number ratio - The ratio of the chunk
  */
-module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, toothEdge, ratio = 1) {
+module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, notchEdge, ratio = 1) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
@@ -140,13 +140,13 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, toothEdg
         }
 
         translateZ(borderEdge) {
-            curveBorderTeeth(
+            curveBorderNotches(
                 radius = radius,
                 length = length,
                 angle = angle / 2,
                 thickness = borderEdge,
                 slotDepth = slotDepth,
-                edge = toothEdge,
+                edge = notchEdge,
                 negative=false
             );
         }
@@ -159,10 +159,10 @@ module curveBorderBottom(length, sheetThickness, slotDepth, borderEdge, toothEdg
  * @param Number sheetThickness - The thickness of the sheet the border mount will hold.
  * @param Number slotDepth - The depth of the slot that will hold the border sheet.
  * @param Number borderEdge - The width of each edge of the border mount.
- * @param Number toothEdge - The width of a tooth edge.
+ * @param Number notchEdge - The width of a notch edge.
  * @param Number ratio - The ratio of the chunk
  */
-module curveBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdge, ratio = 1) {
+module curveBorderTop(length, sheetThickness, slotDepth, borderEdge, notchEdge, ratio = 1) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
@@ -179,13 +179,13 @@ module curveBorderTop(length, sheetThickness, slotDepth, borderEdge, toothEdge, 
         }
 
         translateZ(borderEdge) {
-            curveBorderTeeth(
+            curveBorderNotches(
                 radius = radius,
                 length = length,
                 angle = angle / 2,
                 thickness = borderEdge,
                 slotDepth = slotDepth,
-                edge = toothEdge,
+                edge = notchEdge,
                 negative=false
             );
         }
