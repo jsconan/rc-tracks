@@ -29,7 +29,7 @@
 #
 
 # application params
-chunkSize=
+trackSectionSize=
 barrierHeight=
 
 # script config
@@ -43,11 +43,11 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # load parameters
 while (( "$#" )); do
     case $1 in
-        "-l"|"--chunkSize")
-            chunkSize=$2
+        "-l"|"--length")
+            trackSectionSize=$2
             shift
         ;;
-        "-w"|"--barrierHeight")
+        "-w"|"--height")
             barrierHeight=$2
             shift
         ;;
@@ -57,8 +57,8 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
-            echo -e "${C_MSG}  -l,  --chunkSize  ${C_RST}Set the length of a track chunk"
-            echo -e "${C_MSG}  -w   --barrierHeight ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
+            echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
             echo
             exit 0
         ;;
@@ -79,5 +79,5 @@ scadcheck
 
 # render the files, if exist
 scadtostlall "${srcpath}" "${dstpath}" "" \
-    "$(varif "chunkSize" ${chunkSize})" \
+    "$(varif "trackSectionSize" ${trackSectionSize})" \
     "$(varif "barrierHeight" ${barrierHeight})"

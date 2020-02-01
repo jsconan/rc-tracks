@@ -37,7 +37,7 @@
  */
 module barrierHook(base, thickness, negative=false) {
     start = negative ? 1 : 0;
-    base = adjustToNozzle(base / 2) * 2;
+    base = nozzleAligned(base / 2) * 2;
     translateZ(-start) {
         box([base * 2, base, thickness + start]);
         translateX(-base) {

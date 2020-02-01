@@ -37,9 +37,9 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     barrierBodyFull(
-        length = getChunkSize(),
-        height = getBarrierBodyHeight(),
-        thickness = getBarrierThickness(),
+        length = trackSectionSize,
+        height = barrierHeight,
+        thickness = getBarrierBodyThickness(),
         slotDepth = getBarrierHolderDepth(),
         notchBase = getBarrierNotchBase()
     );

@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines the config.
+ * Configures the project.
  *
  * @author jsconan
  * @version 0.1.0
@@ -32,17 +32,15 @@
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
 
-// Defines the constraints of the print.
-printResolution = 0.2;      // The target layer height
-nozzleWidth = 0.4;          // The size of the print nozzle
-printTolerance = 0.1;       // The print tolerance when pieces need to be assembled
+// Defines the constraints of the printer.
+printResolution = 0.2;  // The target layer height
+nozzleWidth = 0.4;      // The size of the print nozzle
+printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
-// The dimensions of a track chunk
-chunkSize = 200;            // The nominal size of a chunk: the length for straight chunk, or the width for a curved chunk
-
-// The constraints of the track barrier
-barrierThickness = 0.6;     // The thickness of the barrier body
-barrierHeight = 40;         // The height of the barrier
+// The dimensions and constraints of a track element
+trackSectionSize = 200;     // The nominal size of a track element: the length for straight element, or the width for a curved element
+barrierHeight = 40;         // The height of the barrier, including the holders
+barrierBodyThickness = 0.6; // The thickness of the barrier body
 barrierHolderDepth = 6;     // The depth of the barrier holder to clamp the barrier body
 barrierHolderBase = 2;      // The base value used to design the barrier holder
 barrierNotchBase = 2;       // The base value used to design the barrier notches

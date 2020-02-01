@@ -34,29 +34,9 @@ include <../../../lib/camelSCAD/shapes.scad>
 
 // Then we need the config for the project, as well as the related functions
 include <config.scad>
-include <functions.scad>
+include <values.scad>
 
 // Finally, include the shapes
 include <../shapes/profiles.scad>
 include <../shapes/straight.scad>
 include <../shapes/curve.scad>
-
-// Validate the critical constraints
-assert(
-    chunkSize >= getMinStraightLength(),
-    str(
-        "The size for a straight chunk is too small! The minimum length is ",
-        getMinStraightLength(),
-        ". The current value is ",
-        chunkSize
-    )
-);
-assert(
-    getArcLength(radius = chunkSize, angle = 90) >= getMinCurveLength(),
-    str(
-        "The length for a curved chunk is too small! The minimum arc length is ",
-        getMinCurveLength(),
-        ". The current value is ",
-        getArcLength(radius = chunkSize, angle = 90)
-    )
-);
