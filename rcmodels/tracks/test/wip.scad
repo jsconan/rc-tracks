@@ -38,6 +38,8 @@ applyMode(mode=renderMode) {
     length = 50;
     height = 30;
     thickness = 0.6;
+    wall = 0.8;
+    clip = 2;
     strip = 6;
     indent = 1;
     base = 2;
@@ -76,6 +78,16 @@ applyMode(mode=renderMode) {
                 center = false
             );
 
+            // test the wire clip profile
+            wireClip(
+                wall = wall,
+                height = clip,
+                base = base,
+                strip = strip,
+                thickness = thickness,
+                distance = distance
+            );
+
             // test the barrier body shape for the remaing of a curve
             barrierBody(
                 length = getCurveRemainingLength(length),
@@ -102,6 +114,15 @@ applyMode(mode=renderMode) {
 
         }
         distribute([0, 10, 0], center=true) {
+
+            // test the wire clip profile
+            wireClipProfile(
+                wall = wall,
+                base = base,
+                strip = strip,
+                thickness = thickness,
+                distance = distance
+            );
 
             // test the barrier notch shape for a curved track element
             barrierNotchCurved(

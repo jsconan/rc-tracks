@@ -143,3 +143,41 @@ module barrierHolderProfile(base, strip, thickness, distance = 0) {
         distance = distance
     ));
 }
+
+/**
+ * Draws the profile of a wire clip.
+ * @param Number wall - The thickness of the wire clip lines.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline.
+ */
+module wireClipProfile(wall, base, strip, thickness, distance = 0) {
+    tolerance = distance / 2;
+    holderWidth = getBarrierHolderWidth(base, distance) + tolerance * 2;
+    holderHeight = getBarrierHolderHeight(strip) + tolerance * 2;
+
+    difference() {
+        profile = outline(getBarrierHolderPoints(
+            base = base,
+            strip = strip,
+            thickness = thickness,
+            distance = distance
+        ), -tolerance);
+
+        polygon(outline(profile, -wall));
+        polygon(profile);
+
+        translateY(holderHeight) {
+            rectangle([thickness, wall * 2]);
+        }
+    }
+    translateY(-wall - tolerance) {
+        ringSegment(
+            r = [1, 1] * (holderWidth / 2 + wall),
+            w = wall,
+            a = -180,
+            $fn = 10
+        );
+    }
+}

@@ -158,3 +158,25 @@ module straightBarrierHolder(length, thickness, base, strip, indent, distance = 
         }
     }
 }
+
+/**
+ * Draws the shape of a wire clip.
+ * @param Number wall - The thickness of the wire clip lines.
+ * @param Number height - The thickness of the clip.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline.
+
+ */
+module wireClip(wall, height, base, strip, thickness, distance = 0, center = false) {
+    negativeExtrude(height=height, center=center) {
+        wireClipProfile(
+            wall = wall,
+            base = base,
+            strip = strip,
+            thickness = thickness,
+            distance = distance
+        );
+    }
+}
