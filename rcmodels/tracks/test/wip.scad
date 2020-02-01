@@ -34,99 +34,126 @@ include <../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // test the barrier profile
-    *barrierHolderProfile(
-        slotWidth = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierHolderBase()
-    );
-    // test the barrier notch profile
-    *barrierNotchProfile(
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        direction = -1,
-        negative = true
-    );
-    // test the barrier notches profile
-    *barrierNotchesProfile(
-        length = trackSectionSize / 2,
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        negative = true
-    );
-    // test the barrier hook shape
-    *barrierHook(
-        base = getBarrierNotchBase(),
-        thickness = getBarrierNotchBase(),
-        negative=false
-    );
-    // test the barrier notch shape
-    *barrierNotch(
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        direction = -1,
-        negative = true,
-        center = true
-    );
-    // test the barrier notches shape
-    *barrierNotches(
-        length = trackSectionSize,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        negative = true,
-        center = true
-    );
-    // test the barrier notches shape for a full chunk
-    *barrierNotchesFull(
-        length = trackSectionSize,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        negative = true,
-        center = true
-    );
-    // test the barrier holder shape for a straight chunk
-    *straightBarrierHolder(
-        length = trackSectionSize,
-        bodyThickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        barrierBase = getBarrierHolderBase(),
-        notchBase = getBarrierNotchBase()
-    );
-    // test the curved barrier notch
-    *curveBarrierNotch(
-        radius = trackSectionSize,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        base = getBarrierNotchBase(),
-        direction = 1,
-        negative = true
-    );
-    // test the barrier holder shape for a curved chunk
-    *curveBarrierHolder(
-        length = trackSectionSize,
-        bodyThickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        barrierBase = getBarrierHolderBase(),
-        notchBase = getBarrierNotchBase(),
-        ratio = 1
-    );
-    // test the barrier body shape for a straight chunk
-    *barrierBody(
-        length = getCurveRemainingLength(trackSectionSize),
-        height = barrierHeight,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        notchBase = getBarrierNotchBase()
-    );
-    // test the full barrier body shape for a straight chunk
-    *barrierBodyFull(
-        length = trackSectionSize,
-        height = barrierHeight,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        notchBase = getBarrierNotchBase()
-    );
+
+    length = 50;
+    height = 30;
+    thickness = 0.6;
+    slotDepth = 6;
+    base = 2;
+
+    distribute([length, 0, 0], center=true) {
+        distribute([0, height, 0], center=true) {
+
+            // test the barrier holder shape for a straight chunk
+            straightBarrierHolder(
+                length = length,
+                bodyThickness = thickness,
+                slotDepth = slotDepth,
+                barrierBase = base,
+                notchBase = base
+            );
+
+            // test the full barrier body shape for a straight chunk
+            barrierBodyFull(
+                length = length,
+                height = height,
+                thickness = thickness,
+                slotDepth = slotDepth,
+                notchBase = base
+            );
+
+            // test the barrier hook shape
+            barrierHook(
+                base = base,
+                thickness = base,
+                negative=false
+            );
+
+            // test the barrier body shape for a straight chunk
+            barrierBody(
+                length = getCurveRemainingLength(length),
+                height = height,
+                thickness = thickness,
+                slotDepth = slotDepth,
+                notchBase = base
+            );
+
+            // test the barrier notch shape
+            barrierNotch(
+                thickness = thickness,
+                slotDepth = slotDepth,
+                base = base,
+                direction = -1,
+                negative = true,
+                center = true
+            );
+
+        }
+        distribute([0, 10, 0], center=true) {
+
+            // test the curved barrier notch
+            curveBarrierNotch(
+                radius = length,
+                thickness = thickness,
+                slotDepth = slotDepth,
+                base = base,
+                direction = 1,
+                negative = true
+            );
+
+            // test the barrier profile
+            barrierHolderProfile(
+                slotWidth = thickness,
+                slotDepth = slotDepth,
+                base = base
+            );
+
+            // test the barrier notch profile
+            barrierNotchProfile(
+                slotDepth = slotDepth,
+                base = base,
+                direction = -1,
+                negative = true
+            );
+
+            // test the barrier notches profile
+            barrierNotchesProfile(
+                length = length / 2,
+                slotDepth = slotDepth,
+                base = base,
+                negative = true
+            );
+
+            // test the barrier notches shape
+            barrierNotches(
+                length = length,
+                thickness = thickness,
+                slotDepth = slotDepth,
+                base = base,
+                negative = true,
+                center = true
+            );
+
+            // test the barrier notches shape for a full chunk
+            barrierNotchesFull(
+                length = length,
+                thickness = thickness,
+                slotDepth = slotDepth,
+                base = base,
+                negative = true,
+                center = true
+            );
+
+            // test the barrier holder shape for a curved chunk
+            curveBarrierHolder(
+                length = length,
+                bodyThickness = thickness,
+                slotDepth = slotDepth,
+                barrierBase = base,
+                notchBase = base,
+                ratio = 1
+            );
+
+        }
+    }
 }
