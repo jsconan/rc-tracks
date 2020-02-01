@@ -30,6 +30,38 @@
  */
 
 /**
+ * Computes the points defining the profile of a barrier link.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - An additional distance added to the outline.
+ * @returns Vector[]
+ */
+function getBarrierLinkPoints(base, distance = 0) =
+    let(
+        half = base / 2
+    )
+    outline(path([
+        ["P", half, half],
+        ["H", -base],
+        ["C", [half, half], 0, 180],
+        ["V", -base],
+        ["C", [half, half], 180, 360],
+        ["H", base],
+    ]), distance)
+;
+
+/**
+ * Draws the profile of a barrier link.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - The additional distance added to the outline.
+ */
+module barrierLinkProfile(base, distance = 0) {
+    polygon(getBarrierLinkPoints(
+        base = base,
+        distance = distance
+    ));
+}
+
+/**
  * Computes the points defining the profile of the barrier holder.
  * @param Number slotWidth - The width of the slot that will hold the barrier body.
  * @param Number slotDepth - The depth of the slot that will hold the barrier body.

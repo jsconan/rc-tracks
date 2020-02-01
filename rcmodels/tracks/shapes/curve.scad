@@ -153,20 +153,19 @@ module curveBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBa
                 }
                 rotateZ(-ratioAngle) {
                     translateY(radius) {
-                        barrierHook(
-                            base = notchBase,
-                            thickness = barrierBase - printResolution * 2,
-                            negative = false
+                        barrierLink(
+                            height = barrierBase - printResolution * 2,
+                            base = notchBase
                         );
                     }
                 }
             }
-            translateX(radius) {
+            translate([radius, 0, -1]) {
                 rotateZ(-90) {
-                    barrierHook(
-                        base = notchBase + printTolerance,
-                        thickness = barrierBase - printResolution,
-                        negative = true
+                    barrierLink(
+                        height = barrierBase - printResolution + 1,
+                        base = notchBase,
+                        distance = printTolerance
                     );
                 }
             }

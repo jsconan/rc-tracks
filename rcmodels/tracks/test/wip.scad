@@ -40,6 +40,7 @@ applyMode(mode=renderMode) {
     thickness = 0.6;
     slotDepth = 6;
     base = 2;
+    distance = 0.1;
 
     distribute([length, 0, 0], center=true) {
         distribute([0, height, 0], center=true) {
@@ -62,11 +63,12 @@ applyMode(mode=renderMode) {
                 notchBase = base
             );
 
-            // test the barrier hook shape
-            barrierHook(
+            // test the barrier link shape
+            barrierLink(
+                height = 5,
                 base = base,
-                thickness = base,
-                negative=false
+                distance = distance,
+                center = false
             );
 
             // test the barrier body shape for a straight chunk
@@ -99,6 +101,12 @@ applyMode(mode=renderMode) {
                 base = base,
                 direction = 1,
                 negative = true
+            );
+
+            // test the barrier link profile
+            barrierLinkProfile(
+                base = base,
+                distance = distance
             );
 
             // test the barrier profile

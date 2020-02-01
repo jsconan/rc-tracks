@@ -30,19 +30,18 @@
  */
 
 /**
- * Draws the shape of a barrier holder hook.
- * @param Number base - The width of each base of the hook.
- * @param Number thickness - The thickness of the hook
- * @param Boolean [negative] - The shape will be used in a difference operation
+ * Draws the shape of a barrier link.
+ * @param Number height - The height of the link.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - The additional distance added to the outline.
+ * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierHook(base, thickness, negative=false) {
-    start = negative ? 1 : 0;
-    base = nozzleAligned(base / 2) * 2;
-    translateZ(-start) {
-        box([base * 2, base, thickness + start]);
-        translateX(-base) {
-            slot([base, base * 2, thickness + start]);
-        }
+module barrierLink(height, base, distance = 0, center = false) {
+    negativeExtrude(height=height, center=center) {
+        barrierLinkProfile(
+            base = base,
+            distance = distance
+        );
     }
 }
 
@@ -141,18 +140,17 @@ module straightBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notc
                 }
             }
             translateX(-length / 2) {
-                barrierHook(
-                    base = notchBase,
-                    thickness = barrierBase - printResolution * 2,
-                    negative = false
+                barrierLink(
+                    height = barrierBase - printResolution * 2,
+                    base = notchBase
                 );
             }
         }
-        translateX(length / 2) {
-            barrierHook(
-                base = notchBase + printTolerance,
-                thickness = barrierBase - printResolution,
-                negative = true
+        translate([length / 2, 0, -1]) {
+            barrierLink(
+                height = barrierBase - printResolution + 1,
+                base = notchBase,
+                distance = printTolerance
             );
         }
     }
