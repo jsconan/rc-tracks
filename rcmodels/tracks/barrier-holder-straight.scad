@@ -38,9 +38,10 @@ applyMode(mode=renderMode) {
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     straightBarrierHolder(
         length = trackSectionSize,
-        bodyThickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        barrierBase = getBarrierHolderBase(),
-        notchBase = getBarrierNotchBase()
+        thickness = barrierBodyThickness,
+        base = barrierLinkBase,
+        strip = barrierStripHeight,
+        indent = barrierStripIndent,
+        distance = printTolerance
     );
 }

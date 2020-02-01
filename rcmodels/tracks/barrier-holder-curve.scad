@@ -36,12 +36,13 @@ include <config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curveBarrierHolder(
+    curvedBarrierHolder(
         length = trackSectionSize,
-        bodyThickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        barrierBase = getBarrierHolderBase(),
-        notchBase = getBarrierNotchBase(),
+        thickness = barrierBodyThickness,
+        base = barrierLinkBase,
+        strip = barrierStripHeight,
+        indent = barrierStripIndent,
+        distance = printTolerance,
         ratio = 1
     );
 }

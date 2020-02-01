@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some profile shapes.
+ * Defines the profile shapes for the track elements.
  *
  * @author jsconan
  * @version 0.1.0
@@ -62,103 +62,84 @@ module barrierLinkProfile(base, distance = 0) {
 }
 
 /**
- * Computes the points defining the profile of the barrier holder.
- * @param Number slotWidth - The width of the slot that will hold the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier holder.
+ * Computes the points defining the profile of a barrier holder notch.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Vector[]
  */
-function getBarrierHolderPoints(slotWidth, slotDepth, base) =
+function getBarrierNotchPoints(base, strip, indent, distance = 0) =
     let(
-        width = base * 4 + slotWidth
+        width = getBarrierNotchWidth(base, indent, distance),
+        top = getBarrierNotchDistance(base, indent, distance),
+        height = strip - indent
+    )
+    path([
+        ["P", -width / 2, 0],
+        ["L", indent, height],
+        ["H", top],
+        ["L", indent, -height],
+        ["V", -base],
+        ["H", -width]
+    ])
+;
+
+/**
+ * Draws the profile of a barrier holder notch.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
+ */
+module barrierNotchProfile(base, strip, indent, distance = 0) {
+    polygon(getBarrierNotchPoints(
+        base = base,
+        strip = strip,
+        indent = indent,
+        distance = distance
+    ));
+}
+
+/**
+ * Computes the points defining the profile of a barrier holder.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline.
+ * @returns Vector[]
+ */
+function getBarrierHolderPoints(base, strip, thickness, distance = 0) =
+    let(
+        linkWidth = getBarrierLinkWidth(base, distance),
+        top = nozzleAligned((linkWidth - thickness) / 2) * 2 + thickness,
+        width = getBarrierHolderWidth(base, distance),
+        height = getBarrierHolderHeight(strip),
+        lineW = (width - top) / 2,
+        lineH = height - base
     )
     path([
         ["P", -width / 2, 0],
         ["V", base],
-        ["L", base, slotDepth],
-        ["H", base],
-        ["V", -slotDepth],
-        ["H", slotWidth],
-        ["V", slotDepth],
-        ["H", base],
-        ["L", base, -slotDepth],
+        ["L", lineW, lineH],
+        ["H", top],
+        ["L", lineW, -lineH],
         ["V", -base]
     ])
 ;
 
 /**
- * Computes the points defining the profile of a barrier holder notch.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Number [direction] - The direction of the shape (1: right, -1: left)
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @returns Vector[]
+ * Draws the profile of a barrier holder.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline.
  */
-function getBarrierNotchPoints(slotDepth, base, direction=1, negative=false) =
-    let(
-        start = negative ? 1 : 0,
-        direction = direction >= 0 ? 1 : -1,
-        width = base * 2
-    )
-    path([
-        ["P", direction * -start, slotDepth],
-        ["H", direction * (base + start)],
-        ["L", direction * base, -slotDepth],
-        ["V", -start],
-        ["H", direction * -(width + start)]
-    ])
-;
-
-/**
- * Draws the profile of the barrier holder.
- * @param Number slotWidth - The width of the slot that will hold the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier holder.
- */
-module barrierHolderProfile(slotWidth, slotDepth, base) {
+module barrierHolderProfile(base, strip, thickness, distance = 0) {
     polygon(getBarrierHolderPoints(
-        slotWidth = slotWidth,
-        slotDepth = slotDepth,
-        base = base
-    ));
-}
-
-/**
- * Draws the profile of a barrier holder notch.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Number [direction] - The direction of the shape (1: right, -1: left)
- * @param Boolean [negative] - The shape will be used in a difference operation
- */
-module barrierNotchProfile(slotDepth, base, direction=1, negative=false) {
-    polygon(getBarrierNotchPoints(
-        slotDepth = slotDepth,
         base = base,
-        direction = direction,
-        negative = negative
+        strip = strip,
+        thickness = thickness,
+        distance = distance
     ));
-}
-
-/**
- * Draws the profile of a set of barrier holder notches.
- * @param Number length - The length of the set
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
- */
-module barrierNotchesProfile(length, slotDepth, base, negative=false) {
-    barrierNotchProfile(
-        slotDepth = slotDepth,
-        base = base,
-        direction = 1,
-        negative = negative
-    );
-    translateX(length) {
-        barrierNotchProfile(
-            slotDepth = slotDepth,
-            base = base,
-            direction = -1,
-            negative = negative
-        );
-    }
 }

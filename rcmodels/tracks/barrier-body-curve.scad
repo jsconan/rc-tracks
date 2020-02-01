@@ -39,8 +39,11 @@ applyMode(mode=renderMode) {
     barrierBody(
         length = getCurveRemainingLength(trackSectionSize),
         height = barrierHeight,
-        thickness = getBarrierBodyThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        notchBase = getBarrierNotchBase()
+        thickness = barrierBodyThickness,
+        base = barrierLinkBase,
+        strip = barrierStripHeight,
+        indent = barrierStripIndent,
+        notches = 1,
+        distance = printTolerance
     );
 }

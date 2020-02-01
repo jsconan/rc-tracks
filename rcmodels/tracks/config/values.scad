@@ -58,78 +58,112 @@ function layers(N) = N * printResolution;
 function shells(N) = N * nozzleWidth;
 
 /**
- * Gets the thickness of the barrier body, adjusted to better fit the printer.
+ * Computes the outer length of a barrier link.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Number
  */
-function getBarrierBodyThickness() = layerAligned(barrierBodyThickness);
+function getBarrierLinkLength(base, distance = 0) = base * 1.5 + distance;
 
 /**
- * Gets the base value used to design the barrier holder, adjusted to better fit the printer.
+ * Computes the outer width of a barrier link.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Number
  */
-function getBarrierHolderBase() = nozzleAligned(barrierHolderBase);
+function getBarrierLinkWidth(base, distance = 0) = (base + distance) * 2;
 
 /**
- * Gets the base value used to design the barrier notches, adjusted to better fit the printer.
+ * Computes the outer width of a barrier holder notch.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Number
  */
-function getBarrierNotchBase() = nozzleAligned(barrierNotchBase);
+function getBarrierNotchWidth(base, indent, distance = 0) = (getBarrierLinkWidth(base, distance) + indent + minWidth) * 2;
 
 /**
- * Gets the depth of the slot that will hold the barrier body.
+ * Computes the inner width of a barrier holder notch.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Number
  */
-function getBarrierHolderDepth() = layerAligned(barrierHolderDepth);
+function getBarrierNotchDistance(base, indent, distance = 0) = (getBarrierLinkWidth(base, distance) + minWidth) * 2;
 
 /**
- * Gets the length of a curved chunk (the length of the arc of the curve).
- * @param Number trackSectionSize - The length of a straight chunk
+ * Computes the outer width of a barrier holder.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number [distance] - An additional distance added to the outline.
  * @returns Number
  */
-function getCurveLength(trackSectionSize) = getArcLength(radius = trackSectionSize, angle = 90);
+function getBarrierHolderWidth(base, distance = 0) = getBarrierLinkWidth(base, distance) + minWidth * 4;
 
 /**
- * Gets the difference between the length of a curved chunk and a regular straight chunk
- * @param Number trackSectionSize - The length of a straight chunk
+ * Computes the outer height of a barrier holder.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @returns Number
  */
-function getCurveRemainingLength(trackSectionSize) = getCurveLength(trackSectionSize) - trackSectionSize;
+function getBarrierHolderHeight(strip) = strip + minThickness + printResolution;
 
 /**
- * Gets the minimal length for a simple body body (a body that should fit between 2 barrier notches)
+ * Computes the inner height of the barrier body.
+ * @param Number height - The height of the barrier body.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @returns Number
  */
-function getMinBodyLength() = 5 * getBarrierNotchBase();
+function getBarrierInnerHeight(height, strip, indent) = height - strip * 2;
 
 /**
- * Gets the minimal length for a straight chunk
+ * Gets the length of a curved ctrack elementhunk (the length of the arc of the curve).
+ * @param Number length - The length of the track element.
  * @returns Number
  */
-function getMinStraightLength() = 2 * getMinBodyLength();
+function getCurveLength(length) = getArcLength(radius = length, angle = 90);
 
 /**
- * Gets the minimal arc length for a curved chunk
+ * Gets the difference between the length of a curved track element chunk and a straight track element
+ * @param Number length - The length of the track element.
  * @returns Number
  */
-function getMinCurveLength() = 3 * getMinBodyLength();
+function getCurveRemainingLength(length) = getCurveLength(length) - length;
 
+/**
+ * Computes the minimal length of a track element.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
+ * @returns Number
+ */
+function getMinLength(base, indent, distance = 0) = getBarrierNotchWidth(base, indent, distance) * 4;
+
+
+// The minimal thickness of a part
+minThickness = layers(2);
+
+// The minimal width of a part
+minWidth = shells(2);
+
+// The minimal size for a track element
+minTrackSectionSize = getBarrierNotchWidth(barrierLinkBase, barrierStripIndent, printTolerance) * 4;
+minBarrierHeight = barrierStripHeight * 3;
 
 // Validate the critical constraints
 assert(
-    trackSectionSize >= getMinStraightLength(),
+    trackSectionSize >= minTrackSectionSize,
     str(
-        "The size for a straight chunk is too small! The minimum length is ",
-        getMinStraightLength(),
+        "The size for a track element is too small! The minimum length is ",
+        minTrackSectionSize,
         ". The current value is ",
         trackSectionSize
     )
 );
 assert(
-    getArcLength(radius = trackSectionSize, angle = 90) >= getMinCurveLength(),
+    barrierHeight >= minBarrierHeight,
     str(
-        "The length for a curved chunk is too small! The minimum arc length is ",
-        getMinCurveLength(),
+        "The height for a track barrier is too small! The minimum height is ",
+        minBarrierHeight,
         ". The current value is ",
-        getArcLength(radius = trackSectionSize, angle = 90)
+        barrierHeight
     )
 );

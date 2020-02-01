@@ -23,50 +23,52 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some curved track parts.
+ * Defines the curved track parts.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
 /**
- * Draws the shape of a curved barrier holder notch.
+ * Draws the shape of a barrier holder notch for a curved track element.
  * @param Number radius - The radius of the curve.
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Number [direction] - The direction of the shape (1: right, -1: left)
- * @param Boolean [negative] - The shape will be used in a difference operation
+ * @param Number thickness - The thickness of the shape.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
  */
-module curveBarrierNotch(radius, thickness, slotDepth, base, direction=1, negative=false) {
-    start = negative ? 1 : 0;
-    direction = direction >= 0 ? 1 : -1;
-    length = base * 2;
-    angle = getArcAngle(radius = radius, length = length);
-    chord = getChordLength(radius = radius, angle = angle / 2);
+module barrierNotchCurved(radius, thickness, base, strip, indent, distance = 0) {
+    width = getBarrierNotchWidth(base, indent, distance);
+    height = strip - indent;
+    angle = getArcAngle(radius = radius, length = width);
+    chord = getChordLength(radius = radius, angle = getArcAngle(radius = radius, length = indent));
+    startAngle = angle / 2;
 
     difference() {
-        translateZ(-start) {
+        translateZ(-base) {
             pipeSegment(
                 r = radius + thickness / 2,
-                h = slotDepth + start,
+                h = height + base,
                 w = thickness,
-                a1 = -direction * getArcAngle(radius = radius, length = start),
-                a2 = direction * angle
+                a = angle,
+                a1 = -startAngle
             );
         }
-
-        rotateZ(direction * angle) {
-            translateX(radius) {
-                rotate([90, 0, 270]) {
-                    negativeExtrude(height = thickness + 1, center = true) {
-                        polygon([
-                            [0, 0],
-                            [direction * chord, slotDepth],
-                            [direction * chord, slotDepth + 1],
-                            [direction * -1, slotDepth + 1],
-                            [direction * -1, 0],
-                        ]);
+        repeatMirror(axis = [0, 1, 0]) {
+            rotateZ(startAngle) {
+                translateX(radius) {
+                    rotate([90, 0, 270]) {
+                        negativeExtrude(height = thickness + 1, center = true) {
+                            polygon(path([
+                                ["P", 0, -base],
+                                ["V", base],
+                                ["L", chord, height],
+                                ["V", base],
+                                ["H", -base],
+                                ["V", -height - base * 2]
+                            ]));
+                        }
                     }
                 }
             }
@@ -75,98 +77,79 @@ module curveBarrierNotch(radius, thickness, slotDepth, base, direction=1, negati
 }
 
 /**
- * Draws the shape of a curved barrier holder notches for a full chunk.
- * @param Number radius - The radius of the curve.
- * @param Number length - The length of a chunk
- * @param Number angle - The angle of the curve
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
+ * Draws the barrier holder for a straight track element.
+ * @param Number length - The length of the element.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline.
+ * @param Number ratio - The ratio to apply on the radius
  */
-module curveBarrierNotches(radius, length, angle, thickness, slotDepth, base, negative=false) {
-    rotateZ(angle) {
-        repeatMirror(axis=[0, 1, 0]) {
-            rotateZ(-angle) {
-                curveBarrierNotch(
-                    radius = radius,
-                    thickness = thickness,
-                    slotDepth = slotDepth,
-                    base = base,
-                    direction = 1,
-                    negative = negative
-                );
-                rotateZ(getArcAngle(radius = radius, length = length / 2)) {
-                    repeatMirror(axis=[0, 1, 0]) {
-                        curveBarrierNotch(
-                            radius = radius,
-                            thickness = thickness,
-                            slotDepth = slotDepth,
-                            base = base,
-                            direction = -1,
-                            negative = negative
-                        );
-                    }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Draws the barrier holder for a curved chunk
- * @param Number length - The length of a chunk
- * @param Number bodyThickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number barrierBase - The base value used to design the barrier holder.
- * @param Number notchBase - The width of a notch base.
- * @param Number ratio - The ratio of the chunk
- */
-module curveBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBase, ratio = 1) {
+module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0, ratio = 1) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
     ratioAngle = defaultAngle - angle;
+    linkHeight = getBarrierHolderHeight(strip) - base;
+    thickness = thickness + distance;
 
     rotateZ(ratioAngle / 2) {
+        rotateZ(-ratioAngle) {
+            translateY(radius) {
+                barrierLink(
+                    height = linkHeight - printResolution,
+                    base = base
+                );
+            }
+        }
         difference() {
-            union() {
-                rotate_extrude(angle=angle, convexity=10) {
-                    translateX(radius) {
-                        barrierHolderProfile(
-                            slotWidth = bodyThickness + printTolerance,
-                            slotDepth = slotDepth,
-                            base = barrierBase
-                        );
-                    }
-                }
-                translateZ(barrierBase) {
-                    curveBarrierNotches(
-                        radius = radius,
-                        length = length,
-                        angle = angle / 2,
-                        thickness = barrierBase + barrierBase,
-                        slotDepth = slotDepth,
-                        base = notchBase - printTolerance,
-                        negative=false
+            rotate_extrude(angle=angle, convexity=10) {
+                translateX(radius) {
+                    barrierHolderProfile(
+                        base = base,
+                        strip = strip,
+                        thickness = thickness,
+                        distance = distance
                     );
-                }
-                rotateZ(-ratioAngle) {
-                    translateY(radius) {
-                        barrierLink(
-                            height = barrierBase - printResolution * 2,
-                            base = notchBase
-                        );
-                    }
                 }
             }
             translate([radius, 0, -1]) {
                 rotateZ(-90) {
                     barrierLink(
-                        height = barrierBase - printResolution + 1,
-                        base = notchBase,
-                        distance = printTolerance
+                        height = linkHeight + printResolution + 1,
+                        base = base,
+                        distance = distance
                     );
+                }
+            }
+            translateZ(minThickness) {
+                difference() {
+                    pipeSegment(
+                        r = radius + thickness / 2,
+                        h = strip * 2,
+                        w = thickness,
+                        a = angle
+                    );
+
+                    arcAngle = getArcAngle(radius = radius, length = length / 2);
+                    angles = [
+                        [0, 0, 0],
+                        [0, 0, arcAngle],
+                        [0, 0, angle - arcAngle],
+                        [0, 0, angle]
+                    ];
+
+                    repeatRotateMap(angles) {
+                        barrierNotchCurved(
+                            radius = radius,
+                            thickness = thickness * 2,
+                            base = base,
+                            strip = strip,
+                            indent = indent,
+                            distance = distance / 2
+                        );
+                    }
                 }
             }
         }

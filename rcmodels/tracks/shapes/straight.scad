@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some straight track parts.
+ * Defines the straight track parts.
  *
  * @author jsconan
  * @version 0.1.0
@@ -46,166 +46,113 @@ module barrierLink(height, base, distance = 0, center = false) {
 }
 
 /**
- * Draws the shape of barrier holder notch.
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Number [direction] - The direction of the shape (1: right, -1: left)
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
+ * Draws the shape of a barrier holder notch.
+ * @param Number thickness - The thickness of the shape.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [interval] - The distance between two notches.
+ * @param Number [count] - The number of notches.
+ * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierNotch(thickness, slotDepth, base, direction=1, negative=false, center=false) {
-    negativeExtrude(height=thickness, center=center) {
-        barrierNotchProfile(
-            slotDepth = slotDepth,
-            base = base,
-            direction = direction,
-            negative = negative
-        );
-    }
-}
-
-/**
- * Draws the shape of barrier holder notches.
- * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
- */
-module barrierNotches(length, thickness, slotDepth, base, negative=false, center=false) {
-    negativeExtrude(height=thickness, center=center) {
-        barrierNotchesProfile(
-            length = length,
-            slotDepth = slotDepth,
-            base = base,
-            negative = negative
-        );
-    }
-}
-
-/**
- * Draws the shape of barrier holder notches for a full chunk.
- * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
- */
-module barrierNotchesFull(length, thickness, slotDepth, base, negative=false, center=false) {
-    repeatMirror() {
-        barrierNotches(
-            length = length / 2,
-            thickness = thickness,
-            slotDepth = slotDepth,
-            base = base,
-            negative = negative,
-            center = center
-        );
-    }
-}
-
-/**
- * Draws the barrier holder for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number bodyThickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number barrierBase - The base value used to design the barrier holder.
- * @param Number notchBase - The width of a notch base.
- */
-module straightBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBase) {
-    difference() {
-        union() {
-            rotate([90, 0, 90]) {
-                negativeExtrude(height=length, center=true) {
-                    barrierHolderProfile(
-                        slotWidth = bodyThickness + printTolerance,
-                        slotDepth = slotDepth,
-                        base = barrierBase
-                    );
-                }
-            }
-            translateZ(barrierBase) {
-                rotateX(90) {
-                    barrierNotchesFull(
-                        length = length,
-                        thickness = bodyThickness + barrierBase,
-                        slotDepth = slotDepth,
-                        base = notchBase - printTolerance,
-                        negative = false,
-                        center = true
-                    );
-                }
-            }
-            translateX(-length / 2) {
-                barrierLink(
-                    height = barrierBase - printResolution * 2,
-                    base = notchBase
-                );
-            }
-        }
-        translate([length / 2, 0, -1]) {
-            barrierLink(
-                height = barrierBase - printResolution + 1,
-                base = notchBase,
-                distance = printTolerance
+module barrierNotch(thickness, base, strip, indent, distance = 0, interval = 0, count = 1, center = false) {
+    repeat(count=count, interval=[interval, 0, 0], center=true) {
+        negativeExtrude(height=thickness, center=center) {
+            barrierNotchProfile(
+                base = base,
+                strip = strip,
+                indent = indent,
+                distance = distance
             );
         }
     }
 }
 
 /**
- * Draws the barrier body for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number height - The height of the chunk
+ * Draws the shape of a barrier body.
+ * @param Number length - The length of the track element.
+ * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number notchBase - The width of a notch base.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number [notches] - The number of notches.
+ * @param Number [distance] - An additional distance added to the outline.
  */
-module barrierBody(length, height, thickness, slotDepth, notchBase) {
-    difference() {
-        box(size = [length, height, thickness], center = true);
+module barrierBody(length, height, thickness, base, strip, indent, notches = 1, distance = 0) {
+    count = notches + 1;
+    interval = length / notches;
 
-        repeatMirror(axis=[0, 1, 0]) {
-            translateY(-height / 2) {
-                translateX(-length / 2) {
-                    barrierNotches(
-                        length = length,
-                        thickness = thickness + 1,
-                        slotDepth = slotDepth,
-                        base = notchBase + printTolerance,
-                        negative = true,
-                        center = true
-                    );
-                }
-            }
+    difference() {
+        box(
+            size = [length, height, thickness],
+            center = true
+        );
+
+        repeatMirror(interval=[0, height, 0], axis=[0, 1, 0], center=true) {
+            barrierNotch(
+                thickness = thickness * 2,
+                base = base,
+                strip = strip,
+                indent = indent,
+                distance = distance,
+                interval = interval,
+                count = count,
+                center = true
+            );
         }
     }
 }
 
 /**
- * Draws the full barrier body for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number height - The height of the chunk
+ * Draws the barrier holder for a straight track element.
+ * @param Number length - The length of the element.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number notchBase - The width of a notch base.
+ * @param Number [distance] - An additional distance added to the outline.
  */
-module barrierBodyFull(length, height, thickness, slotDepth, notchBase) {
-    difference() {
-        box(size = [length, height, thickness], center = true);
+module straightBarrierHolder(length, thickness, base, strip, indent, distance = 0) {
+    linkHeight = getBarrierHolderHeight(strip) - base;
+    thickness = thickness + distance;
 
-        repeatMirror(axis=[0, 1, 0]) {
-            translateY(-height / 2) {
-                barrierNotchesFull(
+    translateX(-length / 2) {
+        barrierLink(
+            height = linkHeight - printResolution,
+            base = base
+        );
+    }
+    difference() {
+        rotate([90, 0, 90]) {
+            negativeExtrude(height=length, center=true) {
+                barrierHolderProfile(
+                    base = base,
+                    strip = strip,
+                    thickness = thickness,
+                    distance = distance
+                );
+            }
+        }
+        translate([length / 2, 0, -1]) {
+            barrierLink(
+                height = linkHeight + printResolution + 1,
+                base = base,
+                distance = distance
+            );
+        }
+        translateZ(length / 2 + minThickness) {
+            rotateX(90) {
+                barrierBody(
                     length = length,
-                    thickness = thickness + 1,
-                    slotDepth = slotDepth,
-                    base = notchBase + printTolerance,
-                    negative = true,
-                    center = true
+                    height = length,
+                    thickness = thickness,
+                    base = base,
+                    strip = strip,
+                    indent = indent,
+                    distance = distance / 2,
+                    notches = 2
                 );
             }
         }
