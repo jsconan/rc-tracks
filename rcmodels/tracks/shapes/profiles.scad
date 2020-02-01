@@ -26,7 +26,7 @@
  * Defines the profile shapes for the track elements.
  *
  * @author jsconan
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 /**
