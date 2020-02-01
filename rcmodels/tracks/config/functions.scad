@@ -94,28 +94,16 @@ function getCurveLength(chunkSize) = getArcLength(radius = chunkSize, angle = 90
 function getCurveRemainingLength(chunkSize) = getCurveLength(chunkSize) - chunkSize;
 
 /**
- * Gets the height of the barrier body, depending on the option heightWithFasteners
+ * Gets the height of the barrier body
  * @returns Number
  */
-function getBarrierBodyHeight() =
-    let(
-        correction = heightWithFasteners
-       ?-barrierHolderBase * 2
-       :barrierHolderDepth * 2
-    )
-    barrierHeight + correction
-;
+function getBarrierBodyHeight() = barrierHeight - barrierHolderBase * 2;
 
 /**
- * Gets the height of the assembled barrier, depending on the option heightWithFasteners
+ * Gets the height of the assembled barrier
  * @returns Number
  */
-function getBarrierHeight() =
-    let(
-        correction = heightWithFasteners ? 0 : (barrierHolderBase + barrierHolderDepth) * 2
-    )
-    barrierHeight + correction
-;
+function getBarrierHeight() = barrierHeight;
 
 /**
  * Gets the minimal length for a simple body body (a body that should fit between 2 barrier notches)

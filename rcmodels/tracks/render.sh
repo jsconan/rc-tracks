@@ -29,7 +29,6 @@
 #
 
 # application params
-heightWithFasteners=
 chunkSize=
 barrierHeight=
 
@@ -52,12 +51,6 @@ while (( "$#" )); do
             barrierHeight=$2
             shift
         ;;
-        "-i"|"--innerHeight")
-            heightWithFasteners=0
-        ;;
-        "-o"|"--outerHeight")
-            heightWithFasteners=1
-        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
@@ -66,8 +59,6 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --chunkSize  ${C_RST}Set the length of a track chunk"
             echo -e "${C_MSG}  -w   --barrierHeight ${C_RST}Set the height of the track barrier"
-            echo -e "${C_MSG}  -i,  --innerHeight  ${C_RST}The height of the barrier does not contains the size of the holders"
-            echo -e "${C_MSG}  -o,  --outerHeight  ${C_RST}The height of the barrier contains the size of the holders"
             echo
             exit 0
         ;;
@@ -89,5 +80,4 @@ scadcheck
 # render the files, if exist
 scadtostlall "${srcpath}" "${dstpath}" "" \
     "$(varif "chunkSize" ${chunkSize})" \
-    "$(varif "barrierHeight" ${barrierHeight})" \
-    "$(varif "heightWithFasteners" ${heightWithFasteners})"
+    "$(varif "barrierHeight" ${barrierHeight})"
