@@ -145,38 +145,96 @@ module barrierHolderProfile(base, strip, thickness, tolerance = 0) {
 }
 
 /**
+ * Draws the outline of a barrier holder.
+ * @param Number wall - The thickness of the outline.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierHolderOutline(wall, base, strip, thickness, tolerance = 0, distance = 0) {
+    translateY(wall) {
+        difference() {
+            profile = outline(getBarrierHolderPoints(
+                base = base,
+                strip = strip,
+                thickness = thickness,
+                tolerance = tolerance
+            ), -distance);
+
+            polygon(outline(profile, -wall));
+            polygon(profile);
+        }
+    }
+}
+
+/**
  * Draws the profile of a wire clip.
- * @param Number wall - The thickness of the wire clip lines.
+ * @param Number wall - The thickness of the outline.
  * @param Number base - The base value used to design the barrier link.
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
 module wireClipProfile(wall, base, strip, thickness, tolerance = 0) {
-    holderWidth = getBarrierHolderWidth(base, tolerance);
+    holderWidth = getBarrierHolderWidth(base, tolerance) + wall * 2;
     holderHeight = getBarrierHolderHeight(strip);
 
     difference() {
-        profile = getBarrierHolderPoints(
+        barrierHolderOutline(
+            wall = wall,
             base = base,
             strip = strip,
             thickness = thickness,
-            tolerance = tolerance
+            tolerance = tolerance,
+            distance = 0
         );
-
-        polygon(outline(profile, -wall));
-        polygon(profile);
 
         translateY(holderHeight) {
             rectangle([thickness, wall * 2]);
         }
     }
-    translateY(-wall) {
-        ringSegment(
-            r = [1, 1] * (holderWidth / 2 + wall),
-            w = wall,
-            a = -180,
-            $fn = 10
-        );
+    ringSegment(
+        r = [1, 1] * (holderWidth / 2),
+        w = wall,
+        a = -180,
+        $fn = 10
+    );
+}
+
+/**
+ * Draws the profile of an arch tower that will clamp a barrier border.
+ * @param Number wall - The thickness of the outline.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ */
+module archTowerProfile(wall, height, base, strip, thickness, tolerance = 0) {
+    holderHeight = getBarrierHolderHeight(strip) + wall + tolerance;
+    bodyHeight = getBarrierBodyInnerHeight(height, strip);
+    towerWidth = thickness + tolerance + wall * 2;
+    offset = holderHeight + bodyHeight / 2;
+
+    difference() {
+        union() {
+            barrierHolderOutline(
+                wall = wall,
+                base = base,
+                strip = strip,
+                thickness = thickness,
+                tolerance = tolerance,
+                distance = tolerance
+            );
+            translateY(offset) {
+                rectangle([towerWidth, bodyHeight]);
+            }
+        }
+
+        translateY(offset) {
+            rectangle([thickness + tolerance, bodyHeight + wall]);
+        }
     }
 }

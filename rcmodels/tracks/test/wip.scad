@@ -33,7 +33,7 @@
 include <../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=MODE_DEV) {
+applyMode(mode=renderMode) {
 
     length = 50;
     height = 30;
@@ -88,6 +88,44 @@ applyMode(mode=MODE_DEV) {
                 tolerance = tolerance
             );
 
+            // test the arch tower shape
+            rotateZ(-90) {
+                archTower(
+                    wall = base,
+                    height = height,
+                    base = base,
+                    strip = strip,
+                    thickness = thickness,
+                    tolerance = tolerance
+                );
+            }
+
+            // test the arch tower shape with holders, left side
+            archTowerWidthHolder(
+                wall = wall * 2,
+                length = length,
+                height = height,
+                base = base,
+                strip = strip,
+                indent = indent,
+                thickness = thickness,
+                tolerance = tolerance,
+                right = false
+            );
+
+            // test the arch tower shape with holders, right side
+            archTowerWidthHolder(
+                wall = wall * 2,
+                length = length,
+                height = height,
+                base = base,
+                strip = strip,
+                indent = indent,
+                thickness = thickness,
+                tolerance = tolerance,
+                right = true
+            );
+
             // test the barrier body shape for the remaing of a curve
             barrierBody(
                 length = getCurveRemainingLength(length),
@@ -124,6 +162,16 @@ applyMode(mode=MODE_DEV) {
                 tolerance = tolerance
             );
 
+            // test the barrier holder outline
+            barrierHolderOutline(
+                wall = wall,
+                base = base,
+                strip = strip,
+                thickness = thickness,
+                tolerance = tolerance,
+                distance = 0
+            );
+
             // test the barrier notch shape for a curved track element
             barrierNotchCurved(
                 radius = length,
@@ -134,7 +182,19 @@ applyMode(mode=MODE_DEV) {
                 tolerance = tolerance
             );
 
-            // test the barrier holder shape for a straight track element
+            // test the arch tower profile
+            rotateZ(-90) {
+                archTowerProfile(
+                    wall = wall,
+                    height = height,
+                    base = base,
+                    strip = strip,
+                    thickness = thickness,
+                    tolerance = tolerance
+                );
+            }
+
+            // test the barrier holder shape for a curved track element, right turned
             curvedBarrierHolder(
                 length = length,
                 thickness = thickness,
@@ -168,7 +228,7 @@ applyMode(mode=MODE_DEV) {
                 tolerance = tolerance
             );
 
-            // test the barrier holder shape for a straight track element
+            // test the barrier holder shape for a curved track element, left turned
             curvedBarrierHolder(
                 length = length,
                 thickness = thickness,

@@ -107,12 +107,19 @@ function getBarrierHolderWidth(base, tolerance = 0) = getBarrierLinkWidth(base, 
 function getBarrierHolderHeight(strip) = strip + minThickness + printResolution;
 
 /**
- * Computes the inner height of the barrier body.
- * @param Number height - The height of the barrier body.
+ * Computes the inner height of the barrier body, between the barrier holders.
+ * @param Number height - The height of the barrier.
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @returns Number
  */
-function getBarrierInnerHeight(height, strip, indent) = height - strip * 2;
+function getBarrierBodyInnerHeight(height, strip) = height - strip * 2;
+
+/**
+ * Computes the outer height of the barrier body, taking care of the barrier holders.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getBarrierBodyHeight(height) = height - (minThickness + printResolution) * 2;
 
 /**
  * Gets the length of a curved ctrack elementhunk (the length of the arc of the curve).

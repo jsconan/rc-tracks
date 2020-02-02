@@ -44,5 +44,6 @@ barrierBodyThickness = 0.6; // The thickness of the barrier body
 barrierStripHeight = 6;     // The height of the barrier body part that will be inserted in the holder
 barrierStripIndent = 1;     // The indent of the barrier body strip
 barrierLinkBase = 2;        // The base value used to design the barrier link
+archTowerWall = 1.6;        // The thickness of the arch tower wall
 wireClipWall = .8;          // The thickness of the wire clips wall
 wireClipThickness = 2;      // The thickness of the wire clips

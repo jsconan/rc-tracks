@@ -167,7 +167,7 @@ module straightBarrierHolder(length, thickness, base, strip, indent, tolerance =
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
-
+ * @param Boolean [center] - The shape is centered vertically.
  */
 module wireClip(wall, height, base, strip, thickness, tolerance = 0, center = false) {
     negativeExtrude(height=height, center=center) {
@@ -179,4 +179,71 @@ module wireClip(wall, height, base, strip, thickness, tolerance = 0, center = fa
             tolerance = tolerance
         );
     }
+}
+
+/**
+ * Draws the shape of an arch tower that will clamp a barrier border.
+ * @param Number wall - The thickness of the outline.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Boolean [center] - The shape is centered vertically.
+ */
+module archTower(wall, height, base, strip, thickness, tolerance = 0, center = false) {
+    holderHeight = getBarrierHolderHeight(strip);
+
+    negativeExtrude(height=holderHeight, center=center) {
+        archTowerProfile(
+            wall = wall,
+            height = height,
+            base = base,
+            strip = strip,
+            thickness = thickness,
+            tolerance = tolerance
+        );
+    }
+}
+
+/**
+ * Draws the shape of an arch tower with the barrier holders.
+ * @param Number wall - The thickness of the outline.
+ * @param Number height - The length of a track element.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base value used to design the barrier link.
+ * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number indent - The indent of the barrier body strip.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number right - Is it the right or the left part of the track element that is added to the tower?
+ */
+module archTowerWidthHolder(wall, length, height, base, strip, indent, thickness, tolerance = 0, right = false) {
+    rotateZ(-90) {
+        archTower(
+            wall = wall,
+            height = height,
+            base = base,
+            strip = strip,
+            thickness = thickness,
+            tolerance = tolerance
+        );
+    }
+    difference() {
+        rotateZ(right ? 180 : 0) {
+            straightBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                strip = strip,
+                indent = indent,
+                tolerance = tolerance
+            );
+        }
+        translate([length, 0, -length] / 2) {
+            box(length);
+        }
+    }
+
+
 }

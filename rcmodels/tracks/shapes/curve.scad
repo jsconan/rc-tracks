@@ -85,7 +85,7 @@ module barrierNotchCurved(radius, thickness, base, strip, indent, tolerance = 0)
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Number ratio - The ratio to apply on the radius
- * @param Number right - Is the curve oriented to the right ?
+ * @param Number right - Is the curve oriented to the right?
  */
 module curvedBarrierHolder(length, thickness, base, strip, indent, tolerance = 0, ratio = 1, right = false) {
     radius = length * ratio;
