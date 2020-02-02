@@ -153,17 +153,16 @@ module barrierHolderProfile(base, strip, thickness, distance = 0) {
  * @param Number [distance] - An additional distance added to the outline.
  */
 module wireClipProfile(wall, base, strip, thickness, distance = 0) {
-    tolerance = distance / 2;
-    holderWidth = getBarrierHolderWidth(base, distance) + tolerance * 2;
-    holderHeight = getBarrierHolderHeight(strip) + tolerance * 2;
+    holderWidth = getBarrierHolderWidth(base, distance);
+    holderHeight = getBarrierHolderHeight(strip);
 
     difference() {
-        profile = outline(getBarrierHolderPoints(
+        profile = getBarrierHolderPoints(
             base = base,
             strip = strip,
             thickness = thickness,
             distance = distance
-        ), -tolerance);
+        );
 
         polygon(outline(profile, -wall));
         polygon(profile);
@@ -172,7 +171,7 @@ module wireClipProfile(wall, base, strip, thickness, distance = 0) {
             rectangle([thickness, wall * 2]);
         }
     }
-    translateY(-wall - tolerance) {
+    translateY(-wall) {
         ringSegment(
             r = [1, 1] * (holderWidth / 2 + wall),
             w = wall,
