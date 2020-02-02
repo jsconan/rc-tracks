@@ -116,15 +116,20 @@ function getBarrierHolderPoints(base, strip, thickness, tolerance = 0) =
         width = getBarrierHolderWidth(base, tolerance),
         height = getBarrierHolderHeight(strip),
         lineW = (width - top) / 2,
-        lineH = height - base
+        lineH = height - base,
+        offset = printResolution * 2
     )
     path([
-        ["P", -width / 2, 0],
-        ["V", base],
-        ["L", lineW, lineH],
+        ["P", -width / 2 + offset, 0],
+        ["L", -offset, offset],
+        ["V", base - offset],
+        ["L", lineW - offset, lineH - offset],
+        ["L", offset, offset],
         ["H", top],
-        ["L", lineW, -lineH],
-        ["V", -base]
+        ["L", offset, -offset],
+        ["L", lineW - offset, -lineH + offset],
+        ["V", -base + offset],
+        ["L", -offset, -offset]
     ])
 ;
 
@@ -193,6 +198,11 @@ module wireClipProfile(wall, base, strip, thickness, tolerance = 0) {
 
         translateY(holderHeight) {
             rectangle([thickness, wall * 2]);
+        }
+    }
+    repeat(intervalX = holderWidth - wall, center = true) {
+        translateY(base / 2) {
+            rectangle([wall, base]);
         }
     }
     ringSegment(
