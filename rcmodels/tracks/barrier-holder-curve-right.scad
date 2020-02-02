@@ -42,7 +42,7 @@ applyMode(mode=renderMode) {
         base = barrierLinkBase,
         strip = barrierStripHeight,
         indent = barrierStripIndent,
-        distance = printTolerance,
+        tolerance = printTolerance,
         ratio = 1,
         right = true
     );

@@ -36,10 +36,10 @@
  * @param Number base - The base value used to design the barrier link.
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number indent - The indent of the barrier body strip.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module barrierNotchCurved(radius, thickness, base, strip, indent, distance = 0) {
-    width = getBarrierNotchWidth(base, indent, distance);
+module barrierNotchCurved(radius, thickness, base, strip, indent, tolerance = 0) {
+    width = getBarrierNotchWidth(base, indent, tolerance);
     height = strip - indent;
     angle = getArcAngle(radius = radius, length = width);
     chord = getChordLength(radius = radius, angle = getArcAngle(radius = radius, length = indent));
@@ -83,17 +83,17 @@ module barrierNotchCurved(radius, thickness, base, strip, indent, distance = 0) 
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number indent - The indent of the barrier body strip.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Number ratio - The ratio to apply on the radius
  * @param Number right - Is the curve oriented to the right ?
  */
-module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0, ratio = 1, right = false) {
+module curvedBarrierHolder(length, thickness, base, strip, indent, tolerance = 0, ratio = 1, right = false) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
     ratioAngle = defaultAngle - angle;
     linkHeight = getBarrierHolderHeight(strip) - base;
-    thickness = thickness + distance;
+    thickness = thickness + tolerance;
 
     outerLinkDirection = right ? 180 : 0;
     outerLinkPosition = right ? 270 : -ratioAngle;
@@ -118,7 +118,7 @@ module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0,
                         base = base,
                         strip = strip,
                         thickness = thickness,
-                        distance = distance
+                        tolerance = tolerance
                     );
                 }
             }
@@ -128,7 +128,7 @@ module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0,
                         barrierLink(
                             height = linkHeight + printResolution + 1,
                             base = base,
-                            distance = distance
+                            tolerance = tolerance
                         );
                     }
                 }
@@ -157,7 +157,7 @@ module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0,
                             base = base,
                             strip = strip,
                             indent = indent,
-                            distance = distance / 2
+                            tolerance = tolerance / 2
                         );
                     }
                 }

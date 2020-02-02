@@ -33,14 +33,14 @@
  * Draws the shape of a barrier link.
  * @param Number height - The height of the link.
  * @param Number base - The base value used to design the barrier link.
- * @param Number [distance] - The additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierLink(height, base, distance = 0, center = false) {
+module barrierLink(height, base, tolerance = 0, center = false) {
     negativeExtrude(height=height, center=center) {
         barrierLinkProfile(
             base = base,
-            distance = distance
+            tolerance = tolerance
         );
     }
 }
@@ -51,19 +51,19 @@ module barrierLink(height, base, distance = 0, center = false) {
  * @param Number base - The base value used to design the barrier link.
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number indent - The indent of the barrier body strip.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Number [interval] - The distance between two notches.
  * @param Number [count] - The number of notches.
  * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierNotch(thickness, base, strip, indent, distance = 0, interval = 0, count = 1, center = false) {
+module barrierNotch(thickness, base, strip, indent, tolerance = 0, interval = 0, count = 1, center = false) {
     repeat(count=count, interval=[interval, 0, 0], center=true) {
         negativeExtrude(height=thickness, center=center) {
             barrierNotchProfile(
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance
+                tolerance = tolerance
             );
         }
     }
@@ -78,9 +78,9 @@ module barrierNotch(thickness, base, strip, indent, distance = 0, interval = 0, 
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number indent - The indent of the barrier body strip.
  * @param Number [notches] - The number of notches.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module barrierBody(length, height, thickness, base, strip, indent, notches = 1, distance = 0) {
+module barrierBody(length, height, thickness, base, strip, indent, notches = 1, tolerance = 0) {
     count = notches + 1;
     interval = length / notches;
 
@@ -96,7 +96,7 @@ module barrierBody(length, height, thickness, base, strip, indent, notches = 1, 
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance,
+                tolerance = tolerance,
                 interval = interval,
                 count = count,
                 center = true
@@ -112,11 +112,11 @@ module barrierBody(length, height, thickness, base, strip, indent, notches = 1, 
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number indent - The indent of the barrier body strip.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module straightBarrierHolder(length, thickness, base, strip, indent, distance = 0) {
+module straightBarrierHolder(length, thickness, base, strip, indent, tolerance = 0) {
     linkHeight = getBarrierHolderHeight(strip) - base;
-    thickness = thickness + distance;
+    thickness = thickness + tolerance;
 
     translateX(-length / 2) {
         barrierLink(
@@ -131,7 +131,7 @@ module straightBarrierHolder(length, thickness, base, strip, indent, distance = 
                     base = base,
                     strip = strip,
                     thickness = thickness,
-                    distance = distance
+                    tolerance = tolerance
                 );
             }
         }
@@ -139,7 +139,7 @@ module straightBarrierHolder(length, thickness, base, strip, indent, distance = 
             barrierLink(
                 height = linkHeight + printResolution + 1,
                 base = base,
-                distance = distance
+                tolerance = tolerance
             );
         }
         translateZ(length / 2 + minThickness) {
@@ -151,7 +151,7 @@ module straightBarrierHolder(length, thickness, base, strip, indent, distance = 
                     base = base,
                     strip = strip,
                     indent = indent,
-                    distance = distance / 2,
+                    tolerance = tolerance / 2,
                     notches = 2
                 );
             }
@@ -166,17 +166,17 @@ module straightBarrierHolder(length, thickness, base, strip, indent, distance = 
  * @param Number base - The base value used to design the barrier link.
  * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [distance] - An additional distance added to the outline.
+ * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
 
  */
-module wireClip(wall, height, base, strip, thickness, distance = 0, center = false) {
+module wireClip(wall, height, base, strip, thickness, tolerance = 0, center = false) {
     negativeExtrude(height=height, center=center) {
         wireClipProfile(
             wall = wall,
             base = base,
             strip = strip,
             thickness = thickness,
-            distance = distance
+            tolerance = tolerance
         );
     }
 }

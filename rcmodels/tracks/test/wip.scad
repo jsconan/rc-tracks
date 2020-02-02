@@ -33,7 +33,7 @@
 include <../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
+applyMode(mode=MODE_DEV) {
 
     length = 50;
     height = 30;
@@ -43,7 +43,7 @@ applyMode(mode=renderMode) {
     strip = 6;
     indent = 1;
     base = 2;
-    distance = 0.1;
+    tolerance = 0.1;
 
     distribute([length, 0, 0], center=true) {
         distribute([0, height, 0], center=true) {
@@ -55,7 +55,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier body shape
@@ -67,14 +67,14 @@ applyMode(mode=renderMode) {
                 strip = strip,
                 indent = indent,
                 notches = 2,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier link shape
             barrierLink(
                 height = 5,
                 base = base,
-                distance = distance,
+                tolerance = tolerance,
                 center = false
             );
 
@@ -85,7 +85,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 thickness = thickness,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier body shape for the remaing of a curve
@@ -97,7 +97,7 @@ applyMode(mode=renderMode) {
                 strip = strip,
                 indent = indent,
                 notches = 1,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier notch shape for a straight track element
@@ -106,7 +106,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance,
+                tolerance = tolerance,
                 interval = length,
                 count = 2,
                 center = true
@@ -121,7 +121,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 thickness = thickness,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier notch shape for a curved track element
@@ -131,7 +131,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier holder shape for a straight track element
@@ -141,7 +141,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance,
+                tolerance = tolerance,
                 ratio = 1,
                 right = true
             );
@@ -149,7 +149,7 @@ applyMode(mode=renderMode) {
             // test the barrier link profile
             barrierLinkProfile(
                 base = base,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier notch profile
@@ -157,7 +157,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier holder profile
@@ -165,7 +165,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 thickness = thickness,
-                distance = distance
+                tolerance = tolerance
             );
 
             // test the barrier holder shape for a straight track element
@@ -175,7 +175,7 @@ applyMode(mode=renderMode) {
                 base = base,
                 strip = strip,
                 indent = indent,
-                distance = distance,
+                tolerance = tolerance,
                 ratio = 1,
                 right = false
             );

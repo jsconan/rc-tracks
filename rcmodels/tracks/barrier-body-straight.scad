@@ -44,6 +44,6 @@ applyMode(mode=renderMode) {
         strip = barrierStripHeight,
         indent = barrierStripIndent,
         notches = 2,
-        distance = printTolerance
+        tolerance = printTolerance
     );
 }
