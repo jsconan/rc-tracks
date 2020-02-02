@@ -85,8 +85,9 @@ module barrierNotchCurved(radius, thickness, base, strip, indent, distance = 0) 
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [distance] - An additional distance added to the outline.
  * @param Number ratio - The ratio to apply on the radius
+ * @param Number right - Is the curve oriented to the right ?
  */
-module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0, ratio = 1) {
+module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0, ratio = 1, right = false) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
@@ -94,13 +95,20 @@ module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0,
     linkHeight = getBarrierHolderHeight(strip) - base;
     thickness = thickness + distance;
 
+    outerLinkDirection = right ? 180 : 0;
+    outerLinkPosition = right ? 270 : -ratioAngle;
+    innerLinkDirection = right ? 90 : -90;
+    innerLinkPosition = right ? 90 - ratioAngle : 0;
+
     rotateZ(ratioAngle / 2) {
-        rotateZ(-ratioAngle) {
+        rotateZ(outerLinkPosition) {
             translateY(radius) {
-                barrierLink(
-                    height = linkHeight - printResolution,
-                    base = base
-                );
+                rotateZ(outerLinkDirection) {
+                    barrierLink(
+                        height = linkHeight - printResolution,
+                        base = base
+                    );
+                }
             }
         }
         difference() {
@@ -114,13 +122,15 @@ module curvedBarrierHolder(length, thickness, base, strip, indent, distance = 0,
                     );
                 }
             }
-            translate([radius, 0, -1]) {
-                rotateZ(-90) {
-                    barrierLink(
-                        height = linkHeight + printResolution + 1,
-                        base = base,
-                        distance = distance
-                    );
+            rotateZ(innerLinkPosition) {
+                translate([radius, 0, -1]) {
+                    rotateZ(innerLinkDirection) {
+                        barrierLink(
+                            height = linkHeight + printResolution + 1,
+                            base = base,
+                            distance = distance
+                        );
+                    }
                 }
             }
             translateZ(minThickness) {

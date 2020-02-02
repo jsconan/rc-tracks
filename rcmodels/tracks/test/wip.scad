@@ -134,6 +134,18 @@ applyMode(mode=renderMode) {
                 distance = distance
             );
 
+            // test the barrier holder shape for a straight track element
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                strip = strip,
+                indent = indent,
+                distance = distance,
+                ratio = 1,
+                right = true
+            );
+
             // test the barrier link profile
             barrierLinkProfile(
                 base = base,
@@ -164,7 +176,8 @@ applyMode(mode=renderMode) {
                 strip = strip,
                 indent = indent,
                 distance = distance,
-                ratio = 1
+                ratio = 1,
+                right = false
             );
 
         }
