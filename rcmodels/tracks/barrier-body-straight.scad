@@ -40,9 +40,7 @@ applyMode(mode=renderMode) {
         length = trackSectionSize,
         height = barrierHeight,
         thickness = barrierBodyThickness,
-        base = barrierLinkBase,
-        strip = barrierStripHeight,
-        indent = barrierStripIndent,
+        base = barrierHolderBase,
         notches = 2,
         tolerance = printTolerance
     );

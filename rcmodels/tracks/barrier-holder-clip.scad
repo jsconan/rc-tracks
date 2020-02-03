@@ -37,10 +37,9 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     wireClip(
-        wall = wireClipWall,
-        height = wireClipThickness,
-        base = barrierLinkBase,
-        strip = barrierStripHeight,
+        wall = wireClipThickness,
+        height = wireClipWidth,
+        base = barrierHolderBase,
         thickness = barrierBodyThickness,
         tolerance = printTolerance
     );

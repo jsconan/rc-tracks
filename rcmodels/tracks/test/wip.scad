@@ -40,8 +40,6 @@ applyMode(mode=renderMode) {
     thickness = 0.6;
     wall = 0.8;
     clip = 2;
-    strip = 6;
-    indent = 1;
     base = 2;
     tolerance = 0.1;
 
@@ -53,8 +51,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance
             );
 
@@ -64,8 +60,6 @@ applyMode(mode=renderMode) {
                 height = height,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 notches = 2,
                 tolerance = tolerance
             );
@@ -83,7 +77,6 @@ applyMode(mode=renderMode) {
                 wall = wall,
                 height = clip,
                 base = base,
-                strip = strip,
                 thickness = thickness,
                 tolerance = tolerance
             );
@@ -94,7 +87,6 @@ applyMode(mode=renderMode) {
                     wall = base,
                     height = height,
                     base = base,
-                    strip = strip,
                     thickness = thickness,
                     tolerance = tolerance
                 );
@@ -106,8 +98,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 height = height,
                 base = base,
-                strip = strip,
-                indent = indent,
                 thickness = thickness,
                 tolerance = tolerance,
                 right = false
@@ -119,8 +109,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 height = height,
                 base = base,
-                strip = strip,
-                indent = indent,
                 thickness = thickness,
                 tolerance = tolerance,
                 right = true
@@ -132,8 +120,6 @@ applyMode(mode=renderMode) {
                 height = height,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 notches = 1,
                 tolerance = tolerance
             );
@@ -142,8 +128,6 @@ applyMode(mode=renderMode) {
             barrierNotch(
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance,
                 interval = length,
                 count = 2,
@@ -157,7 +141,6 @@ applyMode(mode=renderMode) {
             wireClipProfile(
                 wall = wall,
                 base = base,
-                strip = strip,
                 thickness = thickness,
                 tolerance = tolerance
             );
@@ -166,7 +149,6 @@ applyMode(mode=renderMode) {
             barrierHolderOutline(
                 wall = wall,
                 base = base,
-                strip = strip,
                 thickness = thickness,
                 tolerance = tolerance,
                 distance = 0
@@ -177,8 +159,6 @@ applyMode(mode=renderMode) {
                 radius = length,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance
             );
 
@@ -188,7 +168,6 @@ applyMode(mode=renderMode) {
                     wall = wall,
                     height = height,
                     base = base,
-                    strip = strip,
                     thickness = thickness,
                     tolerance = tolerance
                 );
@@ -199,8 +178,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance,
                 ratio = 1,
                 right = true
@@ -215,15 +192,12 @@ applyMode(mode=renderMode) {
             // test the barrier notch profile
             barrierNotchProfile(
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance
             );
 
             // test the barrier holder profile
             barrierHolderProfile(
                 base = base,
-                strip = strip,
                 thickness = thickness,
                 tolerance = tolerance
             );
@@ -233,8 +207,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                strip = strip,
-                indent = indent,
                 tolerance = tolerance,
                 ratio = 1,
                 right = false

@@ -39,9 +39,7 @@ applyMode(mode=renderMode) {
     curvedBarrierHolder(
         length = trackSectionSize,
         thickness = barrierBodyThickness,
-        base = barrierLinkBase,
-        strip = barrierStripHeight,
-        indent = barrierStripIndent,
+        base = barrierHolderBase,
         tolerance = printTolerance,
         ratio = 1,
         right = true

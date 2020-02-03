@@ -36,25 +36,21 @@ include <config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    distribute([0, getBarrierHolderWidth(barrierLinkBase, printTolerance) * 2, 0], center=true) {
+    distribute([0, getBarrierHolderWidth(barrierHolderBase, printTolerance) * 2, 0], center=true) {
         archTowerWidthHolder(
-            wall = archTowerWall,
+            wall = archTowerThickness,
             length = trackSectionSize,
             height = barrierHeight,
-            base = barrierLinkBase,
-            strip = barrierStripHeight,
-            indent = barrierStripIndent,
+            base = barrierHolderBase,
             thickness = barrierBodyThickness,
             tolerance = printTolerance,
             right = false
         );
         archTowerWidthHolder(
-            wall = archTowerWall,
+            wall = archTowerThickness,
             length = trackSectionSize,
             height = barrierHeight,
-            base = barrierLinkBase,
-            strip = barrierStripHeight,
-            indent = barrierStripIndent,
+            base = barrierHolderBase,
             thickness = barrierBodyThickness,
             tolerance = printTolerance,
             right = true

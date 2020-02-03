@@ -30,36 +30,50 @@
  */
 
 /**
- * Alligns a value with respect to the target layer height
+ * Alligns a value with respect to the target layer height.
  * @param Number value
  * @returns Number
  */
 function layerAligned(value) = roundBy(value, printResolution);
 
 /**
- * Alligns a value with respect to the target nozzle size
+ * Alligns a value with respect to the target nozzle size.
  * @param Number value
  * @returns Number
  */
 function nozzleAligned(value) = roundBy(value, nozzleWidth);
 
 /**
- * Gets the thickness of N layers
+ * Gets the thickness of N layers.
  * @param Number N
  * @returns Number
  */
 function layers(N) = N * printResolution;
 
 /**
- * Gets the width of N times the nozzle width
+ * Gets the width of N times the nozzle width.
  * @param Number N
  * @returns Number
  */
 function shells(N) = N * nozzleWidth;
 
 /**
+ * Computes the height of the barrier body part that will be inserted in the holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierStripHeight(base) = base * barrierStripHeightRatio;
+
+/**
+ * Computes the indent of the barrier body strip.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierStripIndent(base) = base * barrierStripIndentRatio;
+
+/**
  * Computes the outer length of a barrier link.
- * @param Number base - The base value used to design the barrier link.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
@@ -67,7 +81,7 @@ function getBarrierLinkLength(base, tolerance = 0) = base * 1.5 + tolerance;
 
 /**
  * Computes the outer width of a barrier link.
- * @param Number base - The base value used to design the barrier link.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
@@ -75,25 +89,23 @@ function getBarrierLinkWidth(base, tolerance = 0) = (base + tolerance) * 2;
 
 /**
  * Computes the outer width of a barrier holder notch.
- * @param Number base - The base value used to design the barrier link.
- * @param Number indent - The indent of the barrier body strip.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
-function getBarrierNotchWidth(base, indent, tolerance = 0) = (getBarrierLinkWidth(base, tolerance) + indent + minWidth) * 2;
+function getBarrierNotchWidth(base, tolerance = 0) = (getBarrierLinkWidth(base, tolerance) + getBarrierStripIndent(base) + minWidth) * 2;
 
 /**
  * Computes the inner width of a barrier holder notch.
- * @param Number base - The base value used to design the barrier link.
- * @param Number indent - The indent of the barrier body strip.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
-function getBarrierNotchDistance(base, indent, tolerance = 0) = (getBarrierLinkWidth(base, tolerance) + minWidth) * 2;
+function getBarrierNotchDistance(base, tolerance = 0) = (getBarrierLinkWidth(base, tolerance) + minWidth) * 2;
 
 /**
  * Computes the outer width of a barrier holder.
- * @param Number base - The base value used to design the barrier link.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
@@ -101,18 +113,17 @@ function getBarrierHolderWidth(base, tolerance = 0) = getBarrierLinkWidth(base, 
 
 /**
  * Computes the outer height of a barrier holder.
- * @param Number strip - The height of the barrier body part that will be inserted in the holder.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
-function getBarrierHolderHeight(strip) = strip + minThickness + printResolution;
+function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
 
 /**
  * Computes the inner height of the barrier body, between the barrier holders.
  * @param Number height - The height of the barrier.
- * @param Number strip - The height of the barrier body part that will be inserted in the holder.
  * @returns Number
  */
-function getBarrierBodyInnerHeight(height, strip) = height - strip * 2;
+function getBarrierBodyInnerHeight(height, base) = height - getBarrierStripHeight(base) * 2;
 
 /**
  * Computes the outer height of the barrier body, taking care of the barrier holders.
@@ -129,7 +140,7 @@ function getBarrierBodyHeight(height) = height - (minThickness + printResolution
 function getCurveLength(length) = getArcLength(radius = length, angle = 90);
 
 /**
- * Gets the difference between the length of a curved track element chunk and a straight track element
+ * Gets the difference between the length of a curved track element chunk and a straight track element.
  * @param Number length - The length of the track element.
  * @returns Number
  */
@@ -137,12 +148,11 @@ function getCurveRemainingLength(length) = getCurveLength(length) - length;
 
 /**
  * Computes the minimal length of a track element.
- * @param Number base - The base value used to design the barrier link.
- * @param Number indent - The indent of the barrier body strip.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
-function getMinLength(base, indent, tolerance = 0) = getBarrierNotchWidth(base, indent, tolerance) * 4;
+function getMinLength(base, tolerance = 0) = getBarrierNotchWidth(base, tolerance) * 4;
 
 
 // The minimal thickness of a part
@@ -151,9 +161,13 @@ minThickness = layers(2);
 // The minimal width of a part
 minWidth = shells(2);
 
+// The ratios applied to the base unit value used to design the barrier holder
+barrierStripHeightRatio = 3;
+barrierStripIndentRatio = 0.5;
+
 // The minimal size for a track element
-minTrackSectionSize = getBarrierNotchWidth(barrierLinkBase, barrierStripIndent, printTolerance) * 4;
-minBarrierHeight = barrierStripHeight * 3;
+minTrackSectionSize = getBarrierNotchWidth(barrierHolderBase, printTolerance) * 4;
+minBarrierHeight = getBarrierStripHeight(barrierHolderBase) * 3;
 
 // Validate the critical constraints
 assert(

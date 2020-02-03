@@ -40,9 +40,7 @@ applyMode(mode=renderMode) {
         length = getCurveRemainingLength(trackSectionSize),
         height = barrierHeight,
         thickness = barrierBodyThickness,
-        base = barrierLinkBase,
-        strip = barrierStripHeight,
-        indent = barrierStripIndent,
+        base = barrierHolderBase,
         notches = 1,
         tolerance = printTolerance
     );
