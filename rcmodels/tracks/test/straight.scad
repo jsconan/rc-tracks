@@ -35,7 +35,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], center=true) {
+    distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], line=3, center=true) {
 
         // test the barrier link shape
         barrierLink(
@@ -62,6 +62,13 @@ applyMode(mode=mode) {
             thickness = thickness,
             base = base,
             notches = 2
+        );
+
+        // test the main shape of the barrier holder for a straight track element
+        straightBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base
         );
 
         // test the barrier body shape for the remaing of a curve

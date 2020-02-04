@@ -77,20 +77,19 @@ module barrierNotchCurved(radius, thickness, base, distance = 0) {
 }
 
 /**
- * Draws the barrier holder for a straight track element.
+ * Draws the main shape of a barrier holder for a curved track element.
  * @param Number length - The length of the element.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number ratio - The ratio to apply on the radius
  * @param Number right - Is the curve oriented to the right?
  */
-module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
+module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
     ratioAngle = defaultAngle - angle;
     linkHeight = getBarrierHolderHeight(base) - base;
-    thickness = thickness + printTolerance;
 
     outerLinkDirection = right ? 180 : 0;
     outerLinkPosition = right ? 270 : -ratioAngle;
@@ -128,31 +127,57 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
                     }
                 }
             }
-            translateZ(minThickness) {
-                difference() {
-                    pipeSegment(
-                        r = radius + thickness / 2,
-                        h = linkHeight * 2,
-                        w = thickness,
-                        a = angle
+        }
+    }
+}
+
+/**
+ * Draws the barrier holder for a curved track element.
+ * @param Number length - The length of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number ratio - The ratio to apply on the radius
+ * @param Number right - Is the curve oriented to the right?
+ */
+module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
+    radius = length * ratio;
+    defaultAngle = 90;
+    angle = defaultAngle / ratio;
+    linkHeight = getBarrierHolderHeight(base) - base;
+    thickness = thickness + printTolerance;
+
+    difference() {
+        curvedBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = ratio,
+            right = right
+        );
+        translateZ(minThickness) {
+            difference() {
+                pipeSegment(
+                    r = radius + thickness / 2,
+                    h = linkHeight * 2,
+                    w = thickness,
+                    a = angle
+                );
+
+                arcAngle = getArcAngle(radius = radius, length = length / 2);
+                angles = [
+                    [0, 0, 0],
+                    [0, 0, arcAngle],
+                    [0, 0, angle - arcAngle],
+                    [0, 0, angle]
+                ];
+
+                repeatRotateMap(angles) {
+                    barrierNotchCurved(
+                        radius = radius,
+                        thickness = thickness * 2,
+                        base = base,
+                        distance = printTolerance / 2
                     );
-
-                    arcAngle = getArcAngle(radius = radius, length = length / 2);
-                    angles = [
-                        [0, 0, 0],
-                        [0, 0, arcAngle],
-                        [0, 0, angle - arcAngle],
-                        [0, 0, angle]
-                    ];
-
-                    repeatRotateMap(angles) {
-                        barrierNotchCurved(
-                            radius = radius,
-                            thickness = thickness * 2,
-                            base = base,
-                            distance = printTolerance / 2
-                        );
-                    }
                 }
             }
         }

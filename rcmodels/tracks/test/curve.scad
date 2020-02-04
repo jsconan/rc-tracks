@@ -35,7 +35,47 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distributeRotate(center=true) {
+    distribute(intervalY=length * 3, center=true) {
+
+        distributeRotate(center=true) {
+
+            // test the main shape of a barrier holder for a curved track element, right turned
+            curvedBarrierMain(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 1,
+                right = true
+            );
+
+            // test the main shape of a barrier holder for a curved track element with a ratio of 2, right turned
+            curvedBarrierMain(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 2,
+                right = true
+            );
+
+            // test the main shape of a barrier holder for a curved track element, left turned
+            curvedBarrierMain(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 1,
+                right = false
+            );
+
+            // test the main shape of a barrier holder for a curved track element with a ratio of 2, left turned
+            curvedBarrierMain(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 2,
+                right = false
+            );
+
+        }
 
         // test the barrier notch shape for a curved track element
         barrierNotchCurved(
@@ -45,41 +85,45 @@ applyMode(mode=mode) {
             distance = tolerance
         );
 
-        // test the barrier holder shape for a curved track element, right turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 1,
-            right = true
-        );
+        distributeRotate(center=true) {
 
-        // test the barrier holder shape for a curved track element with a ratio of 2, right turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 2,
-            right = true
-        );
+            // test the barrier holder shape for a curved track element, right turned
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 1,
+                right = true
+            );
 
-        // test the barrier holder shape for a curved track element, left turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 1,
-            right = false
-        );
+            // test the barrier holder shape for a curved track element with a ratio of 2, right turned
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 2,
+                right = true
+            );
 
-        // test the barrier holder shape for a curved track element with a ratio of 2, left turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 2,
-            right = false
-        );
+            // test the barrier holder shape for a curved track element, left turned
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 1,
+                right = false
+            );
+
+            // test the barrier holder shape for a curved track element with a ratio of 2, left turned
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 2,
+                right = false
+            );
+
+        }
 
     }
 }
