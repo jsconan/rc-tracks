@@ -143,6 +143,7 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
+    ratioAngle = defaultAngle - angle;
     linkHeight = getBarrierHolderHeight(base) - base;
     thickness = thickness + printTolerance;
 
@@ -154,30 +155,32 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
             ratio = ratio,
             right = right
         );
-        translateZ(minThickness) {
-            difference() {
-                pipeSegment(
-                    r = radius + thickness / 2,
-                    h = linkHeight * 2,
-                    w = thickness,
-                    a = angle
-                );
+        rotateZ(ratioAngle / 2) {
+            translateZ(minThickness) {
+                difference() {
+                    pipeSegment(
+                        r = radius + thickness / 2,
+                        h = linkHeight * 2,
+                        w = thickness,
+                        a = angle
+                    );
 
-                arcAngle = getArcAngle(radius = radius, length = length / 2);
-                angles = [
+                    arcAngle = getArcAngle(radius = radius, length = length / 2);
+                    angles = [
                     [0, 0, 0],
                     [0, 0, arcAngle],
                     [0, 0, angle - arcAngle],
                     [0, 0, angle]
-                ];
+                    ];
 
-                repeatRotateMap(angles) {
-                    barrierNotchCurved(
-                        radius = radius,
-                        thickness = thickness * 2,
-                        base = base,
-                        distance = printTolerance / 2
-                    );
+                    repeatRotateMap(angles) {
+                        barrierNotchCurved(
+                            radius = radius,
+                            thickness = thickness * 2,
+                            base = base,
+                            distance = printTolerance / 2
+                        );
+                    }
                 }
             }
         }
