@@ -40,7 +40,6 @@ applyMode(mode=renderMode) {
         wall = wireClipThickness,
         height = wireClipWidth,
         base = barrierHolderBase,
-        thickness = barrierBodyThickness,
-        tolerance = printTolerance
+        thickness = barrierBodyThickness
     );
 }

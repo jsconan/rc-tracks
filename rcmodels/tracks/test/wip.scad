@@ -50,8 +50,7 @@ applyMode(mode=renderMode) {
             straightBarrierHolder(
                 length = length,
                 thickness = thickness,
-                base = base,
-                tolerance = tolerance
+                base = base
             );
 
             // test the barrier body shape
@@ -60,15 +59,14 @@ applyMode(mode=renderMode) {
                 height = height,
                 thickness = thickness,
                 base = base,
-                notches = 2,
-                tolerance = tolerance
+                notches = 2
             );
 
             // test the barrier link shape
             barrierLink(
                 height = 5,
                 base = base,
-                tolerance = tolerance,
+                distance = tolerance,
                 center = false
             );
 
@@ -77,8 +75,7 @@ applyMode(mode=renderMode) {
                 wall = wall,
                 height = clip,
                 base = base,
-                thickness = thickness,
-                tolerance = tolerance
+                thickness = thickness
             );
 
             // test the arch tower shape
@@ -87,8 +84,7 @@ applyMode(mode=renderMode) {
                     wall = base,
                     height = height,
                     base = base,
-                    thickness = thickness,
-                    tolerance = tolerance
+                    thickness = thickness
                 );
             }
 
@@ -99,7 +95,6 @@ applyMode(mode=renderMode) {
                 height = height,
                 base = base,
                 thickness = thickness,
-                tolerance = tolerance,
                 right = false
             );
 
@@ -110,7 +105,6 @@ applyMode(mode=renderMode) {
                 height = height,
                 base = base,
                 thickness = thickness,
-                tolerance = tolerance,
                 right = true
             );
 
@@ -120,15 +114,14 @@ applyMode(mode=renderMode) {
                 height = height,
                 thickness = thickness,
                 base = base,
-                notches = 1,
-                tolerance = tolerance
+                notches = 1
             );
 
             // test the barrier notch shape for a straight track element
             barrierNotch(
                 thickness = thickness,
                 base = base,
-                tolerance = tolerance,
+                distance = tolerance,
                 interval = length,
                 count = 2,
                 center = true
@@ -141,8 +134,7 @@ applyMode(mode=renderMode) {
             wireClipProfile(
                 wall = wall,
                 base = base,
-                thickness = thickness,
-                tolerance = tolerance
+                thickness = thickness
             );
 
             // test the barrier holder outline
@@ -150,7 +142,6 @@ applyMode(mode=renderMode) {
                 wall = wall,
                 base = base,
                 thickness = thickness,
-                tolerance = tolerance,
                 distance = 0
             );
 
@@ -159,7 +150,7 @@ applyMode(mode=renderMode) {
                 radius = length,
                 thickness = thickness,
                 base = base,
-                tolerance = tolerance
+                distance = tolerance
             );
 
             // test the arch tower profile
@@ -168,8 +159,7 @@ applyMode(mode=renderMode) {
                     wall = wall,
                     height = height,
                     base = base,
-                    thickness = thickness,
-                    tolerance = tolerance
+                    thickness = thickness
                 );
             }
 
@@ -178,7 +168,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                tolerance = tolerance,
                 ratio = 1,
                 right = true
             );
@@ -186,20 +175,19 @@ applyMode(mode=renderMode) {
             // test the barrier link profile
             barrierLinkProfile(
                 base = base,
-                tolerance = tolerance
+                distance = tolerance
             );
 
             // test the barrier notch profile
             barrierNotchProfile(
                 base = base,
-                tolerance = tolerance
+                distance = tolerance
             );
 
             // test the barrier holder profile
             barrierHolderProfile(
                 base = base,
-                thickness = thickness,
-                tolerance = tolerance
+                thickness = thickness
             );
 
             // test the barrier holder shape for a curved track element, left turned
@@ -207,7 +195,6 @@ applyMode(mode=renderMode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                tolerance = tolerance,
                 ratio = 1,
                 right = false
             );

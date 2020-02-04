@@ -34,10 +34,10 @@
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the barrier link.
  */
-module barrierNotchCurved(radius, thickness, base, tolerance = 0) {
-    width = getBarrierNotchWidth(base, tolerance);
+module barrierNotchCurved(radius, thickness, base, distance = 0) {
+    width = getBarrierNotchWidth(base, distance);
     strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
     height = strip - indent;
@@ -81,17 +81,16 @@ module barrierNotchCurved(radius, thickness, base, tolerance = 0) {
  * @param Number length - The length of the element.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Number ratio - The ratio to apply on the radius
  * @param Number right - Is the curve oriented to the right?
  */
-module curvedBarrierHolder(length, thickness, base, tolerance = 0, ratio = 1, right = false) {
+module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
     radius = length * ratio;
     defaultAngle = 90;
     angle = defaultAngle / ratio;
     ratioAngle = defaultAngle - angle;
     linkHeight = getBarrierHolderHeight(base) - base;
-    thickness = thickness + tolerance;
+    thickness = thickness + printTolerance;
 
     outerLinkDirection = right ? 180 : 0;
     outerLinkPosition = right ? 270 : -ratioAngle;
@@ -114,8 +113,7 @@ module curvedBarrierHolder(length, thickness, base, tolerance = 0, ratio = 1, ri
                 translateX(radius) {
                     barrierHolderProfile(
                         base = base,
-                        thickness = thickness,
-                        tolerance = tolerance
+                        thickness = thickness
                     );
                 }
             }
@@ -125,7 +123,7 @@ module curvedBarrierHolder(length, thickness, base, tolerance = 0, ratio = 1, ri
                         barrierLink(
                             height = linkHeight + printResolution + 1,
                             base = base,
-                            tolerance = tolerance
+                            distance = printTolerance
                         );
                     }
                 }
@@ -152,7 +150,7 @@ module curvedBarrierHolder(length, thickness, base, tolerance = 0, ratio = 1, ri
                             radius = radius,
                             thickness = thickness * 2,
                             base = base,
-                            tolerance = tolerance / 2
+                            distance = printTolerance / 2
                         );
                     }
                 }

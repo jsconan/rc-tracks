@@ -32,10 +32,10 @@
 /**
  * Computes the points defining the profile of a barrier link.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the barrier link.
  * @returns Vector[]
  */
-function getBarrierLinkPoints(base, tolerance = 0) =
+function getBarrierLinkPoints(base, distance = 0) =
     let(
         half = base / 2
     )
@@ -46,31 +46,31 @@ function getBarrierLinkPoints(base, tolerance = 0) =
         ["V", -base],
         ["C", [half, half], 180, 360],
         ["H", base],
-    ]), tolerance)
+    ]), distance)
 ;
 
 /**
  * Draws the profile of a barrier link.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the barrier link.
  */
-module barrierLinkProfile(base, tolerance = 0) {
+module barrierLinkProfile(base, distance = 0) {
     polygon(getBarrierLinkPoints(
         base = base,
-        tolerance = tolerance
+        distance = distance
     ));
 }
 
 /**
  * Computes the points defining the profile of a barrier holder notch.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the barrier link.
  * @returns Vector[]
  */
-function getBarrierNotchPoints(base, tolerance = 0) =
+function getBarrierNotchPoints(base, distance = 0) =
     let(
-        width = getBarrierNotchWidth(base, tolerance),
-        top = getBarrierNotchDistance(base, tolerance),
+        width = getBarrierNotchWidth(base, distance),
+        top = getBarrierNotchDistance(base, distance),
         strip = getBarrierStripHeight(base),
         indent = getBarrierStripIndent(base),
         height = strip - indent
@@ -88,12 +88,12 @@ function getBarrierNotchPoints(base, tolerance = 0) =
 /**
  * Draws the profile of a barrier holder notch.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
+ * @param Number [distance] - An additional distance added to the outline of the barrier link.
  */
-module barrierNotchProfile(base, tolerance = 0) {
+module barrierNotchProfile(base, distance = 0) {
     polygon(getBarrierNotchPoints(
         base = base,
-        tolerance = tolerance
+        distance = distance
     ));
 }
 
@@ -101,14 +101,13 @@ module barrierNotchProfile(base, tolerance = 0) {
  * Computes the points defining the profile of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @returns Vector[]
  */
-function getBarrierHolderPoints(base, thickness, tolerance = 0) =
+function getBarrierHolderPoints(base, thickness) =
     let(
-        linkWidth = getBarrierLinkWidth(base, tolerance),
+        linkWidth = getBarrierLinkWidth(base, printTolerance),
         top = nozzleAligned((linkWidth - thickness) / 2) * 2 + thickness,
-        width = getBarrierHolderWidth(base, tolerance),
+        width = getBarrierHolderWidth(base),
         height = getBarrierHolderHeight(base),
         lineW = (width - top) / 2,
         lineH = height - base,
@@ -132,13 +131,11 @@ function getBarrierHolderPoints(base, thickness, tolerance = 0) =
  * Draws the profile of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module barrierHolderProfile(base, thickness, tolerance = 0) {
+module barrierHolderProfile(base, thickness) {
     polygon(getBarrierHolderPoints(
         base = base,
-        thickness = thickness,
-        tolerance = tolerance
+        thickness = thickness
     ));
 }
 
@@ -147,16 +144,14 @@ module barrierHolderProfile(base, thickness, tolerance = 0) {
  * @param Number wall - The thickness of the outline.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierHolderOutline(wall, base, thickness, tolerance = 0, distance = 0) {
+module barrierHolderOutline(wall, base, thickness, distance = 0) {
     translateY(wall) {
         difference() {
             profile = outline(getBarrierHolderPoints(
                 base = base,
-                thickness = thickness,
-                tolerance = tolerance
+                thickness = thickness
             ), -distance);
 
             polygon(outline(profile, -wall));
@@ -170,10 +165,9 @@ module barrierHolderOutline(wall, base, thickness, tolerance = 0, distance = 0) 
  * @param Number wall - The thickness of the outline.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module wireClipProfile(wall, base, thickness, tolerance = 0) {
-    holderWidth = getBarrierHolderWidth(base, tolerance) + wall * 2;
+module wireClipProfile(wall, base, thickness) {
+    holderWidth = getBarrierHolderWidth(base) + wall * 2;
     holderHeight = getBarrierHolderHeight(base);
 
     difference() {
@@ -181,7 +175,6 @@ module wireClipProfile(wall, base, thickness, tolerance = 0) {
             wall = wall,
             base = base,
             thickness = thickness,
-            tolerance = tolerance,
             distance = 0
         );
 
@@ -208,12 +201,11 @@ module wireClipProfile(wall, base, thickness, tolerance = 0) {
  * @param Number height - The height of the barrier.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number [tolerance] - An additional distance added to the outline of the barrier link.
  */
-module archTowerProfile(wall, height, base, thickness, tolerance = 0) {
-    holderHeight = getBarrierHolderHeight(base) + wall + tolerance;
+module archTowerProfile(wall, height, base, thickness) {
+    holderHeight = getBarrierHolderHeight(base) + wall + printTolerance;
     bodyHeight = getBarrierBodyInnerHeight(height, base);
-    towerWidth = thickness + tolerance + wall * 2;
+    towerWidth = thickness + printTolerance + wall * 2;
     offset = holderHeight + bodyHeight / 2;
 
     difference() {
@@ -222,8 +214,7 @@ module archTowerProfile(wall, height, base, thickness, tolerance = 0) {
                 wall = wall,
                 base = base,
                 thickness = thickness,
-                tolerance = tolerance,
-                distance = tolerance
+                distance = printTolerance
             );
             translateY(offset) {
                 rectangle([towerWidth, bodyHeight]);
@@ -231,7 +222,7 @@ module archTowerProfile(wall, height, base, thickness, tolerance = 0) {
         }
 
         translateY(offset) {
-            rectangle([thickness + tolerance, bodyHeight + wall]);
+            rectangle([thickness + printTolerance, bodyHeight + wall]);
         }
     }
 }

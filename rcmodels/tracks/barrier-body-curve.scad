@@ -41,7 +41,6 @@ applyMode(mode=renderMode) {
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        notches = 1,
-        tolerance = printTolerance
+        notches = 1
     );
 }

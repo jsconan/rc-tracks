@@ -40,7 +40,6 @@ applyMode(mode=renderMode) {
         length = trackSectionSize,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        tolerance = printTolerance,
         ratio = 1,
         right = true
     );
