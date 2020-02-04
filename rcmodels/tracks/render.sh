@@ -31,6 +31,7 @@
 # application params
 trackSectionSize=
 barrierHeight=
+sampleSize=
 
 # script config
 scriptpath=$(dirname $0)
@@ -51,6 +52,10 @@ while (( "$#" )); do
             barrierHeight=$2
             shift
         ;;
+        "-s"|"--sample")
+            sampleSize=$2
+            shift
+        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
@@ -59,6 +64,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
             echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo
             exit 0
         ;;
@@ -80,4 +86,5 @@ scadcheck
 # render the files, if exist
 scadtostlall "${srcpath}" "${dstpath}" "" \
     "$(varif "trackSectionSize" ${trackSectionSize})" \
-    "$(varif "barrierHeight" ${barrierHeight})"
+    "$(varif "barrierHeight" ${barrierHeight})" \
+    "$(varif "sampleSize" ${sampleSize})"
