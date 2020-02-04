@@ -23,9 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for a curved track part, left turned.
- * Ratio of 1: you need 4 elements to draw a full circle,
- * the radius being 1x the size of an element.
+ * A barrier holder for a curved track part, outer curve, left turned.
  *
  * @author jsconan
  * @version 0.2.0
@@ -42,7 +40,7 @@ applyMode(mode=renderMode) {
         length = trackSectionSize,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 1,
+        ratio = trackCurveRatio,
         right = false
     );
 }

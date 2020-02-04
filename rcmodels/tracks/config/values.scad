@@ -163,6 +163,9 @@ minWidth = shells(2);
 barrierStripHeightRatio = 3;
 barrierStripIndentRatio = 0.5;
 
+// The ratio of the outer curve with respect to the track width
+trackCurveRatio = (trackWidth + trackSectionSize) / trackSectionSize;
+
 // The minimal size for a track element
 minTrackSectionSize = getBarrierNotchWidth(barrierHolderBase, printTolerance) * 4;
 minBarrierHeight = getBarrierStripHeight(barrierHolderBase) * 3;
@@ -185,4 +188,12 @@ assert(
         ". The current value is ",
         barrierHeight
     )
+);
+assert(
+    trackWidth > trackSectionSize,
+    "The width of the track must greater than the length of one element!"
+);
+assert(
+    trackWidth % trackSectionSize == 0,
+    "The width of the track must be a multiple of the length of one element!"
 );

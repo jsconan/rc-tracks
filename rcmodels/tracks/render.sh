@@ -31,6 +31,7 @@
 # application params
 trackSectionSize=
 barrierHeight=
+trackWidth=
 sampleSize=
 
 # script config
@@ -52,6 +53,10 @@ while (( "$#" )); do
             barrierHeight=$2
             shift
         ;;
+        "-t"|"--track")
+            trackWidth=$2
+            shift
+        ;;
         "-s"|"--sample")
             sampleSize=$2
             shift
@@ -64,6 +69,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
             echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of the track"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo
             exit 0
@@ -80,6 +86,11 @@ while (( "$#" )); do
     shift
 done
 
+# allign values
+if [ "${trackSectionSize}" != "" ] && [ "${trackWidth}" == "" ]; then
+    trackWidth=$((${trackSectionSize} * 2))
+fi
+
 # check OpenSCAD
 scadcheck
 
@@ -87,4 +98,5 @@ scadcheck
 scadtostlall "${srcpath}" "${dstpath}" "" \
     "$(varif "trackSectionSize" ${trackSectionSize})" \
     "$(varif "barrierHeight" ${barrierHeight})" \
+    "$(varif "trackWidth" ${trackWidth})" \
     "$(varif "sampleSize" ${sampleSize})"

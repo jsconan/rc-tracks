@@ -23,9 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A sample for a curved track part, left turned.
- * Ratio of 2: you need 8 elements to draw a full circle,
- * the radius being 2x the size of an element.
+ * A sample for a curved track part, outer curve, right turned.
  *
  * @author jsconan
  * @version 0.2.0
@@ -42,7 +40,7 @@ applyMode(mode=renderMode) {
         length = sampleSize,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 2,
-        right = false
+        ratio = trackCurveRatio,
+        right = true
     );
 }
