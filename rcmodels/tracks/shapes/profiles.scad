@@ -106,12 +106,12 @@ module barrierNotchProfile(base, distance = 0) {
 function getBarrierHolderPoints(base, thickness) =
     let(
         linkWidth = getBarrierLinkWidth(base, printTolerance),
-        top = nozzleAligned((linkWidth - thickness) / 2) * 2 + thickness,
+        top = getBarrierHolderTopWidth(base, thickness),
         width = getBarrierHolderWidth(base),
         height = getBarrierHolderHeight(base),
+        offset = getBarrierHolderOffset(base),
         lineW = (width - top) / 2,
-        lineH = height - base,
-        offset = printResolution * 2
+        lineH = height - base
     )
     path([
         ["P", -width / 2 + offset, 0],

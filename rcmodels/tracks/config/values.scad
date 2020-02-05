@@ -111,11 +111,26 @@ function getBarrierNotchDistance(base, distance = 0) = (getBarrierLinkWidth(base
 function getBarrierHolderWidth(base) = getBarrierLinkWidth(base, printTolerance) + minWidth * 4;
 
 /**
+ * Computes the top width of a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @returns Number
+ */
+function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLinkWidth(base, printTolerance) - thickness) / 2) * 2 + thickness;
+
+/**
  * Computes the outer height of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
 function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
+
+/**
+ * Computes the offset applied to the outline of the barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierHolderOffset(base) = base / 4;
 
 /**
  * Computes the inner height of the barrier body, between the barrier holders.
