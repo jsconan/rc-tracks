@@ -218,6 +218,30 @@ module validateConfig(length, width, height, base) {
     );
 }
 
+/**
+ * Prinnt the config values.
+ * @param Number length - The nominal size of a track element.
+ * @param Number width - The width of track lane.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module printConfig(length, width, height, base) {
+    echo(str("----------"));
+    echo(str("Track section size: ", length / 10, "cm"));
+    echo(str("Track lane width:   ", width / 10, "cm"));
+    echo(str("Curve length:       ", getCurveLength(length) / 10, "cm"));
+    echo(str("Outer curve ratio:  ", getOuterCurveRatio(length, width)));
+    echo(str("Barrier height:     ", height / 10, "cm"));
+    echo(str("Barrier base value: ", base, "mm"));
+    echo(str("Barrier thickness:  ", barrierBodyThickness, "mm"));
+    echo(str("Size of samples:    ", sampleSize / 10, "cm"));
+    echo(str("----------"));
+    echo(str("Nozzle diameter:    ", nozzleWidth, "mm"));
+    echo(str("Print layer:        ", printResolution, "mm"));
+    echo(str("Print tolerance:    ", printTolerance, "mm"));
+    echo(str("----------"));
+}
+
 // The minimal thickness of a part
 minThickness = layers(2);
 

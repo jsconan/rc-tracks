@@ -31,7 +31,7 @@
 # application params
 trackSectionSize=
 barrierHeight=
-trackWidth=
+trackLaneWidth=
 sampleSize=
 
 # script config
@@ -54,7 +54,7 @@ while (( "$#" )); do
             shift
         ;;
         "-t"|"--track")
-            trackWidth=$2
+            trackLaneWidth=$2
             shift
         ;;
         "-s"|"--sample")
@@ -87,8 +87,8 @@ while (( "$#" )); do
 done
 
 # allign values
-if [ "${trackSectionSize}" != "" ] && [ "${trackWidth}" == "" ]; then
-    trackWidth=$((${trackSectionSize} * 2))
+if [ "${trackSectionSize}" != "" ] && [ "${trackLaneWidth}" == "" ]; then
+    trackLaneWidth=$((${trackSectionSize} * 2))
 fi
 
 # check OpenSCAD
@@ -98,5 +98,5 @@ scadcheck
 scadtostlall "${srcpath}" "${dstpath}" "" \
     "$(varif "trackSectionSize" ${trackSectionSize})" \
     "$(varif "barrierHeight" ${barrierHeight})" \
-    "$(varif "trackWidth" ${trackWidth})" \
+    "$(varif "trackLaneWidth" ${trackLaneWidth})" \
     "$(varif "sampleSize" ${sampleSize})"

@@ -39,11 +39,11 @@ printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
 // The dimensions and constraints of a track element
 trackSectionSize = 200;     // The nominal size of a track element: the length for straight element, or the radius for a curved element
-trackWidth = 400;           // The width of track lane, i.e. the distance between the barriers
+trackLaneWidth = 400;       // The width of track lane, i.e. the distance between the barriers
 barrierHeight = 30;         // The height of the barrier, including the holders
 barrierHolderBase = 2;      // The base unit value used to design the barrier holder
 barrierBodyThickness = 0.6; // The thickness of the barrier body
-archTowerThickness = 1.6;   // The thickness of the arch tower wall
-wireClipThickness = .8;     // The thickness of the wire clips wall
-wireClipWidth = 2;          // The thickness of the wire clips
+archTowerThickness = 1.6;   // The thickness of the arch tower clip
+wireClipThickness = .8;     // The thickness of the wire clip
+wireClipWidth = 2;          // The width of the wire clip
 sampleSize = 20;            // The size for the sample track elements
