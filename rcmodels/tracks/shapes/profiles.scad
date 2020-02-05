@@ -161,13 +161,12 @@ module barrierHolderOutline(wall, base, thickness, distance = 0) {
 }
 
 /**
- * Draws the profile of a wire clip.
+ * Draws the profile of a clip for a barrier holder.
  * @param Number wall - The thickness of the outline.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  */
-module wireClipProfile(wall, base, thickness) {
-    holderWidth = getBarrierHolderWidth(base) + wall * 2;
+module clipProfile(wall, base, thickness) {
     holderHeight = getBarrierHolderHeight(base);
 
     difference() {
@@ -178,10 +177,26 @@ module wireClipProfile(wall, base, thickness) {
             distance = 0
         );
 
-        translateY(holderHeight) {
-            rectangle([thickness, wall * 2]);
+        translateY(holderHeight + wall * 1.5) {
+            rectangle([getBarrierHolderTopWidth(base, thickness), wall * 2]);
         }
     }
+}
+
+/**
+ * Draws the profile of a wire clip.
+ * @param Number wall - The thickness of the outline.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body.
+ */
+module wireClipProfile(wall, base, thickness) {
+    holderWidth = getBarrierHolderWidth(base) + wall * 2;
+
+    clipProfile(
+        wall = wall,
+        base = base,
+        thickness = thickness
+    );
     repeat(intervalX = holderWidth - wall, center = true) {
         translateY(base / 2) {
             rectangle([wall, base]);
@@ -193,36 +208,4 @@ module wireClipProfile(wall, base, thickness) {
         a = -180,
         $fn = 10
     );
-}
-
-/**
- * Draws the profile of an arch tower that will clamp a barrier border.
- * @param Number wall - The thickness of the outline.
- * @param Number height - The height of the barrier.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number thickness - The thickness of the barrier body.
- */
-module archTowerProfile(wall, height, base, thickness) {
-    holderHeight = getBarrierHolderHeight(base) + wall + printTolerance;
-    bodyHeight = getBarrierBodyInnerHeight(height, base);
-    towerWidth = thickness + printTolerance + wall * 2;
-    offset = holderHeight + bodyHeight / 2;
-
-    difference() {
-        union() {
-            barrierHolderOutline(
-                wall = wall,
-                base = base,
-                thickness = thickness,
-                distance = printTolerance
-            );
-            translateY(offset) {
-                rectangle([towerWidth, bodyHeight]);
-            }
-        }
-
-        translateY(offset) {
-            rectangle([thickness + printTolerance, bodyHeight + wall]);
-        }
-    }
 }

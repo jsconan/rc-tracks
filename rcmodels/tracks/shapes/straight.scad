@@ -166,6 +166,24 @@ module straightBarrierHolder(length, thickness, base) {
 }
 
 /**
+ * Draws the shape of a clip.
+ * @param Number wall - The thickness of the clip lines.
+ * @param Number height - The thickness of the clip.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Boolean [center] - The shape is centered vertically.
+ */
+module clip(wall, height, base, thickness, center = false) {
+    negativeExtrude(height=height, center=center) {
+        clipProfile(
+            wall = wall,
+            base = base,
+            thickness = thickness
+        );
+    }
+}
+
+/**
  * Draws the shape of a wire clip.
  * @param Number wall - The thickness of the wire clip lines.
  * @param Number height - The thickness of the clip.
@@ -186,41 +204,28 @@ module wireClip(wall, height, base, thickness, center = false) {
 /**
  * Draws the shape of an arch tower that will clamp a barrier border.
  * @param Number wall - The thickness of the outline.
- * @param Number height - The height of the barrier.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number thickness - The thickness of the barrier body.
- * @param Boolean [center] - The shape is centered vertically.
- */
-module archTower(wall, height, base, thickness, center = false) {
-    holderHeight = getBarrierHolderHeight(base);
-
-    negativeExtrude(height=holderHeight, center=center) {
-        archTowerProfile(
-            wall = wall,
-            height = height,
-            base = base,
-            thickness = thickness
-        );
-    }
-}
-
-/**
- * Draws the shape of an arch tower with the barrier holders.
- * @param Number wall - The thickness of the outline.
- * @param Number height - The length of a track element.
- * @param Number height - The height of the barrier.
+ * @param Number length - The length of a track element.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number right - Is it the right or the left part of the track element that is added to the tower?
  */
-module archTowerWidthHolder(wall, length, height, base, thickness, right = false) {
+module archTower(wall, length, base, thickness, right = false) {
+    holderHeight = getBarrierHolderHeight(base);
+    indent = getBarrierStripIndent(base);
+
     rotateZ(-90) {
-        archTower(
-            wall = wall,
-            height = height,
-            base = base,
-            thickness = thickness
-        );
+        difference() {
+            clip(
+                wall = wall,
+                height = holderHeight,
+                base = base,
+                thickness = thickness
+            );
+
+            translate([0, wall / 2, holderHeight - indent]) {
+                box([thickness, wall * 2, indent * 2]);
+            }
+        }
     }
     difference() {
         rotateZ(right ? 180 : 0) {

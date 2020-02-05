@@ -35,7 +35,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], center=true) {
+    distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], line=3, center=true) {
 
         // test the barrier link profile
         barrierLinkProfile(
@@ -63,6 +63,13 @@ applyMode(mode=mode) {
             distance = 0
         );
 
+        // test the barrier clip profile
+        clipProfile(
+            wall = wall,
+            base = base,
+            thickness = thickness
+        );
+
         // test the wire clip profile
         wireClipProfile(
             wall = wall,
@@ -70,15 +77,13 @@ applyMode(mode=mode) {
             thickness = thickness
         );
 
-        // test the arch tower profile
-        rotateZ(-90) {
-            archTowerProfile(
-                wall = wall,
-                height = height,
-                base = base,
-                thickness = thickness
-            );
-        }
+        // test the barrier notch shape for a curved track element
+        barrierNotchCurved(
+            radius = length,
+            thickness = thickness,
+            base = base,
+            distance = printTolerance
+        );
 
         // test the barrier notch shape for a straight track element
         barrierNotch(
@@ -88,14 +93,6 @@ applyMode(mode=mode) {
             interval = length,
             count = 2,
             center = true
-        );
-
-        // test the barrier notch shape for a curved track element
-        barrierNotchCurved(
-            radius = length,
-            thickness = thickness,
-            base = base,
-            distance = printTolerance
         );
 
     }
