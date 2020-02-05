@@ -69,7 +69,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
             echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
-            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of the track"
+            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of a track lane"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo
             exit 0

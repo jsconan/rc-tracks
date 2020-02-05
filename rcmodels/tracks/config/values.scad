@@ -62,14 +62,14 @@ function shells(N) = N * nozzleWidth;
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
-function getBarrierStripHeight(base) = base * barrierStripHeightRatio;
+function getBarrierStripHeight(base) = base * stripHeightRatio;
 
 /**
  * Computes the indent of the barrier body strip.
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
-function getBarrierStripIndent(base) = base * barrierStripIndentRatio;
+function getBarrierStripIndent(base) = base * stripIndentRatio;
 
 /**
  * Computes the outer length of a barrier link.
@@ -152,6 +152,56 @@ function getCurveRemainingLength(length) = getCurveLength(length) - length;
  */
 function getMinLength(base) = getBarrierNotchWidth(base, printTolerance) * 4;
 
+/**
+ * Computes the minimal height of a track barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getMinHeight(base) = getBarrierStripHeight(base) * 3;
+
+/**
+ * Computes the ratio of the outer curve with respect to the track width.
+ * @param Number length - The nominal size of a track element.
+ * @param Number width - The width of track lane.
+ * @returns Number
+ */
+function getOuterCurveRatio(length, width) = (width + length) / length;
+
+/**
+ * Validates the config values, checking if it match the critical constraints.
+ * @param Number length - The nominal size of a track element.
+ * @param Number width - The width of track lane.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module validateConfig(length, width, height, base) {
+    assert(
+        length >= getMinLength(base),
+        str(
+            "The size for a track element is too small! The minimum length is ",
+            getMinLength(base),
+            ". The current value is ",
+            length
+        )
+    );
+    assert(
+        barrierHeight >= getMinHeight(base),
+        str(
+            "The height for a track barrier is too small! The minimum height is ",
+            getMinHeight(base),
+            ". The current value is ",
+            barrierHeight
+        )
+    );
+    assert(
+        width > length,
+        "The width of the track must be greater than the length of one element!"
+    );
+    assert(
+        width % length == 0,
+        "The width of the track must be a multiple of the length of one element!"
+    );
+}
 
 // The minimal thickness of a part
 minThickness = layers(2);
@@ -160,40 +210,5 @@ minThickness = layers(2);
 minWidth = shells(2);
 
 // The ratios applied to the base unit value used to design the barrier holder
-barrierStripHeightRatio = 3;
-barrierStripIndentRatio = 0.5;
-
-// The ratio of the outer curve with respect to the track width
-trackCurveRatio = (trackWidth + trackSectionSize) / trackSectionSize;
-
-// The minimal size for a track element
-minTrackSectionSize = getBarrierNotchWidth(barrierHolderBase, printTolerance) * 4;
-minBarrierHeight = getBarrierStripHeight(barrierHolderBase) * 3;
-
-// Validate the critical constraints
-assert(
-    trackSectionSize >= minTrackSectionSize,
-    str(
-        "The size for a track element is too small! The minimum length is ",
-        minTrackSectionSize,
-        ". The current value is ",
-        trackSectionSize
-    )
-);
-assert(
-    barrierHeight >= minBarrierHeight,
-    str(
-        "The height for a track barrier is too small! The minimum height is ",
-        minBarrierHeight,
-        ". The current value is ",
-        barrierHeight
-    )
-);
-assert(
-    trackWidth > trackSectionSize,
-    "The width of the track must greater than the length of one element!"
-);
-assert(
-    trackWidth % trackSectionSize == 0,
-    "The width of the track must be a multiple of the length of one element!"
-);
+stripHeightRatio = 3;
+stripIndentRatio = 0.5;

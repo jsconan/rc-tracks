@@ -38,7 +38,7 @@ applyMode(mode=renderMode) {
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     barrierBody(
         length = getCurveRemainingLength(trackSectionSize),
-        height = barrierHeight,
+        height = getBarrierBodyHeight(barrierHeight),
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
         notches = 1

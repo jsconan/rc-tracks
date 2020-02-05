@@ -41,7 +41,7 @@ applyMode(mode=mode) {
         barrierLink(
             height = 5,
             base = base,
-            distance = tolerance,
+            distance = printTolerance,
             center = false
         );
 
@@ -49,7 +49,7 @@ applyMode(mode=mode) {
         barrierNotch(
             thickness = thickness,
             base = base,
-            distance = tolerance,
+            distance = printTolerance,
             interval = length,
             count = 2,
             center = true

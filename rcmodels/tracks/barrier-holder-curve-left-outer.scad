@@ -40,7 +40,7 @@ applyMode(mode=renderMode) {
         length = trackSectionSize,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = trackCurveRatio,
+        ratio = getOuterCurveRatio(trackSectionSize, trackWidth),
         right = false
     );
 }

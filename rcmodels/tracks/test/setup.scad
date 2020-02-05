@@ -33,11 +33,14 @@
 include <../config/setup.scad>
 
 // Defines the test config
-mode = MODE_DEV;
-length = 50;
-height = 30;
-thickness = 0.6;
-wall = 0.8;
-clip = 2;
-base = 2;
-tolerance = 0.1;
+mode = MODE_DEV;        // The render quality to apply
+length = 50;            // The nominal size of a track element
+width = 100;            // The width of track lane
+height = 30;            // The height of the barrier, including the holders
+base = 2;               // The base unit value used to design the barrier holder
+thickness = 0.6;        // The thickness of the barrier body
+wall = 0.8;             // The thickness of the walls
+clip = 2;               // The thickness of the wire clips
+
+// Validate the config against the constraints
+validateConfig(length, width, height, base);

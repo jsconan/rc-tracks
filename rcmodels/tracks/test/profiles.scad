@@ -40,13 +40,13 @@ applyMode(mode=mode) {
         // test the barrier link profile
         barrierLinkProfile(
             base = base,
-            distance = tolerance
+            distance = printTolerance
         );
 
         // test the barrier notch profile
         barrierNotchProfile(
             base = base,
-            distance = tolerance
+            distance = printTolerance
         );
 
         // test the barrier holder profile
@@ -84,7 +84,7 @@ applyMode(mode=mode) {
         barrierNotch(
             thickness = thickness,
             base = base,
-            distance = tolerance,
+            distance = printTolerance,
             interval = length,
             count = 2,
             center = true
@@ -95,7 +95,7 @@ applyMode(mode=mode) {
             radius = length,
             thickness = thickness,
             base = base,
-            distance = tolerance
+            distance = printTolerance
         );
 
     }
