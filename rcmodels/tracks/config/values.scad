@@ -175,21 +175,31 @@ function getMinLength(base) = getBarrierNotchWidth(base, printTolerance) * 4;
 function getMinHeight(base) = getBarrierStripHeight(base) * 3;
 
 /**
+ * Computes the ratio of the inner curve with respect to the track section size.
+ * @param Number length - The nominal size of a track element.
+ * @param Number radius - The radius of the track inner curve.
+ * @returns Number
+ */
+function getInnerCurveRatio(length, radius) = radius / length;
+
+/**
  * Computes the ratio of the outer curve with respect to the track width.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The width of track lane.
+ * @param Number radius - The radius of the track inner curve.
  * @returns Number
  */
-function getOuterCurveRatio(length, width) = (width + length) / length;
+function getOuterCurveRatio(length, width, radius) = (width + radius) / length;
 
 /**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The width of track lane.
  * @param Number height - The height of the barrier.
+ * @param Number radius - The radius of the track inner curve.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module validateConfig(length, width, height, base) {
+module validateConfig(length, width, height, radius, base) {
     assert(
         length >= getMinLength(base),
         str(
@@ -209,37 +219,48 @@ module validateConfig(length, width, height, base) {
         )
     );
     assert(
-        width > length,
-        "The width of the track must be greater than the length of one element!"
+        width >= length,
+        "The width of the track must be greater or equal than the length of one element!"
+    );
+    assert(
+        radius >= length,
+        "The radius of the track inner curve must be greater or equal than the length of one element!"
     );
     assert(
         width % length == 0,
         "The width of the track must be a multiple of the length of one element!"
     );
+    assert(
+        radius % length == 0,
+        "The radius of the track inner curve must be a multiple of the length of one element!"
+    );
 }
 
 /**
- * Prinnt the config values.
+ * Prints the config values.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The width of track lane.
  * @param Number height - The height of the barrier.
+ * @param Number radius - The radius of the track inner curve.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module printConfig(length, width, height, base) {
-    echo(str("----------"));
-    echo(str("Track section size: ", length / 10, "cm"));
-    echo(str("Track lane width:   ", width / 10, "cm"));
-    echo(str("Curve length:       ", getCurveLength(length) / 10, "cm"));
-    echo(str("Outer curve ratio:  ", getOuterCurveRatio(length, width)));
-    echo(str("Barrier height:     ", height / 10, "cm"));
-    echo(str("Barrier base value: ", base, "mm"));
-    echo(str("Barrier thickness:  ", barrierBodyThickness, "mm"));
-    echo(str("Size of samples:    ", sampleSize / 10, "cm"));
-    echo(str("----------"));
-    echo(str("Nozzle diameter:    ", nozzleWidth, "mm"));
-    echo(str("Print layer:        ", printResolution, "mm"));
-    echo(str("Print tolerance:    ", printTolerance, "mm"));
-    echo(str("----------"));
+module printConfig(length, width, height, radius, base) {
+    echo(str("------------------------------"));
+    echo(str("Track section length: ", length / 10, "cm"));
+    echo(str("Track lane width:     ", width / 10, "cm"));
+    echo(str("Track inner radius:   ", radius / 10, "cm"));
+    echo(str("Curve section length: ", getCurveLength(length) / 10, "cm"));
+    echo(str("Inner curve ratio:    ", getInnerCurveRatio(length, radius)));
+    echo(str("Outer curve ratio:    ", getOuterCurveRatio(length, width, radius)));
+    echo(str("Barrier height:       ", height / 10, "cm"));
+    echo(str("Barrier base value:   ", base, "mm"));
+    echo(str("Barrier thickness:    ", barrierBodyThickness, "mm"));
+    echo(str("Size of samples:      ", sampleSize / 10, "cm"));
+    echo(str("------------------------------"));
+    echo(str("Nozzle diameter:      ", nozzleWidth, "mm"));
+    echo(str("Print layer:          ", printResolution, "mm"));
+    echo(str("Print tolerance:      ", printTolerance, "mm"));
+    echo(str("------------------------------"));
 }
 
 // The minimal thickness of a part

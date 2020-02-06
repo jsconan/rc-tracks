@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * * Setup the context and define the config for the tests.
+ * Setup the context and define the config for the tests.
  *
  * @author jsconan
  * @version 0.2.0
@@ -35,7 +35,8 @@ include <../config/setup.scad>
 // Defines the test config
 mode = MODE_DEV;        // The render quality to apply
 length = 50;            // The nominal size of a track element
-width = 100;            // The width of track lane
+width = 50;             // The width of track lane
+radius = 50;            // The radius of the track inner curve
 height = 30;            // The height of the barrier, including the holders
 base = 2;               // The base unit value used to design the barrier holder
 thickness = 0.6;        // The thickness of the barrier body
@@ -43,4 +44,19 @@ wall = 0.8;             // The thickness of the walls
 clip = 2;               // The thickness of the wire clips
 
 // Validate the config against the constraints
-validateConfig(length, width, height, base);
+validateConfig(
+    length = length,
+    width = width,
+    height = height,
+    radius = radius,
+    base = base
+);
+
+// Show the values
+printConfig(
+    length = length,
+    width = width,
+    height = height,
+    radius = radius,
+    base = base
+);

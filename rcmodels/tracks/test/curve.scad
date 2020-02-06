@@ -44,7 +44,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = 1,
+                ratio = getInnerCurveRatio(length, radius),
                 right = true
             );
 
@@ -53,7 +53,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width),
+                ratio = getOuterCurveRatio(length, width, radius),
                 right = true
             );
 
@@ -62,7 +62,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = 1,
+                ratio = getInnerCurveRatio(length, radius),
                 right = false
             );
 
@@ -71,7 +71,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width),
+                ratio = getOuterCurveRatio(length, width, radius),
                 right = false
             );
 
@@ -92,7 +92,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = 1,
+                ratio = getInnerCurveRatio(length, radius),
                 right = true
             );
 
@@ -101,7 +101,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width),
+                ratio = getOuterCurveRatio(length, width, radius),
                 right = true
             );
 
@@ -110,7 +110,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = 1,
+                ratio = getInnerCurveRatio(length, radius),
                 right = false
             );
 
@@ -119,7 +119,7 @@ applyMode(mode=mode) {
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width),
+                ratio = getOuterCurveRatio(length, width, radius),
                 right = false
             );
 

@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for a curved track part, inner curve, left turned.
+ * A barrier holder for a curved track part, minimal curve, right turned.
  *
  * @author jsconan
  * @version 0.2.0
@@ -40,7 +40,7 @@ applyMode(mode=renderMode) {
         length = trackSectionSize,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = getInnerCurveRatio(trackSectionSize, trackRadius),
-        right = false
+        ratio = 1,
+        right = true
     );
 }

@@ -42,4 +42,10 @@ include <../shapes/straight.scad>
 include <../shapes/curve.scad>
 
 // Validate the config against the constraints
-validateConfig(trackSectionSize, trackLaneWidth, barrierHeight, barrierHolderBase);
+validateConfig(
+    length = trackSectionSize,
+    width = trackLaneWidth,
+    height = barrierHeight,
+    radius = trackRadius,
+    base = barrierHolderBase
+);
