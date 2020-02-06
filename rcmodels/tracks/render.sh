@@ -41,7 +41,41 @@ project=$(pwd)
 srcpath=${project}
 dstpath=${project}/output
 
+# include libs
 source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
+
+# Renders the files from a path.
+#
+# @param sourcepath - The path of the folder containing the SCAD files to render.
+# @param destpath - The path to the output folder.
+# @param prefix - A prefix to add to each output file.
+# @param right - Right oriented or left oriented
+renderpath() {
+    rightOriented=$3
+    scadtostlall "$1" "$2" "" \
+        "$(varif "trackSectionSize" ${trackSectionSize})" \
+        "$(varif "trackLaneWidth" ${trackLaneWidth})" \
+        "$(varif "trackRadius" ${trackRadius})" \
+        "$(varif "barrierHeight" ${barrierHeight})" \
+        "$(varif "sampleSize" ${sampleSize})" \
+        "$(varif "rightOriented" ${rightOriented})"
+}
+
+# Renders the files from a path, taking care of the curves.
+#
+# @param sourcepath - The path of the folder containing the SCAD files to render.
+# @param destpath - The path to the output folder.
+renderpathall() {
+    renderpath "$1" "$2"
+    renderpath "$1/curves" "$2/left" "0"
+    renderpath "$1/curves" "$2/right" "1"
+}
+
+# Display the render config
+showconfig() {
+    printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
+    renderpath "${srcpath}/config/print.scad" "${dstpath}"
+}
 
 # load parameters
 while (( "$#" )); do
@@ -105,10 +139,9 @@ fi
 # check OpenSCAD
 scadcheck
 
-# render the files, if exist
-scadtostlall "${srcpath}" "${dstpath}" "" \
-    "$(varif "trackSectionSize" ${trackSectionSize})" \
-    "$(varif "trackLaneWidth" ${trackLaneWidth})" \
-    "$(varif "trackRadius" ${trackRadius})" \
-    "$(varif "barrierHeight" ${barrierHeight})" \
-    "$(varif "sampleSize" ${sampleSize})"
+# show the config
+showconfig
+
+# render the files
+renderpathall "${srcpath}/elements/barrier-holders" "${dstpath}/elements"
+renderpathall "${srcpath}/elements/samples" "${dstpath}/samples"
