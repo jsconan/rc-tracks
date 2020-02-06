@@ -245,22 +245,26 @@ module validateConfig(length, width, height, radius, base) {
  * @param Number base - The base unit value used to design the barrier holder.
  */
 module printConfig(length, width, height, radius, base) {
-    echo(str("------------------------------"));
-    echo(str("Track section length: ", length / 10, "cm"));
-    echo(str("Track lane width:     ", width / 10, "cm"));
-    echo(str("Track inner radius:   ", radius / 10, "cm"));
-    echo(str("Curve section length: ", getCurveLength(length) / 10, "cm"));
-    echo(str("Inner curve ratio:    ", getInnerCurveRatio(length, radius)));
-    echo(str("Outer curve ratio:    ", getOuterCurveRatio(length, width, radius)));
-    echo(str("Barrier height:       ", height / 10, "cm"));
-    echo(str("Barrier base value:   ", base, "mm"));
-    echo(str("Barrier thickness:    ", barrierBodyThickness, "mm"));
-    echo(str("Size of samples:      ", sampleSize / 10, "cm"));
-    echo(str("------------------------------"));
-    echo(str("Nozzle diameter:      ", nozzleWidth, "mm"));
-    echo(str("Print layer:          ", printResolution, "mm"));
-    echo(str("Print tolerance:      ", printTolerance, "mm"));
-    echo(str("------------------------------"));
+    echo(join([
+        "",
+        str("------------------------------"),
+        str("Track section length: ", length / 10, "cm"),
+        str("Track lane width:     ", width / 10, "cm"),
+        str("Track inner radius:   ", radius / 10, "cm"),
+        str("Curve section length: ", getCurveLength(length) / 10, "cm"),
+        str("Inner curve ratio:    ", getInnerCurveRatio(length, radius)),
+        str("Outer curve ratio:    ", getOuterCurveRatio(length, width, radius)),
+        str("Size of samples:      ", sampleSize / 10, "cm"),
+        str("Barrier height:       ", height / 10, "cm"),
+        str("Barrier base value:   ", base, "mm"),
+        str("Barrier thickness:    ", barrierBodyThickness, "mm"),
+        str("------------------------------"),
+        str("Nozzle diameter:      ", nozzleWidth, "mm"),
+        str("Print layer:          ", printResolution, "mm"),
+        str("Print tolerance:      ", printTolerance, "mm"),
+        str("------------------------------"),
+        ""
+    ], str(chr(13), chr(10))));
 }
 
 // The minimal thickness of a part
