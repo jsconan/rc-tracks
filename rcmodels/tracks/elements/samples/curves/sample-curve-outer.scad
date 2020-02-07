@@ -39,7 +39,7 @@ applyMode(mode=renderMode) {
     curvedBarrierMain(
         length = sampleSize,
         thickness = barrierBodyThickness,
-        base = barrierHolderBase,
+        base = sampleBase,
         ratio = getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
         right = rightOriented
     );

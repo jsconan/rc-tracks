@@ -255,6 +255,7 @@ module printConfig(length, width, height, radius, base) {
         str("Inner curve ratio:    ", getInnerCurveRatio(length, radius)),
         str("Outer curve ratio:    ", getOuterCurveRatio(length, width, radius)),
         str("Size of samples:      ", sampleSize / 10, "cm"),
+        str("Base of samples:      ", sampleBase, "mm"),
         str("Barrier height:       ", height / 10, "cm"),
         str("Barrier base value:   ", base, "mm"),
         str("Barrier thickness:    ", barrierBodyThickness, "mm"),

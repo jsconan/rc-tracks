@@ -39,6 +39,6 @@ applyMode(mode=renderMode) {
     straightBarrierMain(
         length = sampleSize,
         thickness = barrierBodyThickness,
-        base = barrierHolderBase
+        base = sampleBase
     );
 }
