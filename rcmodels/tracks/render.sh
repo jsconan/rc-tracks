@@ -40,6 +40,8 @@ scriptpath=$(dirname $0)
 project=$(pwd)
 srcpath=${project}
 dstpath=${project}/output
+renderElements=
+renderSamples=
 
 # include libs
 source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
@@ -66,8 +68,11 @@ renderpath() {
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 renderpathall() {
+    printmessage "${C_MSG}- straight elements"
     renderpath "$1" "$2"
+    printmessage "${C_MSG}- left curved elements"
     renderpath "$1/curves" "$2/left" "0"
+    printmessage "${C_MSG}- right curved elements"
     renderpath "$1/curves" "$2/right" "1"
 }
 
@@ -80,6 +85,12 @@ showconfig() {
 # load parameters
 while (( "$#" )); do
     case $1 in
+        "e"|"elements")
+            renderElements=1
+        ;;
+        "s"|"samples")
+            renderSamples=1
+        ;;
         "-l"|"--length")
             trackSectionSize=$2
             shift
@@ -103,8 +114,10 @@ while (( "$#" )); do
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
-            echo -e "${C_CTX}\t$0 [-h|--help] [-o|--option value] files${C_RST}"
+            echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
+            echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track elements"
+            echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
             echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
@@ -136,6 +149,12 @@ if [ "${trackSectionSize}" != "" ]; then
     fi
 fi
 
+# default script config
+if [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ]; then
+    renderElements=1
+    renderSamples=1
+fi
+
 # check OpenSCAD
 scadcheck
 
@@ -143,5 +162,11 @@ scadcheck
 showconfig
 
 # render the files
-renderpathall "${srcpath}/elements/barrier-holders" "${dstpath}/elements"
-renderpathall "${srcpath}/elements/samples" "${dstpath}/samples"
+if [ "${renderElements}" != "" ]; then
+    printmessage "${C_MSG}Rendering track elements"
+    renderpathall "${srcpath}/elements/barrier-holders" "${dstpath}/elements"
+fi
+if [ "${renderSamples}" != "" ]; then
+    printmessage "${C_MSG}Rendering track samples"
+    renderpathall "${srcpath}/elements/samples" "${dstpath}/samples"
+fi
