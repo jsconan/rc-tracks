@@ -40,6 +40,7 @@ scriptpath=$(dirname $0)
 project=$(pwd)
 srcpath=${project}
 dstpath=${project}/output
+showConfig=
 renderElements=
 renderSamples=
 
@@ -53,7 +54,7 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # @param prefix - A prefix to add to each output file.
 # @param right - Right oriented or left oriented
 renderpath() {
-    rightOriented=$3
+    local rightOriented=$3
     scadtostlall "$1" "$2" "" \
         "$(varif "trackSectionSize" ${trackSectionSize})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
@@ -79,7 +80,7 @@ renderpathall() {
 # Display the render config
 showconfig() {
     printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
-    renderpath "${srcpath}/config/print.scad" "${dstpath}"
+    renderpath "${srcpath}/config/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D'
 }
 
 # load parameters
@@ -87,9 +88,14 @@ while (( "$#" )); do
     case $1 in
         "e"|"elements")
             renderElements=1
+            showConfig=1
         ;;
         "s"|"samples")
             renderSamples=1
+            showConfig=1
+        ;;
+        "c"|"config")
+            showConfig=1
         ;;
         "-l"|"--length")
             trackSectionSize=$2
@@ -118,6 +124,7 @@ while (( "$#" )); do
             echo
             echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
+            echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
             echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
@@ -150,16 +157,19 @@ if [ "${trackSectionSize}" != "" ]; then
 fi
 
 # default script config
-if [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ]; then
+if [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
     renderElements=1
     renderSamples=1
+    showConfig=1
 fi
 
 # check OpenSCAD
 scadcheck
 
 # show the config
-showconfig
+if [ "${showConfig}" != "" ]; then
+    showconfig
+fi
 
 # render the files
 if [ "${renderElements}" != "" ]; then
