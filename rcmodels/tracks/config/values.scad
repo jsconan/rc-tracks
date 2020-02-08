@@ -192,6 +192,21 @@ function getInnerCurveRatio(length, radius) = radius / length;
 function getOuterCurveRatio(length, width, radius) = (width + radius) / length;
 
 /**
+ * Computes the radius of a curve with respect to the ratio.
+ * @param Number length - The nominal size of a track element.
+ * @param Number ratio - The ratio of the curve.
+ * @returns Number
+ */
+function getCurveRadius(length, ratio) = length * ratio;
+
+/**
+ * Computes the angle of a curve with respect to the ratio.
+ * @param Number ratio - The ratio of the curve.
+ * @returns Number
+ */
+function getCurveAngle(ratio) = curveAngle / ratio;
+
+/**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The width of track lane.
@@ -245,6 +260,8 @@ module validateConfig(length, width, height, radius, base) {
  * @param Number base - The base unit value used to design the barrier holder.
  */
 module printConfig(length, width, height, radius, base) {
+    innerCurveRatio = getInnerCurveRatio(length, radius);
+    outerCurveRatio = getOuterCurveRatio(length, width, radius);
     echo(join([
         "",
         str("------------------------------"),
@@ -252,8 +269,10 @@ module printConfig(length, width, height, radius, base) {
         str("Track lane width:     ", width / 10, "cm"),
         str("Track inner radius:   ", radius / 10, "cm"),
         str("Curve section length: ", getCurveLength(length) / 10, "cm"),
-        str("Inner curve ratio:    ", getInnerCurveRatio(length, radius)),
-        str("Outer curve ratio:    ", getOuterCurveRatio(length, width, radius)),
+        str("Inner curve ratio:    ", innerCurveRatio),
+        str("Inner curve angle:    ", getCurveAngle(innerCurveRatio), "°"),
+        str("Outer curve ratio:    ", outerCurveRatio),
+        str("Outer curve angle:    ", getCurveAngle(outerCurveRatio), "°"),
         str("Barrier height:       ", height / 10, "cm"),
         str("Barrier base value:   ", base, "mm"),
         str("Barrier thickness:    ", barrierBodyThickness, "mm"),
@@ -277,3 +296,6 @@ minWidth = shells(2);
 // The ratios applied to the base unit value used to design the barrier holder
 stripHeightRatio = 3;
 stripIndentRatio = 0.5;
+
+// The angle of a typical curve
+curveAngle = 90;

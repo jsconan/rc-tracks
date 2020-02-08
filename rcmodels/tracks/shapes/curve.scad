@@ -77,6 +77,25 @@ module barrierNotchCurved(radius, thickness, base, distance = 0) {
 }
 
 /**
+ * Place a curved element with respect to the length and the ratio.
+ * @param Number length - The length of the element.
+ * @param Number ratio - The ratio to apply on the radius
+ * @param Number z - An option Z-axis translation
+ */
+module placeCurvedElement(length, ratio = 1, z = 0) {
+    radius = getCurveRadius(length, ratio);
+    angle = getCurveAngle(ratio);
+    ratioAngle = curveAngle - angle;
+    offset = (length - radius) * cos(45) * [1, 1, 0] + [0, 0, z];
+
+    translate(offset) {
+        rotateZ(ratioAngle / 2) {
+            children();
+        }
+    }
+}
+
+/**
  * Draws the main shape of a barrier holder for a curved track element.
  * @param Number length - The length of the element.
  * @param Number base - The base unit value used to design the barrier holder.
@@ -85,10 +104,9 @@ module barrierNotchCurved(radius, thickness, base, distance = 0) {
  * @param Number right - Is the curve oriented to the right?
  */
 module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
-    radius = length * ratio;
-    defaultAngle = 90;
-    angle = defaultAngle / ratio;
-    ratioAngle = defaultAngle - angle;
+    radius = getCurveRadius(length, ratio);
+    angle = getCurveAngle(ratio);
+    ratioAngle = curveAngle - angle;
     linkHeight = getBarrierHolderHeight(base) - base;
 
     outerLinkDirection = right ? 180 : 0;
@@ -96,7 +114,7 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     innerLinkDirection = right ? 90 : -90;
     innerLinkPosition = right ? 90 - ratioAngle : 0;
 
-    rotateZ(ratioAngle / 2) {
+    placeCurvedElement(length, ratio) {
         rotateZ(outerLinkPosition) {
             translateY(radius) {
                 rotateZ(outerLinkDirection) {
@@ -140,10 +158,8 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
  * @param Number right - Is the curve oriented to the right?
  */
 module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
-    radius = length * ratio;
-    defaultAngle = 90;
-    angle = defaultAngle / ratio;
-    ratioAngle = defaultAngle - angle;
+    radius = getCurveRadius(length, ratio);
+    angle = getCurveAngle(ratio);
     linkHeight = getBarrierHolderHeight(base) - base;
     thickness = thickness + printTolerance;
 
@@ -155,32 +171,30 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
             ratio = ratio,
             right = right
         );
-        rotateZ(ratioAngle / 2) {
-            translateZ(minThickness) {
-                difference() {
-                    pipeSegment(
-                        r = radius + thickness / 2,
-                        h = linkHeight * 2,
-                        w = thickness,
-                        a = angle
-                    );
+        placeCurvedElement(length, ratio, minThickness) {
+            difference() {
+                pipeSegment(
+                    r = radius + thickness / 2,
+                    h = linkHeight * 2,
+                    w = thickness,
+                    a = angle
+                );
 
-                    arcAngle = getArcAngle(radius = radius, length = length / 2);
-                    angles = [
+                arcAngle = getArcAngle(radius = radius, length = length / 2);
+                angles = [
                     [0, 0, 0],
                     [0, 0, arcAngle],
                     [0, 0, angle - arcAngle],
                     [0, 0, angle]
-                    ];
+                ];
 
-                    repeatRotateMap(angles) {
-                        barrierNotchCurved(
-                            radius = radius,
-                            thickness = thickness * 2,
-                            base = base,
-                            distance = printTolerance / 2
-                        );
-                    }
+                repeatRotateMap(angles) {
+                    barrierNotchCurved(
+                        radius = radius,
+                        thickness = thickness * 2,
+                        base = base,
+                        distance = printTolerance / 2
+                    );
                 }
             }
         }
