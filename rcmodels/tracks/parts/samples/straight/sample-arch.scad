@@ -30,7 +30,7 @@
  */
 
 // Import the project's setup.
-include <../../config/setup.scad>
+include <../../../config/setup.scad>
 
 // Refine the config for the arch sample
 laneWidth = trackLaneWidth / trackSectionSize * sampleSize;

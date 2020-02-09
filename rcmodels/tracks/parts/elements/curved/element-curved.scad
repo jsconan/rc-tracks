@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A sample for an inner curve track part.
+ * A barrier holder for a minimal curved track part.
  *
  * @author jsconan
  * @version 0.2.0

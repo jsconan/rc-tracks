@@ -40,7 +40,10 @@ scriptpath=$(dirname $0)
 project=$(pwd)
 srcpath=${project}
 dstpath=${project}/output
+configpath=${srcpath}/config
+partpath=${srcpath}/parts
 showConfig=
+renderAccessories=
 renderElements=
 renderSamples=
 
@@ -70,22 +73,26 @@ renderpath() {
 # @param destpath - The path to the output folder.
 renderpathall() {
     printmessage "${C_MSG}- straight elements"
-    renderpath "$1" "$2"
+    renderpath "$1/straight" "$2"
     printmessage "${C_MSG}- left curved elements"
-    renderpath "$1/curves" "$2/left" "0"
+    renderpath "$1/curved" "$2/left" "0"
     printmessage "${C_MSG}- right curved elements"
-    renderpath "$1/curves" "$2/right" "1"
+    renderpath "$1/curved" "$2/right" "1"
 }
 
 # Display the render config
 showconfig() {
     printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
-    renderpath "${srcpath}/config/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D'
+    renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D'
 }
 
 # load parameters
 while (( "$#" )); do
     case $1 in
+        "a"|"accessories")
+            renderAccessories=1
+            showConfig=1
+        ;;
         "e"|"elements")
             renderElements=1
             showConfig=1
@@ -122,6 +129,7 @@ while (( "$#" )); do
             echo -e "  ${C_INF}Usage:${C_RST}"
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
+            echo -e "${C_MSG}  a,  accessories     ${C_RST}Render the accessories"
             echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
@@ -157,7 +165,8 @@ if [ "${trackSectionSize}" != "" ]; then
 fi
 
 # default script config
-if [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
+if [ "${renderAccessories}" == "" ] && [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
+    renderAccessories=1
     renderElements=1
     renderSamples=1
     showConfig=1
@@ -172,11 +181,15 @@ if [ "${showConfig}" != "" ]; then
 fi
 
 # render the files
+if [ "${renderAccessories}" != "" ]; then
+    printmessage "${C_MSG}Rendering accessories"
+    renderpath "${partpath}/accessories" "${dstpath}/accessories"
+fi
 if [ "${renderElements}" != "" ]; then
     printmessage "${C_MSG}Rendering track elements"
-    renderpathall "${srcpath}/elements/barrier-holders" "${dstpath}/elements"
+    renderpathall "${partpath}/elements" "${dstpath}/elements"
 fi
 if [ "${renderSamples}" != "" ]; then
     printmessage "${C_MSG}Rendering track samples"
-    renderpathall "${srcpath}/elements/samples" "${dstpath}/samples"
+    renderpathall "${partpath}/samples" "${dstpath}/samples"
 fi

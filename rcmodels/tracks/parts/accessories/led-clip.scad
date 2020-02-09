@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier body for a straight track part.
+ * A LED cable clip for the barrier holders.
  *
  * @author jsconan
  * @version 0.2.0
@@ -36,11 +36,10 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    barrierBody(
-        length = trackSectionSize,
-        height = getBarrierBodyHeight(barrierHeight),
-        thickness = barrierBodyThickness,
+    wireClip(
+        wall = wireClipThickness,
+        height = wireClipWidth,
         base = barrierHolderBase,
-        notches = 2
+        thickness = barrierBodyThickness
     );
 }

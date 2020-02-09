@@ -30,7 +30,7 @@
  */
 
 // Import the project's setup.
-include <../../config/setup.scad>
+include <../../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {

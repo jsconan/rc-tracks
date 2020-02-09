@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Test the curved barrier shapes.
+ * Test the curved elements shapes.
  *
  * @author jsconan
  * @version 0.2.0

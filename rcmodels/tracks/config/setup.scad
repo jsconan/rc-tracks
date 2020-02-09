@@ -39,7 +39,7 @@ include <values.scad>
 // Finally, include the shapes
 include <../shapes/profiles.scad>
 include <../shapes/straight.scad>
-include <../shapes/curve.scad>
+include <../shapes/curved.scad>
 
 // Validate the config against the constraints
 validateConfig(
