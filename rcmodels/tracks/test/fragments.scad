@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Test the profile shapes.
+ * Test the fragments shapes.
  *
  * @author jsconan
  * @version 0.2.0
@@ -37,37 +37,30 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], line=2, center=true) {
 
-        // test the barrier link profile
-        barrierLinkProfile(
-            base = base,
-            distance = printTolerance
-        );
-
-        // test the barrier notch profile
-        barrierNotchProfile(
-            base = base,
-            distance = printTolerance
-        );
-
-        // test the barrier holder profile
-        barrierHolderProfile(
+        // test the clip profile
+        clip(
+            wall = wall,
+            height = clip,
             base = base,
             thickness = thickness
         );
 
-        // test the barrier holder outline
-        barrierHolderOutline(
-            wall = wall,
+        // test the barrier link shape
+        barrierLink(
+            height = 5,
             base = base,
+            distance = printTolerance,
+            center = false
+        );
+
+        // test the barrier notch shape for a straight track element
+        barrierNotch(
             thickness = thickness,
-            distance = 0
-        );
-
-        // test the barrier clip profile
-        clipProfile(
-            wall = wall,
             base = base,
-            thickness = thickness
+            distance = printTolerance,
+            interval = length,
+            count = 2,
+            center = true
         );
 
     }

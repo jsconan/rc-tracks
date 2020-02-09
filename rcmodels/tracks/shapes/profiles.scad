@@ -182,30 +182,3 @@ module clipProfile(wall, base, thickness) {
         }
     }
 }
-
-/**
- * Draws the profile of a wire clip.
- * @param Number wall - The thickness of the outline.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number thickness - The thickness of the barrier body.
- */
-module wireClipProfile(wall, base, thickness) {
-    holderWidth = getBarrierHolderWidth(base) + wall * 2;
-
-    clipProfile(
-        wall = wall,
-        base = base,
-        thickness = thickness
-    );
-    repeat(intervalX = holderWidth - wall, center = true) {
-        translateY(base / 2) {
-            rectangle([wall, base]);
-        }
-    }
-    ringSegment(
-        r = [1, 1] * (holderWidth / 2),
-        w = wall,
-        a = -180,
-        $fn = 10
-    );
-}

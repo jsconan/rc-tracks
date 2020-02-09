@@ -30,42 +30,6 @@
  */
 
 /**
- * Draws the shape of a barrier link.
- * @param Number height - The height of the link.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [distance] - An additional distance added to the outline of the barrier link.
- * @param Boolean [center] - The shape is centered vertically.
- */
-module barrierLink(height, base, distance = 0, center = false) {
-    negativeExtrude(height=height, center=center) {
-        barrierLinkProfile(
-            base = base,
-            distance = distance
-        );
-    }
-}
-
-/**
- * Draws the shape of a barrier holder notch.
- * @param Number thickness - The thickness of the shape.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number [distance] - An additional distance added to the outline of the barrier link.
- * @param Number [interval] - The distance between two notches.
- * @param Number [count] - The number of notches.
- * @param Boolean [center] - The shape is centered vertically.
- */
-module barrierNotch(thickness, base, distance = 0, interval = 0, count = 1, center = false) {
-    repeat(count=count, interval=[interval, 0, 0], center=true) {
-        negativeExtrude(height=thickness, center=center) {
-            barrierNotchProfile(
-                base = base,
-                distance = distance
-            );
-        }
-    }
-}
-
-/**
  * Draws the shape of a barrier body.
  * @param Number length - The length of the track element.
  * @param Number height - The height of the barrier.
@@ -162,42 +126,6 @@ module straightBarrierHolder(length, thickness, base) {
                 }
             }
         }
-    }
-}
-
-/**
- * Draws the shape of a clip.
- * @param Number wall - The thickness of the clip lines.
- * @param Number height - The thickness of the clip.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number thickness - The thickness of the barrier body.
- * @param Boolean [center] - The shape is centered vertically.
- */
-module clip(wall, height, base, thickness, center = false) {
-    negativeExtrude(height=height, center=center) {
-        clipProfile(
-            wall = wall,
-            base = base,
-            thickness = thickness
-        );
-    }
-}
-
-/**
- * Draws the shape of a wire clip.
- * @param Number wall - The thickness of the wire clip lines.
- * @param Number height - The thickness of the clip.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number thickness - The thickness of the barrier body.
- * @param Boolean [center] - The shape is centered vertically.
- */
-module wireClip(wall, height, base, thickness, center = false) {
-    negativeExtrude(height=height, center=center) {
-        wireClipProfile(
-            wall = wall,
-            base = base,
-            thickness = thickness
-        );
     }
 }
 
