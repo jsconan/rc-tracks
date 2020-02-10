@@ -26,7 +26,6 @@
  * Defines the straight track parts.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 /**

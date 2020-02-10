@@ -26,7 +26,6 @@
  * Test the curved elements shapes.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

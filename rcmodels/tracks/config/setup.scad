@@ -26,7 +26,6 @@
  * Setup the context.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.

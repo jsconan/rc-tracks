@@ -26,7 +26,6 @@
  * Defines the shapes for the track  accessories.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 /**

@@ -26,7 +26,6 @@
  * A barrier holder for an outer curve track part.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

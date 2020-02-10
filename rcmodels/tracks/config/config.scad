@@ -26,8 +26,9 @@
  * Configures the project.
  *
  * @author jsconan
- * @version 0.2.0
  */
+
+ projectVersion = "0.2.0";
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;

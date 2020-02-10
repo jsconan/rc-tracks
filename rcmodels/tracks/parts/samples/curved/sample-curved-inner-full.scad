@@ -26,7 +26,6 @@
  * A sample for an inner curve track part, full curve.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

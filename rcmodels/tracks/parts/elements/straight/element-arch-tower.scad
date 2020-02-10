@@ -26,7 +26,6 @@
  * An arch tower that clamp the barrier holders.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

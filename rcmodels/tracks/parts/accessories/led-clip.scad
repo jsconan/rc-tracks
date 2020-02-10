@@ -26,7 +26,6 @@
  * A LED cable clip for the barrier holders.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

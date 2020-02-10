@@ -26,7 +26,6 @@
  * Defines the fragments shapes for the track elements.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 /**

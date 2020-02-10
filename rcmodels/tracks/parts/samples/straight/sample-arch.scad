@@ -26,7 +26,6 @@
  * An arch sample scaled with respect to the size of the track samples.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 // Import the project's setup.

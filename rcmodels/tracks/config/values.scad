@@ -26,7 +26,6 @@
  * Refines values and defines functions.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
 /**
@@ -264,6 +263,8 @@ module printConfig(length, width, height, radius, base) {
     outerCurveRatio = getOuterCurveRatio(length, width, radius);
     echo(join([
         "",
+        str("------------------------------"),
+        str("RC Track System, Version ", projectVersion),
         str("------------------------------"),
         str("Track section length: ", length / 10, "cm"),
         str("Track lane width:     ", width / 10, "cm"),
