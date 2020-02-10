@@ -63,8 +63,8 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 /**
  * Draws the main shape of a barrier holder for a straight track element.
  * @param Number length - The length of the element.
- * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
  */
 module straightBarrierMain(length, thickness, base) {
     linkHeight = getBarrierHolderHeight(base) - base;
@@ -97,12 +97,17 @@ module straightBarrierMain(length, thickness, base) {
 /**
  * Draws the barrier holder for a straight track element.
  * @param Number length - The length of the element.
- * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the length
  */
-module straightBarrierHolder(length, thickness, base) {
+module straightBarrierHolder(length, thickness, base, ratio = 1) {
     linkHeight = getBarrierHolderHeight(base) - base;
     thickness = thickness + printTolerance;
+    length = length * ratio;
+    notches = ratio * 2;
+    interval = length / notches;
+    count = notches + 1;
 
     difference() {
         straightBarrierMain(
@@ -119,8 +124,8 @@ module straightBarrierHolder(length, thickness, base) {
                         thickness = thickness * 2,
                         base = base,
                         distance = printTolerance / 2,
-                        interval = length / 2,
-                        count = 3,
+                        interval = interval,
+                        count = count,
                         center = true
                     );
                 }

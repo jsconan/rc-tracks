@@ -39,6 +39,7 @@ applyMode(mode=renderMode) {
     straightBarrierHolder(
         length = trackSectionSize,
         thickness = barrierBodyThickness,
-        base = barrierHolderBase
+        base = barrierHolderBase,
+        ratio = 1
     );
 }

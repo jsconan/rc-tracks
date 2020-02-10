@@ -66,7 +66,8 @@ applyMode(mode=mode) {
         straightBarrierHolder(
             length = length,
             thickness = thickness,
-            base = base
+            base = base,
+            ratio = 1
         );
 
         // test the arch tower shape with holders, left side

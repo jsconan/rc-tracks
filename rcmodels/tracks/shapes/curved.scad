@@ -98,8 +98,8 @@ module placeCurvedElement(length, ratio = 1, z = 0) {
 /**
  * Draws the main shape of a barrier holder for a curved track element.
  * @param Number length - The length of the element.
- * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number ratio - The ratio to apply on the radius
  * @param Number right - Is the curve oriented to the right?
  */
@@ -152,8 +152,8 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
 /**
  * Draws the barrier holder for a curved track element.
  * @param Number length - The length of the element.
- * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @param Number ratio - The ratio to apply on the radius
  * @param Number right - Is the curve oriented to the right?
  */
