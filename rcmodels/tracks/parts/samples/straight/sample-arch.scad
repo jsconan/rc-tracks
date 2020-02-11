@@ -67,8 +67,8 @@ function getArchSamplePoints(length, width) =
 module archSampleProfile(length, width, wall) {
     distance = wall / 2;
     difference() {
-        polygon(outline(getArchSamplePoints(length, width), -distance));
-        polygon(outline(getArchSamplePoints(length, width), distance));
+        polygon(outline(getArchSamplePoints(length, width), -distance), convexity = 10);
+        polygon(outline(getArchSamplePoints(length, width), distance), convexity = 10);
         rectangle([width - wall, wall]);
     }
 }

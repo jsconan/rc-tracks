@@ -57,7 +57,7 @@ module barrierLinkProfile(base, distance = 0) {
     polygon(getBarrierLinkPoints(
         base = base,
         distance = distance
-    ));
+    ), convexity = 10);
 }
 
 /**
@@ -93,7 +93,7 @@ module barrierNotchProfile(base, distance = 0) {
     polygon(getBarrierNotchPoints(
         base = base,
         distance = distance
-    ));
+    ), convexity = 10);
 }
 
 /**
@@ -135,7 +135,7 @@ module barrierHolderProfile(base, thickness) {
     polygon(getBarrierHolderPoints(
         base = base,
         thickness = thickness
-    ));
+    ), convexity = 10);
 }
 
 /**
@@ -153,8 +153,8 @@ module barrierHolderOutline(wall, base, thickness, distance = 0) {
                 thickness = thickness
             ), -distance);
 
-            polygon(outline(profile, -wall));
-            polygon(profile);
+            polygon(outline(profile, -wall), convexity = 10);
+            polygon(profile, convexity = 10);
         }
     }
 }

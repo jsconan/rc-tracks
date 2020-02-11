@@ -66,7 +66,7 @@ module barrierNotchCurved(radius, thickness, base, distance = 0) {
                                 ["V", base],
                                 ["H", -base],
                                 ["V", -height - base * 2]
-                            ]));
+                            ]), convexity = 10);
                         }
                     }
                 }
