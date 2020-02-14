@@ -36,19 +36,48 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], line=2, center=true) {
 
-        // test the wire clip profile
-        wireClipProfile(
+        // test the cable clip shape
+        cableClip(
+            height = clip,
             wall = wall,
             base = base,
             thickness = thickness
         );
 
-        // test the wire clip profile
-        wireClip(
+        // test the accessory mast shape
+        mast(
+            width = base,
+            height = height,
+            distance = 0
+        );
+
+        // test the accessory rings shape
+        mastRings(
+            width = base,
+            height = base,
+            wall = base,
+            interval = height / 2,
+            count = 2,
+            distance = printTolerance,
+            center = true
+        );
+
+        // test the accessory clip shape
+        accessoryMast(
+            width = base,
+            height = height,
             wall = wall,
-            height = clip,
             base = base,
             thickness = thickness
+        );
+
+        // test the accessory flag shape
+        accessoryFlag(
+            width = width,
+            height = height,
+            thickness = thickness,
+            ring = wall,
+            mast = base
         );
 
     }

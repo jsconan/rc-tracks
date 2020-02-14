@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A LED cable clip for the barrier holders.
+ * A mast to clip accessories onto the barrier holders.
  *
  * @author jsconan
  */
@@ -35,8 +35,9 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    cableClip(
-        height = cableClipWidth,
+    accessoryMast(
+        width = mastWidth,
+        height = mastHeight,
         wall = accessoryClipThickness,
         base = barrierHolderBase,
         thickness = barrierBodyThickness

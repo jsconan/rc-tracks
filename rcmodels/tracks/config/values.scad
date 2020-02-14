@@ -206,6 +206,13 @@ function getCurveRadius(length, ratio) = length * ratio;
 function getCurveAngle(ratio) = curveAngle / ratio;
 
 /**
+ * Computes the radius of the accessory mast.
+ * @param Number width - The width of the mast.
+ * @returns Number
+ */
+function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
+
+/**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The width of track lane.
@@ -280,6 +287,13 @@ module printConfig(length, width, height, radius, base) {
         str("-- Track samples --------------"),
         str("Size of samples:       ", sampleSize / 10, "cm"),
         str("Base of samples:       ", sampleBase, "mm"),
+        str("-- Track accessories ----------"),
+        str("Mast height:           ", mastHeight, "mm"),
+        str("Mast width:            ", mastWidth, "mm"),
+        str("Mast radius:           ", getMastRadius(mastWidth), "mm"),
+        str("Flag height:           ", flagHeight, "mm"),
+        str("Flag width:            ", flagWidth, "mm"),
+        str("Flag thickness:        ", flagThickness, "mm"),
         str("-- Printer settings -----------"),
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
         str("Print layer:           ", printResolution, "mm"),
@@ -300,3 +314,6 @@ stripIndentRatio = 0.5;
 
 // The angle of a typical curve
 curveAngle = 90;
+
+// The number of facets the accessory mast have
+mastFacets = 6;

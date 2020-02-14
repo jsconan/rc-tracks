@@ -40,7 +40,7 @@ height = 30;            // The height of the barrier, including the holders
 base = 2;               // The base unit value used to design the barrier holder
 thickness = 0.6;        // The thickness of the barrier body
 wall = 0.8;             // The thickness of the walls
-clip = 2;               // The thickness of the wire clips
+clip = 2;               // The thickness of the cable clips
 
 // Validate the config against the constraints
 validateConfig(
