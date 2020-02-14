@@ -82,8 +82,10 @@ renderpathall() {
 
 # Display the render config
 showconfig() {
+    local config="${dstpath}/config.txt"
     printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
-    renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D'
+    renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D' > "${config}"
+    cat "${config}"
 }
 
 # load parameters
