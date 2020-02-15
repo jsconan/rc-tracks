@@ -23,32 +23,54 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * An arch tower that clamp the barrier holders.
+ * Test the U-turn elements shapes.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../../../config/setup.scad>
+include <setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    distribute([0, getBarrierHolderWidth(barrierHolderBase) * 2, 0], center=true) {
-        archTower(
-            length = trackSectionSize,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase,
-            wall = archTowerThickness,
+applyMode(mode=mode) {
+
+    distribute(intervalY=length, center=true) {
+
+        // test the u-turn shape, left side
+        uTurnBarrierHolder(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base,
+            gap = wall,
             right = false
         );
-        archTower(
-            length = trackSectionSize,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase,
-            wall = archTowerThickness,
+
+        // test the u-turn shape, right side
+        uTurnBarrierHolder(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base,
+            gap = wall,
             right = true
         );
+
+        // test the u-turn compensation shape
+        uTurnCompensationBarrierHolder(
+            thickness = thickness,
+            base = base,
+            gap = wall
+        );
+
+        // test the u-turn compensation body shape
+        uTurnCompensationBarrierBody(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base,
+            gap = wall
+        );
+
     }
 }

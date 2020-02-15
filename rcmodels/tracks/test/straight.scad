@@ -71,19 +71,19 @@ applyMode(mode=mode) {
 
         // test the arch tower shape with holders, left side
         archTower(
-            wall = wall * 2,
             length = length,
-            base = base,
             thickness = thickness,
+            base = base,
+            wall = wall * 2,
             right = false
         );
 
         // test the arch tower shape with holders, right side
         archTower(
-            wall = wall * 2,
             length = length,
-            base = base,
             thickness = thickness,
+            base = base,
+            wall = wall * 2,
             right = true
         );
 

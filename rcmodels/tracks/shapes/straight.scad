@@ -135,13 +135,13 @@ module straightBarrierHolder(length, thickness, base, ratio = 1) {
 
 /**
  * Draws the shape of an arch tower that will clamp a barrier border.
- * @param Number wall - The thickness of the outline.
  * @param Number length - The length of a track element.
- * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the outline.
  * @param Number right - Is it the right or the left part of the track element that is added to the tower?
  */
-module archTower(wall, length, base, thickness, right = false) {
+module archTower(length, thickness, base, wall, right = false) {
     holderHeight = getBarrierHolderHeight(base);
     indent = getBarrierStripIndent(base);
 
