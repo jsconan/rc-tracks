@@ -70,14 +70,16 @@ module barrierNotch(thickness, base, distance = 0, interval = 0, count = 1, cent
  * @param Number height - The thickness of the clip.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
  * @param Boolean [center] - The shape is centered vertically.
  */
-module clip(wall, height, base, thickness, center = false) {
+module clip(wall, height, base, thickness, distance = 0, center = false) {
     negativeExtrude(height=height, center=center) {
         clipProfile(
             wall = wall,
             base = base,
-            thickness = thickness
+            thickness = thickness,
+            distance = distance
         );
     }
 }

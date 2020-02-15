@@ -41,7 +41,8 @@ applyMode(mode=mode) {
             wall = wall,
             height = clip,
             base = base,
-            thickness = thickness
+            thickness = thickness,
+            distance = 0
         );
 
         // test the barrier link shape

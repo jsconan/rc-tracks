@@ -125,13 +125,6 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
 function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
 
 /**
- * Computes the offset applied to the outline of the barrier holder.
- * @param Number base - The base unit value used to design the barrier holder.
- * @returns Number
- */
-function getBarrierHolderOffset(base) = base / 4;
-
-/**
  * Computes the inner height of the barrier body, between the barrier holders.
  * @param Number height - The height of the barrier.
  * @returns Number
@@ -282,8 +275,10 @@ module printConfig(length, width, height, radius, base) {
         str("Outer curve ratio:     ", outerCurveRatio),
         str("Outer curve angle:     ", getCurveAngle(outerCurveRatio), "°"),
         str("Barrier height:        ", height / 10, "cm"),
-        str("Barrier base value:    ", base, "mm"),
         str("Barrier thickness:     ", barrierBodyThickness, "mm"),
+        str("Barrier base value:    ", base, "mm"),
+        str("Barrier holder width:  ", getBarrierHolderWidth(base), "mm"),
+        str("Barrier holder height: ", getBarrierHolderHeight(base), "mm"),
         str("-- Track samples --------------"),
         str("Size of samples:       ", sampleSize / 10, "cm"),
         str("Base of samples:       ", sampleBase, "mm"),

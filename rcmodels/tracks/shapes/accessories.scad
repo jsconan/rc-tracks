@@ -152,7 +152,6 @@ module accessoryFlag(width, height, thickness, ring, mast) {
     ringInterval = height - ringHeight;
     ringOffset = apothem(n=mastFacets, r=getMastRadius(mast)) + distance + thickness;
 
-
     translateZ(ringOffset) {
         mastRings(
             width = mast,

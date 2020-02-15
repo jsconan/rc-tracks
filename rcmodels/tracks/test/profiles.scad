@@ -51,7 +51,8 @@ applyMode(mode=mode) {
         // test the barrier holder profile
         barrierHolderProfile(
             base = base,
-            thickness = thickness
+            thickness = thickness,
+            distance = 0
         );
 
         // test the barrier holder outline
@@ -66,7 +67,8 @@ applyMode(mode=mode) {
         clipProfile(
             wall = wall,
             base = base,
-            thickness = thickness
+            thickness = thickness,
+            distance = 0
         );
 
     }
