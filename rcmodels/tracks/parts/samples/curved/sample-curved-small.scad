@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for a minimal curved track part.
+ * A sample for a small curve track part.
  *
  * @author jsconan
  */
@@ -35,10 +35,10 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curvedBarrierHolder(
-        length = trackSectionSize,
+    curvedBarrierMain(
+        length = sampleSize,
         thickness = barrierBodyThickness,
-        base = barrierHolderBase,
+        base = sampleBase,
         ratio = 1,
         right = rightOriented
     );

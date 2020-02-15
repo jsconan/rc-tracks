@@ -36,6 +36,24 @@ applyMode(mode=mode) {
 
     distribute(intervalY=length * 3, center=true) {
 
+        // test the main shape of a barrier holder for a curved track element, short curve, right turned
+        curvedBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 0.5,
+            right = true
+        );
+
+        // test the main shape of a barrier holder for a curved track element, short curve, left turned
+        curvedBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 0.5,
+            right = false
+        );
+
         distributeRotate(center=true) {
 
             // test the main shape of a barrier holder for a curved track element, inner curve, right turned
@@ -82,6 +100,24 @@ applyMode(mode=mode) {
             thickness = thickness,
             base = base,
             distance = printTolerance
+        );
+
+        // test the barrier holder shape for a curved track element, short curve, right turned
+        curvedBarrierHolder(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 0.5,
+            right = true
+        );
+
+        // test the barrier holder shape for a curved track element, short curve, left turned
+        curvedBarrierHolder(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 0.5,
+            right = false
         );
 
         distributeRotate(center=true) {
