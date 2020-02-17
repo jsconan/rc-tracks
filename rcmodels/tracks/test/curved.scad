@@ -95,7 +95,7 @@ applyMode(mode=mode) {
         }
 
         // test the barrier notch shape for a curved track element
-        barrierNotchCurved(
+        curvedBarrierNotch(
             radius = length,
             thickness = thickness,
             base = base,

@@ -65,6 +65,35 @@ module barrierNotch(thickness, base, distance = 0, interval = 0, count = 1, cent
 }
 
 /**
+ * Draws the negative shape of a barrier holder notch.
+ * @param Number length - The length of the shape.
+ * @param Number thickness - The thickness of the shape.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [notches] - The number of notches.
+ */
+module barrierNotchNegative(length, thickness, base, notches = 2) {
+    height = getBarrierHolderHeight(base) * 2;
+    notches = min(notches, 2);
+    interval = length / notches;
+    count = notches + 1;
+
+    difference() {
+        box([length + 2, thickness, height]);
+
+        rotateX(90) {
+            barrierNotch(
+                thickness = thickness * 2,
+                base = base,
+                distance = printTolerance / 2,
+                interval = interval,
+                count = count,
+                center = true
+            );
+        }
+    }
+}
+
+/**
  * Draws the shape of a clip.
  * @param Number wall - The thickness of the clip lines.
  * @param Number height - The thickness of the clip.

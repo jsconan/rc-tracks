@@ -35,7 +35,7 @@
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number [distance] - An additional distance added to the outline of the barrier link.
  */
-module barrierNotchCurved(radius, thickness, base, distance = 0) {
+module curvedBarrierNotch(radius, thickness, base, distance = 0) {
     width = getBarrierNotchWidth(base, distance);
     strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
@@ -77,19 +77,59 @@ module barrierNotchCurved(radius, thickness, base, distance = 0) {
 
 /**
  * Place a curved element with respect to the length and the ratio.
- * @param Number length - The length of the element.
- * @param Number ratio - The ratio to apply on the radius
+ * @param Number length - The length of a track element.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The angle of the curve.
  * @param Number z - An option Z-axis translation
  */
-module placeCurvedElement(length, ratio = 1, z = 0) {
-    radius = getCurveRadius(length, ratio);
-    angle = getCurveAngle(ratio);
-    ratioAngle = curveAngle - angle;
+module placeCurvedElement(length, radius, angle, z = 0) {
+    remainingAngle = curveAngle - angle;
     offset = (length - radius) * cos(45) * [1, 1, 0] + [0, 0, z];
 
     translate(offset) {
-        rotateZ(ratioAngle / 2) {
+        rotateZ(remainingAngle / 2) {
             children();
+        }
+    }
+}
+
+/**
+ * Adds the links to a curved element.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The angle of the curve.
+ * @param Number linkHeight - The height of the link.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number right - Is the curve oriented to the right?
+ */
+module curvedLinks(radius, angle, linkHeight, base, right = false) {
+    remainingAngle = curveAngle - angle;
+    outerLinkDirection = right ? 180 : 0;
+    outerLinkPosition = right ? 270 : -remainingAngle;
+    innerLinkDirection = right ? 90 : -90;
+    innerLinkPosition = right ? 90 - remainingAngle : 0;
+
+    rotateZ(outerLinkPosition) {
+        translateY(radius) {
+            rotateZ(outerLinkDirection) {
+                barrierLink(
+                    height = linkHeight - printResolution,
+                    base = base
+                );
+            }
+        }
+    }
+    difference() {
+        children();
+        rotateZ(innerLinkPosition) {
+            translate([radius, 0, -1]) {
+                rotateZ(innerLinkDirection) {
+                    barrierLink(
+                        height = linkHeight + printResolution + 1,
+                        base = base,
+                        distance = printTolerance
+                    );
+                }
+            }
         }
     }
 }
@@ -105,43 +145,16 @@ module placeCurvedElement(length, ratio = 1, z = 0) {
 module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    ratioAngle = curveAngle - angle;
     linkHeight = getBarrierHolderHeight(base) - base;
 
-    outerLinkDirection = right ? 180 : 0;
-    outerLinkPosition = right ? 270 : -ratioAngle;
-    innerLinkDirection = right ? 90 : -90;
-    innerLinkPosition = right ? 90 - ratioAngle : 0;
-
-    placeCurvedElement(length, ratio) {
-        rotateZ(outerLinkPosition) {
-            translateY(radius) {
-                rotateZ(outerLinkDirection) {
-                    barrierLink(
-                        height = linkHeight - printResolution,
-                        base = base
-                    );
-                }
-            }
-        }
-        difference() {
+    placeCurvedElement(length=length, radius=radius, angle=angle) {
+        curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
             rotate_extrude(angle=angle, convexity=10) {
                 translateX(radius) {
                     barrierHolderProfile(
                         base = base,
                         thickness = thickness
                     );
-                }
-            }
-            rotateZ(innerLinkPosition) {
-                translate([radius, 0, -1]) {
-                    rotateZ(innerLinkDirection) {
-                        barrierLink(
-                            height = linkHeight + printResolution + 1,
-                            base = base,
-                            distance = printTolerance
-                        );
-                    }
                 }
             }
         }
@@ -170,7 +183,7 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
             ratio = ratio,
             right = right
         );
-        placeCurvedElement(length, ratio, minThickness) {
+        placeCurvedElement(length=length, radius=radius, angle=angle, z=minThickness) {
             difference() {
                 pipeSegment(
                     r = radius + thickness / 2,
@@ -188,7 +201,7 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
                 ];
 
                 repeatRotateMap(angles) {
-                    barrierNotchCurved(
+                    curvedBarrierNotch(
                         radius = radius,
                         thickness = thickness * 2,
                         base = base,

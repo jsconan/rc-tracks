@@ -60,6 +60,31 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 }
 
 /**
+ * Adds the links to a straight element.
+ * @param Number length - The length of the element.
+ * @param Number linkHeight - The height of the link.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightLinks(length, linkHeight, base) {
+    translateX(-length / 2) {
+        barrierLink(
+            height = linkHeight - printResolution,
+            base = base
+        );
+    }
+    difference() {
+        children();
+        translate([length / 2, 0, -1]) {
+            barrierLink(
+                height = linkHeight + printResolution + 1,
+                base = base,
+                distance = printTolerance
+            );
+        }
+    }
+}
+
+/**
  * Draws the main shape of a barrier holder for a straight track element.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.
@@ -68,13 +93,7 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 module straightBarrierMain(length, thickness, base) {
     linkHeight = getBarrierHolderHeight(base) - base;
 
-    translateX(-length / 2) {
-        barrierLink(
-            height = linkHeight - printResolution,
-            base = base
-        );
-    }
-    difference() {
+    straightLinks(length=length, linkHeight=linkHeight, base=base) {
         rotate([90, 0, 90]) {
             negativeExtrude(height=length, center=true) {
                 barrierHolderProfile(
@@ -82,13 +101,6 @@ module straightBarrierMain(length, thickness, base) {
                     thickness = thickness
                 );
             }
-        }
-        translate([length / 2, 0, -1]) {
-            barrierLink(
-                height = linkHeight + printResolution + 1,
-                base = base,
-                distance = printTolerance
-            );
         }
     }
 }
@@ -101,12 +113,9 @@ module straightBarrierMain(length, thickness, base) {
  * @param Number ratio - The ratio to apply on the length
  */
 module straightBarrierHolder(length, thickness, base, ratio = 1) {
-    linkHeight = getBarrierHolderHeight(base) - base;
     thickness = thickness + printTolerance;
     length = length * ratio;
     notches = ratio * 2;
-    interval = length / notches;
-    count = notches + 1;
 
     difference() {
         straightBarrierMain(
@@ -115,20 +124,12 @@ module straightBarrierHolder(length, thickness, base, ratio = 1) {
             base = base
         );
         translateZ(minThickness) {
-            difference() {
-                box([length + 2, thickness, linkHeight * 2]);
-
-                rotateX(90) {
-                    barrierNotch(
-                        thickness = thickness * 2,
-                        base = base,
-                        distance = printTolerance / 2,
-                        interval = interval,
-                        count = count,
-                        center = true
-                    );
-                }
-            }
+            barrierNotchNegative(
+                length = length,
+                thickness = thickness,
+                base = base,
+                notches = notches
+            );
         }
     }
 }

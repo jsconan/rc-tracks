@@ -45,6 +45,14 @@ applyMode(mode=mode) {
             distance = 0
         );
 
+        // test the barrier notch negative shape for a straight track element
+        barrierNotchNegative(
+            length = length,
+            thickness = thickness,
+            base = base,
+            notches = 2
+        );
+
         // test the barrier link shape
         barrierLink(
             height = 5,
