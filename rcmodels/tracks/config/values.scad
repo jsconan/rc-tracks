@@ -129,7 +129,7 @@ function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickne
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getBarrierBodyInnerHeight(height, base) = height - getBarrierStripHeight(base) * 2;
+function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeight(base) + minThickness) * 2;
 
 /**
  * Computes the outer height of the barrier body, taking care of the barrier holders.
@@ -274,13 +274,13 @@ module printConfig(length, width, height, radius, base) {
         str("Inner curve angle:     ", getCurveAngle(innerCurveRatio), "°"),
         str("Outer curve ratio:     ", outerCurveRatio),
         str("Outer curve angle:     ", getCurveAngle(outerCurveRatio), "°"),
-        str("Barrier height:        ", height / 10, "cm"),
+        str("Barrier height:        ", height, "mm"),
         str("Barrier thickness:     ", barrierBodyThickness, "mm"),
         str("Barrier base value:    ", base, "mm"),
         str("Barrier holder width:  ", getBarrierHolderWidth(base), "mm"),
         str("Barrier holder height: ", getBarrierHolderHeight(base), "mm"),
         str("-- Track samples --------------"),
-        str("Size of samples:       ", sampleSize / 10, "cm"),
+        str("Size of samples:       ", sampleSize, "mm"),
         str("Base of samples:       ", sampleBase, "mm"),
         str("-- Track accessories ----------"),
         str("Mast height:           ", mastHeight, "mm"),
