@@ -45,6 +45,7 @@ partpath=${srcpath}/parts
 showConfig=
 renderAccessories=
 renderElements=
+renderUnibody=
 renderSamples=
 
 # include libs
@@ -83,6 +84,7 @@ renderpathall() {
 # Display the render config
 showconfig() {
     local config="${dstpath}/config.txt"
+    createpath "${dstpath}" "output"
     printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
     renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D' > "${config}"
     cat "${config}"
@@ -97,6 +99,10 @@ while (( "$#" )); do
         ;;
         "e"|"elements")
             renderElements=1
+            showConfig=1
+        ;;
+        "u"|"unibody")
+            renderUnibody=1
             showConfig=1
         ;;
         "s"|"samples")
@@ -132,7 +138,8 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  a,  accessories     ${C_RST}Render the accessories"
-            echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track elements"
+            echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track separated elements"
+            echo -e "${C_MSG}  u,  unibody         ${C_RST}Render the track unibody elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
@@ -167,9 +174,10 @@ if [ "${trackSectionSize}" != "" ]; then
 fi
 
 # default script config
-if [ "${renderAccessories}" == "" ] && [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
+if [ "${renderAccessories}" == "" ] && [ "${renderElements}" == "" ] && [ "${renderUnibody}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
     renderAccessories=1
     renderElements=1
+    renderUnibody=1
     renderSamples=1
     showConfig=1
 fi
@@ -188,8 +196,12 @@ if [ "${renderAccessories}" != "" ]; then
     renderpath "${partpath}/accessories" "${dstpath}/accessories"
 fi
 if [ "${renderElements}" != "" ]; then
-    printmessage "${C_MSG}Rendering track elements"
+    printmessage "${C_MSG}Rendering track separated elements"
     renderpathall "${partpath}/elements" "${dstpath}/elements"
+fi
+if [ "${renderUnibody}" != "" ]; then
+    printmessage "${C_MSG}Rendering track unibody elements"
+    renderpathall "${partpath}/unibody" "${dstpath}/unibody"
 fi
 if [ "${renderSamples}" != "" ]; then
     printmessage "${C_MSG}Rendering track samples"
