@@ -37,13 +37,13 @@
  * @param Boolean [center] - The shape is centered vertically.
  */
 module cableClip(height, wall, base, thickness, center = false) {
-    holderWidth = getBarrierHolderWidth(base) + wall * 2;
-
+    holderWidth = getBarrierHolderWidth(base) + (wall + printTolerance) * 2;
     negativeExtrude(height=height, center=center) {
         clipProfile(
             wall = wall,
             base = base,
-            thickness = thickness
+            thickness = thickness + printTolerance,
+            distance = printTolerance
         );
         repeat(intervalX = holderWidth - wall, center = true) {
             translateY(base / 2) {
@@ -132,7 +132,8 @@ module accessoryMast(width, height, wall, base, thickness) {
             wall = wall,
             height = width,
             base = base,
-            thickness = thickness,
+            thickness = thickness + printTolerance,
+            distance = printTolerance,
             center = true
         );
     }

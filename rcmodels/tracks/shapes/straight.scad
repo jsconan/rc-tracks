@@ -45,7 +45,6 @@ module barrierBody(length, height, thickness, base, notches = 1) {
             size = [length, height, thickness],
             center = true
         );
-
         repeatMirror(interval=[0, height, 0], axis=[0, 1, 0], center=true) {
             barrierNotch(
                 thickness = thickness * 2,
@@ -152,9 +151,9 @@ module archTower(length, thickness, base, wall, right = false) {
                 wall = wall,
                 height = holderHeight,
                 base = base,
-                thickness = thickness
+                thickness = thickness + printTolerance,
+                distance = printTolerance
             );
-
             translate([0, wall / 2, holderHeight - indent]) {
                 box([thickness, wall * 2, indent * 2]);
             }

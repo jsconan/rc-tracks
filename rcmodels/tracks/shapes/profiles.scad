@@ -75,25 +75,25 @@ module barrierNotchProfile(base, distance = 0) {
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierHolderProfile(base, thickness, distance = 0) {
-    linkWidth = getBarrierLinkWidth(base, printTolerance);
-    top = getBarrierHolderTopWidth(base, thickness);
-    width = getBarrierHolderWidth(base);
-    height = getBarrierHolderHeight(base);
-    offset = base / 4;
-    lineW = (width - top) / 2;
-    lineH = height - base;
+    holderTopWidth = getBarrierHolderTopWidth(base, thickness);
+    holderWidth = getBarrierHolderWidth(base);
+    holderHeight = getBarrierHolderHeight(base);
+    holderOffset = base / 4;
+    holderSide = base - holderOffset;
+    holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
+    holderLineY = holderHeight - holderSide - holderOffset * 2;
 
     polygon(outline(path([
-        ["P", -width / 2 + offset, 0],
-        ["L", -offset, offset],
-        ["V", base - offset],
-        ["L", lineW - offset, lineH - offset],
-        ["L", offset, offset],
-        ["H", top],
-        ["L", offset, -offset],
-        ["L", lineW - offset, -lineH + offset],
-        ["V", -base + offset],
-        ["L", -offset, -offset]
+        ["P", holderOffset - holderWidth / 2, 0],
+        ["L", -holderOffset, holderOffset],
+        ["V", holderSide],
+        ["L", holderLineX, holderLineY],
+        ["L", holderOffset, holderOffset],
+        ["H", holderTopWidth],
+        ["L", holderOffset, -holderOffset],
+        ["L", holderLineX, -holderLineY],
+        ["V", -holderSide],
+        ["L", -holderOffset, -holderOffset]
     ]), -distance), convexity = 10);
 }
 
@@ -112,7 +112,6 @@ module barrierHolderOutline(wall, base, thickness, distance = 0) {
                 thickness = thickness,
                 distance = wall + distance
             );
-
             barrierHolderProfile(
                 base = base,
                 thickness = thickness,
@@ -133,14 +132,15 @@ module clipProfile(wall, base, thickness, distance = 0) {
     holderHeight = getBarrierHolderHeight(base);
 
     difference() {
-        barrierHolderOutline(
-            wall = wall,
-            base = base,
-            thickness = thickness,
-            distance = distance
-        );
-
-        translateY(holderHeight + wall * 1.5 + distance) {
+        translateY(distance) {
+            barrierHolderOutline(
+                wall = wall,
+                base = base,
+                thickness = thickness,
+                distance = distance
+            );
+        }
+        translateY(holderHeight + wall * 1.5 + distance * 2) {
             rectangle([getBarrierHolderTopWidth(base, thickness), wall * 2] + vector2D(distance));
         }
     }
