@@ -87,5 +87,13 @@ applyMode(mode=mode) {
             right = true
         );
 
+        // test the shape of the unibody barrier for a straight track element
+        straightBarrierUnibody(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base
+        );
+
     }
 }

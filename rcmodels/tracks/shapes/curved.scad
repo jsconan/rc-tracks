@@ -162,6 +162,35 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
 }
 
 /**
+ * Draws the shape of a unibody barrier for a curved track element.
+ * @param Number length - The length of the element.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the barrier body for a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @param Number right - Is the curve oriented to the right?
+ */
+module curvedBarrierUnibody(length, height, thickness, base, ratio = 1, right = false) {
+    radius = getCurveRadius(length, ratio);
+    angle = getCurveAngle(ratio);
+    linkHeight = height - getBarrierHolderHeight(base) - base;
+
+    placeCurvedElement(length=length, radius=radius, angle=angle) {
+        curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
+            rotate_extrude(angle=angle, convexity=10) {
+                translateX(radius) {
+                    barrierUnibodyProfile(
+                        height = height,
+                        base = base,
+                        thickness = thickness + printTolerance
+                    );
+                }
+            }
+        }
+    }
+}
+
+/**
  * Draws the barrier holder for a curved track element.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.

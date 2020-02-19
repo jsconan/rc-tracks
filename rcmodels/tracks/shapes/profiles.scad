@@ -98,6 +98,59 @@ module barrierHolderProfile(base, thickness, distance = 0) {
 }
 
 /**
+ * Draws the profile of a unibody barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body for a barrier holder.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierUnibodyProfile(height, base, thickness, distance = 0) {
+    holderTopWidth = getBarrierHolderTopWidth(base, thickness);
+    holderWidth = getBarrierHolderWidth(base);
+    holderHeight = getBarrierHolderHeight(base);
+    holderOffset = base / 4;
+    holderSide = base - holderOffset;
+    holderOffsetWidth = holderWidth - holderOffset * 2;
+    holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
+    holderLineY = holderHeight - base - holderOffset;
+
+    unibodyNeck = base / 2;
+    unibodyWidth = getBarrierUnibodyWidth(base);
+    unibodyOffsetWidth = unibodyWidth - holderOffset * 2;
+    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - holderOffset;
+    unibodyLineY = height - holderHeight - unibodyNeck - base - holderOffset;
+
+    startX = holderTopWidth / 2;
+    startY = holderSide + unibodyLineY + unibodyNeck + holderOffset * 2;
+
+    polygon(outline(path([
+        ["P", -startX, startY],
+        // barrier holder profile
+        ["L", -holderOffset, holderOffset],
+        ["L", -holderLineX, holderLineY],
+        ["V", holderSide],
+        ["L", holderOffset, holderOffset],
+        ["H", holderOffsetWidth],
+        ["L", holderOffset, -holderOffset],
+        ["V", -holderSide],
+        ["L", -holderLineX, -holderLineY],
+        ["L", -holderOffset, -holderOffset],
+        // unibody profile
+        ["V", -unibodyNeck],
+        ["L", holderOffset, -holderOffset],
+        ["L", unibodyLineX, -unibodyLineY],
+        ["V", -holderSide],
+        ["L", -holderOffset, -holderOffset],
+        ["H", -unibodyOffsetWidth],
+        ["L", -holderOffset, holderOffset],
+        ["V", holderSide],
+        ["L", unibodyLineX, unibodyLineY],
+        ["L", holderOffset, holderOffset],
+        ["V", unibodyNeck]
+    ]), -distance), convexity = 10);
+}
+
+/**
  * Draws the outline of a barrier holder.
  * @param Number wall - The thickness of the outline.
  * @param Number base - The base unit value used to design the barrier holder.

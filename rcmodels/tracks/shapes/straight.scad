@@ -105,6 +105,29 @@ module straightBarrierMain(length, thickness, base) {
 }
 
 /**
+ * Draws the shape of a unibody barrier for a straight track element.
+ * @param Number length - The length of the element.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the barrier body for a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightBarrierUnibody(length, height, thickness, base) {
+    linkHeight = height - getBarrierHolderHeight(base) - base;
+
+    straightLinks(length=length, linkHeight=linkHeight, base=base) {
+        rotate([90, 0, 90]) {
+            negativeExtrude(height=length, center=true) {
+                barrierUnibodyProfile(
+                    height = height,
+                    base = base,
+                    thickness = thickness + printTolerance
+                );
+            }
+        }
+    }
+}
+
+/**
  * Draws the barrier holder for a straight track element.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.

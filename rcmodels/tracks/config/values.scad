@@ -125,6 +125,13 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
 function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
 
 /**
+ * Computes the outer width of a unibody barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierUnibodyWidth(base) = getBarrierHolderWidth(base) + base;
+
+/**
  * Computes the inner height of the barrier body, between the barrier holders.
  * @param Number height - The height of the barrier.
  * @returns Number
@@ -279,6 +286,8 @@ module printConfig(length, width, height, radius, base) {
         str("Barrier base value:    ", base, "mm"),
         str("Barrier holder width:  ", getBarrierHolderWidth(base), "mm"),
         str("Barrier holder height: ", getBarrierHolderHeight(base), "mm"),
+        str("Unibody barrier width: ", getBarrierUnibodyWidth(base), "mm"),
+        str("Unibody barrier height:", height, "mm"),
         str("-- Track samples --------------"),
         str("Size of samples:       ", sampleSize, "mm"),
         str("Base of samples:       ", sampleBase, "mm"),

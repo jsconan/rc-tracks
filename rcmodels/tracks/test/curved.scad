@@ -34,129 +34,196 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distribute(intervalY=length * 3, center=true) {
+    distribute(intervalX=length * 3, center=true) {
 
-        // test the main shape of a barrier holder for a curved track element, short curve, right turned
-        curvedBarrierMain(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 0.5,
-            right = true
-        );
+        distribute(intervalY=length * 3, center=true) {
 
-        // test the main shape of a barrier holder for a curved track element, short curve, left turned
-        curvedBarrierMain(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 0.5,
-            right = false
-        );
-
-        distributeRotate(center=true) {
-
-            // test the main shape of a barrier holder for a curved track element, inner curve, right turned
+            // test the main shape of a barrier holder for a curved track element, short curve, right turned
             curvedBarrierMain(
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getInnerCurveRatio(length, radius),
+                ratio = 0.5,
                 right = true
             );
 
-            // test the main shape of a barrier holder for a curved track element, outer curve, right turned
+            // test the main shape of a barrier holder for a curved track element, short curve, left turned
             curvedBarrierMain(
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width, radius),
+                ratio = 0.5,
+                right = false
+            );
+
+            distributeRotate(center=true) {
+
+                // test the main shape of a barrier holder for a curved track element, inner curve, right turned
+                curvedBarrierMain(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = true
+                );
+
+                // test the main shape of a barrier holder for a curved track element, outer curve, right turned
+                curvedBarrierMain(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = true
+                );
+
+                // test the main shape of a barrier holder for a curved track element, inner curve, left turned
+                curvedBarrierMain(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = false
+                );
+
+                // test the main shape of a barrier holder for a curved track element, outer curve, left turned
+                curvedBarrierMain(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = false
+                );
+
+            }
+        }
+
+        distribute(intervalY=length * 3, center=true) {
+
+            // test the barrier holder shape for a curved track element, short curve, right turned
+            curvedBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base,
+                ratio = 0.5,
                 right = true
             );
 
-            // test the main shape of a barrier holder for a curved track element, inner curve, left turned
-            curvedBarrierMain(
+            // test the barrier holder shape for a curved track element, short curve, left turned
+            curvedBarrierHolder(
                 length = length,
                 thickness = thickness,
                 base = base,
-                ratio = getInnerCurveRatio(length, radius),
+                ratio = 0.5,
                 right = false
             );
 
-            // test the main shape of a barrier holder for a curved track element, outer curve, left turned
-            curvedBarrierMain(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = getOuterCurveRatio(length, width, radius),
-                right = false
-            );
+            distributeRotate(center=true) {
+
+                // test the barrier holder shape for a curved track element, inner curve, right turned
+                curvedBarrierHolder(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = true
+                );
+
+                // test the barrier holder shape for a curved track element, outer curve, right turned
+                curvedBarrierHolder(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = true
+                );
+
+                // test the barrier holder shape for a curved track element, inner curve, left turned
+                curvedBarrierHolder(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = false
+                );
+
+                // test the barrier holder shape for a curved track element, outer curve, left turned
+                curvedBarrierHolder(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = false
+                );
+
+            }
 
         }
 
-        // test the barrier notch shape for a curved track element
-        curvedBarrierNotch(
-            radius = length,
-            thickness = thickness,
-            base = base,
-            distance = printTolerance
-        );
+        distribute(intervalY=length * 3, center=true) {
 
-        // test the barrier holder shape for a curved track element, short curve, right turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 0.5,
-            right = true
-        );
-
-        // test the barrier holder shape for a curved track element, short curve, left turned
-        curvedBarrierHolder(
-            length = length,
-            thickness = thickness,
-            base = base,
-            ratio = 0.5,
-            right = false
-        );
-
-        distributeRotate(center=true) {
-
-            // test the barrier holder shape for a curved track element, inner curve, right turned
-            curvedBarrierHolder(
+            // test the barrier unibody shape for a curved track element, short curve, right turned
+            curvedBarrierUnibody(
                 length = length,
+                height = height,
                 thickness = thickness,
                 base = base,
-                ratio = getInnerCurveRatio(length, radius),
+                ratio = 0.5,
                 right = true
             );
 
-            // test the barrier holder shape for a curved track element, outer curve, right turned
-            curvedBarrierHolder(
+            // test the barrier unibody shape for a curved track element, short curve, left turned
+            curvedBarrierUnibody(
                 length = length,
+                height = height,
                 thickness = thickness,
                 base = base,
-                ratio = getOuterCurveRatio(length, width, radius),
-                right = true
-            );
-
-            // test the barrier holder shape for a curved track element, inner curve, left turned
-            curvedBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = getInnerCurveRatio(length, radius),
+                ratio = 0.5,
                 right = false
             );
 
-            // test the barrier holder shape for a curved track element, outer curve, left turned
-            curvedBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = getOuterCurveRatio(length, width, radius),
-                right = false
-            );
+            distributeRotate(center=true) {
+
+                // test the barrier unibody shape for a curved track element, inner curve, right turned
+                curvedBarrierUnibody(
+                    length = length,
+                    height = height,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = true
+                );
+
+                // test the barrier unibody shape for a curved track element, outer curve, right turned
+                curvedBarrierUnibody(
+                    length = length,
+                    height = height,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = true
+                );
+
+                // test the barrier unibody shape for a curved track element, inner curve, left turned
+                curvedBarrierUnibody(
+                    length = length,
+                    height = height,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getInnerCurveRatio(length, radius),
+                    right = false
+                );
+
+                // test the barrier unibody shape for a curved track element, outer curve, left turned
+                curvedBarrierUnibody(
+                    length = length,
+                    height = height,
+                    thickness = thickness,
+                    base = base,
+                    ratio = getOuterCurveRatio(length, width, radius),
+                    right = false
+                );
+
+            }
 
         }
 
