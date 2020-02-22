@@ -58,7 +58,7 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # @param right - Right oriented or left oriented
 renderpath() {
     local rightOriented=$3
-    scadtostlall "$1" "$2" "" \
+    scadrenderall "$1" "$2" "" "" \
         "$(varif "trackSectionSize" ${trackSectionSize})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
         "$(varif "trackRadius" ${trackRadius})" \
@@ -195,3 +195,4 @@ if [ "${renderSamples}" != "" ]; then
     printmessage "${C_MSG}Rendering track samples"
     renderpathall "${partpath}/samples" "${dstpath}/samples"
 fi
+
