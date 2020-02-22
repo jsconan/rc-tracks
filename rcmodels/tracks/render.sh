@@ -42,6 +42,7 @@ srcpath=${project}
 dstpath=${project}/output
 configpath=${srcpath}/config
 partpath=${srcpath}/parts
+format=""
 showConfig=
 renderAccessories=
 renderElements=
@@ -55,7 +56,6 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 #
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
-# @param prefix - A prefix to add to each output file.
 # @param right - Right oriented or left oriented
 renderpath() {
     local rightOriented=$3
@@ -132,6 +132,10 @@ while (( "$#" )); do
             sampleSize=$2
             shift
         ;;
+        "-f"|"--format")
+            format=$2
+            shift
+        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
@@ -148,6 +152,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of a track lane"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
+            echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo
             exit 0
         ;;
@@ -184,6 +189,9 @@ fi
 
 # check OpenSCAD
 scadcheck
+
+# defines the output format
+scadformat "${format}"
 
 # show the config
 if [ "${showConfig}" != "" ]; then
