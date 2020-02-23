@@ -34,7 +34,8 @@ include <../config/setup.scad>
 // Defines the test config
 mode = MODE_DEV;        // The render quality to apply
 length = 50;            // The nominal size of a track element
-width = 50;             // The width of track lane
+width = 50;             // The virtual width of a track lane
+lane = 100;             // The actual width of a track lane
 radius = 50;            // The radius of the track inner curve
 height = 30;            // The height of the barrier, including the holders
 base = 2;               // The base unit value used to design the barrier holder
@@ -46,6 +47,7 @@ clip = 2;               // The thickness of the cable clips
 validateConfig(
     length = length,
     width = width,
+    lane = lane,
     height = height,
     radius = radius,
     base = base
@@ -55,6 +57,7 @@ validateConfig(
 printConfig(
     length = length,
     width = width,
+    lane = lane,
     height = height,
     radius = radius,
     base = base

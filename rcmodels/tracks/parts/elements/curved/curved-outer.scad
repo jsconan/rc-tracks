@@ -36,10 +36,10 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     curvedBarrierHolder(
-        length = trackSectionSize,
+        length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
+        ratio = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius),
         right = rightOriented
     );
 }

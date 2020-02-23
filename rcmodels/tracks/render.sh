@@ -29,7 +29,8 @@
 #
 
 # application params
-trackSectionSize=
+trackSectionLength=
+trackSectionWidth=
 trackLaneWidth=
 trackRadius=
 barrierHeight=
@@ -60,7 +61,8 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 renderpath() {
     local rightOriented=$3
     scadrenderall "$1" "$2" "" "" \
-        "$(varif "trackSectionSize" ${trackSectionSize})" \
+        "$(varif "trackSectionLength" ${trackSectionLength})" \
+        "$(varif "trackSectionWidth" ${trackSectionWidth})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
         "$(varif "trackRadius" ${trackRadius})" \
         "$(varif "barrierHeight" ${barrierHeight})" \
@@ -113,10 +115,14 @@ while (( "$#" )); do
             showConfig=1
         ;;
         "-l"|"--length")
-            trackSectionSize=$2
+            trackSectionLength=$2
             shift
         ;;
-        "-w"|"--height")
+        "-w"|"--width")
+            trackSectionWidth=$2
+            shift
+        ;;
+        "-b"|"--height")
             barrierHeight=$2
             shift
         ;;
@@ -147,10 +153,11 @@ while (( "$#" )); do
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
-            echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
-            echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the length of a track section"
+            echo -e "${C_MSG}  -w,  --width        ${C_RST}Set the virtual width of a track lane (used to compute the radius)"
+            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the actual width of a track lane (physical width, used for the arches)"
+            echo -e "${C_MSG}  -b   --height       ${C_RST}Set the height of the track barrier"
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
-            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of a track lane"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo
@@ -169,12 +176,15 @@ while (( "$#" )); do
 done
 
 # allign values
-if [ "${trackSectionSize}" != "" ]; then
+if [ "${trackSectionLength}" != "" ]; then
+    if [ "${trackSectionWidth}" == "" ]; then
+        trackSectionWidth=$((${trackSectionLength} * 2))
+    fi
     if [ "${trackLaneWidth}" == "" ]; then
-        trackLaneWidth=$((${trackSectionSize} * 2))
+        trackLaneWidth=$((${trackSectionLength} * 3))
     fi
     if [ "${trackRadius}" == "" ]; then
-        trackRadius=${trackSectionSize}
+        trackRadius=${trackSectionLength}
     fi
 fi
 

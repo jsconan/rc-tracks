@@ -33,8 +33,9 @@ include <setup.scad>
 
 // Show the values
 printConfig(
-    length = trackSectionSize,
-    width = trackLaneWidth,
+    length = trackSectionLength,
+    width = trackSectionWidth,
+    lane = trackLaneWidth,
     height = barrierHeight,
     radius = trackRadius,
     base = barrierHolderBase

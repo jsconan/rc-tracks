@@ -184,7 +184,7 @@ function getInnerCurveRatio(length, radius) = radius / length;
 /**
  * Computes the ratio of the outer curve with respect to the track width.
  * @param Number length - The nominal size of a track element.
- * @param Number width - The width of track lane.
+ * @param Number width - The width of a track lane.
  * @param Number radius - The radius of the track inner curve.
  * @returns Number
  */
@@ -215,12 +215,13 @@ function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
 /**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
- * @param Number width - The width of track lane.
+ * @param Number width - The virtual width of a track lane (i.e. the width used to compute the outer radius).
+ * @param Number lane - The actual width of a track lane (i.e. the width of the physical track lanes).
  * @param Number height - The height of the barrier.
  * @param Number radius - The radius of the track inner curve.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module validateConfig(length, width, height, radius, base) {
+module validateConfig(length, width, lane, height, radius, base) {
     assert(
         length >= getMinLength(base),
         str(
@@ -241,7 +242,11 @@ module validateConfig(length, width, height, radius, base) {
     );
     assert(
         width >= length,
-        "The width of the track must be greater or equal than the length of one element!"
+        "The virtual width of the track must be greater or equal than the length of one element!"
+    );
+    assert(
+        lane >= length && lane >= width,
+        "The actual width of the track must be greater or equal than the length of one element and than the virtual width as well!"
     );
     assert(
         radius >= length,
@@ -249,7 +254,11 @@ module validateConfig(length, width, height, radius, base) {
     );
     assert(
         width % length == 0,
-        "The width of the track must be a multiple of the length of one element!"
+        "The virtual width of the track must be a multiple of the length of one element!"
+    );
+    assert(
+        lane % length == 0,
+        "The actual width of the track must be a multiple of the length of one element!"
     );
     assert(
         radius % length == 0,
@@ -260,12 +269,13 @@ module validateConfig(length, width, height, radius, base) {
 /**
  * Prints the config values.
  * @param Number length - The nominal size of a track element.
- * @param Number width - The width of track lane.
+ * @param Number width - The virtual width of a track lane (i.e. the width used to compute the outer radius).
+ * @param Number lane - The actual width of a track lane (i.e. the width of the physical track lanes).
  * @param Number height - The height of the barrier.
  * @param Number radius - The radius of the track inner curve.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module printConfig(length, width, height, radius, base) {
+module printConfig(length, width, lane, height, radius, base) {
     innerCurveRatio = getInnerCurveRatio(length, radius);
     outerCurveRatio = getOuterCurveRatio(length, width, radius);
     echo(join([
@@ -274,9 +284,10 @@ module printConfig(length, width, height, radius, base) {
         str("Version:               ", projectVersion),
         str("-- Track elements -------------"),
         str("Track section length:  ", length / 10, "cm"),
-        str("Track lane width:      ", width / 10, "cm"),
-        str("Track inner radius:    ", radius / 10, "cm"),
         str("Curve section length:  ", getCurveLength(length) / 10, "cm"),
+        str("Virtual lane width:    ", width / 10, "cm"),
+        str("Actual lane width:     ", lane / 10, "cm"),
+        str("Track inner radius:    ", radius / 10, "cm"),
         str("Inner curve ratio:     ", innerCurveRatio),
         str("Inner curve angle:     ", getCurveAngle(innerCurveRatio), "°"),
         str("Outer curve ratio:     ", outerCurveRatio),

@@ -36,7 +36,7 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     curvedBarrierMain(
-        length = sampleSize * getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
+        length = sampleSize * getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius),
         thickness = barrierBodyThickness,
         base = sampleBase,
         ratio = 1,

@@ -45,8 +45,9 @@ include <../shapes/accessories.scad>
 
 // Validate the config against the constraints
 validateConfig(
-    length = trackSectionSize,
-    width = trackLaneWidth,
+    length = trackSectionLength,
+    width = trackSectionWidth,
+    lane = trackLaneWidth,
     height = barrierHeight,
     radius = trackRadius,
     base = barrierHolderBase
