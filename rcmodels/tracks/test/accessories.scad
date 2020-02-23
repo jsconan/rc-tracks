@@ -71,13 +71,22 @@ applyMode(mode=mode) {
             thickness = thickness
         );
 
-        // test the accessory flag shape
+        // test the accessory flag shape, straight
         accessoryFlag(
             width = width,
             height = height,
             thickness = thickness,
-            ring = wall,
-            mast = base
+            mast = base,
+            wave = 0
+        );
+
+        // test the accessory flag shape, wavy
+        accessoryFlag(
+            width = width,
+            height = height,
+            thickness = thickness,
+            mast = base,
+            wave = base
         );
 
     }

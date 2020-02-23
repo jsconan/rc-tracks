@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A flag to clip onto the barrier holders.
+ * A straight flag to clip onto the barrier holders.
  *
  * @author jsconan
  */
@@ -39,7 +39,7 @@ applyMode(mode=renderMode) {
         width = flagWidth,
         height = flagHeight,
         thickness = flagThickness,
-        ring = mastWidth,
-        mast = mastWidth
+        mast = mastWidth,
+        wave = 0
     );
 }
