@@ -36,7 +36,7 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=3, center=true) {
 
-        // test the barrier body shape
+        // test the shape of a barrier body
         barrierBody(
             length = length,
             height = height,
@@ -45,14 +45,14 @@ applyMode(mode=mode) {
             notches = 2
         );
 
-        // test the main shape of the barrier holder for a straight track element
+        // test the main shape of a straight barrier holder
         straightBarrierMain(
             length = length,
             thickness = thickness,
             base = base
         );
 
-        // test the barrier body shape for the remaing of a curve
+        // test the shape of a barrier body for the remaing of a curve
         barrierBody(
             length = getCurveRemainingLength(length),
             height = height,
@@ -61,7 +61,7 @@ applyMode(mode=mode) {
             notches = 1
         );
 
-        // test the barrier holder shape for a straight track element
+        // test the shape of a straight barrier holder
         straightBarrierHolder(
             length = length,
             thickness = thickness,
@@ -69,7 +69,7 @@ applyMode(mode=mode) {
             ratio = 1
         );
 
-        // test the shape of the unibody barrier for a straight track element
+        // test the shape of a straight unibody barrier
         straightBarrierUnibody(
             length = length,
             height = height,
