@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Test the straight elements shapes.
+ * Test the special elements shapes.
  *
  * @author jsconan
  */
@@ -36,45 +36,22 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=3, center=true) {
 
-        // test the barrier body shape
-        barrierBody(
-            length = length,
-            height = height,
-            thickness = thickness,
-            base = base,
-            notches = 2
-        );
-
-        // test the main shape of the barrier holder for a straight track element
-        straightBarrierMain(
-            length = length,
-            thickness = thickness,
-            base = base
-        );
-
-        // test the barrier body shape for the remaing of a curve
-        barrierBody(
-            length = getCurveRemainingLength(length),
-            height = height,
-            thickness = thickness,
-            base = base,
-            notches = 1
-        );
-
-        // test the barrier holder shape for a straight track element
-        straightBarrierHolder(
+        // test the arch tower shape with holders, left side
+        archTower(
             length = length,
             thickness = thickness,
             base = base,
-            ratio = 1
+            wall = wall * 2,
+            right = false
         );
 
-        // test the shape of the unibody barrier for a straight track element
-        straightBarrierUnibody(
+        // test the arch tower shape with holders, right side
+        archTower(
             length = length,
-            height = height,
             thickness = thickness,
-            base = base
+            base = base,
+            wall = wall * 2,
+            right = true
         );
 
     }
