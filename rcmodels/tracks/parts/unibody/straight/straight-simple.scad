@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier unibody for a straight track part.
+ * A unibody barrier for a straight track part.
  *
  * @author jsconan
  */

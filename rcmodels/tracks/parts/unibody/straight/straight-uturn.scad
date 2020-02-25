@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier unibody to compensate a U-turn track part.
+ * A unibody barrier to compensate a U-turn track part.
  *
  * @author jsconan
  */
