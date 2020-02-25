@@ -106,29 +106,25 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
     length = length / 2;
 
     translateY(interval * dir) {
-        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-            straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+        straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+            extrudeStraightProfile(length=length) {
+                barrierUnibodyProfile(
+                    height = height,
+                    base = base,
+                    thickness = thickness
+                );
+            }
+        }
+    }
+    translateY(-interval * dir) {
+        rotateZ(180) {
+            straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
                 extrudeStraightProfile(length=length) {
                     barrierUnibodyProfile(
                         height = height,
                         base = base,
                         thickness = thickness
                     );
-                }
-            }
-        }
-    }
-    translateY(-interval * dir) {
-        rotateZ(180) {
-            carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-                straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
-                    extrudeStraightProfile(length=length) {
-                        barrierUnibodyProfile(
-                            height = height,
-                            base = base,
-                            thickness = thickness
-                        );
-                    }
                 }
             }
         }
