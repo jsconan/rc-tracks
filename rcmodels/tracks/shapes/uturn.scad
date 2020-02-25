@@ -38,46 +38,50 @@
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
-    adjustedThickness = thickness + printTolerance;
+    thickness = thickness + printTolerance;
     holderWidth = getBarrierHolderWidth(base);
     holderHeight = getBarrierHolderHeight(base);
-    towerWidth = nozzleAligned(adjustedThickness + minWidth);
+    linkHeight = getBarrierHolderLinkHeight(base);
+    towerWidth = nozzleAligned(thickness + minWidth);
     towerHeight = getBarrierBodyInnerHeight(height, base) / 2;
     interval = (holderWidth + gap) / 2;
+    dir = right ? -1 : 1;
+    length = length / 2;
 
-    difference() {
-        union() {
-            translateY(interval) {
-                rotateZ(right ? 180 : 0) {
-                    straightBarrierHolder(
-                        length = length,
-                        thickness = thickness,
-                        base = base
+    translateY(interval * dir) {
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+                extrudeStraightProfile(length=length) {
+                    barrierHolderProfile(
+                        base = base,
+                        thickness = thickness
                     );
                 }
             }
-            translateY(-interval) {
-                rotateZ(right ? 0 : 180) {
-                    straightBarrierHolder(
-                        length = length,
-                        thickness = thickness,
-                        base = base
-                    );
-                }
-            }
-        }
-        translate([length, 0, -length]) {
-            box(length * 2);
         }
     }
-    rotateZ(270) {
-        rotate_extrude(angle=180, convexity=10) {
-            translateX(interval) {
+    translateY(-interval * dir) {
+        rotateZ(180) {
+            carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+                straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+                    extrudeStraightProfile(length=length) {
+                        barrierHolderProfile(
+                            base = base,
+                            thickness = thickness
+                        );
+                    }
+                }
+            }
+        }
+    }
+    translateX(length / 2) {
+        rotateZ(270) {
+            extrudeCurvedProfile(radius=interval, angle=180) {
                 barrierHolderProfile(
                     base = base,
-                    thickness = adjustedThickness
+                    thickness = thickness
                 );
-                translate([-adjustedThickness / 2, holderHeight + towerHeight / 2]) {
+                translate([-thickness / 2, holderHeight + towerHeight / 2]) {
                     rectangle([towerWidth, towerHeight]);
                 }
             }
@@ -86,7 +90,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
 }
 
 /**
- * Draws the shape of a barrier unibody for a U-Turn.
+ * Draws the shape of a unibody barrier for a U-Turn.
  * @param Number length - The length of a track element.
  * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body for a barrier holder.
@@ -95,42 +99,47 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) {
+    thickness = thickness + printTolerance;
+    linkHeight = getBarrierUnibodyLinkHeight(height, base);
     interval = (getBarrierUnibodyWidth(base) + gap) / 2;
+    dir = right ? -1 : 1;
+    length = length / 2;
 
-    difference() {
-        union() {
-            translateY(interval) {
-                rotateZ(right ? 180 : 0) {
-                    straightBarrierUnibody(
-                        length = length,
+    translateY(interval * dir) {
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+                extrudeStraightProfile(length=length) {
+                    barrierUnibodyProfile(
                         height = height,
-                        thickness = thickness,
-                        base = base
+                        base = base,
+                        thickness = thickness
                     );
                 }
             }
-            translateY(-interval) {
-                rotateZ(right ? 0 : 180) {
-                    straightBarrierUnibody(
-                        length = length,
-                        height = height,
-                        thickness = thickness,
-                        base = base
-                    );
-                }
-            }
-        }
-        translate([length, 0, -length]) {
-            box(length * 2);
         }
     }
-    rotateZ(270) {
-        rotate_extrude(angle=180, convexity=10) {
-            translateX(interval) {
+    translateY(-interval * dir) {
+        rotateZ(180) {
+            carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+                straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+                    extrudeStraightProfile(length=length) {
+                        barrierUnibodyProfile(
+                            height = height,
+                            base = base,
+                            thickness = thickness
+                        );
+                    }
+                }
+            }
+        }
+    }
+    translateX(length / 2) {
+        rotateZ(270) {
+            extrudeCurvedProfile(radius=interval, angle=180) {
                 barrierUnibodyProfile(
                     height = height,
                     base = base,
-                    thickness = thickness + printTolerance
+                    thickness = thickness
                 );
             }
         }
