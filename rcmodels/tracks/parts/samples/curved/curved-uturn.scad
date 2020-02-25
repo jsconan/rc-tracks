@@ -40,38 +40,36 @@ include <../../../config/setup.scad>
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnSample(length, thickness, base, gap, right = false) {
-    holderWidth = getBarrierHolderWidth(base);
-    holderHeight = getBarrierHolderHeight(base);
-    interval = (gap + holderWidth) / 2;
+    linkHeight = getBarrierHolderLinkHeight(base);
+    interval = (getBarrierHolderWidth(base) + gap) / 2;
+    dir = right ? -1 : 1;
+    length = length / 2;
 
-    difference() {
-        union() {
-            translateY(interval) {
-                rotateZ(right ? 180 : 0) {
-                    straightBarrierMain(
-                        length = length,
-                        thickness = thickness,
-                        base = base
-                    );
-                }
+    translateY(interval * dir) {
+        straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+            extrudeStraightProfile(length=length) {
+                barrierHolderProfile(
+                    base = base,
+                    thickness = thickness
+                );
             }
-            translateY(-interval) {
-                rotateZ(right ? 0 : 180) {
-                    straightBarrierMain(
-                        length = length,
-                        thickness = thickness,
-                        base = base
-                    );
-                }
-            }
-        }
-        translate([length, 0, -length]) {
-            box(length * 2);
         }
     }
-    rotateZ(270) {
-        rotate_extrude(angle=180, convexity=10) {
-            translateX(interval) {
+    translateY(-interval * dir) {
+        rotateZ(180) {
+            straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+                extrudeStraightProfile(length=length) {
+                    barrierHolderProfile(
+                        base = base,
+                        thickness = thickness
+                    );
+                }
+            }
+        }
+    }
+    translateX(length / 2) {
+        rotateZ(270) {
+            extrudeCurvedProfile(radius=interval, angle=180) {
                 barrierHolderProfile(
                     base = base,
                     thickness = thickness
