@@ -144,7 +144,7 @@ function getBarrierUnibodyWidth(base) = getBarrierHolderWidth(base) + base;
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
-function getBarrierUnibodyLinkHeight(height, base) = height - getBarrierHolderLinkHeight(base);
+function getBarrierUnibodyLinkHeight(height, base) = height - getBarrierHolderHeight(base) - base;
 
 /**
  * Computes the inner height of the barrier body, between the barrier holders.
