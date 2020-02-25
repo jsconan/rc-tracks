@@ -126,7 +126,7 @@ module extrudeStraightProfile(length) {
  * @param Number base - The base unit value used to design the barrier holder.
  */
 module straightBarrierMain(length, thickness, base) {
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
 
     straightLinks(length=length, linkHeight=linkHeight, base=base) {
         extrudeStraightProfile(length=length) {
@@ -146,7 +146,7 @@ module straightBarrierMain(length, thickness, base) {
  * @param Number base - The base unit value used to design the barrier holder.
  */
 module straightBarrierUnibody(length, height, thickness, base) {
-    linkHeight = height - getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierUnibodyLinkHeight(height, base);
 
     straightLinks(length=length, linkHeight=linkHeight, base=base) {
         extrudeStraightProfile(length=length) {

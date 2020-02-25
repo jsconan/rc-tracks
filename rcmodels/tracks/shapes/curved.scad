@@ -158,7 +158,7 @@ module extrudeCurvedProfile(radius, angle) {
 module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
 
     placeCurvedElement(length=length, radius=radius, angle=angle) {
         curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
@@ -184,7 +184,7 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
 module curvedBarrierUnibody(length, height, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    linkHeight = height - getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierUnibodyLinkHeight(height, base);
 
     placeCurvedElement(length=length, radius=radius, angle=angle) {
         curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
@@ -210,7 +210,7 @@ module curvedBarrierUnibody(length, height, thickness, base, ratio = 1, right = 
 module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
     thickness = thickness + printTolerance;
 
     difference() {

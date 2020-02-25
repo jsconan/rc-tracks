@@ -125,6 +125,13 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
 function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
 
 /**
+ * Computes the height of the link for a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierHolderLinkHeight(base) = getBarrierHolderHeight(base) - base;
+
+/**
  * Computes the outer width of a unibody barrier.
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
@@ -132,8 +139,17 @@ function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickne
 function getBarrierUnibodyWidth(base) = getBarrierHolderWidth(base) + base;
 
 /**
+ * Computes the height of the link for a unibody barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getBarrierUnibodyLinkHeight(height, base) = height - getBarrierHolderLinkHeight(base);
+
+/**
  * Computes the inner height of the barrier body, between the barrier holders.
  * @param Number height - The height of the barrier.
+ * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
  */
 function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeight(base) + minThickness) * 2;
