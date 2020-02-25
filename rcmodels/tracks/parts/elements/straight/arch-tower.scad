@@ -36,19 +36,17 @@ applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     distribute([0, getBarrierHolderWidth(barrierHolderBase) * 2, 0], center=true) {
-        archTower(
+        archTowerMale(
             length = trackSectionLength,
             thickness = barrierBodyThickness,
             base = barrierHolderBase,
-            wall = archTowerThickness,
-            right = false
+            wall = archTowerThickness
         );
-        archTower(
+        archTowerFemale(
             length = trackSectionLength,
             thickness = barrierBodyThickness,
             base = barrierHolderBase,
-            wall = archTowerThickness,
-            right = true
+            wall = archTowerThickness
         );
     }
 }

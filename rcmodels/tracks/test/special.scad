@@ -36,22 +36,27 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=3, center=true) {
 
-        // test the arch tower shape with holders, left side
-        archTower(
-            length = length,
+        // test the shape of an arch tower clip
+        archTowerClip(
             thickness = thickness,
             base = base,
-            wall = wall * 2,
-            right = false
+            wall = wall * 2
         );
 
-        // test the arch tower shape with holders, right side
-        archTower(
+        // test the shape of an arch tower, male version
+        archTowerMale(
             length = length,
             thickness = thickness,
             base = base,
-            wall = wall * 2,
-            right = true
+            wall = wall * 2
+        );
+
+        // test the shape of an arch tower, female version
+        archTowerFemale(
+            length = length,
+            thickness = thickness,
+            base = base,
+            wall = wall * 2
         );
 
     }

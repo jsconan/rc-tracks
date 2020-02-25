@@ -29,14 +29,12 @@
  */
 
 /**
- * Draws the shape of an arch tower that will clamp a barrier border.
- * @param Number length - The length of a track element.
+ * Draws the shape of a clip that will clamp a barrier border.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number wall - The thickness of the outline.
- * @param Number right - Is it the right or the left part of the track element that is added to the tower?
  */
-module archTower(length, thickness, base, wall, right = false) {
+module archTowerClip(thickness, base, wall) {
     holderHeight = getBarrierHolderHeight(base);
     indent = getBarrierStripIndent(base);
 
@@ -46,7 +44,7 @@ module archTower(length, thickness, base, wall, right = false) {
                 wall = wall,
                 height = holderHeight,
                 base = base,
-                thickness = thickness + printTolerance,
+                thickness = thickness,
                 distance = printTolerance
             );
             translate([0, wall / 2, holderHeight - indent]) {
@@ -54,16 +52,72 @@ module archTower(length, thickness, base, wall, right = false) {
             }
         }
     }
-    difference() {
-        rotateZ(right ? 180 : 0) {
-            straightBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base
-            );
+}
+
+/**
+ * Draws the shape of a male arch tower that will clamp a barrier border.
+ * @param Number length - The length of a track element.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the outline.
+ */
+module archTowerMale(length, thickness, base, wall) {
+    thickness = thickness + printTolerance;
+    holderHeight = getBarrierHolderHeight(base);
+    linkHeight = getBarrierHolderLinkHeight(base);
+    indent = getBarrierStripIndent(base);
+    length = length / 2;
+
+    translateX(length / 2) {
+        archTowerClip(
+            thickness = thickness,
+            base = base,
+            wall = wall
+        );
+    }
+    carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+        straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+            extrudeStraightProfile(length=length) {
+                barrierHolderProfile(
+                    base = base,
+                    thickness = thickness
+                );
+            }
         }
-        translate([length, 0, -length] / 2) {
-            box(length);
+    }
+}
+
+/**
+ * Draws the shape of a female arch tower that will clamp a barrier border.
+ * @param Number length - The length of a track element.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the outline.
+ */
+module archTowerFemale(length, thickness, base, wall) {
+    thickness = thickness + printTolerance;
+    holderHeight = getBarrierHolderHeight(base);
+    linkHeight = getBarrierHolderLinkHeight(base);
+    indent = getBarrierStripIndent(base);
+    length = length / 2;
+
+    translateX(length / 2) {
+        archTowerClip(
+            thickness = thickness,
+            base = base,
+            wall = wall
+        );
+    }
+    rotateZ(180) {
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+                extrudeStraightProfile(length=length) {
+                    barrierHolderProfile(
+                        base = base,
+                        thickness = thickness
+                    );
+                }
+            }
         }
     }
 }
