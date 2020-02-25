@@ -171,19 +171,11 @@ module straightBarrierHolder(length, thickness, base, ratio = 1) {
     length = length * ratio;
     notches = ratio * 2;
 
-    difference() {
+    carveBarrierNotch(length=length, thickness=thickness, base=base, notches=notches) {
         straightBarrierMain(
             length = length,
             thickness = thickness,
             base = base
         );
-        translateZ(minThickness) {
-            barrierNotchNegative(
-                length = length,
-                thickness = thickness,
-                base = base,
-                notches = notches
-            );
-        }
     }
 }
