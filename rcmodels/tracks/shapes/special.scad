@@ -160,16 +160,19 @@ module barrierHolderToUnibodyMale(length, height, thickness, base) {
     thickness = thickness + printTolerance;
     holderLinkHeight = getBarrierHolderLinkHeight(base);
     unibodyLinkHeight = getBarrierUnibodyLinkHeight(height, base);
+    scaleRatio = [getBarrierUnibodyWidth(base)/getBarrierHolderWidth(base), 1];
     length = length / 2;
 
     translateX(length / 2) {
         carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
             straightLinkFemale(length=length, linkHeight=holderLinkHeight, base=base) {
-                extrudeStraightProfile(length=length) {
-                    barrierHolderProfile(
-                        base = base,
-                        thickness = thickness
-                    );
+                rotateZ(180) {
+                    extrudeStraightProfile(length=length, scale=scaleRatio) {
+                        barrierHolderProfile(
+                            base = base,
+                            thickness = thickness
+                        );
+                    }
                 }
             }
         }
@@ -200,12 +203,13 @@ module barrierHolderToUnibodyFemale(length, height, thickness, base) {
     thickness = thickness + printTolerance;
     holderLinkHeight = getBarrierHolderLinkHeight(base);
     unibodyLinkHeight = getBarrierUnibodyLinkHeight(height, base);
+    scaleRatio = [getBarrierUnibodyWidth(base)/getBarrierHolderWidth(base), 1];
     length = length / 2;
 
     translateX(-length / 2) {
         carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
             straightLinkMale(length=length, linkHeight=holderLinkHeight, base=base) {
-                extrudeStraightProfile(length=length) {
+                extrudeStraightProfile(length=length, scale=scaleRatio) {
                     barrierHolderProfile(
                         base = base,
                         thickness = thickness

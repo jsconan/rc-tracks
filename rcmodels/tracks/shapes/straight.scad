@@ -110,10 +110,11 @@ module straightLinks(length, linkHeight, base) {
 /**
  * Extrudes the profile on the expected linear length.
  * @param Number length - The length of the element.
+ * @param Number|Vector [scale] - Scales the 2D shape by this value over the height of the extrusion.
  */
-module extrudeStraightProfile(length) {
+module extrudeStraightProfile(length, scale=1) {
     rotate([90, 0, 90]) {
-        negativeExtrude(height=length, center=true) {
+        negativeExtrude(height=length, center=true, scale=scale) {
             children();
         }
     }
