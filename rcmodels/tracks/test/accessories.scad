@@ -51,6 +51,13 @@ applyMode(mode=mode) {
             distance = 0
         );
 
+        // test the accessory bent mast shape
+        bentMast(
+            width = base,
+            height = [base, height / 2],
+            distance = 0
+        );
+
         // test the accessory rings shape
         mastRings(
             width = base,
@@ -66,6 +73,15 @@ applyMode(mode=mode) {
         accessoryMast(
             width = base,
             height = height,
+            wall = wall,
+            base = base,
+            thickness = thickness
+        );
+
+        // test the bent accessory clip shape
+        accessoryBentMast(
+            width = base,
+            height = [base, height / 2],
             wall = wall,
             base = base,
             thickness = thickness

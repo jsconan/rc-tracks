@@ -60,6 +60,20 @@ module cableClip(height, wall, base, thickness, center = false) {
 }
 
 /**
+ * Draws the profile shape of an accessory mast.
+ * @param Number width - The width of the mast.
+ * @param Number [distance] - An additional distance added to the outline.
+ */
+module mastProfile(width, distance = 0) {
+    radius = getMastRadius(width);
+
+    polygon(
+        points = outline(drawEllipse(r=radius, $fn=mastFacets), distance),
+        convexity = 10
+    );
+}
+
+/**
  * Draws the shape of an accessory mast.
  * @param Number width - The width of the mast.
  * @param Number height - The height of the mast.
@@ -67,14 +81,51 @@ module cableClip(height, wall, base, thickness, center = false) {
  * @param Boolean [center] - The shape is centered vertically.
  */
 module mast(width, height, distance = 0, center = false) {
-    radius = getMastRadius(width);
-
     negativeExtrude(height=height, center=center) {
         rotateZ(getPolygonAngle(1, mastFacets) / 2) {
-            polygon(
-                points = outline(drawEllipse(r=radius, $fn=mastFacets), distance),
-                convexity = 10
+            mastProfile(
+                width = width,
+                distance = distance
             );
+        }
+    }
+}
+
+/**
+ * Draws the shape of a bent accessory mast.
+ * @param Number width - The width of the mast.
+ * @param Number|Vector height - The height of the mast. The 2 sides can be defined separately using a vector.
+ * @param Number [distance] - An additional distance added to the outline.
+ */
+module bentMast(width, height, distance = 0) {
+    height = vector2D(height);
+
+    mast(
+        width = width,
+        height = height[0],
+        distance = distance,
+        center = false
+    );
+    translate([0, -width, height[0] + width]) {
+        rotateX(90) {
+            mast(
+                width = width,
+                height = height[1],
+                distance = distance,
+                center = false
+            );
+        }
+    }
+    translate([0, -width, height[0]]) {
+        rotate([90, 0, 90]) {
+            rotate_extrude(angle=90, convexity=10) {
+                translateX(width) {
+                    mastProfile(
+                        width = width,
+                        distance = distance
+                    );
+                }
+            }
         }
     }
 }
@@ -125,6 +176,34 @@ module accessoryMast(width, height, wall, base, thickness) {
             height = height,
             distance = 0,
             center = false
+        );
+    }
+    rotateZ(90) {
+        clip(
+            wall = wall,
+            height = width,
+            base = base,
+            thickness = thickness + printTolerance,
+            distance = printTolerance,
+            center = true
+        );
+    }
+}
+
+/**
+ * Draws the shape of a bent accessory mast with a clip.
+ * @param Number width - The width of the mast.
+ * @param Number|Vector height - The height of the mast. The 2 sides can be defined separately using a vector.
+ * @param Number wall - The thickness of the accessory clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number thickness - The thickness of the barrier body.
+ */
+module accessoryBentMast(width, height, wall, base, thickness) {
+    rotate([90, 90, 90]) {
+        bentMast(
+            width = width,
+            height = height,
+            distance = 0
         );
     }
     rotateZ(90) {
