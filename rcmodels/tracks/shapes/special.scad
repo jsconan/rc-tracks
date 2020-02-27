@@ -121,29 +121,58 @@ module archTowerFemale(length, thickness, base, wall) {
 }
 
 /**
- * Draws the shape of the unibody barrier side of a connector with a barrier holder.
+ * Draws the shape of a connector between a barrier holder and a unibody barrier.
  * @param Number length - The length of a track element.
  * @param Number height - The height of the barrier.
- * @param Number linkHeight - The height of the link.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module unibodyConnector(length, height, linkHeight, thickness, base) {
-    difference() {
-        extrudeStraightProfile(length=length) {
-            barrierUnibodyProfile(
-                height = height,
-                base = base,
-                thickness = thickness
-            );
-        }
-        translate([-length / 2, 0, height - linkHeight]) {
-            rotateZ(180) {
+module barrierHolderToUnibodyConnector(length, height, thickness, base) {
+    holderTopWidth = getBarrierHolderTopWidth(base, thickness);
+    holderWidth = getBarrierHolderWidth(base);
+    holderHeight = getBarrierHolderHeight(base);
+    holderLinkHeight = getBarrierHolderLinkHeight(base);
+    unibodyWidth = getBarrierUnibodyWidth(base);
+    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - base / 4;
+    unibodyLineY = height - holderHeight - base * 1.75;
+    holderLineY = holderHeight - base * 1.25;
+    unibodyTopWidth = unibodyWidth - base / 2 - holderLineY * (unibodyLineX / unibodyLineY) * 2;
+    length = length / 2;
+
+    distribute(intervalX=length, center=true) {
+        difference() {
+            extrudeStraightProfile(length=length) {
+                barrierUnibodyProfile(
+                    height = height,
+                    base = base,
+                    thickness = thickness
+                );
+            }
+            translate([length / 2, 0, height - holderLinkHeight]) {
                 barrierLink(
-                    height = linkHeight + printResolution + 1,
+                    height = holderLinkHeight + printResolution + 1,
                     base = base,
                     distance = printTolerance
                 );
+            }
+        }
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            translateX(-length / 2) {
+                rotate([90, 0, 90]) {
+                    simplePolyhedron(
+                        bottom = reverse(getBarrierHolderProfilePoints(
+                            base = base,
+                            bottomWidth = unibodyWidth,
+                            topWidth = unibodyTopWidth
+                        )),
+                        top = reverse(getBarrierHolderProfilePoints(
+                            base = base,
+                            bottomWidth = holderWidth,
+                            topWidth = holderTopWidth
+                        )),
+                        z = length
+                    );
+                }
             }
         }
     }
@@ -160,34 +189,15 @@ module barrierHolderToUnibodyMale(length, height, thickness, base) {
     thickness = thickness + printTolerance;
     holderLinkHeight = getBarrierHolderLinkHeight(base);
     unibodyLinkHeight = getBarrierUnibodyLinkHeight(height, base);
-    scaleRatio = [getBarrierUnibodyWidth(base)/getBarrierHolderWidth(base), 1];
-    length = length / 2;
 
-    translateX(length / 2) {
-        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-            straightLinkFemale(length=length, linkHeight=holderLinkHeight, base=base) {
-                rotateZ(180) {
-                    extrudeStraightProfile(length=length, scale=scaleRatio) {
-                        barrierHolderProfile(
-                            base = base,
-                            thickness = thickness
-                        );
-                    }
-                }
-            }
-        }
-    }
-    translateX(-length / 2) {
-        straightLinkMale(length=length, linkHeight=unibodyLinkHeight, base=base) {
-            rotateZ(180) {
-                unibodyConnector(
-                    length = length,
-                    height = height,
-                    linkHeight = holderLinkHeight,
-                    thickness = thickness,
-                    base = base
-                );
-            }
+    straightLinkMale(length=length, linkHeight=unibodyLinkHeight, base=base) {
+        straightLinkFemale(length=length, linkHeight=holderLinkHeight, base=base) {
+            barrierHolderToUnibodyConnector(
+                length = length,
+                height = height,
+                thickness = thickness,
+                base = base
+            );
         }
     }
 }
@@ -203,41 +213,28 @@ module barrierHolderToUnibodyFemale(length, height, thickness, base) {
     thickness = thickness + printTolerance;
     holderLinkHeight = getBarrierHolderLinkHeight(base);
     unibodyLinkHeight = getBarrierUnibodyLinkHeight(height, base);
-    scaleRatio = [getBarrierUnibodyWidth(base)/getBarrierHolderWidth(base), 1];
-    length = length / 2;
 
-    translateX(-length / 2) {
-        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-            straightLinkMale(length=length, linkHeight=holderLinkHeight, base=base) {
-                extrudeStraightProfile(length=length, scale=scaleRatio) {
-                    barrierHolderProfile(
-                        base = base,
-                        thickness = thickness
-                    );
-                }
+    straightLinkFemale(length=length, linkHeight=unibodyLinkHeight, base=base) {
+        straightLinkMale(length=length, linkHeight=holderLinkHeight, base=base) {
+            rotateZ(180) {
+                barrierHolderToUnibodyConnector(
+                    length = length,
+                    height = height,
+                    thickness = thickness,
+                    base = base
+                );
             }
-        }
-    }
-    translateX(length / 2) {
-        straightLinkFemale(length=length, linkHeight=unibodyLinkHeight, base=base) {
-            unibodyConnector(
-                length = length,
-                height = height,
-                linkHeight = holderLinkHeight,
-                thickness = thickness,
-                base = base
-            );
         }
     }
 }
 
 /**
- * Draws the shape of an additional male connector between a barrier holder and a unibody barrier.
+ * Draws the shape of a male connector for a barrier holder.
  * @param Number length - The length of a track element.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module barrierHolderToUnibodyMaleConnector(length, thickness, base) {
+module barrierHolderConnectorMale(length, thickness, base) {
     thickness = thickness + printTolerance;
     linkHeight = getBarrierHolderLinkHeight(base);
     length = length / 2;
@@ -259,12 +256,12 @@ module barrierHolderToUnibodyMaleConnector(length, thickness, base) {
 }
 
 /**
- * Draws the shape of an additional male connector between a barrier holder and a unibody barrier.
+ * Draws the shape of a female connector for a barrier holder.
  * @param Number length - The length of a track element.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module barrierHolderToUnibodyFemaleConnector(length, thickness, base) {
+module barrierHolderConnectorFemale(length, thickness, base) {
     thickness = thickness + printTolerance;
     linkHeight = getBarrierHolderLinkHeight(base);
     length = length / 2;

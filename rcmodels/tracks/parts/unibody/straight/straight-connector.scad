@@ -42,7 +42,7 @@ applyMode(mode=renderMode) {
             thickness = barrierBodyThickness,
             base = barrierHolderBase
         );
-        barrierHolderToUnibodyMaleConnector(
+        barrierHolderConnectorMale(
             length = trackSectionLength,
             thickness = barrierBodyThickness,
             base = barrierHolderBase
@@ -53,7 +53,7 @@ applyMode(mode=renderMode) {
             thickness = barrierBodyThickness,
             base = barrierHolderBase
         );
-        barrierHolderToUnibodyFemaleConnector(
+        barrierHolderConnectorFemale(
             length = trackSectionLength,
             thickness = barrierBodyThickness,
             base = barrierHolderBase

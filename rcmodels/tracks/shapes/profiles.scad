@@ -69,32 +69,46 @@ module barrierNotchProfile(base, distance = 0) {
 }
 
 /**
+ * Draws the outline of a barrier holder profile.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number bottomWidth - The width of the bottom of the shape.
+ * @param Number topWidth - The width of the top of the shape.
+ * @returns Vector[]
+ */
+function getBarrierHolderProfilePoints(base, bottomWidth, topWidth) =
+    let(
+        holderHeight = getBarrierHolderHeight(base),
+        holderOffset = base / 4,
+        holderSide = base - holderOffset,
+        holderLineX = (bottomWidth - topWidth) / 2 - holderOffset,
+        holderLineY = holderHeight - holderSide - holderOffset * 2
+    )
+    path([
+        ["P", holderOffset - bottomWidth / 2, 0],
+        ["L", -holderOffset, holderOffset],
+        ["V", holderSide],
+        ["L", holderLineX, holderLineY],
+        ["L", holderOffset, holderOffset],
+        ["H", topWidth],
+        ["L", holderOffset, -holderOffset],
+        ["L", holderLineX, -holderLineY],
+        ["V", -holderSide],
+        ["L", -holderOffset, -holderOffset]
+    ])
+;
+
+/**
  * Draws the profile of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierHolderProfile(base, thickness, distance = 0) {
-    holderTopWidth = getBarrierHolderTopWidth(base, thickness);
-    holderWidth = getBarrierHolderWidth(base);
-    holderHeight = getBarrierHolderHeight(base);
-    holderOffset = base / 4;
-    holderSide = base - holderOffset;
-    holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
-    holderLineY = holderHeight - holderSide - holderOffset * 2;
-
-    polygon(outline(path([
-        ["P", holderOffset - holderWidth / 2, 0],
-        ["L", -holderOffset, holderOffset],
-        ["V", holderSide],
-        ["L", holderLineX, holderLineY],
-        ["L", holderOffset, holderOffset],
-        ["H", holderTopWidth],
-        ["L", holderOffset, -holderOffset],
-        ["L", holderLineX, -holderLineY],
-        ["V", -holderSide],
-        ["L", -holderOffset, -holderOffset]
-    ]), -distance), convexity = 10);
+    polygon(outline(getBarrierHolderProfilePoints(
+        base = base,
+        bottomWidth = getBarrierHolderWidth(base),
+        topWidth = getBarrierHolderTopWidth(base, thickness)
+    ), -distance), convexity = 10);
 }
 
 /**

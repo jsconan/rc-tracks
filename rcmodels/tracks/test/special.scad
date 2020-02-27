@@ -36,6 +36,21 @@ applyMode(mode=mode) {
 
     distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=2, center=true) {
 
+        // test the shape of an arch tower clip
+        archTowerClip(
+            thickness = thickness,
+            base = base,
+            wall = wall * 2
+        );
+
+        // test the shape of a connector between a barrier holder and a unibody barrier
+        barrierHolderToUnibodyConnector(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base
+        );
+
         // test the shape of an arch tower, male version
         archTowerMale(
             length = length,
@@ -69,24 +84,17 @@ applyMode(mode=mode) {
         );
 
         // test the shape of the additional connector between a barrier holder and a unibody barrier, male version
-        barrierHolderToUnibodyMaleConnector(
+        barrierHolderConnectorMale(
             length = length,
             thickness = thickness,
             base = base
         );
 
         // test the shape of the additional connector between a barrier holder and a unibody barrier, female version
-        barrierHolderToUnibodyFemaleConnector(
+        barrierHolderConnectorFemale(
             length = length,
             thickness = thickness,
             base = base
-        );
-
-        // test the shape of an arch tower clip
-        archTowerClip(
-            thickness = thickness,
-            base = base,
-            wall = wall * 2
         );
 
     }
