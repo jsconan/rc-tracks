@@ -159,19 +159,21 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
         carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
             translateX(-length / 2) {
                 rotate([90, 0, 90]) {
-                    simplePolyhedron(
-                        bottom = reverse(getBarrierHolderProfilePoints(
-                            base = base,
-                            bottomWidth = unibodyWidth,
-                            topWidth = unibodyTopWidth
-                        )),
-                        top = reverse(getBarrierHolderProfilePoints(
-                            base = base,
-                            bottomWidth = holderWidth,
-                            topWidth = holderTopWidth
-                        )),
-                        z = length
-                    );
+                    repeatMirror() {
+                        simplePolyhedron(
+                            bottom = reverse(getBarrierHolderProfilePoints(
+                                base = base,
+                                bottomWidth = unibodyWidth,
+                                topWidth = unibodyTopWidth
+                            )),
+                            top = reverse(getBarrierHolderProfilePoints(
+                                base = base,
+                                bottomWidth = holderWidth,
+                                topWidth = holderTopWidth
+                            )),
+                            z = length
+                        );
+                    }
                 }
             }
         }

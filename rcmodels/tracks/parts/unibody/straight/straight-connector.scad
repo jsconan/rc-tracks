@@ -35,26 +35,28 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    distribute([0, getBarrierHolderWidth(barrierHolderBase) * 2, 0], center=true) {
+    distribute(intervalY=getBarrierHolderWidth(barrierHolderBase) * 2, center=true) {
         barrierHolderToUnibodyMale(
             length = trackSectionLength,
             height = barrierHeight,
             thickness = barrierBodyThickness,
             base = barrierHolderBase
         );
-        barrierHolderConnectorMale(
-            length = trackSectionLength,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase
-        );
+        distribute(intervalX=getBarrierHolderWidth(barrierHolderBase) + trackSectionLength / 2, center=true) {
+            barrierHolderConnectorFemale(
+                length = trackSectionLength,
+                thickness = barrierBodyThickness,
+                base = barrierHolderBase
+            );
+            barrierHolderConnectorMale(
+                length = trackSectionLength,
+                thickness = barrierBodyThickness,
+                base = barrierHolderBase
+            );
+        }
         barrierHolderToUnibodyFemale(
             length = trackSectionLength,
             height = barrierHeight,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase
-        );
-        barrierHolderConnectorFemale(
-            length = trackSectionLength,
             thickness = barrierBodyThickness,
             base = barrierHolderBase
         );
