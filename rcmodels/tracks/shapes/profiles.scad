@@ -54,9 +54,8 @@ module barrierLinkProfile(base, distance = 0) {
 module barrierNotchProfile(base, distance = 0) {
     width = getBarrierNotchWidth(base, distance);
     top = getBarrierNotchDistance(base, distance);
-    strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
-    height = strip - indent;
+    height = getBarrierStripHeight(base) - indent;
 
     polygon(path([
         ["P", -width / 2, 0],

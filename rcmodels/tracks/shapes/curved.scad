@@ -37,9 +37,8 @@
  */
 module curvedBarrierNotch(radius, thickness, base, distance = 0) {
     width = getBarrierNotchWidth(base, distance);
-    strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
-    height = strip - indent;
+    height = getBarrierStripHeight(base) - indent;
     angle = getArcAngle(radius = radius, length = width);
     chord = getChordLength(radius = radius, angle = getArcAngle(radius = radius, length = indent));
     startAngle = angle / 2;

@@ -39,12 +39,11 @@
  */
 module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
     thickness = thickness + printTolerance;
-    holderWidth = getBarrierHolderWidth(base);
     holderHeight = getBarrierHolderHeight(base);
     linkHeight = getBarrierHolderLinkHeight(base);
     towerWidth = nozzleAligned(thickness + minWidth);
     towerHeight = getBarrierBodyInnerHeight(height, base) / 2;
-    interval = (holderWidth + gap) / 2;
+    interval = (getBarrierHolderWidth(base) + gap) / 2;
     dir = right ? -1 : 1;
     length = length / 2;
 
@@ -149,11 +148,9 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
  * @param Number gap - The distance between the two side of the u-turn.
  */
 module uTurnCompensationBarrierHolder(thickness, base, gap) {
-    holderWidth = getBarrierHolderWidth(base);
-    holderHeight = getBarrierHolderHeight(base);
-    length = holderWidth + gap;
+    length = getBarrierHolderWidth(base) + gap;
     indent = getBarrierStripIndent(base);
-    height = holderHeight - indent;
+    height = getBarrierHolderHeight(base) - indent;
     thickness = thickness + printTolerance;
 
     difference() {
@@ -176,7 +173,7 @@ module uTurnCompensationBarrierHolder(thickness, base, gap) {
  * @param Number gap - The distance between the two side of the u-turn.
  */
 module uTurnCompensationBarrierUnibody(height, thickness, base, gap) {
-    length = getBarrierHolderWidth(base) + gap;
+    length = getBarrierUnibodyWidth(base) + gap;
 
     straightBarrierUnibody(
         length = length,
@@ -195,11 +192,8 @@ module uTurnCompensationBarrierUnibody(height, thickness, base, gap) {
  * @param Number gap - The distance between the two side of the u-turn.
  */
 module uTurnCompensationBarrierBody(length, height, thickness, base, gap) {
-    holderWidth = getBarrierHolderWidth(base);
-    strip = getBarrierStripHeight(base);
-    indent = getBarrierStripIndent(base);
-    stripHeight = strip - indent;
-    compensation = holderWidth + gap;
+    stripHeight = getBarrierStripHeight(base) - getBarrierStripIndent(base);
+    compensation = getBarrierHolderWidth(base) + gap;
     compensedLength = length + compensation;
     interval = length / 2;
 
