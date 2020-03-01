@@ -70,14 +70,14 @@ module barrierNotchProfile(base, distance = 0) {
 /**
  * Draws the outline of a barrier holder profile.
  * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number holderOffset - The offset of the shape edges.
  * @param Number bottomWidth - The width of the bottom of the shape.
  * @param Number topWidth - The width of the top of the shape.
  * @returns Vector[]
  */
-function getBarrierHolderProfilePoints(base, bottomWidth, topWidth) =
+function getBarrierHolderProfilePoints(base, holderOffset, bottomWidth, topWidth) =
     let(
         holderHeight = getBarrierHolderHeight(base),
-        holderOffset = base / 4,
         holderSide = base - holderOffset,
         holderLineX = (bottomWidth - topWidth) / 2 - holderOffset,
         holderLineY = holderHeight - holderSide - holderOffset * 2
@@ -105,6 +105,7 @@ function getBarrierHolderProfilePoints(base, bottomWidth, topWidth) =
 module barrierHolderProfile(base, thickness, distance = 0) {
     polygon(outline(getBarrierHolderProfilePoints(
         base = base,
+        holderOffset = base / 4,
         bottomWidth = getBarrierHolderWidth(base),
         topWidth = getBarrierHolderTopWidth(base, thickness)
     ), -distance), convexity = 10);

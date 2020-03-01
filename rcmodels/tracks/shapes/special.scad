@@ -133,10 +133,10 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
     holderHeight = getBarrierHolderHeight(base);
     holderLinkHeight = getBarrierHolderLinkHeight(base);
     unibodyWidth = getBarrierUnibodyWidth(base);
-    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - base / 4;
-    unibodyLineY = height - holderHeight - base * 1.75;
-    holderLineY = holderHeight - base * 1.25;
-    unibodyTopWidth = unibodyWidth - base / 2 - holderLineY * (unibodyLineX / unibodyLineY) * 2;
+    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - base / 2;
+    unibodyLineY = height - holderHeight - base * 2;
+    holderLineY = holderHeight - base * 1.5;
+    unibodyTopWidth = unibodyWidth - base - holderLineY * (unibodyLineX / unibodyLineY) * 2;
     length = length / 2;
 
     distribute(intervalX=length, center=true) {
@@ -163,11 +163,13 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
                         simplePolyhedron(
                             bottom = reverse(getBarrierHolderProfilePoints(
                                 base = base,
+                                holderOffset = base / 2,
                                 bottomWidth = unibodyWidth,
                                 topWidth = unibodyTopWidth
                             )),
                             top = reverse(getBarrierHolderProfilePoints(
                                 base = base,
+                                holderOffset = base / 4,
                                 bottomWidth = holderWidth,
                                 topWidth = holderTopWidth
                             )),
