@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines the shapes for the track  accessories.
+ * Defines the shapes for the track accessories.
  *
  * @author jsconan
  */

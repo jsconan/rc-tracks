@@ -35,7 +35,7 @@ renderMode = MODE_PROD;
 
 // Defines the constraints of the printer.
 printResolution = 0.2;  // The target layer height
-nozzleWidth = 0.4;      // The size of the print nozzle
+nozzleWidth = 0.4;      // The size of the printer's nozzle
 printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
 // The dimensions and constraints of a track element
@@ -58,3 +58,4 @@ flagWidth = 40;                 // The width of the accessory flag
 flagHeight = 20;                // The height of the accessory flag
 flagThickness = 0.8;            // The thickness of the accessory flag
 rightOriented = false;          // The orientation of the curved elements
+printInterval = 5;              // Interval between 2 pieces when presented together

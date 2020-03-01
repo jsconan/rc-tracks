@@ -229,6 +229,13 @@ function getCurveAngle(ratio) = curveAngle / ratio;
 function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
 
 /**
+ * Computes the print interval between the centers of 2 objects.
+ * @param Number size - The size of the shape.
+ * @returns Number
+ */
+function getPrintInterval(size) = size + printInterval;
+
+/**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The virtual width of a track lane (i.e. the width used to compute the outer radius).
@@ -329,6 +336,7 @@ module printConfig(length, width, lane, height, radius, base) {
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
         str("Print layer:           ", printResolution, "mm"),
         str("Print tolerance:       ", printTolerance, "mm"),
+        str("Print interval:        ", printInterval, "mm"),
         ""
     ], str(chr(13), chr(10))));
 }
