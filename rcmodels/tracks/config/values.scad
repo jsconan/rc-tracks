@@ -345,6 +345,3 @@ stripIndentRatio = 0.5;
 
 // The angle of a typical curve
 curveAngle = 90;
-
-// The number of facets the accessory mast have
-mastFacets = 6;

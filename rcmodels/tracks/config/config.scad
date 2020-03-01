@@ -53,6 +53,7 @@ accessoryClipThickness = 0.8;   // The thickness of the cable clip
 cableClipWidth = 2;             // The width of the cable clip
 mastWidth = 3;                  // The width of the accessory mast
 mastHeight = 70;                // The length of the accessory mast
+mastFacets = 8;                 // The number of facets the accessory mast have
 flagWidth = 40;                 // The width of the accessory flag
 flagHeight = 20;                // The height of the accessory flag
 flagThickness = 0.8;            // The thickness of the accessory flag
