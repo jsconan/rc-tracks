@@ -127,14 +127,16 @@ module barrierUnibodyProfile(height, base, thickness, distance = 0) {
     holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
     holderLineY = holderHeight - base - holderOffset;
 
+    unibodyOffset = base / 2;
     unibodyNeck = base / 2;
+    unibodySide = base - unibodyOffset;
     unibodyWidth = getBarrierUnibodyWidth(base);
-    unibodyOffsetWidth = unibodyWidth - holderOffset * 2;
-    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - holderOffset;
-    unibodyLineY = height - holderHeight - unibodyNeck - base - holderOffset;
+    unibodyOffsetWidth = unibodyWidth - unibodyOffset * 2;
+    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - unibodyOffset;
+    unibodyLineY = height - holderHeight - unibodyNeck - base - unibodyOffset;
 
     startX = holderTopWidth / 2;
-    startY = holderSide + unibodyLineY + unibodyNeck + holderOffset * 2;
+    startY = holderSide + unibodyLineY + unibodyOffset + unibodyNeck + holderOffset;
 
     polygon(outline(path([
         ["P", -startX, startY],
@@ -150,15 +152,15 @@ module barrierUnibodyProfile(height, base, thickness, distance = 0) {
         ["L", -holderOffset, -holderOffset],
         // unibody profile
         ["V", -unibodyNeck],
-        ["L", holderOffset, -holderOffset],
+        ["L", unibodyOffset, -unibodyOffset],
         ["L", unibodyLineX, -unibodyLineY],
-        ["V", -holderSide],
-        ["L", -holderOffset, -holderOffset],
+        ["V", -unibodySide],
+        ["L", -unibodyOffset, -unibodyOffset],
         ["H", -unibodyOffsetWidth],
-        ["L", -holderOffset, holderOffset],
-        ["V", holderSide],
+        ["L", -unibodyOffset, unibodyOffset],
+        ["V", unibodySide],
         ["L", unibodyLineX, unibodyLineY],
-        ["L", holderOffset, holderOffset],
+        ["L", unibodyOffset, unibodyOffset],
         ["V", unibodyNeck]
     ]), -distance), convexity = 10);
 }
