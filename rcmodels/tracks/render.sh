@@ -58,9 +58,11 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 # @param right - Right oriented or left oriented
+# @param prefix - Optional prefix added to the output fil name
+# @param suffix - Optional suffix added to the output fil name
 renderpath() {
     local rightOriented=$3
-    scadrenderall "$1" "$2" "" "" \
+    scadrenderall "$1" "$2" "$4" "$5" \
         "$(varif "trackSectionLength" ${trackSectionLength})" \
         "$(varif "trackSectionWidth" ${trackSectionWidth})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
@@ -78,9 +80,9 @@ renderpathall() {
     printmessage "${C_MSG}- straight elements"
     renderpath "$1/straight" "$2"
     printmessage "${C_MSG}- left curved elements"
-    renderpath "$1/curved" "$2/left" "0"
+    renderpath "$1/curved" "$2" "0" "left"
     printmessage "${C_MSG}- right curved elements"
-    renderpath "$1/curved" "$2/right" "1"
+    renderpath "$1/curved" "$2" "1" "right"
 }
 
 # Display the render config
