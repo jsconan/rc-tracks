@@ -31,10 +31,10 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shape for a straight mast.
+ */
+module finalStraightMast() {
     accessoryMast(
         width = mastWidth,
         height = mastHeight,
@@ -42,4 +42,11 @@ applyMode(mode=renderMode) {
         base = barrierHolderBase,
         thickness = barrierBodyThickness
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalStraightMast();
 }

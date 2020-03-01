@@ -31,10 +31,6 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Refine the config for the arch sample
-laneWidth = trackLaneWidth / trackSectionLength * sampleSize;
-wallWidth = minWidth * 2;
-
 /**
  * Computes the points defining the profile of the arch sample.
  * @param Number length - The length of a track element.
@@ -66,6 +62,7 @@ function getArchSamplePoints(length, width) =
  */
 module archSampleProfile(length, width, wall) {
     distance = wall / 2;
+
     difference() {
         polygon(outline(getArchSamplePoints(length, width), -distance), convexity = 10);
         polygon(outline(getArchSamplePoints(length, width), distance), convexity = 10);
@@ -73,10 +70,13 @@ module archSampleProfile(length, width, wall) {
     }
 }
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shape for an arch sample.
+ */
+module finalArchSample() {
+    laneWidth = trackLaneWidth / trackSectionLength * sampleSize;
+    wallWidth = minWidth * 2;
+
     negativeExtrude(height=getBarrierHolderWidth(sampleBase)) {
         archSampleProfile(sampleSize, laneWidth, wallWidth);
         repeat(count=2, intervalX=laneWidth, center=true) {
@@ -94,4 +94,11 @@ applyMode(mode=renderMode) {
             }
         }
     }
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalArchSample();
 }

@@ -31,11 +31,12 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shapes for a couple of arch towers (male and female).
+ */
+module finalArchTower() {
     width = getBarrierHolderWidth(barrierHolderBase) + archTowerThickness * 2;
+
     distribute([0, getPrintInterval(width), 0], center=true) {
         archTowerMale(
             length = trackSectionLength,
@@ -50,4 +51,11 @@ applyMode(mode=renderMode) {
             wall = archTowerThickness
         );
     }
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalArchTower();
 }

@@ -31,10 +31,10 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shape for a unibody barrier connector.
+ */
+module finalConnectorBarrierUnibody() {
     distribute(intervalY=getPrintInterval(getBarrierUnibodyWidth(barrierHolderBase)), center=true) {
         barrierHolderToUnibodyMale(
             length = trackSectionLength,
@@ -61,4 +61,11 @@ applyMode(mode=renderMode) {
             base = barrierHolderBase
         );
     }
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalConnectorBarrierUnibody();
 }

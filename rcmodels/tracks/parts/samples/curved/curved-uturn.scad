@@ -79,10 +79,10 @@ module uTurnSample(length, thickness, base, gap, right = false) {
     }
 }
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shape for a U-turn curve.
+ */
+module finalUTurnCurveBarrierSample() {
     uTurnSample(
         length = sampleSize,
         thickness = barrierBodyThickness,
@@ -90,4 +90,11 @@ applyMode(mode=renderMode) {
         gap = minWidth * 2,
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalUTurnCurveBarrierSample();
 }

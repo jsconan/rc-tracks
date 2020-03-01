@@ -31,10 +31,10 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Defines the final shape for the additional barrier body of a curve.
+ */
+module finalCurveBarrierBody() {
     barrierBody(
         length = getCurveRemainingLength(trackSectionLength),
         height = getBarrierBodyHeight(barrierHeight),
@@ -42,4 +42,11 @@ applyMode(mode=renderMode) {
         base = barrierHolderBase,
         notches = 1
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalCurveBarrierBody();
 }
