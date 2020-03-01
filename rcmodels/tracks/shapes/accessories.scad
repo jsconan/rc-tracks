@@ -120,10 +120,12 @@ module bentMast(width, height, distance = 0) {
         rotate([90, 0, 90]) {
             rotate_extrude(angle=90, convexity=10) {
                 translateX(width) {
-                    mastProfile(
-                        width = width,
-                        distance = distance
-                    );
+                    rotateZ(getPolygonAngle(1, mastFacets) / 2) {
+                        mastProfile(
+                            width = width,
+                            distance = distance
+                        );
+                    }
                 }
             }
         }
