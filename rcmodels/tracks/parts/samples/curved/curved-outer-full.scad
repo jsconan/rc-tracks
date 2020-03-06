@@ -32,11 +32,63 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalFullOuterCurvedBarrierSampleRatio() = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius);
+
+/**
+ * Gets the length of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalFullOuterCurvedBarrierSampleLength() =
+    getCurvedBarrierLength(
+        length = sampleSize * finalFullOuterCurvedBarrierSampleRatio(),
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = 1
+    )
+;
+
+/**
+ * Gets the width of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalFullOuterCurvedBarrierSampleWidth() =
+    getCurvedBarrierWidth(
+        length = sampleSize * finalFullOuterCurvedBarrierSampleRatio(),
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = 1
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalFullOuterCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalFullOuterCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalFullOuterCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(sampleBase)
+    )
+;
+
+/**
  * Defines the final shape for a full outer curve.
  */
-module finalFullOuterCurveBarrierSample() {
+module finalFullOuterCurvedBarrierSample() {
     curvedBarrierMain(
-        length = sampleSize * getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius),
+        length = sampleSize * finalFullOuterCurvedBarrierSampleRatio(),
         thickness = barrierBodyThickness,
         base = sampleBase,
         ratio = 1,
@@ -48,5 +100,5 @@ module finalFullOuterCurveBarrierSample() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalFullOuterCurveBarrierSample();
+    finalFullOuterCurvedBarrierSample();
 }

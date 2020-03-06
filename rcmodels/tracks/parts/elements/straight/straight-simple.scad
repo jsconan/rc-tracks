@@ -32,6 +32,50 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length ratio of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderRatio() = 1;
+
+/**
+ * Gets the length of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalSimpleStraightBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderWidth() = getBarrierHolderWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalSimpleStraightBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalSimpleStraightBarrierHolderWidth()
+    )
+;
+
+/**
  * Defines the final shape for a simple length barrier holder.
  */
 module finalSimpleStraightBarrierHolder() {
@@ -39,7 +83,7 @@ module finalSimpleStraightBarrierHolder() {
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 1
+        ratio = finalSimpleStraightBarrierHolderRatio()
     );
 }
 

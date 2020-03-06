@@ -32,13 +32,57 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierHolderGap() = archTowerThickness * 2;
+
+/**
+ * Gets the length of the final shape for a U-turn compensation barrier holder.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierHolderLength() =
+    getUTurnCompensationBarrierLength(
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        gap = finalUTurnCompensationBarrierHolderGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a U-turn compensation barrier holder.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierHolderWidth() = getBarrierHolderWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a U-turn compensation barrier holder.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalUTurnCompensationBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a U-turn compensation barrier holder.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalUTurnCompensationBarrierHolderWidth()
+    )
+;
+
+/**
  * Defines the final shape for a U-turn compensation barrier holder.
  */
 module finalUTurnCompensationBarrierHolder() {
     uTurnCompensationBarrierHolder(
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        gap = archTowerThickness * 2
+        gap = finalUTurnCompensationBarrierHolderGap()
     );
 }
 

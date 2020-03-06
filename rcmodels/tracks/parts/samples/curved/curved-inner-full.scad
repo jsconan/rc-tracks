@@ -32,11 +32,63 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalFullInnerCurvedBarrierSampleRatio() = getInnerCurveRatio(trackSectionLength, trackRadius);
+
+/**
+ * Gets the length of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalFullInnerCurvedBarrierSampleLength() =
+    getCurvedBarrierLength(
+        length = sampleSize * finalFullInnerCurvedBarrierSampleRatio(),
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = 1
+    )
+;
+
+/**
+ * Gets the width of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalFullInnerCurvedBarrierSampleWidth() =
+    getCurvedBarrierWidth(
+        length = sampleSize * finalFullInnerCurvedBarrierSampleRatio(),
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = 1
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalFullInnerCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalFullInnerCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalFullInnerCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(sampleBase)
+    )
+;
+
+/**
  * Defines the final shape for a full inner curve.
  */
-module finalFullInnerCurveBarrierSample() {
+module finalFullInnerCurvedBarrierSample() {
     curvedBarrierMain(
-        length = sampleSize * getInnerCurveRatio(trackSectionLength, trackRadius),
+        length = sampleSize * finalFullInnerCurvedBarrierSampleRatio(),
         thickness = barrierBodyThickness,
         base = sampleBase,
         ratio = 1,
@@ -48,5 +100,5 @@ module finalFullInnerCurveBarrierSample() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalFullInnerCurveBarrierSample();
+    finalFullInnerCurvedBarrierSample();
 }

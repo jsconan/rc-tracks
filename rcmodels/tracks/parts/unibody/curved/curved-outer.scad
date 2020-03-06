@@ -32,15 +32,67 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierUnibodyRatio() = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius);
+
+/**
+ * Gets the length of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierUnibodyLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalOuterCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierUnibodyWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalOuterCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalOuterCurvedBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        getBarrierUnibodyWidth(barrierHolderBase)
+    )
+;
+
+/**
  * Defines the final shape for an outer curve.
  */
-module finalOuterCurveBarrierUnibody() {
+module finalOuterCurvedBarrierUnibody() {
     curvedBarrierUnibody(
         length = trackSectionLength,
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius),
+        ratio = finalOuterCurvedBarrierUnibodyRatio(),
         right = rightOriented
     );
 }
@@ -49,5 +101,5 @@ module finalOuterCurveBarrierUnibody() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalOuterCurveBarrierUnibody();
+    finalOuterCurvedBarrierUnibody();
 }

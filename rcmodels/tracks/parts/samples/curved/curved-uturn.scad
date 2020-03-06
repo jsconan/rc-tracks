@@ -32,11 +32,62 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierSampleGap() = minWidth * 2;
+
+/**
+ * Gets the length of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierSampleLength() =
+    getUTurnBarrierLength(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        gap = finalUTurnCurvedBarrierSampleGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierSampleWidth() =
+    getUTurnBarrierWidth(
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        gap = finalUTurnCurvedBarrierSampleGap()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierSampleWidth()
+    )
+;
+
+/**
  * Draws the shape of a barrier border for a U-Turn.
  * @param Number length - The length of a track element.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnSample(length, thickness, base, gap, right = false) {
@@ -82,12 +133,12 @@ module uTurnSample(length, thickness, base, gap, right = false) {
 /**
  * Defines the final shape for a U-turn curve.
  */
-module finalUTurnCurveBarrierSample() {
+module finalUTurnCurvedBarrierSample() {
     uTurnSample(
         length = sampleSize,
         thickness = barrierBodyThickness,
         base = sampleBase,
-        gap = minWidth * 2,
+        gap = finalUTurnCurvedBarrierSampleGap(),
         right = rightOriented
     );
 }
@@ -96,5 +147,5 @@ module finalUTurnCurveBarrierSample() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalUTurnCurveBarrierSample();
+    finalUTurnCurvedBarrierSample();
 }

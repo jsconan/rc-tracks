@@ -32,11 +32,55 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length ratio of the final shape for a x20 length barrier sample.
+ * @returns Number
+ */
+function finalLong20StraightBarrierSampleRatio() = 20;
+
+/**
+ * Gets the length of the final shape for a x20 length barrier sample.
+ * @returns Number
+ */
+function finalLong20StraightBarrierSampleLength() =
+    getStraightBarrierLength(
+        length = sampleSize,
+        base = sampleBase,
+        ratio = finalLong20StraightBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a x20 length barrier sample.
+ * @returns Number
+ */
+function finalLong20StraightBarrierSampleWidth() = getBarrierHolderWidth(sampleBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a x20 length barrier sample.
+ * @returns Number
+ */
+function finalLong20StraightBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalLong20StraightBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a x20 length barrier sample.
+ * @returns Number
+ */
+function finalLong20StraightBarrierSampleIntervalY() =
+    getPrintInterval(
+        finalLong20StraightBarrierSampleWidth()
+    )
+;
+
+/**
  * Defines the final shape for a x20 length barrier sample.
  */
 module finalLong20StraightBarrierSample() {
     straightBarrierMain(
-        length = sampleSize * 20,
+        length = sampleSize * finalLong20StraightBarrierSampleRatio(),
         thickness = barrierBodyThickness,
         base = sampleBase
     );

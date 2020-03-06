@@ -32,11 +32,55 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierSampleGap() = minWidth * 2;
+
+/**
+ * Gets the length of the final shape for a U-turn compensation barrier sample.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierSampleLength() =
+    getUTurnCompensationBarrierLength(
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        gap = finalUTurnCompensationBarrierSampleGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a U-turn compensation barrier sample.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierSampleWidth() = getBarrierHolderWidth(sampleBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a U-turn compensation barrier sample.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalUTurnCompensationBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a U-turn compensation barrier sample.
+ * @returns Number
+ */
+function finalUTurnCompensationBarrierSampleIntervalY() =
+    getPrintInterval(
+        finalUTurnCompensationBarrierSampleWidth()
+    )
+;
+
+/**
  * Defines the final shape for a U-turn compensation barrier sample.
  */
 module finalUTurnCompensationBarrierSample() {
     straightBarrierMain(
-        length = getBarrierHolderWidth(sampleBase) + minWidth * 2,
+        length = getBarrierHolderWidth(sampleBase) + finalUTurnCompensationBarrierSampleGap(),
         thickness = barrierBodyThickness,
         base = sampleBase
     );

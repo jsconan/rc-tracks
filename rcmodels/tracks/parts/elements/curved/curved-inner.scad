@@ -32,14 +32,66 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierHolderRatio() = getInnerCurveRatio(trackSectionLength, trackRadius);
+
+/**
+ * Gets the length of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierHolderLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalInnerCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierHolderWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalInnerCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalInnerCurvedBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierHolderIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(barrierHolderBase)
+    )
+;
+
+/**
  * Defines the final shape for an inner curve.
  */
-module finalInnerCurveBarrierHolder() {
+module finalInnerCurvedBarrierHolder() {
     curvedBarrierHolder(
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = getInnerCurveRatio(trackSectionLength, trackRadius),
+        ratio = finalInnerCurvedBarrierHolderRatio(),
         right = rightOriented
     );
 }
@@ -48,5 +100,5 @@ module finalInnerCurveBarrierHolder() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalInnerCurveBarrierHolder();
+    finalInnerCurvedBarrierHolder();
 }

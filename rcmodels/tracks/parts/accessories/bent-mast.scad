@@ -32,6 +32,52 @@
 include <../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a bent mast.
+ * @returns Number
+ */
+function finalBentMastLength() =
+    getAccessoryBentMastLength(
+        width = mastWidth,
+        height = [mastWidth, mastHeight],
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the width of the final shape for a bent mast.
+ * @returns Number
+ */
+function finalBentMastWidth() =
+    getAccessoryBentMastWidth(
+        width = mastWidth,
+        height = [mastWidth, mastHeight],
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a bent mast.
+ * @returns Number
+ */
+function finalBentMastIntervalX() =
+    getPrintInterval(
+        finalBentMastLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a bent mast.
+ * @returns Number
+ */
+function finalBentMastIntervalY() =
+    getPrintInterval(
+        finalBentMastWidth()
+    )
+;
+
+/**
  * Defines the final shape for a bent mast.
  */
 module finalBentMast() {

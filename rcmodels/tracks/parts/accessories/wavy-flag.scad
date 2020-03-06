@@ -32,6 +32,49 @@
 include <../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a wavy flag.
+ * @returns Number
+ */
+function finalWavyFlagLength() =
+    getAccessoryFlagLength(
+        width = flagWidth,
+        thickness = flagThickness,
+        mast = mastWidth
+    )
+;
+
+/**
+ * Gets the width of the final shape for a wavy flag.
+ * @returns Number
+ */
+function finalWavyFlagWidth() =
+    getAccessoryFlagWidth(
+        height = flagHeight,
+        wave = 2
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a wavy flag.
+ * @returns Number
+ */
+function finalWavyFlagIntervalX() =
+    getPrintInterval(
+        finalWavyFlagLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a wavy flag.
+ * @returns Number
+ */
+function finalWavyFlagIntervalY() =
+    getPrintInterval(
+        finalWavyFlagWidth()
+    )
+;
+
+/**
  * Defines the final shape for a wavy flag.
  */
 module finalWavyFlag() {

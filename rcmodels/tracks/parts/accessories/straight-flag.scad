@@ -32,6 +32,49 @@
 include <../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a straight flag.
+ * @returns Number
+ */
+function finalStraightFlagLength() =
+    getAccessoryFlagLength(
+        width = flagWidth,
+        thickness = flagThickness,
+        mast = mastWidth
+    )
+;
+
+/**
+ * Gets the width of the final shape for a straight flag.
+ * @returns Number
+ */
+function finalStraightFlagWidth() =
+    getAccessoryFlagWidth(
+        height = flagHeight,
+        wave = 0
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a straight flag.
+ * @returns Number
+ */
+function finalStraightFlagIntervalX() =
+    getPrintInterval(
+        finalStraightFlagLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a straight flag.
+ * @returns Number
+ */
+function finalStraightFlagIntervalY() =
+    getPrintInterval(
+        finalStraightFlagWidth()
+    )
+;
+
+/**
  * Defines the final shape for a straight flag.
  */
 module finalStraightFlag() {

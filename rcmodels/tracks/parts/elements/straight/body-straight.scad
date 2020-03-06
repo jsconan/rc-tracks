@@ -32,12 +32,44 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a barrier body.
+ * @returns Number
+ */
+function finalStraightBarrierBodyLength() = trackSectionLength;
+
+/**
+ * Gets the width of the final shape for a barrier body.
+ * @returns Number
+ */
+function finalStraightBarrierBodyWidth() = getBarrierBodyHeight(barrierHeight);
+
+/**
+ * Gets the horizontal interval of the final shape for a barrier body.
+ * @returns Number
+ */
+function finalStraightBarrierBodyIntervalX() =
+    getPrintInterval(
+        finalStraightBarrierBodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a barrier body.
+ * @returns Number
+ */
+function finalStraightBarrierBodyIntervalY() =
+    getPrintInterval(
+        finalStraightBarrierBodyWidth()
+    )
+;
+
+/**
  * Defines the final shape for a barrier body.
  */
 module finalStraightBarrierBody() {
     barrierBody(
-        length = trackSectionLength,
-        height = getBarrierBodyHeight(barrierHeight),
+        length = finalStraightBarrierBodyLength(),
+        height = finalStraightBarrierBodyWidth(),
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
         notches = 2

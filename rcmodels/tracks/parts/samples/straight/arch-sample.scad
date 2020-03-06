@@ -32,6 +32,58 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the width of a lane with respect to the samples.
+ * @returns Number
+ */
+function getSampleLaneWidth() = trackLaneWidth / trackSectionLength * sampleSize;
+
+/**
+ * Gets the thickness of the clip outline..
+ * @returns Number
+ */
+function getSampleWallWidth() = minWidth * 2;
+
+/**
+ * Gets the length of the final shape for an arch sample.
+ * @returns Number
+ */
+function finalArchSampleLength() =
+    getSampleLaneWidth() +
+    getBarrierHolderWidth(sampleBase) +
+    getSampleWallWidth() * 2
+;
+
+/**
+ * Gets the width of the final shape for an arch sample.
+ * @returns Number
+ */
+function finalArchSampleWidth() =
+    sampleSize * 1.5 +
+    getBarrierHolderHeight(sampleBase) +
+    getSampleWallWidth() * 2
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an arch sample.
+ * @returns Number
+ */
+function finalArchSampleIntervalX() =
+    getPrintInterval(
+        finalArchSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an arch sample.
+ * @returns Number
+ */
+function finalArchSampleIntervalY() =
+    getPrintInterval(
+        finalArchSampleWidth()
+    )
+;
+
+/**
  * Computes the points defining the profile of the arch sample.
  * @param Number length - The length of a track element.
  * @param Number width - The width of a track lane.
@@ -74,8 +126,8 @@ module archSampleProfile(length, width, wall) {
  * Defines the final shape for an arch sample.
  */
 module finalArchSample() {
-    laneWidth = trackLaneWidth / trackSectionLength * sampleSize;
-    wallWidth = minWidth * 2;
+    laneWidth = getSampleLaneWidth();
+    wallWidth = getSampleWallWidth();
 
     negativeExtrude(height=getBarrierHolderWidth(sampleBase)) {
         archSampleProfile(sampleSize, laneWidth, wallWidth);

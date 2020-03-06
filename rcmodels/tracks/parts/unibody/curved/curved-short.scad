@@ -32,15 +32,67 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierUnibodyRatio() = .5;
+
+/**
+ * Gets the length of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierUnibodyLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalShortCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierUnibodyWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalShortCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalShortCurvedBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalShortCurvedBarrierUnibodyWidth() / 2
+    )
+;
+
+/**
  * Defines the final shape for a short curve.
  */
-module finalShortCurveBarrierUnibody() {
+module finalShortCurvedBarrierUnibody() {
     curvedBarrierUnibody(
         length = trackSectionLength,
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = .5,
+        ratio = finalShortCurvedBarrierUnibodyRatio(),
         right = rightOriented
     );
 }
@@ -49,5 +101,5 @@ module finalShortCurveBarrierUnibody() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalShortCurveBarrierUnibody();
+    finalShortCurvedBarrierUnibody();
 }

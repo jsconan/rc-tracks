@@ -32,11 +32,55 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length ratio of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyRatio() = 1;
+
+/**
+ * Gets the length of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalSimpleStraightBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyWidth() = getBarrierUnibodyWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalSimpleStraightBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalSimpleStraightBarrierUnibodyWidth()
+    )
+;
+
+/**
  * Defines the final shape for a simple length unibody barrier.
  */
 module finalSimpleStraightBarrierUnibody() {
     straightBarrierUnibody(
-        length = trackSectionLength,
+        length = trackSectionLength * finalSimpleStraightBarrierUnibodyRatio(),
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase

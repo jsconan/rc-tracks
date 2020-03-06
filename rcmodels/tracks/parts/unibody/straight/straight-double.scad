@@ -32,11 +32,55 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length ratio of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyRatio() = 2;
+
+/**
+ * Gets the length of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalDoubleStraightBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyWidth() = getBarrierUnibodyWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalDoubleStraightBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalDoubleStraightBarrierUnibodyWidth()
+    )
+;
+
+/**
  * Defines the final shape for a double length unibody barrier.
  */
 module finalDoubleStraightBarrierUnibody() {
     straightBarrierUnibody(
-        length = trackSectionLength * 2,
+        length = trackSectionLength * finalDoubleStraightBarrierUnibodyRatio(),
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase

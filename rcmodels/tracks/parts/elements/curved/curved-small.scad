@@ -32,14 +32,67 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the curve ratio of the final shape for an small curve.
+ * @returns Number
+ */
+function finalSmallCurvedBarrierHolderRatio() = 1;
+
+/**
+ * Gets the length of the final shape for an small curve.
+ * @returns Number
+ */
+function finalSmallCurvedBarrierHolderLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalSmallCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an small curve.
+ * @returns Number
+ */
+function finalSmallCurvedBarrierHolderWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalSmallCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalSmallCurvedBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalSmallCurvedBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalSmallCurvedBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalSmallCurvedBarrierHolderWidth() / 2
+    )
+;
+
+/**
  * Defines the final shape for a small curve.
  */
-module finalSmallCurveBarrierHolder() {
+module finalSmallCurvedBarrierHolder() {
     curvedBarrierHolder(
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 1,
+        ratio = finalSmallCurvedBarrierHolderRatio(),
         right = rightOriented
     );
 }
@@ -48,5 +101,5 @@ module finalSmallCurveBarrierHolder() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalSmallCurveBarrierHolder();
+    finalSmallCurvedBarrierHolder();
 }

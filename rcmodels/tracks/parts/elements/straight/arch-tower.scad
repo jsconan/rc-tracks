@@ -32,12 +32,53 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a couple of arch towers (male and female)
+ * @returns Number
+ */
+function finalArchTowerLength() =
+    getArchTowerLengthMale(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        wall = archTowerThickness
+    )
+;
+
+/**
+ * Gets the width of the final shape for a couple of arch towers (male and female)
+ * @returns Number
+ */
+function finalArchTowerWidth() =
+    getArchTowerWidth(
+        base = barrierHolderBase,
+        wall = archTowerThickness
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a couple of arch towers (male and female)
+ * @returns Number
+ */
+function finalArchTowerIntervalX() =
+    getPrintInterval(
+        finalArchTowerLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a couple of arch towers (male and female)
+ * @returns Number
+ */
+function finalArchTowerIntervalY() =
+    2 * getPrintInterval(
+        finalArchTowerWidth()
+    )
+;
+
+/**
  * Defines the final shapes for a couple of arch towers (male and female).
  */
 module finalArchTower() {
-    width = getBarrierHolderWidth(barrierHolderBase) + archTowerThickness * 2;
-
-    distribute([0, getPrintInterval(width), 0], center=true) {
+    distribute([0, finalArchTowerIntervalY() / 2, 0], center=true) {
         archTowerMale(
             length = trackSectionLength,
             thickness = barrierBodyThickness,

@@ -32,10 +32,53 @@
 include <../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a straight mast.
+ * @returns Number
+ */
+function finalStraightMastLength() =
+    getAccessoryStraightMastLength(
+        height = mastHeight,
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the width of the final shape for a straight mast.
+ * @returns Number
+ */
+function finalStraightMastWidth() =
+    getAccessoryStraightMastWidth(
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a straight mast.
+ * @returns Number
+ */
+function finalStraightMastIntervalX() =
+    getPrintInterval(
+        finalStraightMastLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a straight mast.
+ * @returns Number
+ */
+function finalStraightMastIntervalY() =
+    getPrintInterval(
+        finalStraightMastWidth()
+    )
+;
+
+/**
  * Defines the final shape for a straight mast.
  */
 module finalStraightMast() {
-    accessoryMast(
+    accessoryStraightMast(
         width = mastWidth,
         height = mastHeight,
         wall = accessoryClipThickness,

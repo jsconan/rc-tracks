@@ -32,15 +32,66 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierUnibodyGap() = archTowerThickness * 2;
+
+/**
+ * Gets the length of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierUnibodyLength() =
+    getUTurnBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        gap = finalUTurnCurvedBarrierUnibodyGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierUnibodyWidth() =
+    getUTurnBarrierWidth(
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        gap = finalUTurnCurvedBarrierUnibodyGap()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierUnibodyWidth()
+    )
+;
+
+/**
  * Defines the final shape for a U-turn curve.
  */
-module finalUTurnCurveBarrierUnibody() {
+module finalUTurnCurvedBarrierUnibody() {
     uTurnBarrierUnibody(
         length = trackSectionLength,
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        gap = archTowerThickness * 2,
+        gap = finalUTurnCurvedBarrierUnibodyGap(),
         right = rightOriented
     );
 }
@@ -49,5 +100,5 @@ module finalUTurnCurveBarrierUnibody() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalUTurnCurveBarrierUnibody();
+    finalUTurnCurvedBarrierUnibody();
 }

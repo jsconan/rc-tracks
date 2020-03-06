@@ -32,17 +32,58 @@
 include <../../../config/setup.scad>
 
 /**
+ * Gets the length of the final shape for a unibody barrier connector.
+ * @returns Number
+ */
+function finalConnectorBarrierUnibodyLength() =
+    2 * getStraightBarrierLength(trackSectionLength, barrierHolderBase, .5) +
+    getBarrierLinkLength(barrierHolderBase) +
+    printInterval
+;
+
+/**
+ * Gets the width of the final shape for a unibody barrier connector.
+ * @returns Number
+ */
+function finalConnectorBarrierUnibodyWidth() =
+    3 * getBarrierUnibodyWidth(barrierHolderBase) +
+    2 * printInterval
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a unibody barrier connector.
+ * @returns Number
+ */
+function finalConnectorBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalConnectorBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a unibody barrier connector.
+ * @returns Number
+ */
+function finalConnectorBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalConnectorBarrierUnibodyWidth()
+    )
+;
+
+/**
  * Defines the final shape for a unibody barrier connector.
  */
 module finalConnectorBarrierUnibody() {
-    distribute(intervalY=getPrintInterval(getBarrierUnibodyWidth(barrierHolderBase)), center=true) {
+    intervalX = getPrintInterval(getStraightBarrierLength(trackSectionLength, barrierHolderBase, .5));
+    intervalY = getPrintInterval(getBarrierUnibodyWidth(barrierHolderBase));
+    distribute(intervalY=intervalY, center=true) {
         barrierHolderToUnibodyMale(
             length = trackSectionLength,
             height = barrierHeight,
             thickness = barrierBodyThickness,
             base = barrierHolderBase
         );
-        distribute(intervalX=getPrintInterval(getBarrierLinkWidth(barrierHolderBase) + trackSectionLength / 2), center=true) {
+        distribute(intervalX=intervalX, center=true) {
             barrierHolderConnectorFemale(
                 length = trackSectionLength,
                 thickness = barrierBodyThickness,
