@@ -222,6 +222,13 @@ function getCurveRadius(length, ratio) = length * ratio;
 function getCurveAngle(ratio) = curveAngle / ratio;
 
 /**
+ * Computes the rotation angle used to place a curve.
+ * @param Number angle - The angle of the curve.
+ * @returns Number
+ */
+function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
+
+/**
  * Computes the radius of the accessory mast.
  * @param Number width - The width of the mast.
  * @returns Number

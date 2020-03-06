@@ -82,11 +82,8 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
  * @param Number z - An option Z-axis translation
  */
 module placeCurvedElement(length, radius, angle, z = 0) {
-    remainingAngle = curveAngle - angle;
-    offset = (length - radius) * cos(45) * [1, 1, 0] + [0, 0, z];
-
-    translate(offset) {
-        rotateZ(remainingAngle / 2) {
+    translate([0, getChordHeight(angle, radius) / 2 - radius, z]) {
+        rotateZ(getCurveRotationAngle(angle)) {
             children();
         }
     }
