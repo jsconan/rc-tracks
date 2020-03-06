@@ -29,6 +29,46 @@
  */
 
 /**
+ * Gets the approximated length of the shape of a curved barrier.
+ * @param Number length - The length of the element.
+ * @param Number width - The width of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @returns Number
+ */
+function getCurvedBarrierLength(length, width, base, ratio) =
+    let(
+        angle = getCurveAngle(ratio),
+        radius = getCurveRadius(length, ratio),
+        rotationAngle = getCurveRotationAngle(angle),
+        projectedWidth = width * cos(rotationAngle) / 2,
+        projectedLink = getBarrierLinkLength(base) * cos(curveAngle + rotationAngle)
+    )
+    getChordLength(angle, radius) +
+    width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
+;
+
+/**
+ * Gets the approximated width of the shape of a curved barrier.
+ * @param Number length - The length of the element.
+ * @param Number width - The width of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @returns Number
+ */
+function getCurvedBarrierWidth(length, width, base, ratio) =
+    let(
+        angle = getCurveAngle(ratio),
+        radius = getCurveRadius(length, ratio),
+        rotationAngle = getCurveRotationAngle(angle),
+        projectedWidth = width * sin(rotationAngle) / 2,
+        projectedLink = getBarrierLinkLength(base) * sin(curveAngle + rotationAngle)
+    )
+    getChordHeight(angle, radius) +
+    width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
+;
+
+/**
  * Draws the notch shape of a curved barrier holder.
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape.

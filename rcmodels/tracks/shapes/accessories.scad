@@ -29,6 +29,101 @@
  */
 
 /**
+ * Gets the approximated length of the shape of a cable clip.
+ * @param Number wall - The thickness of the cable clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getCableClipLength(wall, base) =
+    getBarrierHolderWidth(base, wall + printTolerance)
+;
+
+/**
+ * Gets the approximated width of the shape of a cable clip.
+ * @param Number wall - The thickness of the cable clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getCableClipWidth(wall, base) =
+    getBarrierHolderHeight(base, wall + printTolerance) +
+    apothem(n=10, r=getCableClipLength(wall, base) / 2)
+;
+
+/**
+ * Gets the approximated length of the shape of a bent accessory mast.
+ * @param Number width - The width of the mast.
+ * @param Number|Vector height - The height of the mast. The 2 sides can be defined separately using a vector.
+ * @param Number wall - The thickness of the accessory clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getAccessoryBentMastLength(width, height, wall, base) =
+    let(
+        height = vector2D(height)
+    )
+    getBarrierHolderHeight(base, wall + printTolerance) +
+    width * 1.5 + height[0]
+;
+
+/**
+ * Gets the approximated width of the shape of a bent accessory mast.
+ * @param Number width - The width of the mast.
+ * @param Number|Vector height - The height of the mast. The 2 sides can be defined separately using a vector.
+ * @param Number wall - The thickness of the accessory clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getAccessoryBentMastWidth(width, height, wall, base) =
+    let(
+        height = vector2D(height)
+    )
+    getBarrierHolderWidth(base, wall + printTolerance) / 2 +
+    width + height[1]
+;
+
+/**
+ * Gets the approximated length of the shape of an accessory mast.
+ * @param Number height - The height of the mast.
+ * @param Number wall - The thickness of the accessory clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getAccessoryStraightMastLength(height, wall, base) =
+    getBarrierHolderHeight(base, wall + printTolerance) + height
+;
+
+/**
+ * Gets the approximated width of the shape of an accessory mast.
+ * @param Number wall - The thickness of the accessory clip lines.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @returns Number
+ */
+function getAccessoryStraightMastWidth(wall, base) =
+    getBarrierHolderWidth(base, wall + printTolerance)
+;
+
+/**
+ * Gets the approximated length of the shape of an accessory flag.
+ * @param Number width - The width of the flag.
+ * @param Number thickness - The thickness of the flag.
+ * @param Number mast - The width of the mast.
+ * @returns Number
+ */
+function getAccessoryFlagLength(width, thickness, mast) =
+    width + mast / 2 + printResolution + thickness
+;
+
+/**
+ * Gets the approximated length of the shape of an accessory flag.
+ * @param Number height - The height of the flag.
+ * @param Number wave - The height of the wave
+ * @returns Number
+ */
+function getAccessoryFlagWidth(height, wave = 0) =
+    height + wave * 2
+;
+
+/**
  * Draws the shape of a cable clip.
  * @param Number height - The thickness of the clip.
  * @param Number wall - The thickness of the cable clip lines.
@@ -37,25 +132,28 @@
  * @param Boolean [center] - The shape is centered vertically.
  */
 module cableClip(height, wall, base, thickness, center = false) {
-    holderWidth = getBarrierHolderWidth(base) + (wall + printTolerance) * 2;
-    negativeExtrude(height=height, center=center) {
-        clipProfile(
-            wall = wall,
-            base = base,
-            thickness = thickness + printTolerance,
-            distance = printTolerance
-        );
-        repeat(intervalX = holderWidth - wall, center = true) {
-            translateY(base / 2) {
-                rectangle([wall, base]);
+    holderWidth = getCableClipLength(wall, base);
+
+    translateY((apothem(n=10, r=holderWidth) - getCableClipWidth(wall, base)) / 2) {
+        negativeExtrude(height=height, center=center) {
+            clipProfile(
+                wall = wall,
+                base = base,
+                thickness = thickness + printTolerance,
+                distance = printTolerance
+            );
+            repeat(intervalX = holderWidth - wall, center = true) {
+                translateY(base / 2) {
+                    rectangle([wall, base]);
+                }
             }
+            ringSegment(
+                r = [1, 1] * (holderWidth / 2),
+                w = wall,
+                a = -180,
+                $fn = 10
+            );
         }
-        ringSegment(
-            r = [1, 1] * (holderWidth / 2),
-            w = wall,
-            a = -180,
-            $fn = 10
-        );
     }
 }
 
@@ -171,24 +269,28 @@ module mastRings(width, height, wall, interval = 0, count = 1, distance = 0, cen
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  */
-module accessoryMast(width, height, wall, base, thickness) {
-    rotateY(90) {
-        mast(
-            width = width,
-            height = height,
-            distance = 0,
-            center = false
-        );
-    }
-    rotateZ(90) {
-        clip(
-            wall = wall,
-            height = width,
-            base = base,
-            thickness = thickness + printTolerance,
-            distance = printTolerance,
-            center = true
-        );
+module accessoryStraightMast(width, height, wall, base, thickness) {
+    holderHeight = getBarrierHolderHeight(base, wall + printTolerance);
+
+    translateX((holderHeight - height) / 2) {
+        rotateY(90) {
+            mast(
+                width = width,
+                height = height,
+                distance = 0,
+                center = false
+            );
+        }
+        rotateZ(90) {
+            clip(
+                wall = wall,
+                height = width,
+                base = base,
+                thickness = thickness + printTolerance,
+                distance = printTolerance,
+                center = true
+            );
+        }
     }
 }
 
@@ -201,22 +303,33 @@ module accessoryMast(width, height, wall, base, thickness) {
  * @param Number thickness - The thickness of the barrier body.
  */
 module accessoryBentMast(width, height, wall, base, thickness) {
-    rotate([90, 90, 90]) {
-        bentMast(
-            width = width,
-            height = height,
-            distance = 0
-        );
-    }
-    rotateZ(90) {
-        clip(
-            wall = wall,
-            height = width,
-            base = base,
-            thickness = thickness + printTolerance,
-            distance = printTolerance,
-            center = true
-        );
+    height = vector2D(height);
+    holderWidth = getBarrierHolderWidth(base, wall + printTolerance);
+    holderHeight = getBarrierHolderHeight(base, wall + printTolerance);
+    bentMastWidth = getAccessoryBentMastWidth(width, height, wall, base);
+
+    translate([
+        (holderHeight - height[0] - width) / 2,
+        (bentMastWidth - holderWidth) / 2,
+        0
+    ]) {
+        rotate([90, 90, 90]) {
+            bentMast(
+                width = width,
+                height = height,
+                distance = 0
+            );
+        }
+        rotateZ(90) {
+            clip(
+                wall = wall,
+                height = width,
+                base = base,
+                thickness = thickness + printTolerance,
+                distance = printTolerance,
+                center = true
+            );
+        }
     }
 }
 
@@ -235,23 +348,27 @@ module accessoryFlag(width, height, thickness, mast, wave = 0) {
     ringOffset = apothem(n=mastFacets, r=getMastRadius(mast)) + distance + thickness;
     type = wave ? "S" : "V";
 
-    translateZ(ringOffset) {
-        mastRings(
-            width = mast,
-            height = ringHeight,
-            wall = thickness,
-            interval = ringInterval,
-            count = 2,
-            distance = distance,
-            center = true
-        );
-    }
-    negativeExtrude(thickness) {
-        polygon(path([
-            ["P", height / 2, 0],
-            [type, width, width, wave, 0, 90],
-            ["H", -height],
-            [type, -width, width, wave, 0, 90]
-        ]));
+    rotateZ(270) {
+        translateY((mast - width) / 2 - printResolution) {
+            translateZ(ringOffset) {
+                mastRings(
+                    width = mast,
+                    height = ringHeight,
+                    wall = thickness,
+                    interval = ringInterval,
+                    count = 2,
+                    distance = distance,
+                    center = true
+                );
+            }
+            negativeExtrude(thickness) {
+                polygon(path([
+                    ["P", height / 2, 0],
+                    [type, width, width, wave, 0, 90],
+                    ["H", -height],
+                    [type, -width, width, wave, 0, 90]
+                ]));
+            }
+        }
     }
 }

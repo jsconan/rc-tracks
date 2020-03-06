@@ -29,12 +29,55 @@
  */
 
 /**
+ * Gets the length of the final shape for a U-turn curve.
+ * @param Number length - The length of a track element.
+ * @param Number width - The width of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number gap - The distance between the two side of the U-turn.
+ * @returns Number
+ */
+function getUTurnBarrierLength(length, width, base, gap) =
+    getStraightBarrierLength(length, base, .5) + width + gap / 2
+;
+
+/**
+ * Gets the width of the final shape for a U-turn curve.
+ * @param Number width - The width of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number gap - The distance between the two side of the U-turn.
+ * @returns Number
+ */
+function getUTurnBarrierWidth(width, base, gap) = gap + width * 2;
+
+/**
+ * Gets the length of a U-turn compensation barrier.
+ * @param Number width - The width of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number gap - The distance between the two side of the U-turn.
+ * @returns Number
+ */
+function getUTurnCompensationBarrierLength(width, base, gap) =
+    width + gap + getBarrierLinkLength(base)
+;
+
+/**
+ * Gets the length of a U-turn compensation barrier body.
+ * @param Number length - The length of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number gap - The distance between the two side of the U-turn.
+ * @returns Number
+ */
+function getUTurnCompensationBarrierBodyLength(length, base, gap) =
+    length + getBarrierHolderWidth(base) + gap
+;
+
+/**
  * Draws the shape of a barrier border for a U-Turn.
  * @param Number length - The length of a track element.
  * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
@@ -47,7 +90,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
     dir = right ? -1 : 1;
     length = length / 2;
 
-    translateY(interval * dir) {
+    translate([-interval, interval * dir, 0]) {
         carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
             straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
                 extrudeStraightProfile(length=length) {
@@ -59,7 +102,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
             }
         }
     }
-    translateY(-interval * dir) {
+    translate([-interval, -interval * dir, 0]) {
         rotateZ(180) {
             carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
                 straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
@@ -73,7 +116,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
             }
         }
     }
-    translateX(length / 2) {
+    translateX(length / 2 - interval) {
         rotateZ(270) {
             extrudeCurvedProfile(radius=interval, angle=180) {
                 barrierHolderProfile(
@@ -94,7 +137,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
  * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body for a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  * @param Number right - Is it the right or the left part of the track element that is added first?
  */
 module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) {
@@ -104,7 +147,7 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
     dir = right ? -1 : 1;
     length = length / 2;
 
-    translateY(interval * dir) {
+    translate([-interval, interval * dir, 0]) {
         straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
             extrudeStraightProfile(length=length) {
                 barrierUnibodyProfile(
@@ -115,7 +158,7 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
             }
         }
     }
-    translateY(-interval * dir) {
+    translate([-interval, -interval * dir, 0]) {
         rotateZ(180) {
             straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
                 extrudeStraightProfile(length=length) {
@@ -128,7 +171,7 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
             }
         }
     }
-    translateX(length / 2) {
+    translateX(length / 2 - interval) {
         rotateZ(270) {
             extrudeCurvedProfile(radius=interval, angle=180) {
                 barrierUnibodyProfile(
@@ -145,7 +188,7 @@ module uTurnBarrierUnibody(length, height, thickness, base, gap, right = false) 
  * Draws the shape of a barrier border for a U-Turn.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  */
 module uTurnCompensationBarrierHolder(thickness, base, gap) {
     length = getBarrierHolderWidth(base) + gap;
@@ -170,7 +213,7 @@ module uTurnCompensationBarrierHolder(thickness, base, gap) {
  * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  */
 module uTurnCompensationBarrierUnibody(height, thickness, base, gap) {
     length = getBarrierUnibodyWidth(base) + gap;
@@ -184,12 +227,12 @@ module uTurnCompensationBarrierUnibody(height, thickness, base, gap) {
 }
 
 /**
- * Draws the shape of a barrier body.
+ * Draws the shape of a body for a U-turn compensation barrier.
  * @param Number length - The length of the track element.
  * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
- * @param Number gap - The distance between the two side of the u-turn.
+ * @param Number gap - The distance between the two side of the U-turn.
  */
 module uTurnCompensationBarrierBody(length, height, thickness, base, gap) {
     stripHeight = getBarrierStripHeight(base) - getBarrierStripIndent(base);

@@ -29,6 +29,43 @@
  */
 
 /**
+ * Gets the length of a female arch tower.
+ * @param Number length - The length of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the clip outline.
+ * @returns Number
+ */
+function getArchTowerLengthFemale(length, base, wall) =
+    getBarrierHolderHeight(base, wall + printTolerance) +
+    length / 2
+;
+
+/**
+ * Gets the length of a male arch tower.
+ * @param Number length - The length of a track element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the clip outline.
+ * @returns Number
+ */
+function getArchTowerLengthMale(length, base, wall) =
+    getArchTowerLengthFemale(
+        length = length,
+        base = base,
+        wall = wall
+    ) + getBarrierLinkLength(base)
+;
+
+/**
+ * Gets the width of an arch tower.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the clip outline.
+ * @returns Number
+ */
+function getArchTowerWidth(base, wall) =
+    getBarrierHolderWidth(base, wall + printTolerance)
+;
+
+/**
  * Draws the shape of a clip that will clamp a barrier border.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
@@ -67,20 +104,22 @@ module archTowerMale(length, thickness, base, wall) {
     indent = getBarrierStripIndent(base);
     length = length / 2;
 
-    translateX(length / 2) {
-        archTowerClip(
-            thickness = thickness,
-            base = base,
-            wall = wall
-        );
-    }
-    carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-        straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
-            extrudeStraightProfile(length=length) {
-                barrierHolderProfile(
-                    base = base,
-                    thickness = thickness
-                );
+    translateX(-getBarrierHolderHeight(base, wall + printTolerance) / 2) {
+        translateX(length / 2) {
+            archTowerClip(
+                thickness = thickness,
+                base = base,
+                wall = wall
+            );
+        }
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+                extrudeStraightProfile(length=length) {
+                    barrierHolderProfile(
+                        base = base,
+                        thickness = thickness
+                    );
+                }
             }
         }
     }
@@ -99,21 +138,23 @@ module archTowerFemale(length, thickness, base, wall) {
     indent = getBarrierStripIndent(base);
     length = length / 2;
 
-    translateX(length / 2) {
-        archTowerClip(
-            thickness = thickness,
-            base = base,
-            wall = wall
-        );
-    }
-    rotateZ(180) {
-        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-            straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
-                extrudeStraightProfile(length=length) {
-                    barrierHolderProfile(
-                        base = base,
-                        thickness = thickness
-                    );
+    translateX(-getBarrierHolderHeight(base, wall + printTolerance) / 2) {
+        translateX(length / 2) {
+            archTowerClip(
+                thickness = thickness,
+                base = base,
+                wall = wall
+            );
+        }
+        rotateZ(180) {
+            carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+                straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+                    extrudeStraightProfile(length=length) {
+                        barrierHolderProfile(
+                            base = base,
+                            thickness = thickness
+                        );
+                    }
                 }
             }
         }

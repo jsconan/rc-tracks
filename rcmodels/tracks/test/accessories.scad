@@ -34,7 +34,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distributeGrid(intervalX=[length, 0, 0], intervalY=[0, height, 0], line=2, center=true) {
+    distributeGrid(intervalX=[length + printInterval, 0, 0], intervalY=[0, height, 0], line=2, center=true) {
 
         // test the cable clip shape
         cableClip(
@@ -70,7 +70,7 @@ applyMode(mode=mode) {
         );
 
         // test the accessory clip shape
-        accessoryMast(
+        accessoryStraightMast(
             width = base,
             height = height,
             wall = wall,
