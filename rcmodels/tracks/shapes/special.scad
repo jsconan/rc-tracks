@@ -75,7 +75,7 @@ module archTower(length, thickness, base, wall) {
     thickness = thickness + printTolerance;
     holderHeight = getBarrierHolderHeight(base);
     clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
-    indent = getBarrierStripIndent(base);
+    indent = getBarrierStripIndent(base) + printResolution;
     length = length / 2;
 
     translateX(-clipHeight / 2) {
@@ -177,6 +177,7 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
     unibodyLineY = height - holderHeight - base * 2;
     holderLineY = holderHeight - base * 1.5;
     unibodyTopWidth = unibodyWidth - base - holderLineY * (unibodyLineX / unibodyLineY) * 2;
+    indent = getBarrierStripIndent(base) + printResolution;
     length = length / 2;
 
     distribute(intervalX=length, center=true) {
@@ -194,6 +195,9 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
                     base = base,
                     distance = printTolerance
                 );
+            }
+            translate([length / 2, 0, holderHeight - indent]) {
+                box([thickness, thickness, indent]);
             }
         }
         carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
