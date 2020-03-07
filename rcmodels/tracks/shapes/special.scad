@@ -29,26 +29,26 @@
  */
 
 /**
- * Gets the length of a female arch tower.
+ * Gets the length of an arch tower.
  * @param Number length - The length of a track element.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number wall - The thickness of the clip outline.
  * @returns Number
  */
-function getArchTowerLengthFemale(length, base, wall) =
+function getArchTowerLength(length, base, wall) =
     getBarrierHolderHeight(base, wall + printTolerance) +
     length / 2
 ;
 
 /**
- * Gets the length of a male arch tower.
+ * Gets the length of an arch tower with a male connector.
  * @param Number length - The length of a track element.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number wall - The thickness of the clip outline.
  * @returns Number
  */
 function getArchTowerLengthMale(length, base, wall) =
-    getArchTowerLengthFemale(
+    getArchTowerLength(
         length = length,
         base = base,
         wall = wall
@@ -66,26 +66,41 @@ function getArchTowerWidth(base, wall) =
 ;
 
 /**
- * Draws the shape of a clip that will clamp a barrier border.
+ * Draws the shape of an arch tower that will clamp a barrier border.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number wall - The thickness of the outline.
  */
-module archTowerClip(thickness, base, wall) {
+module archTower(length, thickness, base, wall) {
+    thickness = thickness + printTolerance;
     holderHeight = getBarrierHolderHeight(base);
+    clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
     indent = getBarrierStripIndent(base);
+    length = length / 2;
 
-    rotateZ(-90) {
-        difference() {
-            clip(
-                wall = wall,
-                height = holderHeight,
-                base = base,
-                thickness = thickness,
-                distance = printTolerance
-            );
-            translate([0, wall / 2, holderHeight - indent]) {
-                box([thickness, wall * 2, indent * 2]);
+    translateX(-clipHeight / 2) {
+        translateX(length / 2) {
+            rotateZ(-90) {
+                difference() {
+                    clip(
+                        wall = wall,
+                        height = holderHeight,
+                        base = base,
+                        thickness = thickness,
+                        distance = printTolerance
+                    );
+                    translate([0, wall / 2, holderHeight - indent]) {
+                        box([thickness, wall * 2, indent * 2]);
+                    }
+                }
+            }
+        }
+        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
+            extrudeStraightProfile(length=length) {
+                barrierHolderProfile(
+                    base = base,
+                    thickness = thickness
+                );
             }
         }
     }
@@ -99,29 +114,20 @@ module archTowerClip(thickness, base, wall) {
  * @param Number wall - The thickness of the outline.
  */
 module archTowerMale(length, thickness, base, wall) {
-    thickness = thickness + printTolerance;
     linkHeight = getBarrierHolderLinkHeight(base);
-    indent = getBarrierStripIndent(base);
-    length = length / 2;
+    archTowerLength = getArchTowerLength(
+        length = length,
+        base = base,
+        wall = wall
+    );
 
-    translateX(-getBarrierHolderHeight(base, wall + printTolerance) / 2) {
-        translateX(length / 2) {
-            archTowerClip(
-                thickness = thickness,
-                base = base,
-                wall = wall
-            );
-        }
-        carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-            straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
-                extrudeStraightProfile(length=length) {
-                    barrierHolderProfile(
-                        base = base,
-                        thickness = thickness
-                    );
-                }
-            }
-        }
+    straightLinkMale(length=archTowerLength, linkHeight=linkHeight, base=base) {
+        archTower(
+            length = length,
+            thickness = thickness,
+            base = base,
+            wall = wall
+        );
     }
 }
 
@@ -133,29 +139,22 @@ module archTowerMale(length, thickness, base, wall) {
  * @param Number wall - The thickness of the outline.
  */
 module archTowerFemale(length, thickness, base, wall) {
-    thickness = thickness + printTolerance;
     linkHeight = getBarrierHolderLinkHeight(base);
-    indent = getBarrierStripIndent(base);
-    length = length / 2;
+    archTowerLength = getArchTowerLength(
+        length = length,
+        base = base,
+        wall = wall
+    );
 
-    translateX(-getBarrierHolderHeight(base, wall + printTolerance) / 2) {
-        translateX(length / 2) {
-            archTowerClip(
-                thickness = thickness,
-                base = base,
-                wall = wall
-            );
-        }
-        rotateZ(180) {
-            carveBarrierNotch(length=length, thickness=thickness, base=base, notches=1) {
-                straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
-                    extrudeStraightProfile(length=length) {
-                        barrierHolderProfile(
-                            base = base,
-                            thickness = thickness
-                        );
-                    }
-                }
+    rotateZ(180) {
+        straightLinkFemale(length=archTowerLength, linkHeight=linkHeight, base=base) {
+            rotateZ(180) {
+                archTower(
+                    length = length,
+                    thickness = thickness,
+                    base = base,
+                    wall = wall
+                );
             }
         }
     }

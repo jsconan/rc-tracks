@@ -37,7 +37,8 @@ applyMode(mode=mode) {
     distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=2, center=true) {
 
         // test the shape of an arch tower clip
-        archTowerClip(
+        archTower(
+            length = length,
             thickness = thickness,
             base = base,
             wall = wall * 2
