@@ -129,7 +129,7 @@ module finalArchSample() {
     laneWidth = getSampleLaneWidth();
     wallWidth = getSampleWallWidth();
 
-    negativeExtrude(height=getBarrierHolderWidth(sampleBase)) {
+    linear_extrude(height=getBarrierHolderWidth(sampleBase), convexity=10) {
         archSampleProfile(sampleSize, laneWidth, wallWidth);
         repeat(count=2, intervalX=laneWidth, center=true) {
             translateY(-getBarrierHolderHeight(sampleBase) - wallWidth * 2) {

@@ -124,7 +124,7 @@ module straightLinks(length, linkHeight, base) {
  */
 module extrudeStraightProfile(length) {
     rotate([90, 0, 90]) {
-        negativeExtrude(height=length, center=true) {
+        linear_extrude(height=length, center=true, convexity=10) {
             children();
         }
     }

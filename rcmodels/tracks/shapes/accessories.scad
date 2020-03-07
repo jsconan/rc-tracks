@@ -135,7 +135,7 @@ module cableClip(height, wall, base, thickness, center = false) {
     clipWidth = getCableClipLength(wall, base);
 
     translateY((apothem(n=10, r=clipWidth) - getCableClipWidth(wall, base)) / 2) {
-        negativeExtrude(height=height, center=center) {
+        linear_extrude(height=height, center=center, convexity=10) {
             clipProfile(
                 wall = wall,
                 base = base,
@@ -179,7 +179,7 @@ module mastProfile(width, distance = 0) {
  * @param Boolean [center] - The shape is centered vertically.
  */
 module mast(width, height, distance = 0, center = false) {
-    negativeExtrude(height=height, center=center) {
+    linear_extrude(height=height, center=center, convexity=10) {
         rotateZ(getPolygonAngle(1, mastFacets) / 2) {
             mastProfile(
                 width = width,
@@ -360,7 +360,7 @@ module accessoryFlag(width, height, thickness, mast, wave = 0) {
                     center = true
                 );
             }
-            negativeExtrude(thickness) {
+            linear_extrude(height=thickness, convexity=10) {
                 polygon(path([
                     ["P", height / 2, 0],
                     [type, width, width, wave, 0, 90],

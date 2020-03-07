@@ -97,7 +97,7 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
             rotateZ(startAngle) {
                 translateX(radius) {
                     rotate([90, 0, 270]) {
-                        negativeExtrude(height = thickness + 1, center = true) {
+                        linear_extrude(height=thickness + 1, center=true, convexity=10) {
                             polygon(path([
                                 ["P", 0, -base],
                                 ["V", base],
