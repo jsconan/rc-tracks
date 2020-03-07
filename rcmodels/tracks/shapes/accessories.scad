@@ -61,8 +61,8 @@ function getAccessoryBentMastLength(width, height, wall, base) =
     let(
         height = vector2D(height)
     )
-    getBarrierHolderHeight(base, wall + printTolerance) +
-    width * 1.5 + height[0]
+    getBarrierHolderWidth(base, wall + printTolerance) / 2 +
+    width + height[1]
 ;
 
 /**
@@ -77,8 +77,8 @@ function getAccessoryBentMastWidth(width, height, wall, base) =
     let(
         height = vector2D(height)
     )
-    getBarrierHolderWidth(base, wall + printTolerance) / 2 +
-    width + height[1]
+    getBarrierHolderHeight(base, wall + printTolerance) +
+    width * 1.5 + height[0]
 ;
 
 /**
@@ -132,9 +132,9 @@ function getAccessoryFlagWidth(height, wave = 0) =
  * @param Boolean [center] - The shape is centered vertically.
  */
 module cableClip(height, wall, base, thickness, center = false) {
-    holderWidth = getCableClipLength(wall, base);
+    clipWidth = getCableClipLength(wall, base);
 
-    translateY((apothem(n=10, r=holderWidth) - getCableClipWidth(wall, base)) / 2) {
+    translateY((apothem(n=10, r=clipWidth) - getCableClipWidth(wall, base)) / 2) {
         negativeExtrude(height=height, center=center) {
             clipProfile(
                 wall = wall,
@@ -142,13 +142,13 @@ module cableClip(height, wall, base, thickness, center = false) {
                 thickness = thickness + printTolerance,
                 distance = printTolerance
             );
-            repeat(intervalX = holderWidth - wall, center = true) {
+            repeat(intervalX = clipWidth - wall, center = true) {
                 translateY(base / 2) {
                     rectangle([wall, base]);
                 }
             }
             ringSegment(
-                r = [1, 1] * (holderWidth / 2),
+                r = [1, 1] * (clipWidth / 2),
                 w = wall,
                 a = -180,
                 $fn = 10
@@ -270,9 +270,9 @@ module mastRings(width, height, wall, interval = 0, count = 1, distance = 0, cen
  * @param Number thickness - The thickness of the barrier body.
  */
 module accessoryStraightMast(width, height, wall, base, thickness) {
-    holderHeight = getBarrierHolderHeight(base, wall + printTolerance);
+    clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
 
-    translateX((holderHeight - height) / 2) {
+    translateX((clipHeight - height) / 2) {
         rotateY(90) {
             mast(
                 width = width,
@@ -304,32 +304,31 @@ module accessoryStraightMast(width, height, wall, base, thickness) {
  */
 module accessoryBentMast(width, height, wall, base, thickness) {
     height = vector2D(height);
-    holderWidth = getBarrierHolderWidth(base, wall + printTolerance);
-    holderHeight = getBarrierHolderHeight(base, wall + printTolerance);
+    clipWidth = getBarrierHolderWidth(base, wall + printTolerance);
+    clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
+    bentMastLength = getAccessoryBentMastLength(width, height, wall, base);
     bentMastWidth = getAccessoryBentMastWidth(width, height, wall, base);
 
     translate([
-        (holderHeight - height[0] - width) / 2,
-        (bentMastWidth - holderWidth) / 2,
+        (clipWidth - bentMastLength) / 2,
+        bentMastWidth / 2 - clipHeight,
         0
     ]) {
-        rotate([90, 90, 90]) {
+        rotate([0, 270, 90]) {
             bentMast(
                 width = width,
                 height = height,
                 distance = 0
             );
         }
-        rotateZ(90) {
-            clip(
-                wall = wall,
-                height = width,
-                base = base,
-                thickness = thickness + printTolerance,
-                distance = printTolerance,
-                center = true
-            );
-        }
+        clip(
+            wall = wall,
+            height = width,
+            base = base,
+            thickness = thickness + printTolerance,
+            distance = printTolerance,
+            center = true
+        );
     }
 }
 
