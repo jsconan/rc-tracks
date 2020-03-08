@@ -69,7 +69,7 @@ function finalShortCurvedBarrierHolderWidth() =
  */
 function finalShortCurvedBarrierHolderIntervalX() =
     getPrintInterval(
-        finalShortCurvedBarrierHolderLength()
+        finalShortCurvedBarrierHolderLength() / 4
     )
 ;
 
@@ -79,7 +79,8 @@ function finalShortCurvedBarrierHolderIntervalX() =
  */
 function finalShortCurvedBarrierHolderIntervalY() =
     getPrintInterval(
-        finalShortCurvedBarrierHolderWidth() / 2
+        getBarrierHolderWidth(barrierHolderBase) +
+        getBarrierLinkLength(barrierHolderBase)
     )
 ;
 

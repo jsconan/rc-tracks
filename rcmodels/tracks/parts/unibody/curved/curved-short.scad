@@ -69,7 +69,7 @@ function finalShortCurvedBarrierUnibodyWidth() =
  */
 function finalShortCurvedBarrierUnibodyIntervalX() =
     getPrintInterval(
-        finalShortCurvedBarrierUnibodyLength()
+        finalShortCurvedBarrierUnibodyLength() / 4
     )
 ;
 
@@ -79,7 +79,8 @@ function finalShortCurvedBarrierUnibodyIntervalX() =
  */
 function finalShortCurvedBarrierUnibodyIntervalY() =
     getPrintInterval(
-        finalShortCurvedBarrierUnibodyWidth() / 2
+        getBarrierUnibodyWidth(barrierHolderBase) +
+        getBarrierLinkLength(barrierHolderBase)
     )
 ;
 

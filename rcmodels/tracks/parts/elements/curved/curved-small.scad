@@ -80,7 +80,8 @@ function finalSmallCurvedBarrierHolderIntervalX() =
  */
 function finalSmallCurvedBarrierHolderIntervalY() =
     getPrintInterval(
-        finalSmallCurvedBarrierHolderWidth() / 2
+        getBarrierHolderWidth(barrierHolderBase) +
+        getBarrierLinkLength(barrierHolderBase)
     )
 ;
 
