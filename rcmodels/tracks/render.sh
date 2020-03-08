@@ -43,12 +43,14 @@ srcpath=${project}
 dstpath=${project}/output
 configpath=${srcpath}/config
 partpath=${srcpath}/parts
-format=""
+platepath=${srcpath}/plates
+format=
 showConfig=
 renderAccessories=
 renderElements=
 renderUnibody=
 renderSamples=
+renderPlates=
 
 # include libs
 source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
@@ -113,6 +115,9 @@ while (( "$#" )); do
             renderSamples=1
             showConfig=1
         ;;
+        "p"|"plates")
+            renderPlates=1
+        ;;
         "c"|"config")
             showConfig=1
         ;;
@@ -153,6 +158,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track separated elements"
             echo -e "${C_MSG}  u,  unibody         ${C_RST}Render the track unibody elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
+            echo -e "${C_MSG}  p,  plates          ${C_RST}Render the plates"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the length of a track section"
@@ -208,6 +214,15 @@ scadformat "${format}"
 # show the config
 if [ "${showConfig}" != "" ]; then
     showconfig
+fi
+
+# render the plates
+if [ "${renderPlates}" != "" ]; then
+    printmessage "${C_CTX}Will render the print plates"
+    partpath=${platepath}
+    dstpath=${dstpath}/plates
+else
+    printmessage "${C_CTX}Will render the parts separately"
 fi
 
 # render the files
