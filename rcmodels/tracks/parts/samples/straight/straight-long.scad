@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A sample for a straight track part, 5x the length.
+ * A sample for a straight track part, 10x the length.
  *
  * @author jsconan
  */
@@ -32,55 +32,55 @@
 include <../../../config/setup.scad>
 
 /**
- * Gets the length ratio of the final shape for a x10 length barrier sample.
+ * Gets the length ratio of the final shape for a long length barrier sample.
  * @returns Number
  */
-function finalLong10StraightBarrierSampleRatio() = 10;
+function finalLongStraightBarrierSampleRatio() = 10;
 
 /**
- * Gets the length of the final shape for a x10 length barrier sample.
+ * Gets the length of the final shape for a long length barrier sample.
  * @returns Number
  */
-function finalLong10StraightBarrierSampleLength() =
+function finalLongStraightBarrierSampleLength() =
     getStraightBarrierLength(
         length = sampleSize,
         base = sampleBase,
-        ratio = finalLong10StraightBarrierSampleRatio()
+        ratio = finalLongStraightBarrierSampleRatio()
     )
 ;
 
 /**
- * Gets the width of the final shape for a x10 length barrier sample.
+ * Gets the width of the final shape for a long length barrier sample.
  * @returns Number
  */
-function finalLong10StraightBarrierSampleWidth() = getBarrierHolderWidth(sampleBase);
+function finalLongStraightBarrierSampleWidth() = getBarrierHolderWidth(sampleBase);
 
 /**
- * Gets the horizontal interval of the final shape for a x10 length barrier sample.
+ * Gets the horizontal interval of the final shape for a long length barrier sample.
  * @returns Number
  */
-function finalLong10StraightBarrierSampleIntervalX() =
+function finalLongStraightBarrierSampleIntervalX() =
     getPrintInterval(
-        finalLong10StraightBarrierSampleLength()
+        finalLongStraightBarrierSampleLength()
     )
 ;
 
 /**
- * Gets the vertical interval of the final shape for a x10 length barrier sample.
+ * Gets the vertical interval of the final shape for a long length barrier sample.
  * @returns Number
  */
-function finalLong10StraightBarrierSampleIntervalY() =
+function finalLongStraightBarrierSampleIntervalY() =
     getPrintInterval(
-        finalLong10StraightBarrierSampleWidth()
+        finalLongStraightBarrierSampleWidth()
     )
 ;
 
 /**
- * Defines the final shape for a x10 length barrier sample.
+ * Defines the final shape for a long length barrier sample.
  */
-module finalLong10StraightBarrierSample() {
+module finalLongStraightBarrierSample() {
     straightBarrierMain(
-        length = sampleSize * finalLong10StraightBarrierSampleRatio(),
+        length = sampleSize * finalLongStraightBarrierSampleRatio(),
         thickness = barrierBodyThickness,
         base = sampleBase
     );
@@ -90,5 +90,5 @@ module finalLong10StraightBarrierSample() {
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    finalLong10StraightBarrierSample();
+    finalLongStraightBarrierSample();
 }
