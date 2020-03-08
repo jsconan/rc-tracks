@@ -51,6 +51,7 @@ renderElements=
 renderUnibody=
 renderSamples=
 renderPlates=
+cleanUp=
 
 # include libs
 source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
@@ -149,6 +150,9 @@ while (( "$#" )); do
             format=$2
             shift
         ;;
+        "-c"|"--clean")
+            cleanUp=1
+        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
@@ -168,6 +172,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
+            echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
             echo
             exit 0
         ;;
@@ -210,6 +215,12 @@ scadcheck
 
 # defines the output format
 scadformat "${format}"
+
+# clean up the output
+if [ "${cleanUp}" != "" ]; then
+    printmessage "${C_CTX}Cleaning up the output folder"
+    rm -rf "${dstpath}"
+fi
 
 # show the config
 if [ "${showConfig}" != "" ]; then
