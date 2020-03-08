@@ -246,6 +246,16 @@ function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
 function getPrintInterval(size) = size + printInterval;
 
 /**
+ * Centers the children elements to te printer's build plate.
+ */
+module centerBuildPlate(moveOrigin = false) {
+    buildPlate([printerLength, printerWidth], center=!moveOrigin);
+    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
+        children();
+    }
+};
+
+/**
  * Validates the config values, checking if it match the critical constraints.
  * @param Number length - The nominal size of a track element.
  * @param Number width - The virtual width of a track lane (i.e. the width used to compute the outer radius).
@@ -346,6 +356,8 @@ module printConfig(length, width, lane, height, radius, base) {
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
         str("Print layer:           ", printResolution, "mm"),
         str("Print tolerance:       ", printTolerance, "mm"),
+        str("Printer's length:      ", printerLength / 10, "cm"),
+        str("Printer's width:       ", printerWidth / 10, "cm"),
         str("Print interval:        ", printInterval, "mm"),
         ""
     ], str(chr(13), chr(10))));

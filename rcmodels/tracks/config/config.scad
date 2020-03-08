@@ -37,6 +37,8 @@ renderMode = MODE_PROD;
 printResolution = 0.2;  // The target layer height
 nozzleWidth = 0.4;      // The size of the printer's nozzle
 printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
+printerLength = 250;    // The length of the printer's build plate
+printerWidth = 210;     // The width of the printer's build plate
 
 // The dimensions and constraints of a track element
 trackSectionLength = 100;       // The nominal length of a track element: the length for straight element, or the radius for a curved element
