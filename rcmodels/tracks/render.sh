@@ -45,6 +45,7 @@ configpath=${srcpath}/config
 partpath=${srcpath}/parts
 platepath=${srcpath}/plates
 format=
+parallel=
 showConfig=
 renderAccessories=
 renderElements=
@@ -150,6 +151,10 @@ while (( "$#" )); do
             format=$2
             shift
         ;;
+        "-p"|"--parallel")
+            parallel=$2
+            shift
+        ;;
         "-c"|"--clean")
             cleanUp=1
         ;;
@@ -172,6 +177,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
+            echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
             echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
             echo
             exit 0
@@ -215,6 +221,9 @@ scadcheck
 
 # defines the output format
 scadformat "${format}"
+
+# defines the number of parallel processes
+scadprocesses "${parallel}"
 
 # clean up the output
 if [ "${cleanUp}" != "" ]; then
