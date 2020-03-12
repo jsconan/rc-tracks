@@ -36,7 +36,7 @@
  * @returns Number
  */
 function getArchTowerLength(length, base, wall) =
-    getBarrierHolderHeight(base, wall) +
+    getBarrierHolderHeight(base, wall + printTolerance) +
     length / 2
 ;
 
@@ -62,7 +62,7 @@ function getArchTowerLengthMale(length, base, wall) =
  * @returns Number
  */
 function getArchTowerWidth(base, wall) =
-    getBarrierHolderWidth(base, wall)
+    getBarrierHolderWidth(base, wall + printTolerance)
 ;
 
 /**
@@ -74,7 +74,7 @@ function getArchTowerWidth(base, wall) =
 module archTower(length, thickness, base, wall) {
     thickness = thickness + printTolerance;
     holderHeight = getBarrierHolderHeight(base);
-    clipHeight = getBarrierHolderHeight(base, wall);
+    clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
     indent = getBarrierStripIndent(base) + printResolution;
     length = length / 2;
 
@@ -86,7 +86,8 @@ module archTower(length, thickness, base, wall) {
                         wall = wall,
                         height = holderHeight,
                         base = base,
-                        thickness = thickness
+                        thickness = thickness,
+                        distance = printTolerance
                     );
                     translate([0, wall / 2, holderHeight - indent]) {
                         box([thickness, wall * 2, indent * 2]);
