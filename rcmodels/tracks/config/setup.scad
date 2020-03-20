@@ -41,7 +41,8 @@ include <../shapes/fragments.scad>
 include <../shapes/straight.scad>
 include <../shapes/curved.scad>
 include <../shapes/uturn.scad>
-include <../shapes/special.scad>
+include <../shapes/arch.scad>
+include <../shapes/connector.scad>
 include <../shapes/accessories.scad>
 
 // Validate the config against the constraints
