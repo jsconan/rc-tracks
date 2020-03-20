@@ -73,7 +73,7 @@ module barrierNotch(thickness, base, distance = 0, interval = 0, count = 1, cent
  */
 module barrierNotchNegative(length, thickness, base, notches = 2) {
     height = getBarrierHolderHeight(base) * 2;
-    notches = min(notches, 2);
+    notches = max(notches, 1);
     interval = length / notches;
     count = notches + 1;
 
