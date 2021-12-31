@@ -29,14 +29,14 @@
  */
 
 /**
- * Alligns a value with respect to the target layer height.
+ * Aligns a value with respect to the target layer height.
  * @param Number value
  * @returns Number
  */
 function layerAligned(value) = roundBy(value, printResolution);
 
 /**
- * Alligns a value with respect to the target nozzle size.
+ * Aligns a value with respect to the target nozzle size.
  * @param Number value
  * @returns Number
  */

@@ -194,7 +194,7 @@ while (( "$#" )); do
     shift
 done
 
-# allign values
+# align values
 if [ "${trackSectionLength}" != "" ]; then
     if [ "${trackSectionWidth}" == "" ]; then
         trackSectionWidth=$((${trackSectionLength} * 2))
