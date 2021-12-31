@@ -34,16 +34,11 @@
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierLinkProfile(base, distance = 0) {
-    half = base / 2;
-
-    polygon(outline(path([
-        ["P", half, half],
-        ["H", -base],
-        ["C", [half, half], 0, 180],
-        ["V", -base],
-        ["C", [half, half], 180, 360],
-        ["H", base],
-    ]), distance), convexity = 10);
+    linkProfile(
+        neck = [base / 2, base],
+        bulb = base,
+        distance = distance
+    );
 }
 
 /**
