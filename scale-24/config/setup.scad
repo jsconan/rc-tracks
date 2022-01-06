@@ -29,7 +29,7 @@
  */
 
 // As we need to use some shapes, use the right entry point of the library.
-include <../../../lib/camelSCAD/shapes.scad>
+include <../../lib/camelSCAD/shapes.scad>
 
 // Then we need the config for the project, as well as the related functions
 include <config.scad>

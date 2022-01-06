@@ -55,7 +55,7 @@ renderPlates=
 cleanUp=
 
 # include libs
-source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
+source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 
 # Renders the files from a path.
 #

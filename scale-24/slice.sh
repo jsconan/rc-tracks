@@ -39,7 +39,7 @@ if [ "${configpath}" != "" ] && [ ! -f "${configpath}" ]; then
 fi
 
 # redirect to the lib utils
-"$(dirname $0)/../../lib/camelSCAD/scripts/slice.sh" \
+"$(dirname $0)/../lib/camelSCAD/scripts/slice.sh" \
     --input "output" \
     --output "dist" \
     --config "${configpath}" \
