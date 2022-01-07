@@ -87,6 +87,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
     towerWidth = nozzleAligned(thickness + minWidth);
     towerHeight = getBarrierBodyInnerHeight(height, base) / 2;
     interval = (getBarrierHolderWidth(base) + gap) / 2;
+    indent = getBarrierStripIndent(base) + printResolution;
     dir = right ? -1 : 1;
     length = length / 2;
 
@@ -118,13 +119,20 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
     }
     translateX(length / 2 - interval) {
         rotateZ(270) {
-            extrudeCurvedProfile(radius=interval, angle=180) {
-                barrierHolderProfile(
-                    base = base,
-                    thickness = thickness
-                );
-                translate([-thickness / 2, holderHeight + towerHeight / 2]) {
-                    rectangle([towerWidth, towerHeight]);
+            difference() {
+                extrudeCurvedProfile(radius=interval, angle=180) {
+                    barrierHolderProfile(
+                        base = base,
+                        thickness = thickness
+                    );
+                    translate([-thickness / 2, holderHeight + towerHeight / 2]) {
+                        rectangle([towerWidth, towerHeight]);
+                    }
+                }
+                repeat(count=2, intervalX=interval * 2, center=true) {
+                    translateZ(holderHeight - indent) {
+                        box([thickness, thickness, indent]);
+                    }
                 }
             }
         }
