@@ -23,21 +23,28 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A sample for a straight track part, 5x the length.
+ * A print plate presenting a set of straight unibody barriers to compensate a U-turn track part.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
 include <../../../config/setup.scad>
+use <../../../parts/unibody/straight/straight-uturn.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBarrierMain(
-        length = sampleSize * 10,
-        thickness = barrierBodyThickness,
-        base = sampleBase
-    );
+    centerBuildPlate() {
+        repeat2D(
+            countX = 2,
+            countY = 5,
+            intervalX = [finalUTurnCompensationBarrierUnibodyIntervalX(), 0, 0],
+            intervalY = [0, finalUTurnCompensationBarrierUnibodyIntervalY(), 0],
+            center = true
+        ) {
+            finalUTurnCompensationBarrierUnibody();
+        }
+    }
 }

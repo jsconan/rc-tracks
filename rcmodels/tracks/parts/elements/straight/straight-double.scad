@@ -31,14 +31,65 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the length ratio of the final shape for a double length barrier holder.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierHolderRatio() = 2;
+
+/**
+ * Gets the length of the final shape for a double length barrier holder.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierHolderLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalDoubleStraightBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a double length barrier holder.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierHolderWidth() = getBarrierHolderWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a double length barrier holder.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalDoubleStraightBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a double length barrier holder.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalDoubleStraightBarrierHolderWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a double length barrier holder.
+ */
+module finalDoubleStraightBarrierHolder() {
     straightBarrierHolder(
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 2
+        ratio = finalDoubleStraightBarrierHolderRatio()
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalDoubleStraightBarrierHolder();
 }

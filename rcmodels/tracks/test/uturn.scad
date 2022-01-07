@@ -36,7 +36,7 @@ applyMode(mode=mode) {
 
     distribute(intervalY=length, center=true) {
 
-        // test the u-turn holder shape, left side
+        // test the U-turn holder shape, left side
         uTurnBarrierHolder(
             length = length,
             height = height,
@@ -46,7 +46,7 @@ applyMode(mode=mode) {
             right = false
         );
 
-        // test the u-turn holder shape, right side
+        // test the U-turn holder shape, right side
         uTurnBarrierHolder(
             length = length,
             height = height,
@@ -56,7 +56,7 @@ applyMode(mode=mode) {
             right = true
         );
 
-        // test the u-turn unibody shape, left side
+        // test the U-turn unibody shape, left side
         uTurnBarrierUnibody(
             length = length,
             height = height,
@@ -66,7 +66,7 @@ applyMode(mode=mode) {
             right = false
         );
 
-        // test the u-turn unibody shape, right side
+        // test the U-turn unibody shape, right side
         uTurnBarrierUnibody(
             length = length,
             height = height,
@@ -76,7 +76,7 @@ applyMode(mode=mode) {
             right = true
         );
 
-        // test the u-turn compensation shape
+        // test the U-turn compensation shape
         uTurnCompensationBarrierUnibody(
             height = height,
             thickness = thickness,
@@ -84,14 +84,14 @@ applyMode(mode=mode) {
             gap = wall
         );
 
-        // test the u-turn compensation shape
+        // test the U-turn compensation shape
         uTurnCompensationBarrierHolder(
             thickness = thickness,
             base = base,
             gap = wall
         );
 
-        // test the u-turn compensation body shape
+        // test the U-turn compensation body shape
         uTurnCompensationBarrierBody(
             length = length,
             height = height,

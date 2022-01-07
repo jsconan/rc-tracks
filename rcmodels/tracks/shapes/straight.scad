@@ -29,6 +29,17 @@
  */
 
 /**
+ * Gets the approximated length of the shape of a straight barrier.
+ * @param Number length - The length of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the length
+ * @returns Number
+ */
+function getStraightBarrierLength(length, base, ratio) =
+    length * ratio + getBarrierLinkLength(base)
+;
+
+/**
  * Draws the shape of a barrier body.
  * @param Number length - The length of the track element.
  * @param Number height - The height of the barrier.
@@ -113,7 +124,7 @@ module straightLinks(length, linkHeight, base) {
  */
 module extrudeStraightProfile(length) {
     rotate([90, 0, 90]) {
-        negativeExtrude(height=length, center=true) {
+        linear_extrude(height=length, center=true, convexity=10) {
             children();
         }
     }

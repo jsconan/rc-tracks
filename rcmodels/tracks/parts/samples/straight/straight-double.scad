@@ -31,13 +31,64 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
+/**
+ * Gets the length ratio of the final shape for a double length barrier sample.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierSampleRatio() = 2;
+
+/**
+ * Gets the length of the final shape for a double length barrier sample.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierSampleLength() =
+    getStraightBarrierLength(
+        length = sampleSize,
+        base = sampleBase,
+        ratio = finalDoubleStraightBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a double length barrier sample.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierSampleWidth() = getBarrierHolderWidth(sampleBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a double length barrier sample.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalDoubleStraightBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a double length barrier sample.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierSampleIntervalY() =
+    getPrintInterval(
+        finalDoubleStraightBarrierSampleWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a double length barrier sample.
+ */
+module finalDoubleStraightBarrierSample() {
+    straightBarrierMain(
+        length = sampleSize * finalDoubleStraightBarrierSampleRatio(),
+        thickness = barrierBodyThickness,
+        base = sampleBase
+    );
+}
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBarrierMain(
-        length = sampleSize * 2,
-        thickness = barrierBodyThickness,
-        base = sampleBase
-    );
+    finalDoubleStraightBarrierSample();
 }

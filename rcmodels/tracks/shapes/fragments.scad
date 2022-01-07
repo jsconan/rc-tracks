@@ -36,7 +36,7 @@
  * @param Boolean [center] - The shape is centered vertically.
  */
 module barrierLink(height, base, distance = 0, center = false) {
-    negativeExtrude(height=height, center=center) {
+    linear_extrude(height=height, center=center, convexity=10) {
         barrierLinkProfile(
             base = base,
             distance = distance
@@ -55,7 +55,7 @@ module barrierLink(height, base, distance = 0, center = false) {
  */
 module barrierNotch(thickness, base, distance = 0, interval = 0, count = 1, center = false) {
     repeat(count=count, interval=[interval, 0, 0], center=true) {
-        negativeExtrude(height=thickness, center=center) {
+        linear_extrude(height=thickness, center=center, convexity=10) {
             barrierNotchProfile(
                 base = base,
                 distance = distance
@@ -124,7 +124,7 @@ module carveBarrierNotch(length, thickness, base, notches = 2) {
  * @param Boolean [center] - The shape is centered vertically.
  */
 module clip(wall, height, base, thickness, distance = 0, center = false) {
-    negativeExtrude(height=height, center=center) {
+    linear_extrude(height=height, center=center, convexity=10) {
         clipProfile(
             wall = wall,
             base = base,

@@ -31,14 +31,65 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the length ratio of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyRatio() = 2;
+
+/**
+ * Gets the length of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalDoubleStraightBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyWidth() = getBarrierUnibodyWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalDoubleStraightBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a double length unibody barrier.
+ * @returns Number
+ */
+function finalDoubleStraightBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalDoubleStraightBarrierUnibodyWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a double length unibody barrier.
+ */
+module finalDoubleStraightBarrierUnibody() {
     straightBarrierUnibody(
-        length = trackSectionLength * 2,
+        length = trackSectionLength * finalDoubleStraightBarrierUnibodyRatio(),
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalDoubleStraightBarrierUnibody();
 }

@@ -43,12 +43,16 @@ srcpath=${project}
 dstpath=${project}/output
 configpath=${srcpath}/config
 partpath=${srcpath}/parts
-format=""
+platepath=${srcpath}/plates
+format=
+parallel=
 showConfig=
 renderAccessories=
 renderElements=
 renderUnibody=
 renderSamples=
+renderPlates=
+cleanUp=
 
 # include libs
 source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
@@ -58,9 +62,11 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 # @param right - Right oriented or left oriented
+# @param prefix - Optional prefix added to the output fil name
+# @param suffix - Optional suffix added to the output fil name
 renderpath() {
     local rightOriented=$3
-    scadrenderall "$1" "$2" "" "" \
+    scadrenderall "$1" "$2" "$4" "$5" \
         "$(varif "trackSectionLength" ${trackSectionLength})" \
         "$(varif "trackSectionWidth" ${trackSectionWidth})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
@@ -78,9 +84,9 @@ renderpathall() {
     printmessage "${C_MSG}- straight elements"
     renderpath "$1/straight" "$2"
     printmessage "${C_MSG}- left curved elements"
-    renderpath "$1/curved" "$2/left" "0"
+    renderpath "$1/curved" "$2" "0" "left"
     printmessage "${C_MSG}- right curved elements"
-    renderpath "$1/curved" "$2/right" "1"
+    renderpath "$1/curved" "$2" "1" "right"
 }
 
 # Display the render config
@@ -110,6 +116,9 @@ while (( "$#" )); do
         "s"|"samples")
             renderSamples=1
             showConfig=1
+        ;;
+        "p"|"plates")
+            renderPlates=1
         ;;
         "c"|"config")
             showConfig=1
@@ -142,6 +151,13 @@ while (( "$#" )); do
             format=$2
             shift
         ;;
+        "-p"|"--parallel")
+            parallel=$2
+            shift
+        ;;
+        "-c"|"--clean")
+            cleanUp=1
+        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
@@ -151,6 +167,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track separated elements"
             echo -e "${C_MSG}  u,  unibody         ${C_RST}Render the track unibody elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
+            echo -e "${C_MSG}  p,  plates          ${C_RST}Render the plates"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the length of a track section"
@@ -160,6 +177,8 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
+            echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
+            echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
             echo
             exit 0
         ;;
@@ -203,9 +222,27 @@ scadcheck
 # defines the output format
 scadformat "${format}"
 
+# defines the number of parallel processes
+scadprocesses "${parallel}"
+
+# clean up the output
+if [ "${cleanUp}" != "" ]; then
+    printmessage "${C_CTX}Cleaning up the output folder"
+    rm -rf "${dstpath}"
+fi
+
 # show the config
 if [ "${showConfig}" != "" ]; then
     showconfig
+fi
+
+# render the plates
+if [ "${renderPlates}" != "" ]; then
+    printmessage "${C_CTX}Will render the print plates"
+    partpath=${platepath}
+    dstpath=${dstpath}/plates
+else
+    printmessage "${C_CTX}Will render the parts separately"
 fi
 
 # render the files

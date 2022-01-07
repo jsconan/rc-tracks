@@ -105,9 +105,10 @@ function getBarrierNotchDistance(base, distance = 0) = (getBarrierLinkWidth(base
 /**
  * Computes the outer width of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [distance] - An additional distance added to the outline of the barrier holder.
  * @returns Number
  */
-function getBarrierHolderWidth(base) = getBarrierLinkWidth(base, printTolerance) + minWidth * 4;
+function getBarrierHolderWidth(base, distance = 0) = getBarrierLinkWidth(base, printTolerance) + minWidth * 4 + distance * 2;
 
 /**
  * Computes the top width of a barrier holder.
@@ -120,9 +121,10 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
 /**
  * Computes the outer height of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [distance] - An additional distance added to the outline of the barrier holder.
  * @returns Number
  */
-function getBarrierHolderHeight(base) = getBarrierStripHeight(base) + minThickness + printResolution;
+function getBarrierHolderHeight(base, distance = 0) = getBarrierStripHeight(base) + minThickness + printResolution + distance * 2;
 
 /**
  * Computes the height of the link for a barrier holder.
@@ -134,9 +136,10 @@ function getBarrierHolderLinkHeight(base) = getBarrierHolderHeight(base) - base;
 /**
  * Computes the outer width of a unibody barrier.
  * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [distance] - An additional distance added to the outline of the barrier.
  * @returns Number
  */
-function getBarrierUnibodyWidth(base) = getBarrierHolderWidth(base) + base;
+function getBarrierUnibodyWidth(base, distance = 0) = getBarrierHolderWidth(base) + base + distance * 2;
 
 /**
  * Computes the height of the link for a unibody barrier.
@@ -222,11 +225,35 @@ function getCurveRadius(length, ratio) = length * ratio;
 function getCurveAngle(ratio) = curveAngle / ratio;
 
 /**
+ * Computes the rotation angle used to place a curve.
+ * @param Number angle - The angle of the curve.
+ * @returns Number
+ */
+function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
+
+/**
  * Computes the radius of the accessory mast.
  * @param Number width - The width of the mast.
  * @returns Number
  */
 function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
+
+/**
+ * Computes the print interval between the centers of 2 objects.
+ * @param Number size - The size of the shape.
+ * @returns Number
+ */
+function getPrintInterval(size) = size + printInterval;
+
+/**
+ * Centers the children elements to te printer's build plate.
+ */
+module centerBuildPlate(moveOrigin = false) {
+    buildPlate([printerLength, printerWidth], center=!moveOrigin);
+    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
+        children();
+    }
+};
 
 /**
  * Validates the config values, checking if it match the critical constraints.
@@ -329,6 +356,9 @@ module printConfig(length, width, lane, height, radius, base) {
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
         str("Print layer:           ", printResolution, "mm"),
         str("Print tolerance:       ", printTolerance, "mm"),
+        str("Printer's length:      ", printerLength / 10, "cm"),
+        str("Printer's width:       ", printerWidth / 10, "cm"),
+        str("Print interval:        ", printInterval, "mm"),
         ""
     ], str(chr(13), chr(10))));
 }
@@ -345,6 +375,3 @@ stripIndentRatio = 0.5;
 
 // The angle of a typical curve
 curveAngle = 90;
-
-// The number of facets the accessory mast have
-mastFacets = 6;
