@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier body for a straight track part.
+ * A barrier holder for a short curve track part.
  *
  * @author jsconan
  */
@@ -35,11 +35,11 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    barrierBody(
-        length = trackSectionSize,
-        height = getBarrierBodyHeight(barrierHeight),
+    curvedBarrierHolder(
+        length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        notches = 2
+        ratio = .5,
+        right = rightOriented
     );
 }

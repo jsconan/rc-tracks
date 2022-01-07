@@ -29,7 +29,8 @@
 #
 
 # application params
-trackSectionSize=
+trackSectionLength=
+trackSectionWidth=
 trackLaneWidth=
 trackRadius=
 barrierHeight=
@@ -42,9 +43,11 @@ srcpath=${project}
 dstpath=${project}/output
 configpath=${srcpath}/config
 partpath=${srcpath}/parts
+format=""
 showConfig=
 renderAccessories=
 renderElements=
+renderUnibody=
 renderSamples=
 
 # include libs
@@ -54,12 +57,12 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 #
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
-# @param prefix - A prefix to add to each output file.
 # @param right - Right oriented or left oriented
 renderpath() {
     local rightOriented=$3
-    scadtostlall "$1" "$2" "" \
-        "$(varif "trackSectionSize" ${trackSectionSize})" \
+    scadrenderall "$1" "$2" "" "" \
+        "$(varif "trackSectionLength" ${trackSectionLength})" \
+        "$(varif "trackSectionWidth" ${trackSectionWidth})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
         "$(varif "trackRadius" ${trackRadius})" \
         "$(varif "barrierHeight" ${barrierHeight})" \
@@ -83,6 +86,7 @@ renderpathall() {
 # Display the render config
 showconfig() {
     local config="${dstpath}/config.txt"
+    createpath "${dstpath}" "output"
     printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
     renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D' > "${config}"
     cat "${config}"
@@ -99,6 +103,10 @@ while (( "$#" )); do
             renderElements=1
             showConfig=1
         ;;
+        "u"|"unibody")
+            renderUnibody=1
+            showConfig=1
+        ;;
         "s"|"samples")
             renderSamples=1
             showConfig=1
@@ -107,10 +115,14 @@ while (( "$#" )); do
             showConfig=1
         ;;
         "-l"|"--length")
-            trackSectionSize=$2
+            trackSectionLength=$2
             shift
         ;;
-        "-w"|"--height")
+        "-w"|"--width")
+            trackSectionWidth=$2
+            shift
+        ;;
+        "-b"|"--height")
             barrierHeight=$2
             shift
         ;;
@@ -126,21 +138,28 @@ while (( "$#" )); do
             sampleSize=$2
             shift
         ;;
+        "-f"|"--format")
+            format=$2
+            shift
+        ;;
         "-h"|"--help")
             echo -e "${C_INF}Renders OpenSCAD files${C_RST}"
             echo -e "  ${C_INF}Usage:${C_RST}"
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  a,  accessories     ${C_RST}Render the accessories"
-            echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track elements"
+            echo -e "${C_MSG}  e,  elements        ${C_RST}Render the track separated elements"
+            echo -e "${C_MSG}  u,  unibody         ${C_RST}Render the track unibody elements"
             echo -e "${C_MSG}  s,  samples         ${C_RST}Render the samples"
             echo -e "${C_MSG}  c,  config          ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
-            echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the size of a track section"
-            echo -e "${C_MSG}  -w   --height       ${C_RST}Set the height of the track barrier"
+            echo -e "${C_MSG}  -l,  --length       ${C_RST}Set the length of a track section"
+            echo -e "${C_MSG}  -w,  --width        ${C_RST}Set the virtual width of a track lane (used to compute the radius)"
+            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the actual width of a track lane (physical width, used for the arches)"
+            echo -e "${C_MSG}  -b   --height       ${C_RST}Set the height of the track barrier"
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
-            echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of a track lane"
             echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
+            echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo
             exit 0
         ;;
@@ -157,25 +176,32 @@ while (( "$#" )); do
 done
 
 # allign values
-if [ "${trackSectionSize}" != "" ]; then
+if [ "${trackSectionLength}" != "" ]; then
+    if [ "${trackSectionWidth}" == "" ]; then
+        trackSectionWidth=$((${trackSectionLength} * 2))
+    fi
     if [ "${trackLaneWidth}" == "" ]; then
-        trackLaneWidth=$((${trackSectionSize} * 2))
+        trackLaneWidth=$((${trackSectionLength} * 3))
     fi
     if [ "${trackRadius}" == "" ]; then
-        trackRadius=${trackSectionSize}
+        trackRadius=${trackSectionLength}
     fi
 fi
 
 # default script config
-if [ "${renderAccessories}" == "" ] && [ "${renderElements}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
+if [ "${renderAccessories}" == "" ] && [ "${renderElements}" == "" ] && [ "${renderUnibody}" == "" ] && [ "${renderSamples}" == "" ] && [ "${showConfig}" == "" ]; then
     renderAccessories=1
     renderElements=1
+    renderUnibody=1
     renderSamples=1
     showConfig=1
 fi
 
 # check OpenSCAD
 scadcheck
+
+# defines the output format
+scadformat "${format}"
 
 # show the config
 if [ "${showConfig}" != "" ]; then
@@ -188,10 +214,15 @@ if [ "${renderAccessories}" != "" ]; then
     renderpath "${partpath}/accessories" "${dstpath}/accessories"
 fi
 if [ "${renderElements}" != "" ]; then
-    printmessage "${C_MSG}Rendering track elements"
+    printmessage "${C_MSG}Rendering track separated elements"
     renderpathall "${partpath}/elements" "${dstpath}/elements"
+fi
+if [ "${renderUnibody}" != "" ]; then
+    printmessage "${C_MSG}Rendering track unibody elements"
+    renderpathall "${partpath}/unibody" "${dstpath}/unibody"
 fi
 if [ "${renderSamples}" != "" ]; then
     printmessage "${C_MSG}Rendering track samples"
     renderpathall "${partpath}/samples" "${dstpath}/samples"
 fi
+

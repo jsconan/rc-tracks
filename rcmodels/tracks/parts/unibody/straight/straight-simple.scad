@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * An additional barrier body for a U-turn compensation track part.
+ * A unibody barrier for a straight track part.
  *
  * @author jsconan
  */
@@ -35,11 +35,10 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    uTurnCompensationBarrierBody(
-        length = trackSectionSize,
-        height = getBarrierBodyHeight(barrierHeight),
+    straightBarrierUnibody(
+        length = trackSectionLength,
+        height = barrierHeight,
         thickness = barrierBodyThickness,
-        base = barrierHolderBase,
-        gap = archTowerThickness * 2
+        base = barrierHolderBase
     );
 }

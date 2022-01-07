@@ -23,23 +23,41 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for an outer curve track part.
+ * Test the special elements shapes.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../../../config/setup.scad>
+include <setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curvedBarrierHolder(
-        length = trackSectionSize,
-        thickness = barrierBodyThickness,
-        base = barrierHolderBase,
-        ratio = getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
-        right = rightOriented
-    );
+applyMode(mode=mode) {
+
+    distributeGrid(intervalX=[length * 1.5, 0, 0], intervalY=[0, height * 1.5, 0], line=3, center=true) {
+
+        // test the shape of an arch tower clip
+        archTowerClip(
+            thickness = thickness,
+            base = base,
+            wall = wall * 2
+        );
+
+        // test the shape of an arch tower, male version
+        archTowerMale(
+            length = length,
+            thickness = thickness,
+            base = base,
+            wall = wall * 2
+        );
+
+        // test the shape of an arch tower, female version
+        archTowerFemale(
+            length = length,
+            thickness = thickness,
+            base = base,
+            wall = wall * 2
+        );
+
+    }
 }

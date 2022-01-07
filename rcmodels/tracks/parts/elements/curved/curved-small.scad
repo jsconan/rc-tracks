@@ -23,20 +23,23 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Show the config values.
+ * A barrier holder for a small curve track part.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../../config/setup.scad>
 
-// Show the values
-printConfig(
-    length = trackSectionLength,
-    width = trackSectionWidth,
-    lane = trackLaneWidth,
-    height = barrierHeight,
-    radius = trackRadius,
-    base = barrierHolderBase
-);
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    curvedBarrierHolder(
+        length = trackSectionLength,
+        thickness = barrierBodyThickness,
+        base = barrierHolderBase,
+        ratio = 1,
+        right = rightOriented
+    );
+}

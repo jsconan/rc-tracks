@@ -144,14 +144,15 @@ module accessoryMast(width, height, wall, base, thickness) {
  * @param Number width - The width of the flag.
  * @param Number height - The height of the flag.
  * @param Number thickness - The thickness of the flag.
- * @param Number ring - The width of the rings.
  * @param Number mast - The width of the mast.
+ * @param Number wave - The height of the wave
  */
-module accessoryFlag(width, height, thickness, ring, mast) {
+module accessoryFlag(width, height, thickness, mast, wave = 0) {
     distance = printResolution;
     ringHeight = height / 4;
     ringInterval = height - ringHeight;
     ringOffset = apothem(n=mastFacets, r=getMastRadius(mast)) + distance + thickness;
+    type = wave ? "S" : "V";
 
     translateZ(ringOffset) {
         mastRings(
@@ -164,7 +165,12 @@ module accessoryFlag(width, height, thickness, ring, mast) {
             center = true
         );
     }
-    translateY(width / 2) {
-        box([height, width, thickness]);
+    negativeExtrude(thickness) {
+        polygon(path([
+            ["P", height / 2, 0],
+            [type, width, width, wave, 0, 90],
+            ["H", -height],
+            [type, -width, width, wave, 0, 90]
+        ]));
     }
 }

@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A sample for an outer curve track part, full curve.
+ * A barrier holder for a straight track part, with a double length.
  *
  * @author jsconan
  */
@@ -35,11 +35,10 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curvedBarrierMain(
-        length = sampleSize * getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
+    straightBarrierHolder(
+        length = trackSectionLength,
         thickness = barrierBodyThickness,
-        base = sampleBase,
-        ratio = 1,
-        right = rightOriented
+        base = barrierHolderBase,
+        ratio = 2
     );
 }

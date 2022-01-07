@@ -32,13 +32,13 @@
 include <../../../config/setup.scad>
 
 // Refine the config for the arch sample
-laneWidth = trackLaneWidth / trackSectionSize * sampleSize;
+laneWidth = trackLaneWidth / trackSectionLength * sampleSize;
 wallWidth = minWidth * 2;
 
 /**
  * Computes the points defining the profile of the arch sample.
  * @param Number length - The length of a track element.
- * @param Number width - The width of track lane.
+ * @param Number width - The width of a track lane.
  * @returns Vector[]
  */
 function getArchSamplePoints(length, width) =
@@ -61,7 +61,7 @@ function getArchSamplePoints(length, width) =
 /**
  * Draws the shape of the arch sample.
  * @param Number length - The length of a track element.
- * @param Number width - The width of track lane.
+ * @param Number width - The width of a track lane.
  * @param Number wall - The thickness of the outline.
  */
 module archSampleProfile(length, width, wall) {

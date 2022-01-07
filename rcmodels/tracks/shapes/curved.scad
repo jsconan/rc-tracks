@@ -29,7 +29,7 @@
  */
 
 /**
- * Draws the shape of a barrier holder notch for a curved track element.
+ * Draws the notch shape of a curved barrier holder.
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape.
  * @param Number base - The base unit value used to design the barrier holder.
@@ -103,14 +103,14 @@ module placeCurvedElement(length, radius, angle, z = 0) {
  */
 module curvedLinks(radius, angle, linkHeight, base, right = false) {
     remainingAngle = curveAngle - angle;
-    outerLinkDirection = right ? 180 : 0;
-    outerLinkPosition = right ? 270 : -remainingAngle;
-    innerLinkDirection = right ? 90 : -90;
-    innerLinkPosition = right ? 90 - remainingAngle : 0;
+    maleLinkDirection = right ? 180 : 0;
+    maleLinkPosition = right ? 270 : -remainingAngle;
+    femaleLinkDirection = right ? 90 : -90;
+    femaleLinkPosition = right ? 90 - remainingAngle : 0;
 
-    rotateZ(outerLinkPosition) {
+    rotateZ(maleLinkPosition) {
         translateY(radius) {
-            rotateZ(outerLinkDirection) {
+            rotateZ(maleLinkDirection) {
                 barrierLink(
                     height = linkHeight - printResolution,
                     base = base
@@ -120,9 +120,9 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
     }
     difference() {
         children();
-        rotateZ(innerLinkPosition) {
+        rotateZ(femaleLinkPosition) {
             translate([radius, 0, -1]) {
-                rotateZ(innerLinkDirection) {
+                rotateZ(femaleLinkDirection) {
                     barrierLink(
                         height = linkHeight + printResolution + 1,
                         base = base,
@@ -135,7 +135,20 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
 }
 
 /**
- * Draws the main shape of a barrier holder for a curved track element.
+ * Extrudes the profile on the expected circle path.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The extrusion angle.
+ */
+module extrudeCurvedProfile(radius, angle) {
+    rotate_extrude(angle=angle, convexity=10) {
+        translateX(radius) {
+            children();
+        }
+    }
+}
+
+/**
+ * Draws the main shape of a curved barrier holder.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
@@ -145,17 +158,42 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
 module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
 
     placeCurvedElement(length=length, radius=radius, angle=angle) {
         curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
-            rotate_extrude(angle=angle, convexity=10) {
-                translateX(radius) {
-                    barrierHolderProfile(
-                        base = base,
-                        thickness = thickness
-                    );
-                }
+            extrudeCurvedProfile(radius=radius, angle=angle) {
+                barrierHolderProfile(
+                    base = base,
+                    thickness = thickness
+                );
+            }
+        }
+    }
+}
+
+/**
+ * Draws the shape of a curved unibody barrier.
+ * @param Number length - The length of the element.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the barrier body for a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @param Number right - Is the curve oriented to the right?
+ */
+module curvedBarrierUnibody(length, height, thickness, base, ratio = 1, right = false) {
+    radius = getCurveRadius(length, ratio);
+    angle = getCurveAngle(ratio);
+    linkHeight = getBarrierUnibodyLinkHeight(height, base);
+
+    placeCurvedElement(length=length, radius=radius, angle=angle) {
+        curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
+            extrudeCurvedProfile(radius=radius, angle=angle) {
+                barrierUnibodyProfile(
+                    height = height,
+                    base = base,
+                    thickness = thickness + printTolerance
+                );
             }
         }
     }
@@ -172,7 +210,7 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
 module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
     radius = getCurveRadius(length, ratio);
     angle = getCurveAngle(ratio);
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
     thickness = thickness + printTolerance;
 
     difference() {
