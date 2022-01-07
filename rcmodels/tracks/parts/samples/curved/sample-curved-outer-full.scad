@@ -1,4 +1,3 @@
-
 /**
  * @license
  * GPLv3 License
@@ -24,24 +23,23 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * An additional barrier body for a curved track part.
+ * A sample for an outer curve track part, full curve.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 // Import the project's setup.
-include <util/setup.scad>
+include <../../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    barrierBody(
-        length = getCurveRemainingLength(getChunkSize()),
-        height = getBarrierBodyHeight(),
-        thickness = getBarrierThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        notchBase = getBarrierNotchBase()
+    curvedBarrierMain(
+        length = sampleSize * getOuterCurveRatio(trackSectionSize, trackLaneWidth, trackRadius),
+        thickness = barrierBodyThickness,
+        base = sampleBase,
+        ratio = 1,
+        right = rightOriented
     );
 }
