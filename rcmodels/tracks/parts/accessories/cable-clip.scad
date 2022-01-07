@@ -31,14 +31,63 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the length of the final shape for a cable clip.
+ * @returns Number
+ */
+function finalCableClipLength() =
+    getCableClipLength(
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the width of the final shape for a cable clip.
+ * @returns Number
+ */
+function finalCableClipWidth() =
+    getCableClipWidth(
+        wall = accessoryClipThickness,
+        base = barrierHolderBase
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a cable clip.
+ * @returns Number
+ */
+function finalCableClipIntervalX() =
+    getPrintInterval(
+        finalCableClipLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a cable clip.
+ * @returns Number
+ */
+function finalCableClipIntervalY() =
+    getPrintInterval(
+        finalCableClipWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a cable clip.
+ */
+module finalCableClip() {
     cableClip(
         height = cableClipWidth,
         wall = accessoryClipThickness,
         base = barrierHolderBase,
         thickness = barrierBodyThickness
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalCableClip();
 }

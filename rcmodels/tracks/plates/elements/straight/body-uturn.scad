@@ -23,23 +23,26 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A mast to clip accessories onto the barrier holders.
+ * A print plate presenting a set of additional barrier bodies for U-turn compensation track parts.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../../config/setup.scad>
+include <../../../config/setup.scad>
+use <../../../parts/elements/straight/body-uturn.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    accessoryMast(
-        width = mastWidth,
-        height = mastHeight,
-        wall = accessoryClipThickness,
-        base = barrierHolderBase,
-        thickness = barrierBodyThickness
-    );
+    centerBuildPlate() {
+        repeat(
+            count = 5,
+            intervalY = finalUTurnBarrierBodyIntervalY(),
+            center = true
+        ) {
+            finalUTurnBarrierBody();
+        }
+    }
 }

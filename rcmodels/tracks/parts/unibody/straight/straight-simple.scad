@@ -31,14 +31,65 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBarrierUnibody(
+/**
+ * Gets the length ratio of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyRatio() = 1;
+
+/**
+ * Gets the length of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyLength() =
+    getStraightBarrierLength(
         length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalSimpleStraightBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyWidth() = getBarrierUnibodyWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalSimpleStraightBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a simple length unibody barrier.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        finalSimpleStraightBarrierUnibodyWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a simple length unibody barrier.
+ */
+module finalSimpleStraightBarrierUnibody() {
+    straightBarrierUnibody(
+        length = trackSectionLength * finalSimpleStraightBarrierUnibodyRatio(),
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalSimpleStraightBarrierUnibody();
 }

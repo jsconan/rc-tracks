@@ -31,15 +31,74 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the curve ratio of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierSampleRatio() = getInnerCurveRatio(trackSectionLength, trackRadius);
+
+/**
+ * Gets the length of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierSampleLength() =
+    getCurvedBarrierLength(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalInnerCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierSampleWidth() =
+    getCurvedBarrierWidth(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalInnerCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalInnerCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(sampleBase)
+    )
+;
+
+/**
+ * Defines the final shape for an inner curve.
+ */
+module finalInnerCurvedBarrierSample() {
     curvedBarrierMain(
         length = sampleSize,
         thickness = barrierBodyThickness,
         base = sampleBase,
-        ratio = getInnerCurveRatio(trackSectionLength, trackRadius),
+        ratio = finalInnerCurvedBarrierSampleRatio(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalInnerCurvedBarrierSample();
 }

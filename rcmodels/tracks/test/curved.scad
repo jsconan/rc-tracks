@@ -34,198 +34,68 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=mode) {
 
-    distribute(intervalX=length * 3, center=true) {
+    distributeGrid(
+        intervalX = [length * 2, 0, 0],
+        intervalY = [0, length * 2, 0],
+        line = 2, 
+        center = true
+    ) {
 
-        distribute(intervalY=length * 3, center=true) {
+        // test the main shape of a curved barrier holder, left turned
+        curvedBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = false
+        );
 
-            // test the main shape of a curved barrier holder, short curve, right turned
-            curvedBarrierMain(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = true
-            );
+        // test the main shape of a curved barrier holder, right turned
+        curvedBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = true
+        );
 
-            // test the main shape of a curved barrier holder, short curve, left turned
-            curvedBarrierMain(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = false
-            );
+        // test the shape of the curved barrier holder, left turned
+        curvedBarrierHolder(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = false
+        );
 
-            distributeRotate(center=true) {
+        // test the shape of the curved barrier holder, right turned
+        curvedBarrierHolder(
+            length = length,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = true
+        );
 
-                // test the main shape of a curved barrier holder, inner curve, right turned
-                curvedBarrierMain(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = true
-                );
+        // test the shape of a curved unibody barrier, left turned
+        curvedBarrierUnibody(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = false
+        );
 
-                // test the main shape of a curved barrier holder, outer curve, right turned
-                curvedBarrierMain(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = true
-                );
-
-                // test the main shape of a curved barrier holder, inner curve, left turned
-                curvedBarrierMain(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = false
-                );
-
-                // test the main shape of a curved barrier holder, outer curve, left turned
-                curvedBarrierMain(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = false
-                );
-
-            }
-        }
-
-        distribute(intervalY=length * 3, center=true) {
-
-            // test the shape of the curved barrier holder, short curve, right turned
-            curvedBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = true
-            );
-
-            // test the shape of the curved barrier holder, short curve, left turned
-            curvedBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = false
-            );
-
-            distributeRotate(center=true) {
-
-                // test the shape of the curved barrier holder, inner curve, right turned
-                curvedBarrierHolder(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = true
-                );
-
-                // test the shape of the curved barrier holder, outer curve, right turned
-                curvedBarrierHolder(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = true
-                );
-
-                // test the shape of the curved barrier holder, inner curve, left turned
-                curvedBarrierHolder(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = false
-                );
-
-                // test the shape of the curved barrier holder, outer curve, left turned
-                curvedBarrierHolder(
-                    length = length,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = false
-                );
-
-            }
-
-        }
-
-        distribute(intervalY=length * 3, center=true) {
-
-            // test the shape of a curved unibody barrier, short curve, right turned
-            curvedBarrierUnibody(
-                length = length,
-                height = height,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = true
-            );
-
-            // test the shape of a curved unibody barrier, short curve, left turned
-            curvedBarrierUnibody(
-                length = length,
-                height = height,
-                thickness = thickness,
-                base = base,
-                ratio = 0.5,
-                right = false
-            );
-
-            distributeRotate(center=true) {
-
-                // test the shape of a curved unibody barrier, inner curve, right turned
-                curvedBarrierUnibody(
-                    length = length,
-                    height = height,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = true
-                );
-
-                // test the shape of a curved unibody barrier, outer curve, right turned
-                curvedBarrierUnibody(
-                    length = length,
-                    height = height,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = true
-                );
-
-                // test the shape of a curved unibody barrier, inner curve, left turned
-                curvedBarrierUnibody(
-                    length = length,
-                    height = height,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getInnerCurveRatio(length, radius),
-                    right = false
-                );
-
-                // test the shape of a curved unibody barrier, outer curve, left turned
-                curvedBarrierUnibody(
-                    length = length,
-                    height = height,
-                    thickness = thickness,
-                    base = base,
-                    ratio = getOuterCurveRatio(length, width, radius),
-                    right = false
-                );
-
-            }
-
-        }
+        // test the shape of a curved unibody barrier, right turned
+        curvedBarrierUnibody(
+            length = length,
+            height = height,
+            thickness = thickness,
+            base = base,
+            ratio = 1,
+            right = true
+        );
 
     }
 }

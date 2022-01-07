@@ -31,16 +31,75 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the curve ratio of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierUnibodyRatio() = getInnerCurveRatio(trackSectionLength, trackRadius);
+
+/**
+ * Gets the length of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierUnibodyLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalInnerCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierUnibodyWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierUnibodyWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalInnerCurvedBarrierUnibodyRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierUnibodyIntervalX() =
+    getPrintInterval(
+        finalInnerCurvedBarrierUnibodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an inner curve.
+ * @returns Number
+ */
+function finalInnerCurvedBarrierUnibodyIntervalY() =
+    getPrintInterval(
+        getBarrierUnibodyWidth(barrierHolderBase)
+    )
+;
+
+/**
+ * Defines the final shape for an inner curve.
+ */
+module finalInnerCurvedBarrierUnibody() {
     curvedBarrierUnibody(
         length = trackSectionLength,
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = getInnerCurveRatio(trackSectionLength, trackRadius),
+        ratio = finalInnerCurvedBarrierUnibodyRatio(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalInnerCurvedBarrierUnibody();
 }

@@ -31,15 +31,74 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the curve ratio of the final shape for an short curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierSampleRatio() = .5;
+
+/**
+ * Gets the length of the final shape for an short curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierSampleLength() =
+    getCurvedBarrierLength(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalShortCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an short curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierSampleWidth() =
+    getCurvedBarrierWidth(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalShortCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an short curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalShortCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an short curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        finalShortCurvedBarrierSampleWidth() / 2
+    )
+;
+
+/**
+ * Defines the final shape for a short curve.
+ */
+module finalShortCurvedBarrierSample() {
     curvedBarrierMain(
         length = sampleSize,
         thickness = barrierBodyThickness,
         base = sampleBase,
-        ratio = .5,
+        ratio = finalShortCurvedBarrierSampleRatio(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalShortCurvedBarrierSample();
 }

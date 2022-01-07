@@ -1,5 +1,24 @@
 # rc-tracks history
 
+## [Version 0.4.0](https://github.com/jsconan/rc-tracks/releases/tag/0.4.0)
+
+Improved design of the race track system for 1/24 to 1/32 scale RC cars.
+
+-   Encapsulate the shapes into final modules
+-   Add sizing functions
+-   Add more printer constraints (size of the printer's plate)
+-   Add print plates for sets of elements
+-   The file structure has been updated.
+-   Add a special barrier connector to link barrier holders to unibody barriers (straight version only)
+-   The render script has been reworked, adding more options
+
+---
+
+Notes:
+
+-   Import from the repository [jsconan/things](https://github.com/jsconan/things)
+-   Extract of the pull request https://github.com/jsconan/things/pull/47
+
 ## [Version 0.3.0](https://github.com/jsconan/rc-tracks/releases/tag/0.3.0)
 
 Improved design of the race track system for 1/24 to 1/32 scale RC cars.

@@ -29,6 +29,46 @@
  */
 
 /**
+ * Gets the approximated length of the shape of a curved barrier.
+ * @param Number length - The length of the element.
+ * @param Number width - The width of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @returns Number
+ */
+function getCurvedBarrierLength(length, width, base, ratio) =
+    let(
+        angle = getCurveAngle(ratio),
+        radius = getCurveRadius(length, ratio),
+        rotationAngle = getCurveRotationAngle(angle),
+        projectedWidth = width * cos(rotationAngle) / 2,
+        projectedLink = getBarrierLinkLength(base) * cos(curveAngle + rotationAngle)
+    )
+    getChordLength(angle, radius) +
+    width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
+;
+
+/**
+ * Gets the approximated width of the shape of a curved barrier.
+ * @param Number length - The length of the element.
+ * @param Number width - The width of the element.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the radius
+ * @returns Number
+ */
+function getCurvedBarrierWidth(length, width, base, ratio) =
+    let(
+        angle = getCurveAngle(ratio),
+        radius = getCurveRadius(length, ratio),
+        rotationAngle = getCurveRotationAngle(angle),
+        projectedWidth = width * sin(rotationAngle) / 2,
+        projectedLink = getBarrierLinkLength(base) * sin(curveAngle + rotationAngle)
+    )
+    getChordHeight(angle, radius) +
+    width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
+;
+
+/**
  * Draws the notch shape of a curved barrier holder.
  * @param Number radius - The radius of the curve.
  * @param Number thickness - The thickness of the shape.
@@ -37,9 +77,8 @@
  */
 module curvedBarrierNotch(radius, thickness, base, distance = 0) {
     width = getBarrierNotchWidth(base, distance);
-    strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
-    height = strip - indent;
+    height = getBarrierStripHeight(base) - indent;
     angle = getArcAngle(radius = radius, length = width);
     chord = getChordLength(radius = radius, angle = getArcAngle(radius = radius, length = indent));
     startAngle = angle / 2;
@@ -58,7 +97,7 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
             rotateZ(startAngle) {
                 translateX(radius) {
                     rotate([90, 0, 270]) {
-                        negativeExtrude(height = thickness + 1, center = true) {
+                        linear_extrude(height=thickness + 1, center=true, convexity=10) {
                             polygon(path([
                                 ["P", 0, -base],
                                 ["V", base],
@@ -83,11 +122,8 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
  * @param Number z - An option Z-axis translation
  */
 module placeCurvedElement(length, radius, angle, z = 0) {
-    remainingAngle = curveAngle - angle;
-    offset = (length - radius) * cos(45) * [1, 1, 0] + [0, 0, z];
-
-    translate(offset) {
-        rotateZ(remainingAngle / 2) {
+    translate([0, getChordHeight(angle, radius) / 2 - radius, z]) {
+        rotateZ(getCurveRotationAngle(angle)) {
             children();
         }
     }

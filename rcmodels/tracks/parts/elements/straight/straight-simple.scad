@@ -31,14 +31,65 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the length ratio of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderRatio() = 1;
+
+/**
+ * Gets the length of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderLength() =
+    getStraightBarrierLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        ratio = finalSimpleStraightBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderWidth() = getBarrierHolderWidth(barrierHolderBase);
+
+/**
+ * Gets the horizontal interval of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalSimpleStraightBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a simple length barrier holder.
+ * @returns Number
+ */
+function finalSimpleStraightBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalSimpleStraightBarrierHolderWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a simple length barrier holder.
+ */
+module finalSimpleStraightBarrierHolder() {
     straightBarrierHolder(
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 1
+        ratio = finalSimpleStraightBarrierHolderRatio()
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalSimpleStraightBarrierHolder();
 }

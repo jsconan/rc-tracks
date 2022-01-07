@@ -31,15 +31,54 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the length of the final shape for the additional barrier body of a curve.
+ * @returns Number
+ */
+function finalCurvedBarrierBodyLength() = getCurveRemainingLength(trackSectionLength);
+
+/**
+ * Gets the width of the final shape for the additional barrier body of a curve.
+ * @returns Number
+ */
+function finalCurvedBarrierBodyWidth() = getBarrierBodyHeight(barrierHeight);
+
+/**
+ * Gets the width of the final shape for the additional barrier body of a curve.
+ * @returns Number
+ */
+function finalCurvedBarrierBodyIntervalX() =
+    getPrintInterval(
+        finalCurvedBarrierBodyLength()
+    )
+;
+
+/**
+ * Gets the width of the final shape for the additional barrier body of a curve.
+ * @returns Number
+ */
+function finalCurvedBarrierBodyIntervalY() =
+    getPrintInterval(
+        finalCurvedBarrierBodyWidth()
+    )
+;
+
+/**
+ * Defines the final shape for the additional barrier body of a curve.
+ */
+module finalCurvedBarrierBody() {
     barrierBody(
-        length = getCurveRemainingLength(trackSectionLength),
-        height = getBarrierBodyHeight(barrierHeight),
+        length = finalCurvedBarrierBodyLength(),
+        height = finalCurvedBarrierBodyWidth(),
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
         notches = 1
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalCurvedBarrierBody();
 }

@@ -31,15 +31,74 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the curve ratio of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierSampleRatio() = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius);
+
+/**
+ * Gets the length of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierSampleLength() =
+    getCurvedBarrierLength(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalOuterCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierSampleWidth() =
+    getCurvedBarrierWidth(
+        length = sampleSize,
+        width = getBarrierHolderWidth(sampleBase),
+        base = sampleBase,
+        ratio = finalOuterCurvedBarrierSampleRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierSampleIntervalX() =
+    getPrintInterval(
+        finalOuterCurvedBarrierSampleLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an outer curve.
+ * @returns Number
+ */
+function finalOuterCurvedBarrierSampleIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(sampleBase)
+    )
+;
+
+/**
+ * Defines the final shape for an outer curve.
+ */
+module finalOuterCurvedBarrierSample() {
     curvedBarrierMain(
         length = sampleSize,
         thickness = barrierBodyThickness,
         base = sampleBase,
-        ratio = getOuterCurveRatio(trackSectionLength, trackSectionWidth, trackRadius),
+        ratio = finalOuterCurvedBarrierSampleRatio(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalOuterCurvedBarrierSample();
 }

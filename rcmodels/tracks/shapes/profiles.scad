@@ -54,9 +54,8 @@ module barrierLinkProfile(base, distance = 0) {
 module barrierNotchProfile(base, distance = 0) {
     width = getBarrierNotchWidth(base, distance);
     top = getBarrierNotchDistance(base, distance);
-    strip = getBarrierStripHeight(base);
     indent = getBarrierStripIndent(base);
-    height = strip - indent;
+    height = getBarrierStripHeight(base) - indent;
 
     polygon(path([
         ["P", -width / 2, 0],
@@ -69,32 +68,47 @@ module barrierNotchProfile(base, distance = 0) {
 }
 
 /**
+ * Draws the outline of a barrier holder profile.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number holderOffset - The offset of the shape edges.
+ * @param Number bottomWidth - The width of the bottom of the shape.
+ * @param Number topWidth - The width of the top of the shape.
+ * @returns Vector[]
+ */
+function getBarrierHolderProfilePoints(base, holderOffset, bottomWidth, topWidth) =
+    let(
+        holderHeight = getBarrierHolderHeight(base),
+        holderSide = base - holderOffset,
+        holderLineX = (bottomWidth - topWidth) / 2 - holderOffset,
+        holderLineY = holderHeight - holderSide - holderOffset * 2
+    )
+    path([
+        ["P", holderOffset - bottomWidth / 2, 0],
+        ["L", -holderOffset, holderOffset],
+        ["V", holderSide],
+        ["L", holderLineX, holderLineY],
+        ["L", holderOffset, holderOffset],
+        ["H", topWidth],
+        ["L", holderOffset, -holderOffset],
+        ["L", holderLineX, -holderLineY],
+        ["V", -holderSide],
+        ["L", -holderOffset, -holderOffset]
+    ])
+;
+
+/**
  * Draws the profile of a barrier holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierHolderProfile(base, thickness, distance = 0) {
-    holderTopWidth = getBarrierHolderTopWidth(base, thickness);
-    holderWidth = getBarrierHolderWidth(base);
-    holderHeight = getBarrierHolderHeight(base);
-    holderOffset = base / 4;
-    holderSide = base - holderOffset;
-    holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
-    holderLineY = holderHeight - holderSide - holderOffset * 2;
-
-    polygon(outline(path([
-        ["P", holderOffset - holderWidth / 2, 0],
-        ["L", -holderOffset, holderOffset],
-        ["V", holderSide],
-        ["L", holderLineX, holderLineY],
-        ["L", holderOffset, holderOffset],
-        ["H", holderTopWidth],
-        ["L", holderOffset, -holderOffset],
-        ["L", holderLineX, -holderLineY],
-        ["V", -holderSide],
-        ["L", -holderOffset, -holderOffset]
-    ]), -distance), convexity = 10);
+    polygon(outline(getBarrierHolderProfilePoints(
+        base = base,
+        holderOffset = base / 4,
+        bottomWidth = getBarrierHolderWidth(base),
+        topWidth = getBarrierHolderTopWidth(base, thickness)
+    ), -distance), convexity = 10);
 }
 
 /**
@@ -114,14 +128,16 @@ module barrierUnibodyProfile(height, base, thickness, distance = 0) {
     holderLineX = (holderWidth - holderTopWidth) / 2 - holderOffset;
     holderLineY = holderHeight - base - holderOffset;
 
+    unibodyOffset = base / 2;
     unibodyNeck = base / 2;
+    unibodySide = base - unibodyOffset;
     unibodyWidth = getBarrierUnibodyWidth(base);
-    unibodyOffsetWidth = unibodyWidth - holderOffset * 2;
-    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - holderOffset;
-    unibodyLineY = height - holderHeight - unibodyNeck - base - holderOffset;
+    unibodyOffsetWidth = unibodyWidth - unibodyOffset * 2;
+    unibodyLineX = (unibodyWidth - holderTopWidth) / 2 - unibodyOffset;
+    unibodyLineY = height - holderHeight - unibodyNeck - base - unibodyOffset;
 
     startX = holderTopWidth / 2;
-    startY = holderSide + unibodyLineY + unibodyNeck + holderOffset * 2;
+    startY = holderSide + unibodyLineY + unibodyOffset + unibodyNeck + holderOffset;
 
     polygon(outline(path([
         ["P", -startX, startY],
@@ -137,15 +153,15 @@ module barrierUnibodyProfile(height, base, thickness, distance = 0) {
         ["L", -holderOffset, -holderOffset],
         // unibody profile
         ["V", -unibodyNeck],
-        ["L", holderOffset, -holderOffset],
+        ["L", unibodyOffset, -unibodyOffset],
         ["L", unibodyLineX, -unibodyLineY],
-        ["V", -holderSide],
-        ["L", -holderOffset, -holderOffset],
+        ["V", -unibodySide],
+        ["L", -unibodyOffset, -unibodyOffset],
         ["H", -unibodyOffsetWidth],
-        ["L", -holderOffset, holderOffset],
-        ["V", holderSide],
+        ["L", -unibodyOffset, unibodyOffset],
+        ["V", unibodySide],
         ["L", unibodyLineX, unibodyLineY],
-        ["L", holderOffset, holderOffset],
+        ["L", unibodyOffset, unibodyOffset],
         ["V", unibodyNeck]
     ]), -distance), convexity = 10);
 }

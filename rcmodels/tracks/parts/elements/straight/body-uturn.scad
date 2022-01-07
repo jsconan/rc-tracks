@@ -31,15 +31,66 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
+/**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnBarrierBodyGap() = archTowerThickness * 2;
+
+/**
+ * Gets the length of the final shape for the additional barrier body of a U-turn.
+ * @returns Number
+ */
+function finalUTurnBarrierBodyLength() =
+    getUTurnCompensationBarrierBodyLength(
+        length = trackSectionLength,
+        base = barrierHolderBase,
+        gap = finalUTurnBarrierBodyGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for the additional barrier body of a U-turn.
+ * @returns Number
+ */
+function finalUTurnBarrierBodyWidth() = getBarrierBodyHeight(barrierHeight);
+
+/**
+ * Gets the horizontal interval of the final shape for the additional barrier body of a U-turn.
+ * @returns Number
+ */
+function finalUTurnBarrierBodyIntervalX() =
+    getPrintInterval(
+        finalUTurnBarrierBodyLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for the additional barrier body of a U-turn.
+ * @returns Number
+ */
+function finalUTurnBarrierBodyIntervalY() =
+    getPrintInterval(
+        finalUTurnBarrierBodyWidth()
+    )
+;
+
+/**
+ * Defines the final shape for the additional barrier body of a U-turn.
+ */
+module finalUTurnBarrierBody() {
+    uTurnCompensationBarrierBody(
+        length = finalUTurnBarrierBodyLength(),
+        height = finalUTurnBarrierBodyWidth(),
+        thickness = barrierBodyThickness,
+        base = barrierHolderBase,
+        gap = finalUTurnBarrierBodyGap()
+    );
+}
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    uTurnCompensationBarrierBody(
-        length = trackSectionLength,
-        height = getBarrierBodyHeight(barrierHeight),
-        thickness = barrierBodyThickness,
-        base = barrierHolderBase,
-        gap = archTowerThickness * 2
-    );
+    finalUTurnBarrierBody();
 }

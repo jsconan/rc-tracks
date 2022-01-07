@@ -31,15 +31,75 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the curve ratio of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierHolderRatio() = .5;
+
+/**
+ * Gets the length of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierHolderLength() =
+    getCurvedBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalShortCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the width of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierHolderWidth() =
+    getCurvedBarrierWidth(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        ratio = finalShortCurvedBarrierHolderRatio()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalShortCurvedBarrierHolderLength() / 4
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for an small curve.
+ * @returns Number
+ */
+function finalShortCurvedBarrierHolderIntervalY() =
+    getPrintInterval(
+        getBarrierHolderWidth(barrierHolderBase) +
+        getBarrierLinkLength(barrierHolderBase)
+    )
+;
+
+/**
+ * Defines the final shape for a short curve.
+ */
+module finalShortCurvedBarrierHolder() {
     curvedBarrierHolder(
         length = trackSectionLength,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = .5,
+        ratio = finalShortCurvedBarrierHolderRatio(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalShortCurvedBarrierHolder();
 }

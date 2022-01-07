@@ -31,16 +31,74 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+/**
+ * Gets the size of the gap between the 2 sides of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierHolderGap() = archTowerThickness * 2;
+
+/**
+ * Gets the length of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierHolderLength() =
+    getUTurnBarrierLength(
+        length = trackSectionLength,
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        gap = finalUTurnCurvedBarrierHolderGap()
+    )
+;
+
+/**
+ * Gets the width of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierHolderWidth() =
+    getUTurnBarrierWidth(
+        width = getBarrierHolderWidth(barrierHolderBase),
+        base = barrierHolderBase,
+        gap = finalUTurnCurvedBarrierHolderGap()
+    )
+;
+
+/**
+ * Gets the horizontal interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierHolderIntervalX() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierHolderLength()
+    )
+;
+
+/**
+ * Gets the vertical interval of the final shape for a U-turn curve.
+ * @returns Number
+ */
+function finalUTurnCurvedBarrierHolderIntervalY() =
+    getPrintInterval(
+        finalUTurnCurvedBarrierHolderWidth()
+    )
+;
+
+/**
+ * Defines the final shape for a U-turn curve.
+ */
+module finalUTurnCurvedBarrierHolder() {
     uTurnBarrierHolder(
         length = trackSectionLength,
         height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        gap = archTowerThickness * 2,
+        gap = finalUTurnCurvedBarrierHolderGap(),
         right = rightOriented
     );
+}
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    finalUTurnCurvedBarrierHolder();
 }
