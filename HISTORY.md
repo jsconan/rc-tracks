@@ -1,5 +1,20 @@
 # rc-tracks history
 
+## [Version 0.4.1](https://github.com/jsconan/rc-tracks/releases/tag/0.4.1)
+
+Fixed design of the race track system for 1/24 to 1/32 scale RC cars.
+
+-   Fix a computation issue on the number of notches for the straight barrier holders (when the length is a multiple of the normal size)
+-   Improve the design of the U-turn barrier holders by adding a pocket to prevent round edges on the slot near the tower
+-   Dispatch the "special" shapes into more appropriate files (arch and connector)
+
+---
+
+Notes:
+
+-   Import from the repository [jsconan/things](https://github.com/jsconan/things)
+-   Extract of the pull request https://github.com/jsconan/things/pull/48
+
 ## [Version 0.4.0](https://github.com/jsconan/rc-tracks/releases/tag/0.4.0)
 
 Improved design of the race track system for 1/24 to 1/32 scale RC cars.
