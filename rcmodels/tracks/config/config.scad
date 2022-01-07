@@ -28,7 +28,7 @@
  * @author jsconan
  */
 
- projectVersion = "0.2.0";
+ projectVersion = "0.3.0";
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
@@ -39,8 +39,9 @@ nozzleWidth = 0.4;      // The size of the print nozzle
 printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
 // The dimensions and constraints of a track element
-trackSectionSize = 100;         // The nominal size of a track element: the length for straight element, or the radius for a curved element
-trackLaneWidth = 400;           // The width of track lane, i.e. the distance between the barriers
+trackSectionLength = 100;       // The nominal length of a track element: the length for straight element, or the radius for a curved element
+trackSectionWidth = 400;        // The virtual width of a track lane: this will condition the outer radius for a curved element (i.e. the width used to compute the outer radius)
+trackLaneWidth = 600;           // The actual width of a track lane: the distance between the barriers (i.e. the width of the physical track lanes)
 trackRadius = 200;              // The radius of the track inner curve
 barrierHeight = 30;             // The height of the barrier, including the holders
 barrierHolderBase = 2;          // The base unit value used to design the barrier holder

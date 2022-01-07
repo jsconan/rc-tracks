@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for a short curve track part.
+ * A barrier holder for a U-turn track part.
  *
  * @author jsconan
  */
@@ -35,11 +35,12 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curvedBarrierHolder(
-        length = trackSectionSize,
+    uTurnBarrierHolder(
+        length = trackSectionLength,
+        height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = .5,
+        gap = archTowerThickness * 2,
         right = rightOriented
     );
 }

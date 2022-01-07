@@ -59,18 +59,28 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 }
 
 /**
- * Adds the links to a straight element.
+ * Adds the male link to a straight element.
  * @param Number length - The length of the element.
  * @param Number linkHeight - The height of the link.
  * @param Number base - The base unit value used to design the barrier holder.
  */
-module straightLinks(length, linkHeight, base) {
+module straightLinkMale(length, linkHeight, base) {
     translateX(-length / 2) {
         barrierLink(
             height = linkHeight - printResolution,
             base = base
         );
     }
+    children();
+}
+
+/**
+ * Adds the female link to a straight element.
+ * @param Number length - The length of the element.
+ * @param Number linkHeight - The height of the link.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightLinkFemale(length, linkHeight, base) {
     difference() {
         children();
         translate([length / 2, 0, -1]) {
@@ -84,22 +94,67 @@ module straightLinks(length, linkHeight, base) {
 }
 
 /**
- * Draws the main shape of a barrier holder for a straight track element.
+ * Adds the links to a straight element.
+ * @param Number length - The length of the element.
+ * @param Number linkHeight - The height of the link.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightLinks(length, linkHeight, base) {
+    straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
+        straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
+            children();
+        }
+    }
+}
+
+/**
+ * Extrudes the profile on the expected linear length.
+ * @param Number length - The length of the element.
+ */
+module extrudeStraightProfile(length) {
+    rotate([90, 0, 90]) {
+        negativeExtrude(height=length, center=true) {
+            children();
+        }
+    }
+}
+
+/**
+ * Draws the main shape of a straight barrier holder.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.
  * @param Number base - The base unit value used to design the barrier holder.
  */
 module straightBarrierMain(length, thickness, base) {
-    linkHeight = getBarrierHolderHeight(base) - base;
+    linkHeight = getBarrierHolderLinkHeight(base);
 
     straightLinks(length=length, linkHeight=linkHeight, base=base) {
-        rotate([90, 0, 90]) {
-            negativeExtrude(height=length, center=true) {
-                barrierHolderProfile(
-                    base = base,
-                    thickness = thickness
-                );
-            }
+        extrudeStraightProfile(length=length) {
+            barrierHolderProfile(
+                base = base,
+                thickness = thickness
+            );
+        }
+    }
+}
+
+/**
+ * Draws the shape of a straight unibody barrier.
+ * @param Number length - The length of the element.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the barrier body for a barrier holder.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightBarrierUnibody(length, height, thickness, base) {
+    linkHeight = getBarrierUnibodyLinkHeight(height, base);
+
+    straightLinks(length=length, linkHeight=linkHeight, base=base) {
+        extrudeStraightProfile(length=length) {
+            barrierUnibodyProfile(
+                height = height,
+                base = base,
+                thickness = thickness + printTolerance
+            );
         }
     }
 }
@@ -116,59 +171,11 @@ module straightBarrierHolder(length, thickness, base, ratio = 1) {
     length = length * ratio;
     notches = ratio * 2;
 
-    difference() {
+    carveBarrierNotch(length=length, thickness=thickness, base=base, notches=notches) {
         straightBarrierMain(
             length = length,
             thickness = thickness,
             base = base
         );
-        translateZ(minThickness) {
-            barrierNotchNegative(
-                length = length,
-                thickness = thickness,
-                base = base,
-                notches = notches
-            );
-        }
-    }
-}
-
-/**
- * Draws the shape of an arch tower that will clamp a barrier border.
- * @param Number length - The length of a track element.
- * @param Number thickness - The thickness of the barrier body.
- * @param Number base - The base unit value used to design the barrier holder.
- * @param Number wall - The thickness of the outline.
- * @param Number right - Is it the right or the left part of the track element that is added to the tower?
- */
-module archTower(length, thickness, base, wall, right = false) {
-    holderHeight = getBarrierHolderHeight(base);
-    indent = getBarrierStripIndent(base);
-
-    rotateZ(-90) {
-        difference() {
-            clip(
-                wall = wall,
-                height = holderHeight,
-                base = base,
-                thickness = thickness + printTolerance,
-                distance = printTolerance
-            );
-            translate([0, wall / 2, holderHeight - indent]) {
-                box([thickness, wall * 2, indent * 2]);
-            }
-        }
-    }
-    difference() {
-        rotateZ(right ? 180 : 0) {
-            straightBarrierHolder(
-                length = length,
-                thickness = thickness,
-                base = base
-            );
-        }
-        translate([length, 0, -length] / 2) {
-            box(length);
-        }
     }
 }

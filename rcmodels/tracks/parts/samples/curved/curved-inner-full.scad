@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * An arch tower that clamp the barrier holders.
+ * A sample for an inner curve track part, full curve.
  *
  * @author jsconan
  */
@@ -35,20 +35,11 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    distribute([0, getBarrierHolderWidth(barrierHolderBase) * 2, 0], center=true) {
-        archTower(
-            length = trackSectionSize,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase,
-            wall = archTowerThickness,
-            right = false
-        );
-        archTower(
-            length = trackSectionSize,
-            thickness = barrierBodyThickness,
-            base = barrierHolderBase,
-            wall = archTowerThickness,
-            right = true
-        );
-    }
+    curvedBarrierMain(
+        length = sampleSize * getInnerCurveRatio(trackSectionLength, trackRadius),
+        thickness = barrierBodyThickness,
+        base = sampleBase,
+        ratio = 1,
+        right = rightOriented
+    );
 }

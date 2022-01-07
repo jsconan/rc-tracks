@@ -23,20 +23,30 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Show the config values.
+ * An arch tower that clamp the barrier holders.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../../config/setup.scad>
 
-// Show the values
-printConfig(
-    length = trackSectionLength,
-    width = trackSectionWidth,
-    lane = trackLaneWidth,
-    height = barrierHeight,
-    radius = trackRadius,
-    base = barrierHolderBase
-);
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    distribute([0, getBarrierHolderWidth(barrierHolderBase) * 2, 0], center=true) {
+        archTowerMale(
+            length = trackSectionLength,
+            thickness = barrierBodyThickness,
+            base = barrierHolderBase,
+            wall = archTowerThickness
+        );
+        archTowerFemale(
+            length = trackSectionLength,
+            thickness = barrierBodyThickness,
+            base = barrierHolderBase,
+            wall = archTowerThickness
+        );
+    }
+}

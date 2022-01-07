@@ -71,5 +71,13 @@ applyMode(mode=mode) {
             center = true
         );
 
+        // test the barrier notch shape for a curved track element
+        curvedBarrierNotch(
+            radius = length,
+            thickness = thickness,
+            base = base,
+            distance = printTolerance
+        );
+
     }
 }

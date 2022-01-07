@@ -94,6 +94,27 @@ module barrierNotchNegative(length, thickness, base, notches = 2) {
 }
 
 /**
+ * Carves the barrier notch in the child shape.
+ * @param Number length - The length of the element.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [notches] - The number of notches.
+ */
+module carveBarrierNotch(length, thickness, base, notches = 2) {
+    difference() {
+        children();
+        translateZ(minThickness) {
+            barrierNotchNegative(
+                length = length,
+                thickness = thickness,
+                base = base,
+                notches = notches
+            );
+        }
+    }
+}
+
+/**
  * Draws the shape of a clip.
  * @param Number wall - The thickness of the clip lines.
  * @param Number height - The thickness of the clip.

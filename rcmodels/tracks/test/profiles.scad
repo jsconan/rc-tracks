@@ -71,5 +71,13 @@ applyMode(mode=mode) {
             distance = 0
         );
 
+        // test the unibody barrier profile
+        barrierUnibodyProfile(
+            height = height,
+            base = base,
+            thickness = thickness,
+            distance = 0
+        );
+
     }
 }

@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier holder for a straight track part.
+ * A unibody barrier for an inner curve track part.
  *
  * @author jsconan
  */
@@ -35,10 +35,12 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBarrierHolder(
-        length = trackSectionSize,
+    curvedBarrierUnibody(
+        length = trackSectionLength,
+        height = barrierHeight,
         thickness = barrierBodyThickness,
         base = barrierHolderBase,
-        ratio = 1
+        ratio = getInnerCurveRatio(trackSectionLength, trackRadius),
+        right = rightOriented
     );
 }
