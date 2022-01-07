@@ -1,5 +1,21 @@
 # rc-tracks history
 
+## [Version 0.5.0](https://github.com/jsconan/rc-tracks/releases/tag/0.5.0)
+
+Finalize the extract of the race track system for 1/24 to 1/32 scale RC cars from the repository [jsconan/things](https://github.com/jsconan/things).
+
+-   Fix a typo in some comments.
+-   Use the shared internal shape `linkProfile` instead of redefining it in `barrierLinkProfile`.
+-   Add a default printer config for the slicer.
+-   Add a slicer script.
+
+---
+
+Notes:
+
+-   Import from the repository [jsconan/things](https://github.com/jsconan/things)
+-   Extract of the pull request https://github.com/jsconan/things/pull/59
+
 ## [Version 0.4.2](https://github.com/jsconan/rc-tracks/releases/tag/0.4.2)
 
 Fixed design of the race track system for 1/24 to 1/32 scale RC cars.
