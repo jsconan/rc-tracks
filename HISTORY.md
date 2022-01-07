@@ -1,5 +1,18 @@
 # rc-tracks history
 
+## [Version 0.4.2](https://github.com/jsconan/rc-tracks/releases/tag/0.4.2)
+
+Fixed design of the race track system for 1/24 to 1/32 scale RC cars.
+
+-   Fix the length of the special barrier body related to a U-turn compensation barrier.
+
+---
+
+Notes:
+
+-   Import from the repository [jsconan/things](https://github.com/jsconan/things)
+-   Extract of the pull request https://github.com/jsconan/things/pull/49
+
 ## [Version 0.4.1](https://github.com/jsconan/rc-tracks/releases/tag/0.4.1)
 
 Fixed design of the race track system for 1/24 to 1/32 scale RC cars.

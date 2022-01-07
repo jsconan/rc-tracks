@@ -245,17 +245,16 @@ module uTurnCompensationBarrierUnibody(height, thickness, base, gap) {
 module uTurnCompensationBarrierBody(length, height, thickness, base, gap) {
     stripHeight = getBarrierStripHeight(base) - getBarrierStripIndent(base);
     compensation = getBarrierHolderWidth(base) + gap;
-    compensedLength = length + compensation;
-    interval = length / 2;
+    interval = (length - compensation) / 2;
 
     difference() {
         box(
-            size = [compensedLength, height, thickness],
+            size = [length, height, thickness],
             center = true
         );
         repeatMirror(interval=[0, height, 0], axis=[0, 1, 0], center=true) {
             repeatMirror() {
-                translateX((compensedLength - interval) / 2) {
+                translateX((length - interval) / 2) {
                     barrierNotch(
                         thickness = thickness * 2,
                         base = base,
