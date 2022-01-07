@@ -28,7 +28,7 @@
  * @author jsconan
  */
 
- projectVersion = "0.4.2";
+ projectVersion = "0.5.0";
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
