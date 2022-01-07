@@ -1,4 +1,3 @@
-
 /**
  * @license
  * GPLv3 License
@@ -24,193 +23,152 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines some straight track parts.
+ * Defines the straight track parts.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 /**
- * Draws the shape of a barrier holder hook.
- * @param Number base - The width of each base of the hook.
- * @param Number thickness - The thickness of the hook
- * @param Boolean [negative] - The shape will be used in a difference operation
+ * Draws the shape of a barrier body.
+ * @param Number length - The length of the track element.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number [notches] - The number of notches.
  */
-module barrierHook(base, thickness, negative=false) {
-    start = negative ? 1 : 0;
-    base = adjustToNozzle(base / 2) * 2;
-    translateZ(-start) {
-        box([base * 2, base, thickness + start]);
-        translateX(-base) {
-            slot([base, base * 2, thickness + start]);
-        }
-    }
-}
+module barrierBody(length, height, thickness, base, notches = 1) {
+    count = notches + 1;
+    interval = length / notches;
 
-/**
- * Draws the shape of barrier holder notch.
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Number [direction] - The direction of the shape (1: right, -1: left)
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
- */
-module barrierNotch(thickness, slotDepth, base, direction=1, negative=false, center=false) {
-    negativeExtrude(height=thickness, center=center) {
-        barrierNotchProfile(
-            slotDepth = slotDepth,
-            base = base,
-            direction = direction,
-            negative = negative
-        );
-    }
-}
-
-/**
- * Draws the shape of barrier holder notches.
- * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
- */
-module barrierNotches(length, thickness, slotDepth, base, negative=false, center=false) {
-    negativeExtrude(height=thickness, center=center) {
-        barrierNotchesProfile(
-            length = length,
-            slotDepth = slotDepth,
-            base = base,
-            negative = negative
-        );
-    }
-}
-
-/**
- * Draws the shape of barrier holder notches for a full chunk.
- * @param Number length - The length of the chunk
- * @param Number thickness - The thickness of the shape
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number base - The base value used to design the barrier notches.
- * @param Boolean [negative] - The shape will be used in a difference operation
- * @param Boolean [center] - The shape is centered vertically
- */
-module barrierNotchesFull(length, thickness, slotDepth, base, negative=false, center=false) {
-    repeatMirror() {
-        barrierNotches(
-            length = length / 2,
-            thickness = thickness,
-            slotDepth = slotDepth,
-            base = base,
-            negative = negative,
-            center = center
-        );
-    }
-}
-
-/**
- * Draws the barrier holder for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number bodyThickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number barrierBase - The base value used to design the barrier holder.
- * @param Number notchBase - The width of a notch base.
- */
-module straightBarrierHolder(length, bodyThickness, slotDepth, barrierBase, notchBase) {
     difference() {
-        union() {
-            rotate([90, 0, 90]) {
-                negativeExtrude(height=length, center=true) {
-                    barrierHolderProfile(
-                        slotWidth = bodyThickness + printTolerance,
-                        slotDepth = slotDepth,
-                        base = barrierBase
-                    );
-                }
-            }
-            translateZ(barrierBase) {
-                rotateX(90) {
-                    barrierNotchesFull(
-                        length = length,
-                        thickness = bodyThickness + barrierBase,
-                        slotDepth = slotDepth,
-                        base = notchBase - printTolerance,
-                        negative = false,
-                        center = true
-                    );
-                }
-            }
-            translateX(-length / 2) {
-                barrierHook(
-                    base = notchBase,
-                    thickness = barrierBase - printResolution * 2,
-                    negative = false
-                );
-            }
-        }
-        translateX(length / 2) {
-            barrierHook(
-                base = notchBase + printTolerance,
-                thickness = barrierBase - printResolution,
-                negative = true
+        box(
+            size = [length, height, thickness],
+            center = true
+        );
+        repeatMirror(interval=[0, height, 0], axis=[0, 1, 0], center=true) {
+            barrierNotch(
+                thickness = thickness * 2,
+                base = base,
+                distance = printTolerance,
+                interval = interval,
+                count = count,
+                center = true
             );
         }
     }
 }
 
 /**
- * Draws the barrier body for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number height - The height of the chunk
- * @param Number thickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number notchBase - The width of a notch base.
+ * Adds the links to a straight element.
+ * @param Number length - The length of the element.
+ * @param Number linkHeight - The height of the link.
+ * @param Number base - The base unit value used to design the barrier holder.
  */
-module barrierBody(length, height, thickness, slotDepth, notchBase) {
+module straightLinks(length, linkHeight, base) {
+    translateX(-length / 2) {
+        barrierLink(
+            height = linkHeight - printResolution,
+            base = base
+        );
+    }
     difference() {
-        box(size = [length, height, thickness], center = true);
+        children();
+        translate([length / 2, 0, -1]) {
+            barrierLink(
+                height = linkHeight + printResolution + 1,
+                base = base,
+                distance = printTolerance
+            );
+        }
+    }
+}
 
-        repeatMirror(axis=[0, 1, 0]) {
-            translateY(-height / 2) {
-                translateX(-length / 2) {
-                    barrierNotches(
-                        length = length,
-                        thickness = thickness + 1,
-                        slotDepth = slotDepth,
-                        base = notchBase + printTolerance,
-                        negative = true,
-                        center = true
-                    );
-                }
+/**
+ * Draws the main shape of a barrier holder for a straight track element.
+ * @param Number length - The length of the element.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ */
+module straightBarrierMain(length, thickness, base) {
+    linkHeight = getBarrierHolderHeight(base) - base;
+
+    straightLinks(length=length, linkHeight=linkHeight, base=base) {
+        rotate([90, 0, 90]) {
+            negativeExtrude(height=length, center=true) {
+                barrierHolderProfile(
+                    base = base,
+                    thickness = thickness
+                );
             }
         }
     }
 }
 
 /**
- * Draws the full barrier body for a straight chunk
- * @param Number length - The length of the chunk
- * @param Number height - The height of the chunk
+ * Draws the barrier holder for a straight track element.
+ * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.
- * @param Number slotDepth - The depth of the slot that will hold the barrier body.
- * @param Number notchBase - The width of a notch base.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number ratio - The ratio to apply on the length
  */
-module barrierBodyFull(length, height, thickness, slotDepth, notchBase) {
-    difference() {
-        box(size = [length, height, thickness], center = true);
+module straightBarrierHolder(length, thickness, base, ratio = 1) {
+    thickness = thickness + printTolerance;
+    length = length * ratio;
+    notches = ratio * 2;
 
-        repeatMirror(axis=[0, 1, 0]) {
-            translateY(-height / 2) {
-                barrierNotchesFull(
-                    length = length,
-                    thickness = thickness + 1,
-                    slotDepth = slotDepth,
-                    base = notchBase + printTolerance,
-                    negative = true,
-                    center = true
-                );
+    difference() {
+        straightBarrierMain(
+            length = length,
+            thickness = thickness,
+            base = base
+        );
+        translateZ(minThickness) {
+            barrierNotchNegative(
+                length = length,
+                thickness = thickness,
+                base = base,
+                notches = notches
+            );
+        }
+    }
+}
+
+/**
+ * Draws the shape of an arch tower that will clamp a barrier border.
+ * @param Number length - The length of a track element.
+ * @param Number thickness - The thickness of the barrier body.
+ * @param Number base - The base unit value used to design the barrier holder.
+ * @param Number wall - The thickness of the outline.
+ * @param Number right - Is it the right or the left part of the track element that is added to the tower?
+ */
+module archTower(length, thickness, base, wall, right = false) {
+    holderHeight = getBarrierHolderHeight(base);
+    indent = getBarrierStripIndent(base);
+
+    rotateZ(-90) {
+        difference() {
+            clip(
+                wall = wall,
+                height = holderHeight,
+                base = base,
+                thickness = thickness + printTolerance,
+                distance = printTolerance
+            );
+            translate([0, wall / 2, holderHeight - indent]) {
+                box([thickness, wall * 2, indent * 2]);
             }
+        }
+    }
+    difference() {
+        rotateZ(right ? 180 : 0) {
+            straightBarrierHolder(
+                length = length,
+                thickness = thickness,
+                base = base
+            );
+        }
+        translate([length, 0, -length] / 2) {
+            box(length);
         }
     }
 }

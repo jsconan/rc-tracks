@@ -26,37 +26,28 @@
  * Setup the context.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
 include <../../../lib/camelSCAD/shapes.scad>
 
 // Then we need the config for the project, as well as the related functions
-include <../config/config.scad>
-include <functions.scad>
+include <config.scad>
+include <values.scad>
 
 // Finally, include the shapes
 include <../shapes/profiles.scad>
+include <../shapes/fragments.scad>
 include <../shapes/straight.scad>
-include <../shapes/curve.scad>
+include <../shapes/curved.scad>
+include <../shapes/uturn.scad>
+include <../shapes/accessories.scad>
 
-// Validate the critical constraints
-assert(
-    chunkSize >= getMinStraightLength(),
-    str(
-        "The size for a straight chunk is too small! The minimum length is ",
-        getMinStraightLength(),
-        ". The current value is ",
-        chunkSize
-    )
-);
-assert(
-    getArcLength(radius = chunkSize, angle = 90) >= getMinCurveLength(),
-    str(
-        "The length for a curved chunk is too small! The minimum arc length is ",
-        getMinCurveLength(),
-        ". The current value is ",
-        getArcLength(radius = chunkSize, angle = 90)
-    )
+// Validate the config against the constraints
+validateConfig(
+    length = trackSectionSize,
+    width = trackLaneWidth,
+    height = barrierHeight,
+    radius = trackRadius,
+    base = barrierHolderBase
 );

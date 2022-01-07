@@ -1,4 +1,3 @@
-
 /**
  * @license
  * GPLv3 License
@@ -24,24 +23,21 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * A barrier body for a straight track part.
+ * A barrier holder to compensate a U-turn track part.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 // Import the project's setup.
-include <util/setup.scad>
+include <../../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    barrierBodyFull(
-        length = getChunkSize(),
-        height = getBarrierBodyHeight(),
-        thickness = getBarrierThickness(),
-        slotDepth = getBarrierHolderDepth(),
-        notchBase = getBarrierNotchBase()
+    uTurnCompensationBarrierHolder(
+        thickness = barrierBodyThickness,
+        base = barrierHolderBase,
+        gap = archTowerThickness * 2
     );
 }

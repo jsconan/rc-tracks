@@ -23,29 +23,36 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Defines the config.
+ * Configures the project.
  *
  * @author jsconan
- * @version 0.1.0
  */
+
+ projectVersion = "0.2.0";
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
 
-// Defines the constraints of the print.
-printResolution = 0.2;      // The target layer height
-nozzleWidth = 0.4;          // The size of the print nozzle
-printTolerance = 0.1;       // The print tolerance when pieces need to be assembled
+// Defines the constraints of the printer.
+printResolution = 0.2;  // The target layer height
+nozzleWidth = 0.4;      // The size of the print nozzle
+printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
-// Defines options
-heightWithFasteners = true; // Should the height be with or without the fastener elements?
-
-// The dimensions of a track chunk
-chunkSize = 200;            // The nominal size of a chunk: the length for straight chunk, or the width for a curved chunk
-
-// The constraints of the track barrier
-barrierThickness = 0.6;     // The thickness of the barrier body
-barrierHeight = 40;         // The height of the barrier, depending on the option heightWithFasteners
-barrierHolderDepth = 6;     // The depth of the barrier holder to clamp the barrier body
-barrierHolderBase = 2;      // The base value used to design the barrier holder
-barrierNotchBase = 2;       // The base value used to design the barrier notches
+// The dimensions and constraints of a track element
+trackSectionSize = 100;         // The nominal size of a track element: the length for straight element, or the radius for a curved element
+trackLaneWidth = 400;           // The width of track lane, i.e. the distance between the barriers
+trackRadius = 200;              // The radius of the track inner curve
+barrierHeight = 30;             // The height of the barrier, including the holders
+barrierHolderBase = 2;          // The base unit value used to design the barrier holder
+barrierBodyThickness = 0.6;     // The thickness of the barrier body
+sampleSize = 10;                // The size for the sample track elements
+sampleBase = 1;                 // The base unit value used to design the samples
+archTowerThickness = 1.6;       // The thickness of the arch tower clip
+accessoryClipThickness = 0.8;   // The thickness of the cable clip
+cableClipWidth = 2;             // The width of the cable clip
+mastWidth = 3;                  // The width of the accessory mast
+mastHeight = 70;                // The length of the accessory mast
+flagWidth = 40;                 // The width of the accessory flag
+flagHeight = 20;                // The height of the accessory flag
+flagThickness = 0.8;            // The thickness of the accessory flag
+rightOriented = false;          // The orientation of the curved elements
