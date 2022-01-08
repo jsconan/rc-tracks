@@ -29,34 +29,6 @@
  */
 
 /**
- * Aligns a value with respect to the target layer height.
- * @param Number value
- * @returns Number
- */
-function layerAligned(value) = roundBy(value, printResolution);
-
-/**
- * Aligns a value with respect to the target nozzle size.
- * @param Number value
- * @returns Number
- */
-function nozzleAligned(value) = roundBy(value, nozzleWidth);
-
-/**
- * Gets the thickness of N layers.
- * @param Number N
- * @returns Number
- */
-function layers(N) = N * printResolution;
-
-/**
- * Gets the width of N times the nozzle width.
- * @param Number N
- * @returns Number
- */
-function shells(N) = N * nozzleWidth;
-
-/**
  * Computes the height of the barrier body part that will be inserted in the holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
@@ -237,23 +209,6 @@ function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
  * @returns Number
  */
 function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
-
-/**
- * Computes the print interval between the centers of 2 objects.
- * @param Number size - The size of the shape.
- * @returns Number
- */
-function getPrintInterval(size) = size + printInterval;
-
-/**
- * Centers the children elements to te printer's build plate.
- */
-module centerBuildPlate(moveOrigin = false) {
-    buildPlate([printerLength, printerWidth], center=!moveOrigin);
-    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
-        children();
-    }
-};
 
 /**
  * Validates the config values, checking if it match the critical constraints.

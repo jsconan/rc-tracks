@@ -21,36 +21,20 @@
  */
 
 /**
- * A race track system for 1/24 to 1/32 scale RC cars.
+ * A race track system for RC cars of various scales.
  *
- * Setup the context.
+ * Global configuration.
  *
  * @author jsconan
  */
 
-// Bootstrap the project using the global config
-include <../../config/setup.scad>
+// We will render the object using the specifications of this mode
+renderMode = MODE_PROD;
 
-// Then we need the config for the project, as well as the related functions
-include <config.scad>
-include <values.scad>
-
-// Finally, include the shapes
-include <../shapes/profiles.scad>
-include <../shapes/fragments.scad>
-include <../shapes/straight.scad>
-include <../shapes/curved.scad>
-include <../shapes/uturn.scad>
-include <../shapes/arch.scad>
-include <../shapes/connector.scad>
-include <../shapes/accessories.scad>
-
-// Validate the config against the constraints
-validateConfig(
-    length = trackSectionLength,
-    width = trackSectionWidth,
-    lane = trackLaneWidth,
-    height = barrierHeight,
-    radius = trackRadius,
-    base = barrierHolderBase
-);
+// Defines the characteristics of the printer
+printResolution = 0.2;  // The target layer height
+nozzleWidth = 0.4;      // The size of the printer's nozzle
+printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
+printInterval = 5;      // The interval between 2 pieces when presented together
+printerLength = 250;    // The length of the printer's build plate
+printerWidth = 210;     // The width of the printer's build plate

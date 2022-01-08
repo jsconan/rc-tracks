@@ -21,36 +21,21 @@
  */
 
 /**
- * A race track system for 1/24 to 1/32 scale RC cars.
+ * A race track system for RC cars of various scales.
  *
- * Setup the context.
+ * Project's bootstrap.
  *
  * @author jsconan
  */
 
-// Bootstrap the project using the global config
-include <../../config/setup.scad>
+// Imports the library.
+include <../lib/camelSCAD/shapes.scad>
 
-// Then we need the config for the project, as well as the related functions
+// Defines the project's version
+include <version.scad>
+
+// Imports the global configuration
 include <config.scad>
-include <values.scad>
 
-// Finally, include the shapes
-include <../shapes/profiles.scad>
-include <../shapes/fragments.scad>
-include <../shapes/straight.scad>
-include <../shapes/curved.scad>
-include <../shapes/uturn.scad>
-include <../shapes/arch.scad>
-include <../shapes/connector.scad>
-include <../shapes/accessories.scad>
-
-// Validate the config against the constraints
-validateConfig(
-    length = trackSectionLength,
-    width = trackSectionWidth,
-    lane = trackLaneWidth,
-    height = barrierHeight,
-    radius = trackRadius,
-    base = barrierHolderBase
-);
+// Imports the global helpers
+include <helpers.scad>
