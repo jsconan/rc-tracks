@@ -137,7 +137,7 @@ function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeig
 function getBarrierBodyHeight(height) = height - (minThickness + layerHeight) * 2;
 
 /**
- * Gets the length of a curved ctrack elementhunk (the length of the arc of the curve).
+ * Gets the length of a curved track element (the length of the arc of the curve).
  * @param Number length - The length of the track element.
  * @returns Number
  */
