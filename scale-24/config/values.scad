@@ -96,7 +96,7 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
  * @param Number [distance] - An additional distance added to the outline of the barrier holder.
  * @returns Number
  */
-function getBarrierHolderHeight(base, distance = 0) = getBarrierStripHeight(base) + minThickness + printResolution + distance * 2;
+function getBarrierHolderHeight(base, distance = 0) = getBarrierStripHeight(base) + minThickness + layerHeight + distance * 2;
 
 /**
  * Computes the height of the link for a barrier holder.
@@ -134,7 +134,7 @@ function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeig
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getBarrierBodyHeight(height) = height - (minThickness + printResolution) * 2;
+function getBarrierBodyHeight(height) = height - (minThickness + layerHeight) * 2;
 
 /**
  * Gets the length of a curved ctrack elementhunk (the length of the arc of the curve).
@@ -309,7 +309,7 @@ module printConfig(length, width, lane, height, radius, base) {
         str("Flag thickness:        ", flagThickness, "mm"),
         str("-- Printer settings -----------"),
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
-        str("Print layer:           ", printResolution, "mm"),
+        str("Print layer:           ", layerHeight, "mm"),
         str("Print tolerance:       ", printTolerance, "mm"),
         str("Printer's length:      ", printerLength / 10, "cm"),
         str("Printer's width:       ", printerWidth / 10, "cm"),

@@ -87,7 +87,7 @@ module uTurnBarrierHolder(length, height, thickness, base, gap, right = false) {
     towerWidth = nozzleAligned(thickness + minWidth);
     towerHeight = getBarrierBodyInnerHeight(height, base) / 2;
     interval = (getBarrierHolderWidth(base) + gap) / 2;
-    indent = getBarrierStripIndent(base) + printResolution;
+    indent = getBarrierStripIndent(base) + layerHeight;
     dir = right ? -1 : 1;
     length = length / 2;
 

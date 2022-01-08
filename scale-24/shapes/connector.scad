@@ -45,7 +45,7 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
     unibodyLineY = height - holderHeight - base * 2;
     holderLineY = holderHeight - base * 1.5;
     unibodyTopWidth = unibodyWidth - base - holderLineY * (unibodyLineX / unibodyLineY) * 2;
-    indent = getBarrierStripIndent(base) + printResolution;
+    indent = getBarrierStripIndent(base) + layerHeight;
     length = length / 2;
 
     distribute(intervalX=length, center=true) {
@@ -59,7 +59,7 @@ module barrierHolderToUnibodyConnector(length, height, thickness, base) {
             }
             translate([length / 2, 0, height - holderLinkHeight]) {
                 barrierLink(
-                    height = holderLinkHeight + printResolution + 1,
+                    height = holderLinkHeight + layerHeight + 1,
                     base = base,
                     distance = printTolerance
                 );

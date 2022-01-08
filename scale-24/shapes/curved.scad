@@ -148,7 +148,7 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
         translateY(radius) {
             rotateZ(maleLinkDirection) {
                 barrierLink(
-                    height = linkHeight - printResolution,
+                    height = linkHeight - layerHeight,
                     base = base
                 );
             }
@@ -160,7 +160,7 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
             translate([radius, 0, -1]) {
                 rotateZ(femaleLinkDirection) {
                     barrierLink(
-                        height = linkHeight + printResolution + 1,
+                        height = linkHeight + layerHeight + 1,
                         base = base,
                         distance = printTolerance
                     );

@@ -78,7 +78,7 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 module straightLinkMale(length, linkHeight, base) {
     translateX(-length / 2) {
         barrierLink(
-            height = linkHeight - printResolution,
+            height = linkHeight - layerHeight,
             base = base
         );
     }
@@ -96,7 +96,7 @@ module straightLinkFemale(length, linkHeight, base) {
         children();
         translate([length / 2, 0, -1]) {
             barrierLink(
-                height = linkHeight + printResolution + 1,
+                height = linkHeight + layerHeight + 1,
                 base = base,
                 distance = printTolerance
             );

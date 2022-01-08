@@ -32,7 +32,7 @@
 renderMode = MODE_PROD;
 
 // Defines the characteristics of the printer
-printResolution = 0.2;  // The target layer height
+layerHeight = 0.2;      // The height of the printed layers
 nozzleWidth = 0.4;      // The size of the printer's nozzle
 printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 printInterval = 5;      // The interval between 2 pieces when presented together

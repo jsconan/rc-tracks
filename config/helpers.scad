@@ -33,7 +33,7 @@
  * @param Number value
  * @returns Number
  */
-function layerAligned(value) = roundBy(value, printResolution);
+function layerAligned(value) = roundBy(value, layerHeight);
 
 /**
  * Aligns a value with respect to the target nozzle size.
@@ -47,7 +47,7 @@ function nozzleAligned(value) = roundBy(value, nozzleWidth);
  * @param Number N
  * @returns Number
  */
-function layers(N) = N * printResolution;
+function layers(N) = N * layerHeight;
 
 /**
  * Gets the width of N times the nozzle width.
