@@ -37,3 +37,4 @@ include <values.scad>
 
 // Finally, include the shapes
 include <../shapes/profiles.scad>
+include <../shapes/fragments.scad>
