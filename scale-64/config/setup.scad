@@ -33,3 +33,7 @@ include <../../config/setup.scad>
 
 // Then we need the config for the project
 include <config.scad>
+include <values.scad>
+
+// Finally, include the shapes
+include <../shapes/profiles.scad>
