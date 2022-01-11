@@ -39,11 +39,14 @@
  */
 module barrierLinkProfile(width, height, distance = 0) {
     base = getBarrierBaseUnit(width, height);
-    linkProfile(
-        neck = [base / 2, base],
-        bulb = base,
-        distance = distance
-    );
+    neckAlign = abs(distance);
+    translateX(neckAlign) {
+        linkProfile(
+            neck = [base / 2 + neckAlign, base],
+            bulb = base,
+            distance = distance
+        );
+    }
 }
 
 /**

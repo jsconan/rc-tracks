@@ -59,7 +59,7 @@ module straightLinkMale(length, width, height) {
             barrierLink(
                 width = width,
                 height = linkHeight,
-                distance = 0
+                distance = -printTolerance
             );
         }
     }
