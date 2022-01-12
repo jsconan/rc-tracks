@@ -23,22 +23,28 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Setup the context and define the config for the tests.
+ * Test the ground elements shapes.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../config/setup.scad>
+include <setup.scad>
 
-// Defines the test config
-barrierWidth = 6;               // The width of a barrier
-barrierHeight = 8;              // The height of a barrier
-barrierLength = 50;             // The length of a barrier
-barrierChunks = 4;              // The number of barrier chunks per section
-fastenerDiameter = 2;           // The diameter of the fasteners that can be used for the barriers
-fastenerHeadDiameter = 4;       // The diameter of the fasteners head
-fastenerHeadHeight = 2;         // The height of the fasteners head
-trackSectionLength = 200;       // The nominal length of a track section (size of a tile in the track)
-trackSectionWidth = 172;        // The nominal width of a track section (the outer width of the track lane)
-trackGroundThickness = .8;      // The thickness of a track tile (track ground)
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+
+    distributeGrid(intervalX=[trackSectionLength + printInterval, 0, 0], intervalY=[0, trackSectionWidth + printInterval, 0], line=2, center=true) {
+
+        // test the shape of a straight ground tile
+        straightGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks
+        );
+
+    }
+}
