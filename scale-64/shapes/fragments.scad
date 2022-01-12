@@ -46,16 +46,56 @@ module barrierLink(width, height, distance = 0, center = false) {
 }
 
 /**
+ * Draws the shape of a barrier peg.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number diameter - The diameter of the fastener.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPeg(width, height, diameter, thickness, distance = 0) {
+    rotate_extrude(angle=360, convexity=10) {
+        barrierPegProfile(
+            width = width,
+            height = height,
+            diameter = diameter,
+            thickness = thickness,
+            distance = distance
+        );
+    }
+}
+
+/**
+ * Draws the shape of a peg hole for the track ground.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegHole(width, height, thickness, distance = 0) {
+    rotate_extrude(angle=360, convexity=10) {
+        barrierPegHoleProfile(
+            width = width,
+            height = height,
+            thickness = thickness,
+            distance = distance
+        );
+    }
+}
+
+/**
  * Draws the shape of a barrier fastening hole.
+ * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @param Number diameter - The diameter of the fasteners.
  * @param Number headDiameter - The diameter of the fasteners head.
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [distance] - An additional distance added to the outline of the shape.
  */
-module barrierFastenerHole(height, diameter, headDiameter, headHeight, distance = 0) {
+module barrierFastenerHole(width, height, diameter, headDiameter, headHeight, distance = 0) {
     rotate_extrude(angle=360, convexity=10) {
         barrierFastenerHoleProfile(
+            width = width,
             height = height,
             diameter = diameter,
             headDiameter = headDiameter,

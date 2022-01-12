@@ -36,7 +36,7 @@ applyMode(mode=renderMode) {
 
     distributeGrid(intervalX=[barrierLength + printInterval, 0, 0], intervalY=[0, barrierWidth + printInterval, 0], line=1, center=true) {
 
-        // test the main shape of a straight barrier in the male variant
+        // test the shape of a straight barrier in the male variant
         straightBarrierMale(
             length = barrierLength,
             width = barrierWidth,
@@ -44,10 +44,10 @@ applyMode(mode=renderMode) {
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
             headHeight = fastenerHeadHeight,
-            count=1
+            holes=1
         );
 
-        // test the main shape of a straight barrier in the female variant
+        // test the shape of a straight barrier in the female variant
         straightBarrierFemale(
             length = barrierLength,
             width = barrierWidth,
@@ -55,7 +55,7 @@ applyMode(mode=renderMode) {
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
             headHeight = fastenerHeadHeight,
-            count=1
+            holes=1
         );
 
     }

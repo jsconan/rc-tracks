@@ -50,32 +50,105 @@ module barrierLinkProfile(width, height, distance = 0) {
 }
 
 /**
+ * Draws the profile of a barrier peg.
+ *
+ * To get the final shape, rotate_extrude(angle=360, convexity=10) must be applied.
+ *
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number diameter - The diameter of the fastener.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegProfile(width, height, diameter, thickness, distance = 0) {
+    // Prepare the parameters for the polygon
+    pegDiameter = getBarrierPegDiameter(width, height);
+    pegHeight = getBarrierPegHeight(width, height, thickness);
+    radius = diameter / 2 + distance;
+    pegRadius = pegDiameter / 2 + distance;
+    pegFootRadius = pegRadius + thickness;
+    remainingRadius = pegRadius - radius;
+    remainingFootRadius = pegFootRadius - radius;
+    remainingHeight = pegHeight - remainingRadius - thickness;
+
+    // Uncomment to debug:
+    // %rectangle([pegDiameter, pegHeight]);
+
+    // Draw the profile
+    polygon(path([
+        ["P", radius, pegHeight / 2],
+        ["V", -pegHeight],
+        ["H", remainingFootRadius],
+        ["L", -thickness, thickness],
+        ["V", remainingHeight],
+    ]), convexity = 10);
+}
+
+/**
+ * Draws the profile of a peg hole for the track ground.
+ *
+ * To get the final shape, rotate_extrude(angle=360, convexity=10) must be applied.
+ *
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegHoleProfile(width, height, thickness, distance = 0) {
+    // Prepare the parameters for the polygon
+    pegDiameter = getBarrierPegDiameter(width, height);
+    pegRadius = pegDiameter / 2 + distance;
+    pegFootRadius = pegRadius + thickness;
+    alignedHeight = thickness + ALIGN2;
+
+    // Uncomment to debug:
+    // %rectangle([pegFootRadius * 2, thickness]);
+
+    // Draw the profile
+    polygon(path([
+        ["P", 0, alignedHeight / 2],
+        ["V", -alignedHeight],
+        ["H", pegFootRadius],
+        ["V", ALIGN],
+        ["L", -thickness, thickness],
+        ["V", ALIGN],
+    ]), convexity = 10);
+}
+
+/**
  * Draws the profile of a barrier fastening hole.
  *
  * To get the final shape, rotate_extrude(angle=360, convexity=10) must be applied.
  *
+ * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @param Number diameter - The diameter of the fastener.
  * @param Number headDiameter - The diameter of the fastener head.
  * @param Number headHeight - The height of the fastener head.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierFastenerHoleProfile(height, diameter, headDiameter, headHeight, distance = 0) {
+module barrierFastenerHoleProfile(width, height, diameter, headDiameter, headHeight, distance = 0) {
     // Uncomment to debug:
     // %rectangle([headDiameter + distance * 2, height]);
 
     // Prepare the parameters for the polygon
-    alignedHeight = height + 2;
+    alignedHeight = height + ALIGN2;
     headRadius = max(headDiameter, diameter) / 2 + distance;
     radius = diameter / 2 + distance;
-    remainingHeight = alignedHeight - headHeight;
+    pegRadius = getBarrierPegDiameter(width, height) / 2 + distance;
+    pegHeight = getBarrierPegInnerHeight(width, height) + layerHeight + ALIGN;
+    remainingRadius = pegRadius - radius;
+    remainingPegHeight = pegHeight - remainingRadius;
+    remainingHeight = alignedHeight - headHeight - pegHeight;
     remainingWidth = headRadius - radius;
 
     // Draw the profile
     polygon(path([
         ["P", 0, alignedHeight / 2],
         ["V", -alignedHeight],
-        ["H", radius],
+        ["H", pegRadius],
+        ["V", remainingPegHeight],
+        ["L", -remainingRadius, remainingRadius],
         ["V", remainingHeight],
         ["H", remainingWidth],
         ["V", headHeight],

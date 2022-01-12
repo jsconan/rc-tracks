@@ -96,14 +96,15 @@ module straightLinkFemale(length, width, height) {
  * @param Number diameter - The diameter of the fasteners.
  * @param Number headDiameter - The diameter of the fasteners head.
  * @param Number headHeight - The height of the fasteners head.
- * @param Number [count] - The number of holes to drill.
+ * @param Number [holes] - The number of holes to drill.
  */
-module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, count=1) {
-    interval = length / count;
+module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+    interval = length / holes;
     difference() {
         children();
-        repeat(count=count, intervalX=interval, center=true) {
+        repeat(count=holes, intervalX=interval, center=true) {
             barrierFastenerHole(
+                width = width,
                 height = height,
                 diameter = diameter,
                 headDiameter = headDiameter,
@@ -134,10 +135,10 @@ module extrudeStraightProfile(length) {
  * @param Number diameter - The diameter of the fasteners.
  * @param Number headDiameter - The diameter of the fasteners head.
  * @param Number headHeight - The height of the fasteners head.
- * @param Number [count] - The number of holes to drill.
+ * @param Number [holes] - The number of holes to drill.
  */
-module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, count=1) {
-    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, count=count) {
+module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkMale(length=length, width=width, height=height) {
             extrudeStraightProfile(length=length) {
                 barrierProfile(
@@ -158,10 +159,10 @@ module straightBarrierMale(length, width, height, diameter, headDiameter, headHe
  * @param Number diameter - The diameter of the fasteners.
  * @param Number headDiameter - The diameter of the fasteners head.
  * @param Number headHeight - The height of the fasteners head.
- * @param Number [count] - The number of holes to drill.
+ * @param Number [holes] - The number of holes to drill.
  */
-module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, count=1) {
-    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, count=count) {
+module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkFemale(length=length, width=width, height=height) {
             extrudeStraightProfile(length=length) {
                 barrierProfile(

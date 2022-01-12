@@ -38,3 +38,4 @@ barrierLength = 50;             // The length of a barrier
 fastenerDiameter = 2;           // The diameter of the fasteners that can be used for the barriers
 fastenerHeadDiameter = 4;       // The diameter of the fasteners head
 fastenerHeadHeight = 2;         // The height of the fasteners head
+trackGroundThickness = .8;      // The thickness of a track tile (track ground)

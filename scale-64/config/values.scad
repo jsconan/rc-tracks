@@ -68,7 +68,32 @@ function getBarrierLinkWidth(width, height, distance = 0) = (getBarrierBaseUnit(
  * @param Number height - The height of the barriers.
  * @returns Number
  */
-function getBarrierLinkHeight(width, height) = height - getBarrierBaseUnit(width, height);
+function getBarrierLinkHeight(width, height) = layerAligned(height - getBarrierBaseUnit(width, height));
+
+/**
+ * Computes the diameter of the barrier pegs.
+ * @param Number width - The width of the barriers.
+ * @param Number height - The height of the barriers.
+ * @returns Number
+ */
+function getBarrierPegDiameter(width, height) = width - getBarrierBaseUnit(width, height) - shells(2);
+
+/**
+ * Computes the height of the barrier pegs that plugs into the barriers.
+ * @param Number width - The width of the barriers.
+ * @param Number height - The height of the barriers.
+ * @returns Number
+ */
+function getBarrierPegInnerHeight(width, height) = layerAligned(getBarrierBaseUnit(width, height) * 1.5);
+
+/**
+ * Computes the overall height of the barrier pegs.
+ * @param Number width - The width of the barriers.
+ * @param Number height - The height of the barriers.
+ * @param Number thickness - The thickness of the ground.
+ * @returns Number
+ */
+function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeight(width, height) + thickness;
 
 // The length of a barrier chunk
 barrierLength = trackSectionLength / barrierChunkCount;

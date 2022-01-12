@@ -44,8 +44,26 @@ applyMode(mode=renderMode) {
             center = true
         );
 
+        // test the barrier peg shape
+        barrierPeg(
+            width = barrierWidth,
+            height = barrierHeight,
+            diameter = fastenerDiameter,
+            thickness = trackGroundThickness,
+            distance = printTolerance
+        );
+
+        // test the barrier peg hole shape
+        barrierPegHole(
+            width = barrierWidth,
+            height = barrierHeight,
+            thickness = trackGroundThickness,
+            distance = printTolerance
+        );
+
         // test the barrier fastening hole shape
         barrierFastenerHole(
+            width = barrierWidth,
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
