@@ -34,7 +34,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    distributeGrid(intervalX=[trackSectionLength + printInterval, 0, 0], intervalY=[0, trackSectionWidth + printInterval, 0], line=2, center=true) {
+    distributeGrid(intervalX=[trackSectionLength + printInterval, 0, 0], intervalY=[0, trackSectionLength + printInterval, 0], line=2, center=true) {
 
         // test the shape of a straight ground tile
         straightGroundTile(
@@ -43,7 +43,52 @@ applyMode(mode=renderMode) {
             thickness = trackGroundThickness,
             barrierWidth = barrierWidth,
             barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks
+            barrierChunks = barrierChunks,
+            ratio = 1
+        );
+
+        // test the shape of a curved ground tile: 1 per corner
+        curvedGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = 1
+        );
+
+        // test the shape of a curved ground tile: 2 per corner
+        curvedGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = 2
+        );
+
+        // test the shape of a curved ground tile: 3 per corner
+        curvedGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = 3
+        );
+
+        // test the shape of a straight ground tile: twice the length
+        straightGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = 2
         );
 
     }
