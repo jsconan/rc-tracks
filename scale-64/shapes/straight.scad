@@ -54,7 +54,7 @@ function getStraightBarrierFemaleLength(length, width, height) = length;
  */
 module straightLinkMale(length, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
-    repeatMirror(axis=[1, 0, 0]) {
+    repeatRotate(count=2) {
         translate([-length, 0, -height] / 2) {
             barrierLink(
                 width = width,
@@ -76,7 +76,7 @@ module straightLinkFemale(length, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) + layerHeight;
     difference() {
         children();
-        repeatMirror(axis=[1, 0, 0]) {
+        repeatRotate(count=2) {
             translate([length, 0, -height - ALIGN2] / 2) {
                 barrierLink(
                     width = width,
