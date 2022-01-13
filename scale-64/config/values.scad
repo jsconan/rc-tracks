@@ -95,8 +95,11 @@ function getBarrierPegInnerHeight(width, height) = layerAligned(getBarrierBaseUn
  */
 function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeight(width, height) + thickness;
 
-// The length of a barrier chunk
-barrierLength = trackSectionLength / barrierChunks;
-
 // The nominal width of a track section (the outer width of the track lane)
 trackSectionWidth = trackLaneWidth + barrierWidth * 2;
+
+// The nominal length of a track section (size of a tile in the track)
+trackSectionLength = trackSectionWidth + barrierWidth * 5;
+
+// The length of a barrier chunk
+barrierLength = trackSectionLength / barrierChunks;

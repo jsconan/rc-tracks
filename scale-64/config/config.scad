@@ -29,7 +29,6 @@
  */
 
 // The dimensions and constraints of a track element
-trackSectionLength = 200;       // The nominal length of a track section (size of a tile in the track)
 trackLaneWidth = 160;           // The width of the track lane (the distance between the barriers)
 trackGroundThickness = .8;      // The thickness of a track tile (track ground)
 barrierWidth = 6;               // The width of the barriers
