@@ -29,6 +29,31 @@
  */
 
 /**
+ * Computes the overall width of a track section.
+ * @param Number laneWidth - The width of a track lane.
+ * @param Number barrierWidth - The width of the barriers.
+ * @returns Number
+ */
+function getTrackSectionWidth(laneWidth, barrierWidth) = laneWidth + barrierWidth * 2;
+
+/**
+ * Computes the overall length of a track section.
+ * @param Number laneWidth - The width of a track lane.
+ * @param Number barrierWidth - The width of the barriers.
+ * @returns Number
+ */
+function getTrackSectionLength(laneWidth, barrierWidth) = getTrackSectionWidth(laneWidth, barrierWidth) + barrierWidth * 5;
+
+/**
+ * Computes the length of a barrier chunk.
+ * @param Number laneWidth - The width of a track lane.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number barrierChunks - The number barriers per track section.
+ * @returns Number
+ */
+function getBarrierLength(laneWidth, barrierWidth, barrierChunks) = getTrackSectionLength(laneWidth, barrierWidth) / barrierChunks;
+
+/**
  * Computes the base unit value used to design the barrier shape.
  * @param Number width - The width of the barriers.
  * @param Number height - The height of the barriers.
@@ -95,11 +120,70 @@ function getBarrierPegInnerHeight(width, height) = layerAligned(getBarrierBaseUn
  */
 function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeight(width, height) + thickness;
 
-// The nominal width of a track section (the outer width of the track lane)
-trackSectionWidth = trackLaneWidth + barrierWidth * 2;
+/**
+ * Computes the angle of a curve with respect to the ratio.
+ * @param Number ratio - The ratio of the curve.
+ * @returns Number
+ */
+function getCurveAngle(ratio) = curveAngle / ratio;
 
-// The nominal length of a track section (size of a tile in the track)
-trackSectionLength = trackSectionWidth + barrierWidth * 5;
+/**
+ * Computes the rotation angle used to place a curve.
+ * @param Number angle - The angle of the curve.
+ * @returns Number
+ */
+function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
+
+/**
+ * Computes the inner radius of a curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurveInnerRadius(length, width, ratio) = (length * ratio - width) / 2;
+
+/**
+ * Computes the outer radius of a curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurveOuterRadius(length, width, ratio) = width + getCurveInnerRadius(length=length, width=width, ratio=ratio);
+
+/**
+ * Computes the number of barrier chunks for a straight section given the ratio.
+ * @param Number barrierChunks - The number of barrier chunks per section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getStraightBarrierChunks(barrierChunks, ratio) = barrierChunks * ratio;
+
+/**
+ * Computes the number of barrier chunks for an inner curved section given the ratio.
+ * @param Number barrierChunks - The number of barrier chunks per section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurvedInnerBarrierChunks(barrierChunks, ratio) = min(ratio * 2, barrierChunks);
+
+/**
+ * Computes the number of barrier chunks for an outer curved section given the ratio.
+ * @param Number barrierChunks - The number of barrier chunks per section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurvedOuterBarrierChunks(barrierChunks, ratio) = barrierChunks;
+
+// The overall length of a track section (size of a tile in the track)
+trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);
+
+// The overall width of a track section (size of a tile in the track)
+trackSectionWidth = getTrackSectionWidth(trackLaneWidth, barrierWidth);
 
 // The length of a barrier chunk
-barrierLength = trackSectionLength / barrierChunks;
+barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
+
+// The angle of a typical curve
+curveAngle = 90;
