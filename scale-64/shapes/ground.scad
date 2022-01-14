@@ -83,30 +83,6 @@ module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight,
 }
 
 /**
- * Draws the profile of a curved ground tile.
- *
- * To get the final shape, linear_extrude(height=height, convexity=10) must be applied.
- *
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number angle - The angle of the curve.
- * @param Number [ratio] - The size factor.
- */
-module curvedGroundProfile(length, width, angle, ratio=1) {
-    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=ratio);
-    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=ratio);
-    startX = cos(angle) * innerRadius;
-    startY = sin(angle) * innerRadius;
-
-    polygon(path([
-        ["P", startX, startY],
-        ["C", innerRadius, angle, 0],
-        ["H", width],
-        ["C", outerRadius, 0, angle],
-    ]), convexity = 10);
-}
-
-/**
  * Draws the shape of a curved ground.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
