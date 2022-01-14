@@ -54,6 +54,7 @@ function getStraightBarrierFemaleLength(length, width, height) = length;
  */
 module straightLinkMale(length, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
+
     repeatRotate(count=2) {
         translate([-length, 0, -height] / 2) {
             barrierLink(
@@ -74,6 +75,7 @@ module straightLinkMale(length, width, height) {
  */
 module straightLinkFemale(length, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) + layerHeight;
+
     difference() {
         children();
         repeatRotate(count=2) {
@@ -100,6 +102,7 @@ module straightLinkFemale(length, width, height) {
  */
 module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, holes=1) {
     interval = length / holes;
+    
     difference() {
         children();
         repeat(count=holes, intervalX=interval, center=true) {
@@ -128,6 +131,22 @@ module extrudeStraightProfile(length) {
 }
 
 /**
+ * Draws the shape of a straight barrier.
+ * @param Number length - The length of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ */
+module straightBarrier(length, width, height) {
+    extrudeStraightProfile(length=length) {
+        barrierProfile(
+            width = width,
+            height = height,
+            distance = 0
+        );
+    }
+}
+
+/**
  * Draws the shape of a straight barrier in the male variant.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
@@ -140,13 +159,7 @@ module extrudeStraightProfile(length) {
 module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
     straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkMale(length=length, width=width, height=height) {
-            extrudeStraightProfile(length=length) {
-                barrierProfile(
-                    width = width,
-                    height = height,
-                    distance = 0
-                );
-            }
+            straightBarrier(length=length, width=width, height=height);
         }
     }
 }
@@ -164,13 +177,7 @@ module straightBarrierMale(length, width, height, diameter, headDiameter, headHe
 module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
     straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkFemale(length=length, width=width, height=height) {
-            extrudeStraightProfile(length=length) {
-                barrierProfile(
-                    width = width,
-                    height = height,
-                    distance = 0
-                );
-            }
+            straightBarrier(length=length, width=width, height=height);
         }
     }
 }
