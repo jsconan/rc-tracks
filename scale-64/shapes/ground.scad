@@ -29,6 +29,33 @@
  */
 
 /**
+ * Draws the shape of the holes for a straight ground.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number barrierWidth - The width of the barrier.
+ * @param Number barrierHeight - The height of the barrier.
+ * @param Number barrierChunks - The number of barrier chunks per section.
+ */
+module straightGroundHoles(length, width, thickness, barrierWidth, barrierHeight, barrierChunks) {
+    barrierLength = length / barrierChunks;
+    barrierPosition = (width - barrierWidth) / 2;
+    
+    repeatMirror(axis=[0, 1, 0]) {
+        translateY(barrierPosition) {    
+            repeat(intervalX=barrierLength, count=barrierChunks, center=true) {
+                barrierPegHole(
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    thickness = thickness,
+                    distance = printTolerance
+                );
+            }
+        }
+    }
+}
+
+/**
  * Draws the shape of a straight ground tile.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
@@ -39,25 +66,19 @@
  * @param Number [ratio] - The size factor.
  */
 module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
-    barrierLength = length / barrierChunks;
-    barrierPosition = width / 2 - barrierWidth;
     overallLength = length * ratio;
-    overallChunks = barrierChunks * ratio;
+    overallChunks = getStraightBarrierChunks(barrierChunks, ratio);
 
     difference() {
         box([overallLength, width, thickness], center=true);
-        repeatMirror(axis=[0, 1, 0]) {
-            translateY(barrierPosition) {    
-                repeat(intervalX=barrierLength, count=overallChunks, center=true) {
-                    barrierPegHole(
-                        width = barrierWidth,
-                        height = barrierHeight,
-                        thickness = thickness,
-                        distance = printTolerance
-                    );
-                }
-            }
-        }
+        straightGroundHoles(
+            length = overallLength,
+            width = width,
+            thickness = thickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = overallChunks
+        );
     }
 }
 
@@ -68,24 +89,44 @@ module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight,
  *
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
- * @param Number curveAngle - The angle of the curve.
+ * @param Number angle - The angle of the curve.
  * @param Number [ratio] - The size factor.
  */
-module curvedGroundTileProfile(length, width, curveAngle, ratio=1) {
-    innerRadius = (length * ratio - width) / 2;
-    outerRadius = width + innerRadius;
-    startX = cos(curveAngle) * innerRadius;
-    startY = sin(curveAngle) * innerRadius;
+module curvedGroundProfile(length, width, angle, ratio=1) {
+    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=ratio);
+    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=ratio);
+    startX = cos(angle) * innerRadius;
+    startY = sin(angle) * innerRadius;
+
     polygon(path([
         ["P", startX, startY],
-        ["C", innerRadius, curveAngle, 0],
+        ["C", innerRadius, angle, 0],
         ["H", width],
-        ["C", outerRadius, 0, curveAngle],
+        ["C", outerRadius, 0, angle],
     ]), convexity = 10);
 }
 
 /**
- * Draws the shape of the holes for a curved ground tile.
+ * Draws the shape of a curved ground.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number angle - The angle of the curve.
+ * @param Number [ratio] - The size factor.
+ */
+module curvedGround(length, width, thickness, angle, ratio=1) {
+    linear_extrude(height=thickness, center=true, convexity=10) {
+        curvedGroundProfile(
+            length = length,
+            width = width,
+            angle = angle,
+            ratio = ratio
+        );
+    }
+}
+
+/**
+ * Draws the shape of the holes for a curved ground.
  * @param Number radius - The radius of the curve at the position of the holes.
  * @param Number angle - The angle of the curve.
  * @param Number thickness - The thickness of the track ground.
@@ -93,8 +134,9 @@ module curvedGroundTileProfile(length, width, curveAngle, ratio=1) {
  * @param Number barrierHeight - The height of the barrier.
  * @param Number barrierChunks - The number of barrier chunks per section.
  */
-module curvedGroundTileHoles(radius, angle, thickness, barrierWidth, barrierHeight, barrierChunks) {
+module curvedGroundHoles(radius, angle, thickness, barrierWidth, barrierHeight, barrierChunks) {
     holeSectorAngle = angle * (barrierChunks - 1) / barrierChunks;
+
     rotateZ((angle - holeSectorAngle) / 2) {
         repeatRotate(angle=holeSectorAngle, count=barrierChunks) {
             translateX(radius) {    
@@ -120,38 +162,33 @@ module curvedGroundTileHoles(radius, angle, thickness, barrierWidth, barrierHeig
  * @param Number [ratio] - The size factor.
  */
 module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
-    curveAngle = 90 / ratio;
     radius = length * ratio;
-    innerRadius = (radius - width) / 2;
-    outerRadius = width + innerRadius;
-    barrierInnerPosition = innerRadius + barrierWidth;
-    barrierOuterPosition = outerRadius - barrierWidth;
-    innerBarrierChunks = min(ratio, barrierChunks);
-    outerBarrierChunks = barrierChunks;
+    angle = getCurveAngle(ratio);
+    barrierInnerPosition = getCurveInnerRadius(length=length, width=width, ratio=ratio) + barrierWidth / 2;
+    barrierOuterPosition = getCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
+    innerBarrierChunks = getCurvedInnerBarrierChunks(barrierChunks, ratio);
+    outerBarrierChunks = getCurvedOuterBarrierChunks(barrierChunks, ratio);
 
     translate([-radius, -length, 0] / 2) {
         difference() {
-            linear_extrude(height=thickness, center=true, convexity=10) {
-                curvedGroundTileProfile(
-                    length = length,
-                    width = width,
-                    curveAngle = curveAngle,
-                    ratio = ratio
-                );
-            }
-
-            curvedGroundTileHoles(
+            curvedGround(
+                length = length,
+                width = width,
+                thickness = thickness,
+                angle = angle,
+                ratio = ratio
+            );
+            curvedGroundHoles(
                 radius = barrierInnerPosition,
-                angle = curveAngle,
+                angle = angle,
                 thickness = thickness,
                 barrierWidth = barrierWidth,
                 barrierHeight = barrierHeight,
                 barrierChunks = innerBarrierChunks
             );
-
-            curvedGroundTileHoles(
+            curvedGroundHoles(
                 radius = barrierOuterPosition,
-                angle = curveAngle,
+                angle = angle,
                 thickness = thickness,
                 barrierWidth = barrierWidth,
                 barrierHeight = barrierHeight,
