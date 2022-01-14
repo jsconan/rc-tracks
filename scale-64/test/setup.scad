@@ -30,22 +30,3 @@
 
 // Import the project's setup.
 include <../config/setup.scad>
-
-// Defines the test config
-trackGroundThickness = .8;      // The thickness of a track tile (track ground)
-trackLaneWidth = 120;           // The width of the track lane (the distance between the barriers)
-barrierChunks = 4;              // The number of barrier chunks per section
-barrierWidth = 6;               // The width of a barrier
-barrierHeight = 8;              // The height of a barrier
-fastenerDiameter = 2;           // The diameter of the fasteners that can be used for the barriers
-fastenerHeadDiameter = 4;       // The diameter of the fasteners head
-fastenerHeadHeight = 2;         // The height of the fasteners head
-
-// The overall length of a track section (size of a tile in the track)
-trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);
-
-// The overall width of a track section (size of a tile in the track)
-trackSectionWidth = getTrackSectionWidth(trackLaneWidth, barrierWidth);
-
-// The length of a barrier chunk
-barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
