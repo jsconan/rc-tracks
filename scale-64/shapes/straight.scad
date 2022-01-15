@@ -29,15 +29,6 @@
  */
 
 /**
- * Gets the outer length of the shape of a straight barrier in the male variant.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getStraightBarrierMaleLength(length, width, height) = length + getBarrierLinkLength(width, height);
-
-/**
  * Gets the outer length of the shape of a straight barrier in the female variant.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
@@ -45,6 +36,38 @@ function getStraightBarrierMaleLength(length, width, height) = length + getBarri
  * @returns Number
  */
 function getStraightBarrierFemaleLength(length, width, height) = length;
+
+/**
+ * Gets the outer width of the shape of a straight barrier in the female variant.
+ * @param Number length - The length of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getStraightBarrierFemaleWidth(length, width, height) = width;
+
+/**
+ * Gets the outer length of the shape of a straight barrier in the male variant.
+ * @param Number length - The length of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getStraightBarrierMaleLength(length, width, height) =
+    getStraightBarrierFemaleLength(length, width, height) + 
+    getBarrierLinkLength(width, height) * 2
+;
+
+/**
+ * Gets the outer width of the shape of a straight barrier in the male variant.
+ * @param Number length - The length of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getStraightBarrierMaleWidth(length, width, height) =
+    getStraightBarrierFemaleWidth(length, width, height)
+;
 
 /**
  * Adds the male links to a straight element.

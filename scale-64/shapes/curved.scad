@@ -29,6 +29,56 @@
  */
 
 /**
+ * Gets the outer length of the shape of a curved barrier in the female variant.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The extrusion angle.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getCurvedBarrierFemaleLength(radius, angle, width, height) =    
+    getChordLength(angle, radius + width / 2)
+;
+
+/**
+ * Gets the outer width of the shape of a curved barrier in the female variant.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The extrusion angle.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getCurvedBarrierFemaleWidth(radius, angle, width, height) =
+    getChordHeight(angle, radius - width / 2) + width
+;
+
+/**
+ * Gets the outer length of the shape of a curved barrier in the male variant.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The extrusion angle.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getCurvedBarrierMaleLength(radius, angle, width, height) =
+    getCurvedBarrierFemaleLength(radius, angle, width, height) +
+    getBarrierLinkLength(width, height) * cos((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2) * 2
+;
+
+/**
+ * Gets the outer width of the shape of a curved barrier in the male variant.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The extrusion angle.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @returns Number
+ */
+function getCurvedBarrierMaleWidth(radius, angle, width, height) =
+    getCurvedBarrierFemaleWidth(radius, angle, width, height) +
+    getBarrierLinkLength(width, height) * sin((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2)
+;
+
+/**
  * Adds the male links to a curved element.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
