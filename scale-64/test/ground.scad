@@ -34,7 +34,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    distributeGrid(intervalX=[trackSectionLength + printInterval, 0, 0], intervalY=[0, trackSectionLength + printInterval, 0], line=2, center=true) {
+    distributeGrid(intervalX=[getPrintInterval(trackSectionLength), 0, 0], intervalY=[0, getPrintInterval(trackSectionLength), 0], line=2, center=true) {
 
         // test the shape of a straight ground tile
         straightGroundTile(

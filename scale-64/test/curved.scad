@@ -34,7 +34,7 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    distributeGrid(intervalX=[barrierLength * 1.5 + printInterval, 0, 0], intervalY=[0, barrierWidth + printInterval, 0], line=2, center=true) {
+    distributeGrid(intervalX=[getPrintInterval(barrierLength * 1.5), 0, 0], intervalY=[0, getPrintInterval(barrierWidth), 0], line=2, center=true) {
 
         ratio = 1;
 
