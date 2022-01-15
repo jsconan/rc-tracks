@@ -41,3 +41,15 @@ include <../shapes/fragments.scad>
 include <../shapes/straight.scad>
 include <../shapes/curved.scad>
 include <../shapes/ground.scad>
+
+// Validate the config against the constraints
+validateConfig(
+    lane = trackLaneWidth,
+    thickness = trackGroundThickness,
+    width = barrierWidth,
+    height = barrierHeight,
+    chunks = barrierChunks,
+    diameter = fastenerDiameter,
+    headDiameter = fastenerHeadDiameter,
+    headHeight = fastenerHeadHeight
+);

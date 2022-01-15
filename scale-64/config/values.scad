@@ -241,3 +241,37 @@ CURVE_ANGLE = RIGHT;
 
 // The number of fastener holes per barrier chunks
 FASTENER_HOLES = 1;
+
+/**
+ * Validates the config values, checking if it match the critical constraints.
+ * @param Number lane - The width of the track lane (the distance between the barriers).
+ * @param Number thickness - The thickness of a track tile (track ground).
+ * @param Number width - The width of the barriers.
+ * @param Number height - The height of the barriers.
+ * @param Number chunks - The number of barrier chunks per section.
+ * @param Number diameter - The diameter of the fasteners that can be used for the barriers.
+ * @param Number headDiameter - The diameter of the fasteners head.
+ * @param Number headHeight - The height of the fasteners head.
+ */
+module validateConfig(lane, thickness, width, height, chunks, diameter, headDiameter, headHeight) {
+    assert(
+        getBarrierLength(lane, width, chunks) > getBarrierLinkLength(width, height) * 2 + getBarrierPegDiameter(width, height) + shells(8),
+        "The size of a barrier chunk is too small! Please increase the track lane or reduce the number of chunks per track section."
+    );
+    assert(
+        width > diameter + getBarrierBaseUnit(width, height) * 2,
+        "The diameter of the barrier fasteners is too large to fix into the barrier chunks!"
+    );
+    assert(
+        width > headDiameter + getBarrierBaseUnit(width, height),
+        "The diameter of the barrier fasteners head is too large to fix into the barrier chunks!"
+    );
+    assert(
+        height > headHeight * 2 + getBarrierBaseUnit(width, height),
+        "The height of the barrier fasteners head is too large to fix into the barrier chunks!"
+    );
+    assert(
+        thickness > layers(2),
+        "The ground thickness is too small, please increase it!"
+    );
+}
