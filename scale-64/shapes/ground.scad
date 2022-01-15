@@ -178,8 +178,8 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
     angle = getCurveAngle(ratio);
     barrierInnerPosition = getCurveInnerRadius(length=length, width=width, ratio=ratio) + barrierWidth / 2;
     barrierOuterPosition = getCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
-    innerBarrierChunks = getCurvedInnerBarrierChunks(barrierChunks, ratio);
-    outerBarrierChunks = getCurvedOuterBarrierChunks(barrierChunks, ratio);
+    innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
+    outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
 
     translate([-radius, -length, 0] / 2) {
         difference() {

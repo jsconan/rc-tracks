@@ -193,7 +193,7 @@ function getStraightBarrierChunks(barrierChunks, ratio) = barrierChunks * ratio;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurvedInnerBarrierChunks(barrierChunks, ratio) = min(ratio * 2, barrierChunks);
+function getCurveInnerBarrierChunks(barrierChunks, ratio) = min(ratio * 2, barrierChunks);
 
 /**
  * Computes the number of barrier chunks for an outer curved section given the ratio.
@@ -201,7 +201,7 @@ function getCurvedInnerBarrierChunks(barrierChunks, ratio) = min(ratio * 2, barr
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurvedOuterBarrierChunks(barrierChunks, ratio) = barrierChunks;
+function getCurveOuterBarrierChunks(barrierChunks, ratio) = barrierChunks;
 
 /**
  * Computes the number of barrier chunks for the straight sides of large curve track.
@@ -217,7 +217,7 @@ function getLargeCurveSideBarrierChunks(barrierChunks, ratio) = getStraightBarri
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveInnerBarrierChunks(barrierChunks, ratio) = getCurvedInnerBarrierChunks(barrierChunks, ratio) * ratio;
+function getLargeCurveInnerBarrierChunks(barrierChunks, ratio) = getCurveInnerBarrierChunks(barrierChunks, ratio) * ratio;
 
 /**
  * Computes the number of barrier chunks for the outer curve of large curve track.
@@ -225,7 +225,7 @@ function getLargeCurveInnerBarrierChunks(barrierChunks, ratio) = getCurvedInnerB
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveOuterBarrierChunks(barrierChunks, ratio) = getCurvedOuterBarrierChunks(barrierChunks, ratio) / 2;
+function getLargeCurveOuterBarrierChunks(barrierChunks, ratio) = getCurveOuterBarrierChunks(barrierChunks, ratio) / 2;
 
 // The overall length of a track section (size of a tile in the track)
 trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);
