@@ -123,7 +123,7 @@ module straightFastenerHoles(length, width, height, diameter, headDiameter, head
  * @param Number length - The length of the element.
  */
 module extrudeStraightProfile(length) {
-    rotate([90, 0, 90]) {
+    rotate([RIGHT, 0, RIGHT]) {
         linear_extrude(height=length, center=true, convexity=10) {
             children();
         }

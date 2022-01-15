@@ -39,7 +39,7 @@ module curvedLinkMale(radius, angle, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
 
     translate([radius, 0, -height / 2]) {
-        rotateZ(90) {
+        rotateZ(CURVE_ANGLE) {
             barrierLink(
                 width = width,
                 height = linkHeight,
@@ -47,7 +47,7 @@ module curvedLinkMale(radius, angle, width, height) {
             );
         }
     }
-    rotateZ(angle - curveAngle) {
+    rotateZ(angle - CURVE_ANGLE) {
         translate([0, radius, -height / 2]) {        
             barrierLink(
                 width = width,
@@ -72,7 +72,7 @@ module curvedLinkFemale(radius, angle, width, height) {
     difference() {
         children();
         translate([radius, 0, -height / 2 - ALIGN]) {
-            rotateZ(-90) {
+            rotateZ(-CURVE_ANGLE) {
                 barrierLink(
                     width = width,
                     height = linkHeight + ALIGN,
@@ -82,7 +82,7 @@ module curvedLinkFemale(radius, angle, width, height) {
         }
         rotateZ(angle) {
             translate([radius, 0, -height / 2 - ALIGN]) {
-                rotateZ(90) {
+                rotateZ(CURVE_ANGLE) {
                     barrierLink(
                         width = width,
                         height = linkHeight + ALIGN,

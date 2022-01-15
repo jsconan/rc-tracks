@@ -125,14 +125,14 @@ function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeigh
  * @param Number ratio - The ratio of the curve.
  * @returns Number
  */
-function getCurveAngle(ratio) = curveAngle / ratio;
+function getCurveAngle(ratio) = CURVE_ANGLE / ratio;
 
 /**
  * Computes the rotation angle used to place a curve.
  * @param Number angle - The angle of the curve.
  * @returns Number
  */
-function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
+function getCurveRotationAngle(angle) = 45 + (CURVE_ANGLE - angle) / 2;
 
 /**
  * Computes the inner radius of a curve given the ratio.
@@ -186,4 +186,4 @@ trackSectionWidth = getTrackSectionWidth(trackLaneWidth, barrierWidth);
 barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
 
 // The angle of a typical curve
-curveAngle = 90;
+CURVE_ANGLE = RIGHT;

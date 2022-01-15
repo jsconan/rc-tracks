@@ -54,7 +54,7 @@ module barrierLink(width, height, distance = 0, center = false) {
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierPeg(width, height, diameter, thickness, distance = 0) {
-    rotate_extrude(angle=360, convexity=10) {
+    rotate_extrude(angle=DEGREES, convexity=10) {
         barrierPegProfile(
             width = width,
             height = height,
@@ -73,7 +73,7 @@ module barrierPeg(width, height, diameter, thickness, distance = 0) {
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierPegHole(width, height, thickness, distance = 0) {
-    rotate_extrude(angle=360, convexity=10) {
+    rotate_extrude(angle=DEGREES, convexity=10) {
         barrierPegHoleProfile(
             width = width,
             height = height,
@@ -93,7 +93,7 @@ module barrierPegHole(width, height, thickness, distance = 0) {
  * @param Number [distance] - An additional distance added to the outline of the shape.
  */
 module barrierFastenerHole(width, height, diameter, headDiameter, headHeight, distance = 0) {
-    rotate_extrude(angle=360, convexity=10) {
+    rotate_extrude(angle=DEGREES, convexity=10) {
         barrierFastenerHoleProfile(
             width = width,
             height = height,

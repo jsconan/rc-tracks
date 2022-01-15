@@ -81,7 +81,7 @@ applyMode(mode=renderMode) {
         curvedGroundProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight),
-            angle = 90,
+            angle = CURVE_ANGLE,
             ratio = 1
         );
 
@@ -89,8 +89,9 @@ applyMode(mode=renderMode) {
         curvedGroundProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight),
-            angle = 90,
+            angle = CURVE_ANGLE,
             ratio = 2
         );
+        
     }
 }
