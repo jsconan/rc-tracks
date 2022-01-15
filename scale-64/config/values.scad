@@ -275,3 +275,57 @@ module validateConfig(lane, thickness, width, height, chunks, diameter, headDiam
         "The ground thickness is too small, please increase it!"
     );
 }
+
+/**
+ * Prints the config values.
+ * @param Number lane - The width of the track lane (the distance between the barriers).
+ * @param Number thickness - The thickness of a track tile (track ground).
+ * @param Number width - The width of the barriers.
+ * @param Number height - The height of the barriers.
+ * @param Number chunks - The number of barrier chunks per section.
+ * @param Number diameter - The diameter of the fasteners that can be used for the barriers.
+ * @param Number headDiameter - The diameter of the fasteners head.
+ * @param Number headHeight - The height of the fasteners head.
+ */
+module printConfig(lane, thickness, width, height, chunks, diameter, headDiameter, headHeight) {
+    base = getBarrierBaseUnit(width, height);
+    trackSectionLength = getTrackSectionLength(lane, width);
+    trackSectionWidth = getTrackSectionWidth(lane, width);
+    barrierLength = getBarrierLength(lane, width, chunks);
+    tightCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 1) + width / 2;
+    tightCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 1) - width / 2;
+    largeCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 2) + width / 2;
+    largeCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 2) - width / 2;
+
+    echo(join([
+        "",
+        str("-- RC Track System ------------------"),
+        str("Version:                       ", projectVersion),
+        str("Scale:                         ", "1/64 to 1/76"),
+        str("-- Track elements -------------------"),
+        str("Track lane width:              ", lane / 10, "cm"),
+        str("Track section length:          ", trackSectionLength / 10, "cm"),
+        str("Track section width:           ", trackSectionWidth / 10, "cm"),
+        str("Tight curve inner radius:      ", tightCurveInnerRadius / 10, "cm"),
+        str("Tight curve outer radius:      ", tightCurveOuterRadius / 10, "cm"),
+        str("Large curve inner radius:      ", largeCurveInnerRadius / 10, "cm"),
+        str("Large curve outer radius:      ", largeCurveOuterRadius / 10, "cm"),        
+        str("Barrier width:                 ", width, "mm"),
+        str("Barrier height:                ", height, "mm"),
+        str("Barrier length:                ", barrierLength, "mm"),
+        str("Barrier chunks:                ", chunks, " per section"),
+        str("Barrier base value:            ", base, "mm"),
+        str("Barrier fastener diameter      ", diameter, "mm"),
+        str("Barrier fastener head diameter ", headDiameter, "mm"),
+        str("Barrier fastener head height   ", headHeight, "mm"),
+        str("Ground thickness:              ", thickness, "mm"),
+        str("-- Printer settings -----------------"),
+        str("Nozzle diameter:               ", nozzleWidth, "mm"),
+        str("Print layer:                   ", layerHeight, "mm"),
+        str("Print tolerance:               ", printTolerance, "mm"),
+        str("Printer's length:              ", printerLength / 10, "cm"),
+        str("Printer's width:               ", printerWidth / 10, "cm"),
+        str("Print interval:                ", printInterval, "mm"),
+        ""
+    ], str(chr(13), chr(10))));
+}
