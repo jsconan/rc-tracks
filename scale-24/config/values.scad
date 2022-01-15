@@ -280,6 +280,7 @@ module printConfig(length, width, lane, height, radius, base) {
         "",
         str("-- RC Track System ------------"),
         str("Version:               ", projectVersion),
+        str("Scale:                 ", "1/24 to 1/32"),
         str("-- Track elements -------------"),
         str("Track section length:  ", length / 10, "cm"),
         str("Curve section length:  ", getCurveLength(length) / 10, "cm"),
