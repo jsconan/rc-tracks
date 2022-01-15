@@ -48,6 +48,7 @@ partpath=${srcpath}/parts
 format=
 parallel=
 cleanUp=
+slice=
 
 # include libs
 source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
@@ -94,7 +95,7 @@ while (( "$#" )); do
             barrierHeight=$2
             shift
         ;;
-        "-s"|"--chunks")
+        "-k"|"--chunks")
             barrierChunks=$2
             shift
         ;;
@@ -122,6 +123,9 @@ while (( "$#" )); do
             parallel=$2
             shift
         ;;
+        "-s"|"--slice")
+            slice=1
+        ;;
         "-c"|"--clean")
             cleanUp=1
         ;;
@@ -134,13 +138,14 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of the track lane"
             echo -e "${C_MSG}  -w,  --width        ${C_RST}Set the width of the track barriers"
             echo -e "${C_MSG}  -b   --height       ${C_RST}Set the height of the track barriers"
-            echo -e "${C_MSG}  -s   --chunks       ${C_RST}Set the number of barrier chunks per track section"
+            echo -e "${C_MSG}  -k   --chunks       ${C_RST}Set the number of barrier chunks per track section"
             echo -e "${C_MSG}  -g   --ground       ${C_RST}Set the thickness of the ground tiles"
             echo -e "${C_MSG}  -d   --diameter     ${C_RST}Set the diameter of the barrier fasteners"
             echo -e "${C_MSG}  -hd  --headDiameter ${C_RST}Set the diameter of the barrier fasteners head"
             echo -e "${C_MSG}  -hh  --headHeight   ${C_RST}Set the height of the barrier fasteners head"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
+            echo -e "${C_MSG}  -s   --slice        ${C_RST}Slice the rendered files using the default configuration"
             echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
             echo
             exit 0
@@ -178,3 +183,9 @@ showconfig
 # render the files
 printmessage "${C_MSG}Rendering track elements"
 renderpath "${partpath}" "${dstpath}"
+
+# slice the rendered files
+if [ "${slice}" != "" ]; then
+    printmessage "${C_CTX}Slicing the rendered files"
+    ./slice.sh
+fi
