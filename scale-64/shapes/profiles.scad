@@ -235,3 +235,30 @@ module curvedGroundProfile(length, width, angle, ratio=1) {
         ["C", outerRadius, 0, angle],
     ]), convexity = 10);
 }
+
+/**
+ * Draws the profile of a large curve ground tile.
+ *
+ * To get the final shape, linear_extrude(height=height, convexity=10) must be applied.
+ *
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ */
+module largeCurveGroundProfile(length, width, ratio=1) {
+    innerRadius = getLargeCurveInnerRadius(length=length, width=width, ratio=ratio);
+    outerRadius = getLargeCurveOuterRadius(length=length, width=width, ratio=ratio);
+    side = getLargeCurveSide(length=length, width=width, ratio=ratio);
+    angle = CURVE_ANGLE;
+    startX = cos(angle) * innerRadius;
+    startY = sin(angle) * innerRadius;
+
+    polygon(path([
+        ["P", startX, startY],
+        ["C", innerRadius, angle, 0],
+        ["H", width],
+        ["V", side],
+        ["C", outerRadius, 0, angle],
+        ["H", -side],
+    ]), convexity = 10);
+}

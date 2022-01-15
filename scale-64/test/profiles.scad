@@ -77,6 +77,14 @@ applyMode(mode=renderMode) {
             distance = printTolerance
         );
 
+        // test the curved track ground profile with a size ratio of 2
+        curvedGroundProfile(
+            length = max(barrierWidth, barrierHeight),
+            width = min(barrierWidth, barrierHeight),
+            angle = CURVE_ANGLE,
+            ratio = 2
+        );
+
         // test the curved track ground profile with a size ratio of 1
         curvedGroundProfile(
             length = max(barrierWidth, barrierHeight),
@@ -85,12 +93,11 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
-        // test the curved track ground profile with a size ratio of 2
-        curvedGroundProfile(
+        // test the large curve track ground profile
+        largeCurveGroundProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight),
-            angle = CURVE_ANGLE,
-            ratio = 2
+            ratio = 1
         );
         
     }
