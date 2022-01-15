@@ -43,8 +43,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
         // test the shape of a straight barrier in the female variant
@@ -54,8 +53,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
     }

@@ -46,8 +46,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
         // test the shape of a curved barrier for the outer radius of a track section in the female variant
@@ -58,8 +57,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
         // test the shape of a curved barrier for the inner radius of a track section in the male variant
@@ -70,8 +68,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
         // test the shape of a curved barrier for the inner radius of a track section in the female variant
@@ -82,8 +79,7 @@ applyMode(mode=renderMode) {
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            holes=1
+            headHeight = fastenerHeadHeight
         );
 
     }

@@ -106,7 +106,7 @@ module curvedLinkFemale(radius, angle, width, height) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter, headHeight, holes=1) {
+module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     holeSectorAngle = angle * (holes - 1) / holes;
     
     difference() {
@@ -182,7 +182,7 @@ module curvedBarrier(radius, angle, width, height) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module curvedBarrierMale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=1) {
+module curvedBarrierMale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     placeCurvedElement(radius=radius, angle=angle) {
         curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
             curvedLinkMale(radius=radius, angle=angle, width=width, height=height) {
@@ -203,7 +203,7 @@ module curvedBarrierMale(radius, angle, width, height, diameter, headDiameter, h
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module curvedBarrierFemale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=1) {
+module curvedBarrierFemale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     placeCurvedElement(radius=radius, angle=angle) {
         curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
             curvedLinkFemale(radius=radius, angle=angle, width=width, height=height) {

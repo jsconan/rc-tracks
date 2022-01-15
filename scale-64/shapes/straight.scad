@@ -100,7 +100,7 @@ module straightLinkFemale(length, width, height) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     interval = length / holes;
     
     difference() {
@@ -156,7 +156,7 @@ module straightBarrier(length, width, height) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkMale(length=length, width=width, height=height) {
             straightBarrier(length=length, width=width, height=height);
@@ -174,7 +174,7 @@ module straightBarrierMale(length, width, height, diameter, headDiameter, headHe
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=1) {
+module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
         straightLinkFemale(length=length, width=width, height=height) {
             straightBarrier(length=length, width=width, height=height);

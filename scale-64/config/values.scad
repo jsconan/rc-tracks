@@ -238,3 +238,6 @@ barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
 
 // The angle of a typical curve
 CURVE_ANGLE = RIGHT;
+
+// The number of fastener holes per barrier chunks
+FASTENER_HOLES = 1;
