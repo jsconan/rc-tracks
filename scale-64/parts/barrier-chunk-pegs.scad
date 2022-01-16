@@ -31,32 +31,10 @@
 // Import the project's setup.
 include <../config/setup.scad>
 
-/**
- * Defines the final shape for a set of pegs to fasten the barrier chunks to the track sections.
- */
-module barrierPegs() {
-    interval = getPrintInterval(getBarrierPegDiameter(barrierWidth, barrierHeight));
-
-    repeat2D(
-        intervalX = [interval, 0, 0],
-        intervalY = [0, interval, 0],
-        countX = barrierChunks,
-        countY = barrierChunks,
-        center = true
-    ) {
-        barrierPeg(
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            thickness = trackGroundThickness,
-            distance = 0
-        );
-    }
-}
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    // sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    barrierPegs();
+
+    // Draws the ready to print model
+    barrierPegsSet(barrierChunks * 4);
+
 }

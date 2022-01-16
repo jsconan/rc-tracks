@@ -31,27 +31,10 @@
 // Import the project's setup.
 include <../config/setup.scad>
 
-/**
- * Defines the final shape for the ground tile of a tight curved track section with extra space.
- */
-module curvedTrackSectionExtra() {
-    largeCurveGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = 1
-    );
-}
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    // sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    curvedTrackSectionExtra();
 
-    // Uncomment the next line to cut a sample from the object
-    // #rectangle([trackSectionLength, trackSectionLength]);
+    // Draws the ready to print model
+    enlargedCurvedTrackSectionGround(1);
+
 }

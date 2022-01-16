@@ -31,27 +31,10 @@
 // Import the project's setup.
 include <../config/setup.scad>
 
-/**
- * Defines the final shape for the ground tile of a straight track section with a quarter size.
- */
-module straightQuarterfTrackSection() {
-    straightGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = .25
-    );
-}
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    // sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightQuarterfTrackSection();
 
-    // Uncomment the next line to cut a sample from the object
-    // #rectangle([trackSectionLength, trackSectionLength]);
+    // Draws the ready to print model
+    straightTrackSectionSet(.25);
+
 }

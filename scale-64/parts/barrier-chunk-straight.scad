@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a couple of straight barrier chunks, with male and female variants.
+ * Ready to print track part: a set of barrier chunks for a straight section, with male and female variants.
  *
  * @author jsconan
  */
@@ -31,70 +31,10 @@
 // Import the project's setup.
 include <../config/setup.scad>
 
-/**
- * Gets the length of the final shape for the straight barrier chunks, with male and female variants.
- * @returns Number
- */
-function straightBarrierChunkLength() =
-    getStraightBarrierMaleLength(length=barrierLength, width=barrierWidth, height=barrierHeight)
-;
-
-/**
- * Gets the width of the final shape for the straight barrier chunks, with male and female variants.
- * @returns Number
- */
-function straightBarrierChunkWidth() = getPrintInterval(
-    getStraightBarrierMaleWidth(length=barrierLength, width=barrierWidth, height=barrierHeight) +
-    getStraightBarrierFemaleWidth(length=barrierLength, width=barrierWidth, height=barrierHeight)
-);
-
-/**
- * Gets the horizontal interval to place the final shape for the straight barrier chunks, with male and female variants.
- * @returns Number
- */
-function straightBarrierChunkIntervalX() = getPrintInterval(straightBarrierChunkLength());
-
-/**
- * Gets the vertical interval to place the final shape for the straight barrier chunks, with male and female variants.
- * @returns Number
- */
-function straightBarrierChunkIntervalY() = getPrintInterval(straightBarrierChunkWidth());
-
-/**
- * Defines the final shape for the straight barrier chunks, with male and female variants.
- */
-module straightBarrierChunk() {
-    interval = getPrintInterval(barrierWidth) / 2;
-
-    translateY(-interval) {
-        straightBarrierMale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
-
-    translateY(interval) {
-        straightBarrierFemale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
-}
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    // sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    straightBarrierChunk();
 
-    // Uncomment the next line to cut a sample from the object
-    // #rectangle([straightBarrierChunkLength(), straightBarrierChunkWidth()]);
+    // Draws the ready to print model
+    straightBarriersSet();
+
 }
