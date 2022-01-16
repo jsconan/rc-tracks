@@ -35,6 +35,6 @@ include <../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    straightTrackSectionSet(.25);
+    straightTrackSectionGround(.25);
 
 }
