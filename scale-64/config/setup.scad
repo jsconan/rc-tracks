@@ -41,6 +41,7 @@ include <../shapes/fragments.scad>
 include <../shapes/straight.scad>
 include <../shapes/curved.scad>
 include <../shapes/ground.scad>
+include <../shapes/elements.scad>
 
 // Validate the config against the constraints
 validateConfig(
