@@ -54,7 +54,7 @@ function getStraightBarrierFemaleWidth(length, width, height) = width;
  * @returns Number
  */
 function getStraightBarrierMaleLength(length, width, height) =
-    getStraightBarrierFemaleLength(length, width, height) + 
+    getStraightBarrierFemaleLength(length, width, height) +
     getBarrierLinkLength(width, height) * 2
 ;
 
@@ -125,7 +125,7 @@ module straightLinkFemale(length, width, height) {
  */
 module straightFastenerHoles(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     interval = length / holes;
-    
+
     difference() {
         children();
         repeat(count=holes, intervalX=interval, center=true) {
@@ -135,7 +135,7 @@ module straightFastenerHoles(length, width, height, diameter, headDiameter, head
                 diameter = diameter,
                 headDiameter = headDiameter,
                 headHeight = headHeight,
-                distance = printTolerance
+                distance = 0
             );
         }
     }

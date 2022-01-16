@@ -40,7 +40,7 @@
 module barrierLinkProfile(width, height, distance = 0) {
     base = getBarrierBaseUnit(width, height);
     neckAlign = abs(distance);
-    
+
     translateX(neckAlign) {
         linkProfile(
             neck = [base / 2 + neckAlign, base],
@@ -186,13 +186,13 @@ module barrierProfile(width, height, distance = 0) {
         ["P", -barrierTopWidth / 2, height / 2],
         ["L", -barrierOffset, -barrierOffset],
         ["V", -barrierOuterSide],
-        ["L", barrierSlopeWidth, -barrierSlopeHeight],        
+        ["L", barrierSlopeWidth, -barrierSlopeHeight],
         ["L", barrierOffset, -barrierOffset],
         // middle left
         ["V", -barrierInnerSide],
         // bottom left
         ["L", -barrierOffset, -barrierOffset],
-        ["L", -barrierSlopeWidth, -barrierSlopeHeight],        
+        ["L", -barrierSlopeWidth, -barrierSlopeHeight],
         ["V", -barrierOuterSide],
         ["L", barrierOffset, -barrierOffset],
         // bottom

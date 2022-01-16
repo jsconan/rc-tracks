@@ -38,7 +38,7 @@
  */
 module straightGroundHolesLine(length, thickness, barrierWidth, barrierHeight, barrierChunks) {
     barrierLength = length / barrierChunks;
-    
+
     repeat(intervalX=barrierLength, count=barrierChunks, center=true) {
         barrierPegHole(
             width = barrierWidth,
@@ -60,9 +60,9 @@ module straightGroundHolesLine(length, thickness, barrierWidth, barrierHeight, b
  */
 module straightGroundHoles(length, width, thickness, barrierWidth, barrierHeight, barrierChunks) {
     barrierPosition = (width - barrierWidth) / 2;
-    
+
     repeatRotate(count=2) {
-        translateY(barrierPosition) {    
+        translateY(barrierPosition) {
             straightGroundHolesLine(
                 length = length,
                 thickness = thickness,
@@ -151,7 +151,7 @@ module curvedGroundHoles(radius, angle, thickness, barrierWidth, barrierHeight, 
 
     rotateZ((angle - holeSectorAngle) / 2) {
         repeatRotate(angle=holeSectorAngle, count=barrierChunks) {
-            translateX(radius) {    
+            translateX(radius) {
                 barrierPegHole(
                     width = barrierWidth,
                     height = barrierHeight,
@@ -241,7 +241,7 @@ module largeCurveGroundTile(length, width, thickness, barrierWidth, barrierHeigh
             );
             translate([side, side, 0] / 2) {
                 repeatRotate(count=2, angle=-CURVE_ANGLE) {
-                    translateY(barrierSidePosition) {    
+                    translateY(barrierSidePosition) {
                         straightGroundHolesLine(
                             length = side,
                             thickness = thickness,

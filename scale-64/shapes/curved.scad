@@ -36,7 +36,7 @@
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getCurvedBarrierFemaleLength(radius, angle, width, height) =    
+function getCurvedBarrierFemaleLength(radius, angle, width, height) =
     getChordLength(angle, radius + width / 2)
 ;
 
@@ -98,7 +98,7 @@ module curvedLinkMale(radius, angle, width, height) {
         }
     }
     rotateZ(angle - CURVE_ANGLE) {
-        translate([0, radius, -height / 2]) {        
+        translate([0, radius, -height / 2]) {
             barrierLink(
                 width = width,
                 height = linkHeight,
@@ -141,7 +141,7 @@ module curvedLinkFemale(radius, angle, width, height) {
                 }
             }
         }
-        
+
     }
 }
 
@@ -158,19 +158,19 @@ module curvedLinkFemale(radius, angle, width, height) {
  */
 module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
     holeSectorAngle = angle * (holes - 1) / holes;
-    
+
     difference() {
         children();
         rotateZ((angle - holeSectorAngle) / 2) {
             repeatRotate(angle=holeSectorAngle, count=holes) {
-                translateX(radius) {    
+                translateX(radius) {
                     barrierFastenerHole(
                         width = width,
                         height = height,
                         diameter = diameter,
                         headDiameter = headDiameter,
                         headHeight = headHeight,
-                        distance = printTolerance
+                        distance = 0
                     );
                 }
             }
