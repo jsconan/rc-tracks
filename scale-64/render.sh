@@ -43,6 +43,7 @@ scriptpath=$(dirname $0)
 project=$(pwd)
 srcpath=${project}
 dstpath=${project}/output
+slcpath=${project}/dist
 configpath=${srcpath}/config
 partpath=${srcpath}/parts
 format=
@@ -175,6 +176,11 @@ scadprocesses "${parallel}"
 if [ "${cleanUp}" != "" ]; then
     printmessage "${C_CTX}Cleaning up the output folder"
     rm -rf "${dstpath}"
+
+    if [ "${slice}" != "" ]; then
+        printmessage "${C_CTX}Cleaning up the slicer output folder"
+        rm -rf "${slcpath}"
+    fi
 fi
 
 # show the config
