@@ -37,3 +37,4 @@ barrierChunks = 4;              // The number of barrier chunks per section
 fastenerDiameter = 2;           // The diameter of the fasteners that can be used for the barriers
 fastenerHeadDiameter = 4;       // The diameter of the fasteners head
 fastenerHeadHeight = 2;         // The height of the fasteners head
+printGroundUpsideDown = true;   // Flip the ground tiles to print them upside down

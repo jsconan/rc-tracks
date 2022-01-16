@@ -29,6 +29,16 @@
  */
 
 /**
+ * Adjust the position on the print plat to either print as it or to flip upside down the model.
+ * @param Boolean flip - Flip upside down the element.
+ */
+module flipElement(flip = false) {
+    rotate(flip ? [180, 0, 180] : [0, 0, 0]) {
+        children();
+    }
+}
+
+/**
  * A set of pegs to fasten the barrier chunks to the track sections.
  * @param Number quantity - The number of elements to print, it will be rounded to by the square root.
  */
@@ -190,15 +200,17 @@ module enlargedCurveBarriersSet(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module straightTrackSectionGround(ratio=1) {
-    straightGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = ratio
-    );
+    flipElement(printGroundUpsideDown) {
+        straightGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = ratio
+        );
+    }
 }
 
 /**
@@ -206,15 +218,17 @@ module straightTrackSectionGround(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module curvedTrackSectionGround(ratio=1) {
-    curvedGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = ratio
-    );
+    flipElement(printGroundUpsideDown) {
+        curvedGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = ratio
+        );
+    }
 }
 
 /**
@@ -222,13 +236,15 @@ module curvedTrackSectionGround(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurvedTrackSectionGround(ratio=1) {
-    largeCurveGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = ratio
-    );
+    flipElement(printGroundUpsideDown) {
+        largeCurveGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = ratio
+        );
+    }
 }
