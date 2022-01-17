@@ -193,7 +193,7 @@ function getStraightBarrierChunks(barrierChunks, ratio) = barrierChunks * ratio;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerBarrierChunks(barrierChunks, ratio) = min(ratio * 2, barrierChunks);
+function getCurveInnerBarrierChunks(barrierChunks, ratio) = max(1, min(ratio * 2, barrierChunks));
 
 /**
  * Computes the number of barrier chunks for an outer curved section given the ratio.
@@ -309,7 +309,7 @@ module printConfig(lane, thickness, width, height, chunks, diameter, headDiamete
         str("Tight curve inner radius:      ", tightCurveInnerRadius / 10, "cm"),
         str("Tight curve outer radius:      ", tightCurveOuterRadius / 10, "cm"),
         str("Large curve inner radius:      ", largeCurveInnerRadius / 10, "cm"),
-        str("Large curve outer radius:      ", largeCurveOuterRadius / 10, "cm"),        
+        str("Large curve outer radius:      ", largeCurveOuterRadius / 10, "cm"),
         str("Barrier width:                 ", width, "mm"),
         str("Barrier height:                ", height, "mm"),
         str("Barrier length:                ", barrierLength, "mm"),

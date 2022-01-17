@@ -174,12 +174,15 @@ module curvedGroundHoles(radius, angle, thickness, barrierWidth, barrierHeight, 
  * @param Number [ratio] - The size factor.
  */
 module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
-    radius = length * ratio;
-    angle = getCurveAngle(ratio);
-    barrierInnerPosition = getCurveInnerRadius(length=length, width=width, ratio=ratio) + barrierWidth / 2;
-    barrierOuterPosition = getCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
+    sizeRatio = max(1, ratio);
+    curveRatio = ratio < 1 ? 1 / ratio: ratio;
+    chunksRatio = ratio < 1 ? ratio: 1;
+    radius = length * sizeRatio;
+    angle = getCurveAngle(curveRatio);
+    barrierInnerPosition = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio) + barrierWidth / 2;
+    barrierOuterPosition = getCurveOuterRadius(length=length, width=width, ratio=sizeRatio) - barrierWidth / 2;
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
-    outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
+    outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio) * chunksRatio;
 
     translate([-radius, -length, 0] / 2) {
         difference() {
@@ -188,7 +191,7 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
                 width = width,
                 thickness = thickness,
                 angle = angle,
-                ratio = ratio
+                ratio = sizeRatio
             );
             curvedGroundHoles(
                 radius = barrierInnerPosition,

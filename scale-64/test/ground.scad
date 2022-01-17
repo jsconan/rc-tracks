@@ -69,15 +69,15 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
-        // test the shape of a curved ground tile
-        largeCurveGroundTile(
+        // test the shape of a curved ground tile: 2 per corner
+        curvedGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
             thickness = trackGroundThickness,
             barrierWidth = barrierWidth,
             barrierHeight = barrierHeight,
             barrierChunks = barrierChunks,
-            ratio = 1
+            ratio = .5
         );
 
         // test the shape of a curved ground tile: 2 per corner
@@ -102,5 +102,15 @@ applyMode(mode=renderMode) {
             ratio = 4
         );
 
+        // test the shape of a curved ground tile with extra space
+        largeCurveGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            ratio = 1
+        );
     }
 }
