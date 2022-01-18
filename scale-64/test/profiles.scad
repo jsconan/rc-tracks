@@ -93,12 +93,12 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
-        // test the large curve track ground profile
-        largeCurveGroundProfile(
+        // test the enlarged curve track ground profile
+        enlargedCurveGroundProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight),
             ratio = 1
         );
-        
+
     }
 }

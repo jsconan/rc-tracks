@@ -237,7 +237,7 @@ module curvedGroundProfile(length, width, angle, ratio=1) {
 }
 
 /**
- * Draws the profile of a large curve ground tile.
+ * Draws the profile of an enlarged curve ground tile.
  *
  * To get the final shape, linear_extrude(height=height, convexity=10) must be applied.
  *
@@ -245,10 +245,10 @@ module curvedGroundProfile(length, width, angle, ratio=1) {
  * @param Number width - The width of a track section.
  * @param Number [ratio] - The size factor.
  */
-module largeCurveGroundProfile(length, width, ratio=1) {
-    innerRadius = getLargeCurveInnerRadius(length=length, width=width, ratio=ratio);
-    outerRadius = getLargeCurveOuterRadius(length=length, width=width, ratio=ratio);
-    side = getLargeCurveSide(length=length, width=width, ratio=ratio);
+module enlargedCurveGroundProfile(length, width, ratio=1) {
+    innerRadius = getEnlargedCurveInnerRadius(length=length, width=width, ratio=ratio);
+    outerRadius = getEnlargedCurveOuterRadius(length=length, width=width, ratio=ratio);
+    side = getEnlargedCurveSide(length=length, width=width, ratio=ratio);
     angle = CURVE_ANGLE;
     startX = cos(angle) * innerRadius;
     startY = sin(angle) * innerRadius;

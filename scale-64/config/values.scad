@@ -76,7 +76,7 @@ function getBarrierOffset(width, height) = getBarrierBaseUnit(width, height) / 4
  * @param Number [distance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
-function getBarrierLinkLength(width, height, distance = 0) = getBarrierBaseUnit(width, height) * 1.5 + distance;
+function getBarrierLinkLength(width, height, distance=0) = getBarrierBaseUnit(width, height) * 1.5 + distance;
 
 /**
  * Computes the outer width of a barrier link.
@@ -85,7 +85,7 @@ function getBarrierLinkLength(width, height, distance = 0) = getBarrierBaseUnit(
  * @param Number [distance] - An additional distance added to the outline of the barrier link.
  * @returns Number
  */
-function getBarrierLinkWidth(width, height, distance = 0) = (getBarrierBaseUnit(width, height) + distance) * 2;
+function getBarrierLinkWidth(width, height, distance=0) = (getBarrierBaseUnit(width, height) + distance) * 2;
 
 /**
  * Computes the height of a barrier link.
@@ -121,6 +121,15 @@ function getBarrierPegInnerHeight(width, height) = layerAligned(getBarrierBaseUn
 function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeight(width, height) + thickness;
 
 /**
+ * Computes the length of a straight section given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getStraightLength(length, width, ratio=1) = length * abs(ratio);
+
+/**
  * Computes the angle of a curve with respect to the ratio.
  * @param Number ratio - The ratio of the curve.
  * @returns Number
@@ -141,7 +150,7 @@ function getCurveRotationAngle(angle) = 45 + (CURVE_ANGLE - angle) / 2;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerRadius(length, width, ratio) = (length * ratio - width) / 2;
+function getCurveInnerRadius(length, width, ratio=1) = (length * ratio - width) / 2;
 
 /**
  * Computes the outer radius of a curve given the ratio.
@@ -150,16 +159,16 @@ function getCurveInnerRadius(length, width, ratio) = (length * ratio - width) / 
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveOuterRadius(length, width, ratio) = width + getCurveInnerRadius(length=length, width=width, ratio=ratio);
+function getCurveOuterRadius(length, width, ratio=1) = width + getCurveInnerRadius(length=length, width=width, ratio=ratio);
 
 /**
- * Computes the length of the outer side of a large curved track.
+ * Computes the length of the outer side of an enlarged curved track.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveSide(length, width, ratio) = length * ratio / 2;
+function getEnlargedCurveSide(length, width, ratio=1) = length * ratio / 2;
 
 /**
  * Computes the inner radius of a curve given the ratio.
@@ -168,16 +177,66 @@ function getLargeCurveSide(length, width, ratio) = length * ratio / 2;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveInnerRadius(length, width, ratio) = getCurveInnerRadius(length=length, width=width, ratio=ratio);
+function getEnlargedCurveInnerRadius(length, width, ratio=1) = getCurveInnerRadius(length=length, width=width, ratio=ratio);
 
 /**
- * Computes the outer radius of a large curved track.
+ * Computes the outer radius of an enlarged curved track.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveOuterRadius(length, width, ratio) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - getLargeCurveSide(length=length, width=width, ratio=ratio);
+function getEnlargedCurveOuterRadius(length, width, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - getEnlargedCurveSide(length=length, width=width, ratio=ratio);
+
+/**
+ * Computes the position of the inner barrier of a curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurveInnerBarrierPosition(length, width, barrierWidth, ratio=1) = getCurveInnerRadius(length=length, width=width, ratio=ratio) + barrierWidth / 2;
+
+/**
+ * Computes the position of the outer barrier of a curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurveOuterBarrierPosition(length, width, barrierWidth, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
+
+/**
+ * Computes the position of the side barrier of an enlarged curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveSideBarrierPosition(length, width, barrierWidth, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
+
+/**
+ * Computes the position of the inner barrier of an enlarged curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveInnerBarrierPosition(length, width, barrierWidth, ratio=1) = getEnlargedCurveInnerRadius(length=length, width=width, ratio=ratio) + barrierWidth / 2;
+
+/**
+ * Computes the position of the outer barrier of an enlarged curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveOuterBarrierPosition(length, width, barrierWidth, ratio=1) = getEnlargedCurveOuterRadius(length=length, width=width, ratio=ratio) - barrierWidth / 2;
 
 /**
  * Computes the number of barrier chunks for a straight section given the ratio.
@@ -185,7 +244,7 @@ function getLargeCurveOuterRadius(length, width, ratio) = getCurveOuterRadius(le
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getStraightBarrierChunks(barrierChunks, ratio) = barrierChunks * ratio;
+function getStraightBarrierChunks(barrierChunks, ratio=1) = barrierChunks * abs(ratio);
 
 /**
  * Computes the number of barrier chunks for an inner curved section given the ratio.
@@ -193,7 +252,7 @@ function getStraightBarrierChunks(barrierChunks, ratio) = barrierChunks * ratio;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerBarrierChunks(barrierChunks, ratio) = max(1, min(ratio * 2, barrierChunks));
+function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = min(max(1, abs(ratio) * 2), barrierChunks);
 
 /**
  * Computes the number of barrier chunks for an outer curved section given the ratio.
@@ -201,7 +260,7 @@ function getCurveInnerBarrierChunks(barrierChunks, ratio) = max(1, min(ratio * 2
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveOuterBarrierChunks(barrierChunks, ratio) = barrierChunks;
+function getCurveOuterBarrierChunks(barrierChunks, ratio=1) = max(1, barrierChunks * min(abs(ratio), 1));
 
 /**
  * Computes the number of barrier chunks for the straight sides of large curve track.
@@ -209,7 +268,7 @@ function getCurveOuterBarrierChunks(barrierChunks, ratio) = barrierChunks;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveSideBarrierChunks(barrierChunks, ratio) = getStraightBarrierChunks(barrierChunks, ratio) / 2;
+function getEnlargedCurveSideBarrierChunks(barrierChunks, ratio=1) = getStraightBarrierChunks(barrierChunks, ratio) / 2;
 
 /**
  * Computes the number of barrier chunks for the inner curve of large curve track.
@@ -217,7 +276,7 @@ function getLargeCurveSideBarrierChunks(barrierChunks, ratio) = getStraightBarri
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveInnerBarrierChunks(barrierChunks, ratio) = getCurveInnerBarrierChunks(barrierChunks, ratio) * ratio;
+function getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio=1) = getCurveInnerBarrierChunks(barrierChunks, ratio) * ratio;
 
 /**
  * Computes the number of barrier chunks for the outer curve of large curve track.
@@ -225,7 +284,7 @@ function getLargeCurveInnerBarrierChunks(barrierChunks, ratio) = getCurveInnerBa
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getLargeCurveOuterBarrierChunks(barrierChunks, ratio) = getCurveOuterBarrierChunks(barrierChunks, ratio) / 2;
+function getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio=1) = getCurveOuterBarrierChunks(barrierChunks, ratio) / 2;
 
 // The overall length of a track section (size of a tile in the track)
 trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);
@@ -257,6 +316,10 @@ module validateConfig(lane, thickness, width, height, chunks, diameter, headDiam
     assert(
         getBarrierLength(lane, width, chunks) > getBarrierLinkLength(width, height) * 2 + getBarrierPegDiameter(width, height) + shells(8),
         "The size of a barrier chunk is too small! Please increase the track lane or reduce the number of chunks per track section."
+    );
+    assert(
+        !(chunks % 2),
+        "The number of chunks per track section must be a factor of 2."
     );
     assert(
         width > diameter + getBarrierBaseUnit(width, height) * 2,

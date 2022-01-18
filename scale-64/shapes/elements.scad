@@ -98,7 +98,7 @@ module straightBarriersSet() {
  * @param Number [ratio] - The size factor.
  */
 module innerCurveBarriersSet(ratio=1) {
-    radius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2;
+    radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
     interval = getPrintInterval(barrierWidth) / 2;
 
@@ -132,7 +132,7 @@ module innerCurveBarriersSet(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module outerCurveBarriersSet(ratio=1) {
-    radius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2;
+    radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
     interval = getPrintInterval(barrierWidth) / 2;
 
@@ -166,8 +166,8 @@ module outerCurveBarriersSet(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurveBarriersSet(ratio=1) {
-    radius = getLargeCurveOuterRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2;
-    angle = getCurveAngle(ratio) / getLargeCurveOuterBarrierChunks(barrierChunks, ratio);
+    radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
+    angle = getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
     interval = getPrintInterval(barrierWidth) / 2;
 
     translateY(-interval) {
@@ -237,7 +237,7 @@ module curvedTrackSectionGround(ratio=1) {
  */
 module enlargedCurvedTrackSectionGround(ratio=1) {
     flipElement(printGroundUpsideDown) {
-        largeCurveGroundTile(
+        enlargedCurveGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
             thickness = trackGroundThickness,

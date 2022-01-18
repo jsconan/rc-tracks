@@ -103,7 +103,7 @@ applyMode(mode=renderMode) {
         );
 
         // test the shape of a curved ground tile with extra space
-        largeCurveGroundTile(
+        enlargedCurveGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
             thickness = trackGroundThickness,
