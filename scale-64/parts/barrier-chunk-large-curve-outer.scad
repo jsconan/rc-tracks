@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a set of barrier chunks for the outer curve of a large curved track section, with male and female variants.
+ * Ready to print track part: a set of barrier chunks for the outer curve of an enlarged curved track section, with male and female variants.
  *
  * @author jsconan
  */
