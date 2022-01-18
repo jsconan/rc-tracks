@@ -355,10 +355,10 @@ module printConfig(lane, thickness, width, height, chunks, diameter, headDiamete
     trackSectionLength = getTrackSectionLength(lane, width);
     trackSectionWidth = getTrackSectionWidth(lane, width);
     barrierLength = getBarrierLength(lane, width, chunks);
-    tightCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 1) + width / 2;
-    tightCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 1) - width / 2;
-    largeCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 2) + width / 2;
-    largeCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 2) - width / 2;
+    tightCurveInnerRadius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, width, 1);
+    tightCurveOuterRadius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, width, 1);
+    largeCurveInnerRadius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, width, 2);
+    largeCurveOuterRadius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, width, 2);
 
     echo(join([
         "",
