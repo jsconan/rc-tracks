@@ -32,7 +32,7 @@
  * Adjust the position on the print plat to either print as it or to flip upside down the model.
  * @param Boolean flip - Flip upside down the element.
  */
-module flipElement(flip = false) {
+module flipElement(flip=false) {
     rotate(flip ? [180, 0, 180] : [0, 0, 0]) {
         children();
     }
@@ -42,8 +42,8 @@ module flipElement(flip = false) {
  * A set of pegs to fasten the barrier chunks to the track sections.
  * @param Number quantity - The number of elements to print, it will be rounded to by the square root.
  */
-module barrierPegsSet(quantity = barrierChunks) {
-    interval = getPrintInterval(getBarrierPegDiameter(barrierWidth, barrierHeight));
+module barrierPegsSet(quantity=barrierChunks) {
+    interval = getPrintInterval(getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2);
     countX = ceil(sqrt(quantity));
     countY = ceil(quantity / countX);
 

@@ -37,7 +37,7 @@
  * @param Number height - The height of the barrier.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierLinkProfile(width, height, distance = 0) {
+module barrierLinkProfile(width, height, distance=0) {
     base = getBarrierBaseUnit(width, height);
     neckAlign = abs(distance);
 
@@ -61,7 +61,7 @@ module barrierLinkProfile(width, height, distance = 0) {
  * @param Number thickness - The thickness of the track ground.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierPegProfile(width, height, diameter, thickness, distance = 0) {
+module barrierPegProfile(width, height, diameter, thickness, distance=0) {
     // Prepare the parameters for the polygon
     pegDiameter = getBarrierPegDiameter(width, height);
     pegHeight = getBarrierPegHeight(width, height, thickness);
@@ -95,7 +95,7 @@ module barrierPegProfile(width, height, diameter, thickness, distance = 0) {
  * @param Number thickness - The thickness of the track ground.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierPegHoleProfile(width, height, thickness, distance = 0) {
+module barrierPegHoleProfile(width, height, thickness, distance=0) {
     // Prepare the parameters for the polygon
     pegDiameter = getBarrierPegDiameter(width, height);
     pegRadius = pegDiameter / 2 + distance;
@@ -128,7 +128,7 @@ module barrierPegHoleProfile(width, height, thickness, distance = 0) {
  * @param Number headHeight - The height of the fastener head.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierFastenerHoleProfile(width, height, diameter, headDiameter, headHeight, distance = 0) {
+module barrierFastenerHoleProfile(width, height, diameter, headDiameter, headHeight, distance=0) {
     // Uncomment to debug:
     // %rectangle([headDiameter + distance * 2, height]);
 
@@ -165,7 +165,7 @@ module barrierFastenerHoleProfile(width, height, diameter, headDiameter, headHei
  * @param Number height - The height of the barrier.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierProfile(width, height, distance = 0) {
+module barrierProfile(width, height, distance=0) {
     // Uncomment to debug:
     // %rectangle(vadd([width, height], distance * 2));
 

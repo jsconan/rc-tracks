@@ -35,7 +35,7 @@
  * @param Number [distance] - An additional distance added to the outline of the shape.
  * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierLink(width, height, distance = 0, center = false) {
+module barrierLink(width, height, distance=0, center=false) {
     linear_extrude(height=height, center=center, convexity=10) {
         barrierLinkProfile(
             width = width,
@@ -53,7 +53,7 @@ module barrierLink(width, height, distance = 0, center = false) {
  * @param Number thickness - The thickness of the track ground.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierPeg(width, height, diameter, thickness, distance = 0) {
+module barrierPeg(width, height, diameter, thickness, distance=0) {
     rotate_extrude(angle=DEGREES, convexity=10) {
         barrierPegProfile(
             width = width,
@@ -72,7 +72,7 @@ module barrierPeg(width, height, diameter, thickness, distance = 0) {
  * @param Number thickness - The thickness of the track ground.
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
-module barrierPegHole(width, height, thickness, distance = 0) {
+module barrierPegHole(width, height, thickness, distance=0) {
     rotate_extrude(angle=DEGREES, convexity=10) {
         barrierPegHoleProfile(
             width = width,
@@ -92,7 +92,7 @@ module barrierPegHole(width, height, thickness, distance = 0) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [distance] - An additional distance added to the outline of the shape.
  */
-module barrierFastenerHole(width, height, diameter, headDiameter, headHeight, distance = 0) {
+module barrierFastenerHole(width, height, diameter, headDiameter, headHeight, distance=0) {
     rotate_extrude(angle=DEGREES, convexity=10) {
         barrierFastenerHoleProfile(
             width = width,
