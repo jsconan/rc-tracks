@@ -323,15 +323,15 @@ module validateConfig(lane, thickness, width, height, chunks, diameter, headDiam
     );
     assert(
         width > diameter + getBarrierBaseUnit(width, height) * 2,
-        "The diameter of the barrier fasteners is too large to fix into the barrier chunks!"
+        "The diameter of the barrier fasteners is too large to fit into the barrier chunks!"
     );
     assert(
         width > headDiameter + getBarrierBaseUnit(width, height),
-        "The diameter of the barrier fasteners head is too large to fix into the barrier chunks!"
+        "The diameter of the barrier fasteners head is too large to fit into the barrier chunks!"
     );
     assert(
         height > headHeight * 2 + getBarrierBaseUnit(width, height),
-        "The height of the barrier fasteners head is too large to fix into the barrier chunks!"
+        "The height of the barrier fasteners head is too large to fit into the barrier chunks!"
     );
     assert(
         thickness > layers(2),
