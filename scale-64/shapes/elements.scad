@@ -29,7 +29,7 @@
  */
 
 /**
- * Adjust the position on the print plat to either print as it or to flip upside down the model.
+ * Adjusts the position on the print plat to either print as it or to flip upside down the model.
  * @param Boolean flip - Flip upside down the element.
  */
 module flipElement(flip=false) {
@@ -39,21 +39,34 @@ module flipElement(flip=false) {
 }
 
 /**
- * A set of pegs to fasten the barrier chunks to the track sections.
- * @param Number quantity - The number of elements to print, it will be rounded to by the square root.
+ * Repeats and place a shape on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of elements to print, it will be rounded to by its square root.
  */
-module barrierPegsSet(quantity=barrierChunks) {
-    interval = getPrintInterval(getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2);
-    countX = ceil(sqrt(quantity));
-    countY = ceil(quantity / countX);
+module placeElements(length, width, quantity=1) {
+    line = ceil(sqrt(quantity));
+    rest = ceil(quantity / line);
 
     repeat2D(
-        intervalX = [interval, 0, 0],
-        intervalY = [0, interval, 0],
-        countX = countX,
-        countY = countY,
+        intervalX = [getPrintInterval(length), 0, 0],
+        intervalY = [0, getPrintInterval(width), 0],
+        countX = length > width ? rest : line,
+        countY = length > width ? line : rest,
         center = true
     ) {
+        children();
+    }
+}
+
+/**
+ * A set of pegs to fasten the barrier chunks to the track sections.
+ * @param Number [quantity] - The number of elements to print, it will be rounded to by its square root.
+ */
+module barrierPegsSet(quantity=1) {
+    radius = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
+
+    placeElements(length=radius, width=radius, quantity=quantity) {
         barrierPeg(
             width = barrierWidth,
             height = barrierHeight,
@@ -66,132 +79,152 @@ module barrierPegsSet(quantity=barrierChunks) {
 
 /**
  * A set of barrier chunks for a straight track section, with male and female variants.
+ * @param Number [quantity] - The number of elements to print.
  */
-module straightBarriersSet() {
+module straightBarriersSet(quantity=1) {
+    length = getStraightBarrierMaleLength(barrierLength, barrierWidth, barrierHeight);
+    width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    translateY(-interval) {
-        straightBarrierMale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
+    placeElements(length=length, width=width, quantity=quantity) {
+        translateY(-interval) {
+            straightBarrierMale(
+                length = barrierLength,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
 
-    translateY(interval) {
-        straightBarrierFemale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateY(interval) {
+            straightBarrierFemale(
+                length = barrierLength,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
 /**
  * A set of barrier chunks for the inner curve of a curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
+  * @param Number [quantity] - The number of elements to print.
  */
-module innerCurveBarriersSet(ratio=1) {
+module innerCurveBarriersSet(ratio=1, quantity=1) {
     radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
+    length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
+    width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    translateY(-interval) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
+    placeElements(length=length, width=width, quantity=quantity) {
+        translateY(-interval) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
 
-    translateY(interval) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateY(interval) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
 /**
  * A set of barrier chunks for the outer curve of a curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
+ * @param Number [quantity] - The number of elements to print.
  */
-module outerCurveBarriersSet(ratio=1) {
+module outerCurveBarriersSet(ratio=1, quantity=1) {
     radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
+    length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
+    width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    translateY(-interval) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
+    placeElements(length=length, width=width, quantity=quantity) {
+        translateY(-interval) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
 
-    translateY(interval) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateY(interval) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
 /**
  * A set of barrier chunks for the outer curve of an enlarged curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
+ * @param Number [quantity] - The number of elements to print.
  */
-module enlargedCurveBarriersSet(ratio=1) {
+module enlargedCurveBarriersSet(ratio=1, quantity=1) {
     radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
+    length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
+    width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    translateY(-interval) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-    }
+    placeElements(length=length, width=width, quantity=quantity) {
+        translateY(-interval) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
 
-    translateY(interval) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateY(interval) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
