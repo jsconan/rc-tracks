@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a set of pegs to fasten the barrier chunks to the track sections.
+ * Ready to print track part: a ground tile for a tight curved track section with extra space.
  *
  * @author jsconan
  */
@@ -35,6 +35,6 @@ include <../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    barrierPegsSet(barrierChunks * 4);
+    enlargedCurvedTrackSectionGround(ratio=1);
 
 }

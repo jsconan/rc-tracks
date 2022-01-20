@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a ground tile for a straight track section with a half size.
+ * Ready to print track part: a set of barrier chunks for the inner curve of an enlarged curved track section, with male and female variants.
  *
  * @author jsconan
  */
@@ -35,6 +35,6 @@ include <../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    straightTrackSectionGround(.5);
+    innerCurveBarriersSet(ratio=2, quantity=1);
 
 }
