@@ -35,6 +35,6 @@ include <../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    enlargedCurvedTrackSectionGround(ratio=1);
+    enlargedCurveTrackSectionGround(ratio=1);
 
 }

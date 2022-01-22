@@ -42,17 +42,15 @@ module flipElement(flip=false) {
  * Repeats and place a shape on a grid with respect to the expected quantity.
  * @param Number length - The length of the shape.
  * @param Number width - The width of the shape.
- * @param Number [quantity] - The number of elements to print, it will be rounded to by its square root.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
  */
-module placeElements(length, width, quantity=1) {
-    line = ceil(sqrt(quantity));
-    rest = ceil(quantity / line);
-
-    repeat2D(
-        intervalX = [getPrintInterval(length), 0, 0],
-        intervalY = [0, getPrintInterval(width), 0],
-        countX = length > width ? rest : line,
-        countY = length > width ? line : rest,
+module placeElements(length, width, quantity=1, line=undef) {
+    repeatGrid(
+        count = quantity,
+        intervalX = xAxis3D(getPrintInterval(length)),
+        intervalY = yAxis3D(getPrintInterval(width)),
+        line = uor(line, ceil(sqrt(quantity))),
         center = true
     ) {
         children();
@@ -61,12 +59,13 @@ module placeElements(length, width, quantity=1) {
 
 /**
  * A set of pegs to fasten the barrier chunks to the track sections.
- * @param Number [quantity] - The number of elements to print, it will be rounded to by its square root.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
  */
-module barrierPegsSet(quantity=1) {
+module barrierPegsSet(quantity=1, line=undef) {
     radius = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
 
-    placeElements(length=radius, width=radius, quantity=quantity) {
+    placeElements(length=radius, width=radius, quantity=quantity, line=line) {
         barrierPeg(
             width = barrierWidth,
             height = barrierHeight,
@@ -80,13 +79,14 @@ module barrierPegsSet(quantity=1) {
 /**
  * A set of barrier chunks for a straight track section, with male and female variants.
  * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
  */
-module straightBarriersSet(quantity=1) {
+module straightBarriersSet(quantity=1, line=undef) {
     length = getStraightBarrierMaleLength(barrierLength, barrierWidth, barrierHeight);
     width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    placeElements(length=length, width=width, quantity=quantity) {
+    placeElements(length=length, width=width, quantity=quantity, line=line) {
         translateY(-interval) {
             straightBarrierMale(
                 length = barrierLength,
@@ -115,15 +115,16 @@ module straightBarriersSet(quantity=1) {
  * A set of barrier chunks for the inner curve of a curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
   * @param Number [quantity] - The number of elements to print.
+  * @param Number [line] - The max number of elements per lines.
  */
-module innerCurveBarriersSet(ratio=1, quantity=1) {
+module innerCurveBarriersSet(ratio=1, quantity=1, line=undef) {
     radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
     width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    placeElements(length=length, width=width, quantity=quantity) {
+    placeElements(length=length, width=width, quantity=quantity, line=line) {
         translateY(-interval) {
             curvedBarrierMale(
                 radius = radius,
@@ -154,15 +155,16 @@ module innerCurveBarriersSet(ratio=1, quantity=1) {
  * A set of barrier chunks for the outer curve of a curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
  * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
  */
-module outerCurveBarriersSet(ratio=1, quantity=1) {
+module outerCurveBarriersSet(ratio=1, quantity=1, line=undef) {
     radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
     width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    placeElements(length=length, width=width, quantity=quantity) {
+    placeElements(length=length, width=width, quantity=quantity, line=line) {
         translateY(-interval) {
             curvedBarrierMale(
                 radius = radius,
@@ -193,15 +195,16 @@ module outerCurveBarriersSet(ratio=1, quantity=1) {
  * A set of barrier chunks for the outer curve of an enlarged curved track section, with male and female variants.
  * @param Number [ratio] - The size factor.
  * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
  */
-module enlargedCurveBarriersSet(ratio=1, quantity=1) {
+module enlargedCurveBarriersSet(ratio=1, quantity=1, line=undef) {
     radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
     width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
 
-    placeElements(length=length, width=width, quantity=quantity) {
+    placeElements(length=length, width=width, quantity=quantity, line=line) {
         translateY(-interval) {
             curvedBarrierMale(
                 radius = radius,
@@ -268,7 +271,7 @@ module curvedTrackSectionGround(ratio=1) {
  * A ground tile of a tight curved track section with extra space.
  * @param Number [ratio] - The size factor.
  */
-module enlargedCurvedTrackSectionGround(ratio=1) {
+module enlargedCurveTrackSectionGround(ratio=1) {
     flipElement(printGroundUpsideDown) {
         enlargedCurveGroundTile(
             length = trackSectionLength,
