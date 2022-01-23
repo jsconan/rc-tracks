@@ -262,3 +262,44 @@ module enlargedCurveGroundProfile(length, width, ratio=1) {
         ["H", -side],
     ]), convexity = 10);
 }
+
+/**
+ * Draws the profile of a barrier peg remover.
+ *
+ * To get the final shape, rotate_extrude(angle=360, convexity=10) must be applied.
+ *
+ * @param Number diameter - The diameter of the fastener.
+ * @param Number headDiameter - The diameter of the fastener head.
+ * @param Number headHeight - The height of the fastener head.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegRemoverProfile(diameter, headDiameter, headHeight, distance=0) {
+    // Uncomment to debug:
+    // %rectangle([width, height]);
+
+    // Prepare the parameters for the polygon
+    headRadius = max(headDiameter, diameter) / 2 + distance;
+    holeRadius = diameter / 2 + distance;
+    radius = headRadius * 2;
+    pocket = diameter / 4;
+    height = headRadius * 4;
+
+    remainingRadius = radius - holeRadius;
+    remainingTopRadius = radius - headRadius;
+    remainingHeadRadius = headRadius - holeRadius;
+    remainingHeight = height - headHeight - pocket * 3;
+
+    // Draw the profile
+    polygon(path([
+        ["P", holeRadius, -height / 2],
+        ["H", remainingRadius],
+        ["V", pocket],
+        ["L", -pocket, pocket],
+        ["V", remainingHeight],
+        ["L", pocket, pocket],
+        ["V", headHeight],
+        ["H", -remainingTopRadius],
+        ["V", -headHeight],
+        ["H", -remainingHeadRadius],
+    ]), convexity = 10);
+}

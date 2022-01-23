@@ -23,35 +23,25 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Setup the context.
+ * Defines the shapes for the track tools.
  *
  * @author jsconan
  */
 
-// Bootstrap the project using the global config
-include <../../config/setup.scad>
-
-// Then we need the config for the project
-include <config.scad>
-include <values.scad>
-
-// Finally, include the shapes
-include <../shapes/profiles.scad>
-include <../shapes/fragments.scad>
-include <../shapes/straight.scad>
-include <../shapes/curved.scad>
-include <../shapes/ground.scad>
-include <../shapes/tools.scad>
-include <../shapes/elements.scad>
-
-// Validate the config against the constraints
-validateConfig(
-    lane = trackLaneWidth,
-    thickness = trackGroundThickness,
-    width = barrierWidth,
-    height = barrierHeight,
-    chunks = barrierChunks,
-    diameter = fastenerDiameter,
-    headDiameter = fastenerHeadDiameter,
-    headHeight = fastenerHeadHeight
-);
+/**
+ * Draws the shape of a barrier peg remover.
+ * @param Number diameter - The diameter of the fastener.
+ * @param Number headDiameter - The diameter of the fastener head.
+ * @param Number headHeight - The height of the fastener head.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegRemover(diameter, headDiameter, headHeight, distance=0) {
+    rotate_extrude(angle=DEGREES, convexity=10) {
+        barrierPegRemoverProfile(
+            diameter = diameter,
+            headDiameter = headDiameter,
+            headHeight = headHeight,
+            distance = distance
+        );
+    }
+}

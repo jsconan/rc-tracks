@@ -100,5 +100,13 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
+        // test the barrier peg remover profile
+        barrierPegRemoverProfile(
+            diameter = fastenerDiameter,
+            headDiameter = fastenerHeadDiameter,
+            headHeight = fastenerHeadHeight,
+            distance = printTolerance
+        );
+
     }
 }

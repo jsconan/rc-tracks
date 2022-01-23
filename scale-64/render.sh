@@ -56,6 +56,7 @@ renderFemale=
 renderMale=
 renderSet=
 renderGround=
+renderTools=
 renderAll=1
 
 # include libs
@@ -86,7 +87,7 @@ renderpath() {
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 renderpathall() {
-    if [ "${renderFemale}" != "" ] || [ "${renderMale}" != "" ] || [ "${renderSet}" != "" ] || [ "${renderGround}" != "" ] || [ "${renderAll}" != "" ]; then
+    if [ "${renderFemale}" != "" ] || [ "${renderMale}" != "" ] || [ "${renderSet}" != "" ] || [ "${renderGround}" != "" ] || [ "${renderTools}" != "" ] || [ "${renderAll}" != "" ]; then
         printmessage "${C_MSG}Rendering track elements"
     else
         printmessage "${C_MSG}Nothing will be rendered"
@@ -106,6 +107,10 @@ renderpathall() {
     if [ "${renderGround}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- ground tiles"
         renderpath "$1/ground" "$2/ground"
+    fi
+    if [ "${renderTools}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- tools"
+        renderpath "$1/tools" "$2/tools"
     fi
 }
 
@@ -141,6 +146,10 @@ while (( "$#" )); do
         ;;
         "g"|"ground")
             renderGround=1
+            renderAll=
+        ;;
+        "t"|"tools")
+            renderTools=1
             renderAll=
         ;;
         "-t"|"--track")
@@ -207,6 +216,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  m,   male           ${C_RST}Render the male variant of the barriers"
             echo -e "${C_MSG}  s,   set            ${C_RST}Render the set of barrierss"
             echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
+            echo -e "${C_MSG}  t,   tools          ${C_RST}Render the tools"
             echo -e "${C_MSG}  c,   config         ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of the track lane"
