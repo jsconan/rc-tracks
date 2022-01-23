@@ -93,6 +93,27 @@ module barrierPegRemoverSet(quantity=1, line=undef) {
 }
 
 /**
+ * A set of barrier peg extractors.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
+ */
+module barrierPegExtractorSet(quantity=1, line=undef) {
+    pegDiameter = getBarrierPegDiameter(barrierWidth, barrierHeight);
+    width = pegDiameter * 5;
+    length = width * 2;
+
+    placeElements(length=length, width=width, quantity=quantity, line=line) {
+        barrierPegExtractor(
+            width = barrierWidth,
+            height = barrierHeight,
+            diameter = fastenerDiameter,
+            thickness = trackGroundThickness,
+            distance = printTolerance
+        );
+    }
+}
+
+/**
  * A set of barrier chunks for a straight track section, with male and female variants.
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
