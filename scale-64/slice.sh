@@ -44,4 +44,5 @@ fi
     --output "dist" \
     --config "${configpath}" \
     --prusaslicer \
+    --recurse \
     "$@"

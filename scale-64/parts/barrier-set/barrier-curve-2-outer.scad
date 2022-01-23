@@ -29,12 +29,12 @@
  */
 
 // Import the project's setup.
-include <../config/setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    enlargedCurveBarriersSet(ratio=1, quantity=1);
+    outerCurveBarriersSet(ratio=2, quantity=printSet / 2, line=1);
 
 }

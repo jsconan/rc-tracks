@@ -37,6 +37,8 @@ barrierChunks=
 fastenerDiameter=
 fastenerHeadDiameter=
 fastenerHeadHeight=
+printGroundUpsideDown=
+printSet=
 
 # script config
 scriptpath=$(dirname $0)
@@ -50,6 +52,11 @@ format=
 parallel=
 cleanUp=
 slice=
+renderFemale=
+renderMale=
+renderSet=
+renderGround=
+renderAll=1
 
 # include libs
 source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
@@ -69,14 +76,44 @@ renderpath() {
         "$(varif "barrierChunks" ${barrierChunks})" \
         "$(varif "fastenerDiameter" ${fastenerDiameter})" \
         "$(varif "fastenerHeadDiameter" ${fastenerHeadDiameter})" \
-        "$(varif "fastenerHeadHeight" ${fastenerHeadHeight})"
+        "$(varif "fastenerHeadHeight" ${fastenerHeadHeight})" \
+        "$(varif "printGroundUpsideDown" ${printGroundUpsideDown})" \
+        "$(varif "printSet" ${printSet})"
+}
+
+# Renders the files from a path.
+#
+# @param sourcepath - The path of the folder containing the SCAD files to render.
+# @param destpath - The path to the output folder.
+renderpathall() {
+    if [ "${renderFemale}" != "" ] || [ "${renderMale}" != "" ] || [ "${renderSet}" != "" ] || [ "${renderGround}" != "" ] || [ "${renderAll}" != "" ]; then
+        printmessage "${C_MSG}Rendering track elements"
+    else
+        printmessage "${C_MSG}Nothing will be rendered"
+    fi
+    if [ "${renderFemale}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- female barriers"
+        renderpath "$1/barrier-female" "$2/barrier-female"
+    fi
+    if [ "${renderMale}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- male barriers"
+        renderpath "$1/barrier-male" "$2/barrier-male"
+    fi
+    if [ "${renderSet}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- barriers set"
+        renderpath "$1/barrier-set" "$2/barrier-set"
+    fi
+    if [ "${renderGround}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- ground tiles"
+        renderpath "$1/ground" "$2/ground"
+    fi
 }
 
 # Display the render config
 showconfig() {
     local config="${dstpath}/config.txt"
     createpath "${dstpath}" "output"
-    printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
+    printmessage "${C_MSG}The track elements would be generated with respect to the following config:"
     renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,8ba' -e 'P;D' > "${config}"
     cat "${config}"
 }
@@ -84,6 +121,28 @@ showconfig() {
 # load parameters
 while (( "$#" )); do
     case $1 in
+        "a"|"all")
+            renderAll=1
+        ;;
+        "c"|"config")
+            renderAll=
+        ;;
+        "f"|"female")
+            renderFemale=1
+            renderAll=
+        ;;
+        "m"|"male")
+            renderMale=1
+            renderAll=
+        ;;
+        "s"|"set")
+            renderSet=1
+            renderAll=
+        ;;
+        "g"|"ground")
+            renderGround=1
+            renderAll=
+        ;;
         "-t"|"--track")
             trackLaneWidth=$2
             shift
@@ -116,6 +175,14 @@ while (( "$#" )); do
             fastenerHeadHeight=$2
             shift
         ;;
+        "-u"|"--upsideDown")
+            printGroundUpsideDown=$2
+            shift
+        ;;
+        "-q"|"--printSet")
+            printSet=$2
+            shift
+        ;;
         "-f"|"--format")
             format=$2
             shift
@@ -135,6 +202,12 @@ while (( "$#" )); do
             echo -e "  ${C_INF}Usage:${C_RST}"
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
+            echo -e "${C_MSG}  a,   all            ${C_RST}Render all elements (default)"
+            echo -e "${C_MSG}  f,   female         ${C_RST}Render the female variant of the barriers"
+            echo -e "${C_MSG}  m,   male           ${C_RST}Render the male variant of the barriers"
+            echo -e "${C_MSG}  s,   set            ${C_RST}Render the set of barrierss"
+            echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
+            echo -e "${C_MSG}  c,   config         ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the width of the track lane"
             echo -e "${C_MSG}  -w,  --width        ${C_RST}Set the width of the track barriers"
@@ -144,6 +217,8 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -d   --diameter     ${C_RST}Set the diameter of the barrier fasteners"
             echo -e "${C_MSG}  -hd  --headDiameter ${C_RST}Set the diameter of the barrier fasteners head"
             echo -e "${C_MSG}  -hh  --headHeight   ${C_RST}Set the height of the barrier fasteners head"
+            echo -e "${C_MSG}  -u   --upsideDown   ${C_RST}Flip the ground tiles to print them upside down"
+            echo -e "${C_MSG}  -q   --printSet     ${C_RST}Set the quantity of elements to print per set"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
             echo -e "${C_MSG}  -s   --slice        ${C_RST}Slice the rendered files using the default configuration"
@@ -187,8 +262,7 @@ fi
 showconfig
 
 # render the files
-printmessage "${C_MSG}Rendering track elements"
-renderpath "${partpath}" "${dstpath}"
+renderpathall "${partpath}" "${dstpath}"
 
 # slice the rendered files
 if [ "${slice}" != "" ]; then
