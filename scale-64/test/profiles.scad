@@ -40,7 +40,8 @@ applyMode(mode=renderMode) {
         barrierLinkProfile(
             width = barrierWidth,
             height = barrierHeight,
-            distance = printTolerance
+            distance = printTolerance,
+            neckDistance = printTolerance
         );
 
         // test the barrier peg profile

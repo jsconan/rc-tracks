@@ -83,7 +83,8 @@ module straightLinkMale(length, width, height) {
             barrierLink(
                 width = width,
                 height = linkHeight,
-                distance = -printTolerance
+                distance = -printTolerance,
+                neckDistance = printTolerance
             );
         }
     }
@@ -106,7 +107,8 @@ module straightLinkFemale(length, width, height) {
                 barrierLink(
                     width = width,
                     height = linkHeight + ALIGN,
-                    distance = printTolerance
+                    distance = printTolerance,
+                    neckDistance = 0
                 );
             }
         }

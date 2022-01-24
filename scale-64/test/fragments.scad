@@ -41,6 +41,7 @@ applyMode(mode=renderMode) {
             width = barrierWidth,
             height = barrierHeight,
             distance = printTolerance,
+            neckDistance = printTolerance,
             center = true
         );
 

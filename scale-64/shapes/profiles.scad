@@ -36,14 +36,17 @@
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @param Number [distance] - An additional distance added to the outline of the profile.
+ * @param Number [neckDistance] - An additional distance added to the neck of the link.
  */
-module barrierLinkProfile(width, height, distance=0) {
+module barrierLinkProfile(width, height, distance=0, neckDistance=0) {
     base = getBarrierBaseUnit(width, height);
     neckAlign = abs(distance);
+    neckLength = base / 2 + neckAlign + abs(neckDistance);
+    neckWidth = base;
 
     translateX(neckAlign) {
         linkProfile(
-            neck = [base / 2 + neckAlign, base],
+            neck = [neckLength, neckWidth],
             bulb = base,
             distance = distance
         );

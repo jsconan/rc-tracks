@@ -33,14 +33,16 @@
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @param Number [distance] - An additional distance added to the outline of the shape.
+ * @param Number [neckDistance] - An additional distance added to the neck of the link.
  * @param Boolean [center] - The shape is centered vertically.
  */
-module barrierLink(width, height, distance=0, center=false) {
+module barrierLink(width, height, distance=0, neckDistance=0, center=false) {
     linear_extrude(height=height, center=center, convexity=10) {
         barrierLinkProfile(
             width = width,
             height = height,
-            distance = distance
+            distance = distance,
+            neckDistance = neckDistance
         );
     }
 }

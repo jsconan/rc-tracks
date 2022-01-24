@@ -92,7 +92,8 @@ module curvedLinkMale(radius, angle, width, height) {
         barrierLink(
             width = width,
             height = linkHeight,
-            distance = -printTolerance
+            distance = -printTolerance,
+            neckDistance = printTolerance
         );
     }
 
@@ -123,7 +124,8 @@ module curvedLinkFemale(radius, angle, width, height) {
         barrierLink(
             width = width,
             height = linkHeight + ALIGN,
-            distance = printTolerance
+            distance = printTolerance,
+            neckDistance = 0
         );
     }
 
