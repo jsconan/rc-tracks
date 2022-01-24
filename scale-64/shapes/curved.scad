@@ -88,22 +88,22 @@ function getCurvedBarrierMaleWidth(radius, angle, width, height) =
 module curvedLinkMale(radius, angle, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
 
+    module maleLink() {
+        barrierLink(
+            width = width,
+            height = linkHeight,
+            distance = -printTolerance
+        );
+    }
+
     translate([radius, 0, -height / 2]) {
         rotateZ(CURVE_ANGLE) {
-            barrierLink(
-                width = width,
-                height = linkHeight,
-                distance = -printTolerance
-            );
+            maleLink();
         }
     }
     rotateZ(angle - CURVE_ANGLE) {
         translate([0, radius, -height / 2]) {
-            barrierLink(
-                width = width,
-                height = linkHeight,
-                distance = -printTolerance
-            );
+            maleLink();
         }
     }
     children();
@@ -119,25 +119,25 @@ module curvedLinkMale(radius, angle, width, height) {
 module curvedLinkFemale(radius, angle, width, height) {
     linkHeight = getBarrierLinkHeight(width, height) + layerHeight;
 
+    module femaleLink() {
+        barrierLink(
+            width = width,
+            height = linkHeight + ALIGN,
+            distance = printTolerance
+        );
+    }
+
     difference() {
         children();
         translate([radius, 0, -height / 2 - ALIGN]) {
             rotateZ(-CURVE_ANGLE) {
-                barrierLink(
-                    width = width,
-                    height = linkHeight + ALIGN,
-                    distance = printTolerance
-                );
+                femaleLink();
             }
         }
         rotateZ(angle) {
             translate([radius, 0, -height / 2 - ALIGN]) {
                 rotateZ(CURVE_ANGLE) {
-                    barrierLink(
-                        width = width,
-                        height = linkHeight + ALIGN,
-                        distance = printTolerance
-                    );
+                    femaleLink();
                 }
             }
         }
