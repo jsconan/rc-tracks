@@ -35,6 +35,6 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    enlargedCurveBarrierMaleSet(ratio=1, quantity=printSet, line=1);
+    enlargedCurveBarrierMaleSet(ratio=1, quantity=printQuantity, line=1);
 
 }

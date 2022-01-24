@@ -35,6 +35,6 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    innerCurveBarrierFemaleSet(ratio=2, quantity=printSet, line=1);
+    innerCurveBarrierFemaleSet(ratio=2, quantity=printQuantity, line=1);
 
 }

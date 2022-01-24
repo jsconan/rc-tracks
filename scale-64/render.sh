@@ -38,7 +38,7 @@ fastenerDiameter=
 fastenerHeadDiameter=
 fastenerHeadHeight=
 printGroundUpsideDown=
-printSet=
+printQuantity=
 
 # script config
 scriptpath=$(dirname $0)
@@ -79,7 +79,7 @@ renderpath() {
         "$(varif "fastenerHeadDiameter" ${fastenerHeadDiameter})" \
         "$(varif "fastenerHeadHeight" ${fastenerHeadHeight})" \
         "$(varif "printGroundUpsideDown" ${printGroundUpsideDown})" \
-        "$(varif "printSet" ${printSet})"
+        "$(varif "printQuantity" ${printQuantity})"
 }
 
 # Renders the files from a path.
@@ -188,8 +188,8 @@ while (( "$#" )); do
             printGroundUpsideDown=$2
             shift
         ;;
-        "-q"|"--printSet")
-            printSet=$2
+        "-q"|"--quantity")
+            printQuantity=$2
             shift
         ;;
         "-f"|"--format")
@@ -228,7 +228,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -hd  --headDiameter ${C_RST}Set the diameter of the barrier fasteners head"
             echo -e "${C_MSG}  -hh  --headHeight   ${C_RST}Set the height of the barrier fasteners head"
             echo -e "${C_MSG}  -u   --upsideDown   ${C_RST}Flip the ground tiles to print them upside down"
-            echo -e "${C_MSG}  -q   --printSet     ${C_RST}Set the quantity of elements to print per set"
+            echo -e "${C_MSG}  -q   --quantity     ${C_RST}Set the quantity of elements to print per set"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
             echo -e "${C_MSG}  -s   --slice        ${C_RST}Slice the rendered files using the default configuration"

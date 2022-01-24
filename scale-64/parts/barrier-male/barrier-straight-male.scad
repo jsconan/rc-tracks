@@ -35,6 +35,6 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    straightBarrierMaleSet(quantity=printSet, line=1);
+    straightBarrierMaleSet(quantity=printQuantity, line=1);
 
 }
