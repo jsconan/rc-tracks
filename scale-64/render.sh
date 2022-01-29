@@ -55,6 +55,7 @@ slice=
 renderFemale=
 renderMale=
 renderSet=
+renderElement=
 renderGround=
 renderTools=
 renderAll=1
@@ -87,22 +88,32 @@ renderpath() {
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 renderpathall() {
-    if [ "${renderFemale}" != "" ] || [ "${renderMale}" != "" ] || [ "${renderSet}" != "" ] || [ "${renderGround}" != "" ] || [ "${renderTools}" != "" ] || [ "${renderAll}" != "" ]; then
+    if [ "${renderFemale}" != "" ]  || \
+       [ "${renderMale}" != "" ]    || \
+       [ "${renderElement}" != "" ] || \
+       [ "${renderSet}" != "" ]     || \
+       [ "${renderGround}" != "" ]  || \
+       [ "${renderTools}" != "" ]   || \
+       [ "${renderAll}" != "" ]; then
         printmessage "${C_MSG}Rendering track elements"
     else
         printmessage "${C_MSG}Nothing will be rendered"
     fi
     if [ "${renderFemale}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- female barriers"
-        renderpath "$1/barrier-female" "$2/barrier-female"
+        renderpath "$1/female" "$2/female"
     fi
     if [ "${renderMale}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- male barriers"
-        renderpath "$1/barrier-male" "$2/barrier-male"
+        renderpath "$1/male" "$2/male"
+    fi
+    if [ "${renderElement}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- barrier elements"
+        renderpath "$1/elements" "$2/elements"
     fi
     if [ "${renderSet}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- barriers set"
-        renderpath "$1/barrier-set" "$2/barrier-set"
+        printmessage "${C_MSG}- barrier sets"
+        renderpath "$1/sets" "$2/sets"
     fi
     if [ "${renderGround}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- ground tiles"
@@ -138,6 +149,10 @@ while (( "$#" )); do
         ;;
         "m"|"male")
             renderMale=1
+            renderAll=
+        ;;
+        "e"|"element")
+            renderElement=1
             renderAll=
         ;;
         "s"|"set")
@@ -214,7 +229,8 @@ while (( "$#" )); do
             echo -e "${C_MSG}  a,   all            ${C_RST}Render all elements (default)"
             echo -e "${C_MSG}  f,   female         ${C_RST}Render the female variant of the barriers"
             echo -e "${C_MSG}  m,   male           ${C_RST}Render the male variant of the barriers"
-            echo -e "${C_MSG}  s,   set            ${C_RST}Render the set of barrierss"
+            echo -e "${C_MSG}  e,   element        ${C_RST}Render the barriers elements"
+            echo -e "${C_MSG}  s,   set            ${C_RST}Render the set of barriers"
             echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
             echo -e "${C_MSG}  t,   tools          ${C_RST}Render the tools"
             echo -e "${C_MSG}  c,   config         ${C_RST}Show the config values"
