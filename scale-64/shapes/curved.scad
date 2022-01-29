@@ -143,7 +143,6 @@ module curvedLinkFemale(radius, angle, width, height) {
                 }
             }
         }
-
     }
 }
 

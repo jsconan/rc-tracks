@@ -45,6 +45,14 @@ function getTrackSectionWidth(laneWidth, barrierWidth) = laneWidth + barrierWidt
 function getTrackSectionLength(laneWidth, barrierWidth) = getTrackSectionWidth(laneWidth, barrierWidth) + barrierWidth * 5;
 
 /**
+ * Computes the width of the track lane from the given track section length and width.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @returns Number
+ */
+function getTrackLaneWidth(length, width) = width - 2 * (length - width) / 5;
+
+/**
  * Computes the length of a barrier chunk.
  * @param Number laneWidth - The width of a track lane.
  * @param Number barrierWidth - The width of the barriers.
@@ -134,7 +142,7 @@ function getStraightLength(length, width, ratio=1) = length * abs(ratio);
  * @param Number ratio - The ratio of the curve.
  * @returns Number
  */
-function getCurveAngle(ratio) = CURVE_ANGLE / ratio;
+function getCurveAngle(ratio) = CURVE_ANGLE / (ratio < 1 ? 1 / ratio : ratio > 1 ? ratio * 2 : 1);
 
 /**
  * Computes the rotation angle used to place a curve.
@@ -150,7 +158,7 @@ function getCurveRotationAngle(angle) = 45 + (CURVE_ANGLE - angle) / 2;
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerRadius(length, width, ratio=1) = (length * ratio - width) / 2;
+function getCurveInnerRadius(length, width, ratio=1) = length * (ratio - 1) +  (length - width) / 2;
 
 /**
  * Computes the outer radius of a curve given the ratio.
@@ -252,7 +260,7 @@ function getStraightBarrierChunks(barrierChunks, ratio=1) = barrierChunks * abs(
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = min(max(1, abs(ratio) * 2), barrierChunks);
+function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = ratio < 1 ? 1 : barrierChunks / 2;
 
 /**
  * Computes the number of barrier chunks for an outer curved section given the ratio.
@@ -260,7 +268,7 @@ function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = min(max(1, abs(rat
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveOuterBarrierChunks(barrierChunks, ratio=1) = max(1, barrierChunks * min(abs(ratio), 1));
+function getCurveOuterBarrierChunks(barrierChunks, ratio=1) = ratio == 1 ? barrierChunks : barrierChunks / 2;
 
 /**
  * Computes the number of barrier chunks for the straight sides of large curve track.
@@ -284,7 +292,7 @@ function getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio=1) = getCurveIn
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio=1) = getCurveOuterBarrierChunks(barrierChunks, ratio) / 2;
+function getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio=1) = ratio == 1 ? barrierChunks / 2 : barrierChunks;
 
 // The overall length of a track section (size of a tile in the track)
 trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);

@@ -175,15 +175,15 @@ module curvedGroundHoles(radius, angle, thickness, barrierWidth, barrierHeight, 
  */
 module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
     sizeRatio = max(1, ratio);
-    curveRatio = ratio < 1 ? 1 / ratio: ratio;
-    overallLength = getStraightLength(length, width, sizeRatio);
-    angle = getCurveAngle(curveRatio);
+    angle = getCurveAngle(ratio);
+    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio);
+    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=sizeRatio);
     barrierInnerPosition = getCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     barrierOuterPosition = getCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
 
-    translate([-overallLength, -length, 0] / 2) {
+    translate([-innerRadius - (outerRadius - innerRadius) / 2, -length / 2, 0]) {
         difference() {
             curvedGround(
                 length = length,
@@ -223,10 +223,11 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurveGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
-    overallLength = getStraightLength(length, width, ratio);
     angle = CURVE_ANGLE;
     side = getEnlargedCurveSide(length=length, width=width, ratio=ratio);
     sideOffset = side / 2;
+    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=ratio);
+    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=ratio);
     barrierSidePosition = getEnlargedCurveSideBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio) - sideOffset;
     barrierInnerPosition = getEnlargedCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
     barrierOuterPosition = getEnlargedCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
@@ -234,7 +235,7 @@ module enlargedCurveGroundTile(length, width, thickness, barrierWidth, barrierHe
     innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
 
-    translate([-overallLength, -length, 0] / 2) {
+    translate([-innerRadius - (outerRadius - innerRadius) / 2, -length / 2, 0]) {
         difference() {
             largeCurveGround(
                 length = length,

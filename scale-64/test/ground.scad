@@ -80,7 +80,7 @@ applyMode(mode=renderMode) {
             ratio = .5
         );
 
-        // test the shape of a curved ground tile: 2 per corner
+        // test the shape of a curved ground tile: 4 per corner
         curvedGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
@@ -91,7 +91,7 @@ applyMode(mode=renderMode) {
             ratio = 2
         );
 
-        // test the shape of a curved ground tile: 4 per corner
+        // test the shape of a curved ground tile: 8 per corner
         curvedGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
@@ -112,5 +112,6 @@ applyMode(mode=renderMode) {
             barrierChunks = barrierChunks,
             ratio = 1
         );
+
     }
 }
