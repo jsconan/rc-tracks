@@ -306,3 +306,62 @@ module barrierPegRemoverProfile(diameter, headDiameter, headHeight, distance=0) 
         ["H", -remainingHeadRadius],
     ]), convexity = 10);
 }
+
+/**
+ * Draws the profile of a starting block.
+ *
+ * To get the final shape, linear_extrude(height=height, convexity=10) must be applied.
+ *
+ * @param Number length - The length of the block.
+ * @param Number width - The width of the block.
+ * @param Number thickness - The thickness of the outline.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module startingBlockProfile(length, width, thickness, distance=0) {
+    // Uncomment to debug:
+    // %translateY(thickness - width / 2) rectangle([length, width]);
+
+    // Prepare the parameters for the polygon
+    innerLength = length - thickness * 2;
+    innerWidth = width - thickness;
+
+    // Draw the profile
+    polygon(path([
+        ["P", length / 2, 0],
+        ["H", -length],
+        ["V", -width],
+        ["H", thickness],
+        ["V", innerWidth],
+        ["H", innerLength],
+        ["V", -innerWidth],
+        ["H", thickness],
+    ]), convexity = 10);
+}
+
+/**
+ * Draws the profile of finish line.
+ *
+ * To get the final shape, linear_extrude(height=height, convexity=10) must be applied.
+ *
+ * @param Number length - The length of the line.
+ * @param Number width - The width of the line.
+ * @param Number lines - The number of lines inside the pattern.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module finishLineProfile(length, width, lines=2, distance=0) {
+    // Uncomment to debug:
+    // %translateY(-width / 2) rectangle([length, width]);
+
+    // Prepare the parameters for the polygon
+    lines = max(2, lines);
+    tileWidth = width / lines;
+    cols = floor(length / tileWidth);
+    tileLength = length / cols;
+
+    // Draw the profile
+    translateY(-width / 2) {
+        repeatAlternate2D(countX=cols, countY=lines, intervalX=xAxis3D(tileLength), intervalY=yAxis3D(tileWidth), center=true) {
+            rectangle([tileLength + ALIGN, tileWidth + ALIGN]);
+        }
+    }
+}

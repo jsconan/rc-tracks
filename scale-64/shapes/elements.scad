@@ -471,6 +471,22 @@ module straightTrackSectionGround(ratio=1) {
 }
 
 /**
+ * A ground tile of a starting track section.
+ */
+module startingTrackSectionGround() {
+    startingGroundTile(
+        length = trackSectionLength,
+        width = trackSectionWidth,
+        thickness = trackGroundThickness,
+        barrierWidth = barrierWidth,
+        barrierHeight = barrierHeight,
+        barrierChunks = barrierChunks,
+        startPositions = 3,
+        startLines = 2
+    );
+}
+
+/**
  * A ground tile of a tight curved track section.
  * @param Number [ratio] - The size factor.
  */

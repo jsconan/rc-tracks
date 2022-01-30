@@ -113,5 +113,17 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
+        // test the shape of the decoration for a starting ground tile
+        startingGroundTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            startPositions = 3,
+            startLines = 2
+        );
+
     }
 }

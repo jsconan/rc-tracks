@@ -72,5 +72,25 @@ applyMode(mode=renderMode) {
             distance = printTolerance
         );
 
+        // test the starting block shape
+        startingBlock(
+            length = max(barrierWidth, barrierHeight),
+            width = min(barrierWidth, barrierHeight) / 2,
+            height = trackGroundThickness,
+            thickness = getBarrierBaseUnit(barrierWidth, barrierHeight) / 2,
+            distance = printTolerance,
+            center = true
+        );
+
+        // test the finish line shape
+        finishLine(
+            length = max(barrierWidth, barrierHeight),
+            width = min(barrierWidth, barrierHeight) / 2,
+            height = trackGroundThickness,
+            lines = 4,
+            distance = printTolerance,
+            center = true
+        );
+
     }
 }

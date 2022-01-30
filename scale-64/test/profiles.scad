@@ -109,5 +109,21 @@ applyMode(mode=renderMode) {
             distance = printTolerance
         );
 
+        // test the starting block profile
+        startingBlockProfile(
+            length = max(barrierWidth, barrierHeight),
+            width = min(barrierWidth, barrierHeight) / 2,
+            thickness = getBarrierBaseUnit(barrierWidth, barrierHeight) / 2,
+            distance = printTolerance
+        );
+
+        // test the finish line profile
+        finishLineProfile(
+            length = max(barrierWidth, barrierHeight),
+            width = min(barrierWidth, barrierHeight) / 2,
+            lines = 4,
+            distance = printTolerance
+        );
+
     }
 }

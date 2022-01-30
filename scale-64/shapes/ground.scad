@@ -129,6 +129,105 @@ module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight,
 }
 
 /**
+ * Draws the shape of the decoration for a starting ground tile.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number barrierWidth - The width of the barrier.
+ * @param Number barrierHeight - The height of the barrier.
+ * @param Number startPositions - The number of parallel starting blocks.
+ * @param Number startLines - The number of starting lines.
+ */
+module startingGroundTileDecoration(length, width, thickness, barrierWidth, barrierHeight, startPositions=3, startLines=2) {
+    // Prepare the parameters
+    laneWidth = getTrackLaneWidth(length, width);
+    finishLineWidth = laneWidth / 10;
+    finishLineArea = finishLineWidth * 2;
+    finishLinePosition = length / 2;
+    startingArea = length - finishLineArea;
+    startingBlockLength = laneWidth / (startPositions + 1);
+    startingBlockWidth = laneWidth / 10;
+    startingBlockThickness = getBarrierBaseUnit(barrierWidth, barrierHeight);
+    startingBlockIntervalX = laneWidth / startPositions;
+    startingBlockIntervalY = startingArea / startLines;
+    startingBlockShift = startingBlockWidth;
+    startingBlockPosition = length / 2 + startingArea - length;
+
+    // Uncomment to debug:
+    // %rectangle([length, width]);
+    // %translateX((startingArea - length) / 2) rectangle([startingArea, laneWidth]);
+    // %translateX((length - finishLineArea) / 2) rectangle([finishLineArea, laneWidth]);
+
+    // Render the finish line
+    translateX(finishLinePosition) {
+        rotateZ(-RIGHT) {
+            finishLine(
+                length = laneWidth,
+                width = finishLineWidth,
+                height = thickness,
+                lines = 2,
+                distance = 0,
+                center = true
+            );
+        }
+    }
+
+    // Render the starting blocks
+    translateX(startingBlockPosition) {
+        rotateZ(-RIGHT) {
+            repeat(count=startLines, interval=yAxis3D(-startingBlockIntervalY), center=false) {
+                translateY(-startingBlockShift * (floor(startPositions / 2) - (1 - startPositions % 2) * .5)) {
+                    repeat(count=startPositions, interval=[startingBlockIntervalX, -startingBlockShift, 0], center=true) {
+                        startingBlock(
+                            length = startingBlockLength,
+                            width = startingBlockWidth,
+                            height = thickness,
+                            thickness = startingBlockThickness,
+                            distance = 0,
+                            center = true
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Draws the shape of a starting ground tile.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number barrierWidth - The width of the barrier.
+ * @param Number barrierHeight - The height of the barrier.
+ * @param Number barrierChunks - The number of barrier chunks per section.
+ * @param Number startPositions - The number of parallel starting blocks.
+ * @param Number startLines - The number of starting lines.
+ */
+module startingGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, startPositions=3, startLines=2) {
+    straightGroundTile(
+        length = length,
+        width = width,
+        thickness = thickness,
+        barrierWidth = barrierWidth,
+        barrierHeight = barrierHeight,
+        barrierChunks = barrierChunks,
+        ratio = 1
+    );
+    translateZ((thickness + layerHeight) / 2) {
+        startingGroundTileDecoration(
+            length = length,
+            width = width,
+            thickness = layerHeight,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            startPositions = startPositions,
+            startLines = startLines
+        );
+    }
+}
+
+/**
  * Draws the shape of a curved ground.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
