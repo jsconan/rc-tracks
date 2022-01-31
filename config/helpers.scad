@@ -23,7 +23,7 @@
 /**
  * A race track system for RC cars of various scales.
  *
- * Global helper functions.
+ * Global functions.
  *
  * @author jsconan
  */
@@ -62,6 +62,36 @@ function shells(N) = N * nozzleWidth;
  * @returns Number
  */
 function getPrintInterval(size) = size + printInterval;
+
+/**
+ * Computes the length of a straight section given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getStraightLength(length, ratio=1) = length * abs(ratio);
+
+/**
+ * Gets the length of a curved section given the radius and the ratio.
+ * @param Number radius - The radius of the curve.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getCurveLength(radius, ratio=1) = getArcLength(radius=radius, angle=getCurveAngle(ratio));
+
+/**
+ * Computes the angle of a curve with respect to the ratio.
+ * @param Number ratio - The ratio of the curve.
+ * @returns Number
+ */
+function getCurveAngle(ratio) = CURVE_ANGLE / abs(ratio);
+
+/**
+ * Computes the rotation angle used to place a curve.
+ * @param Number angle - The angle of the curve.
+ * @returns Number
+ */
+function getCurveRotationAngle(angle) = CURVE_ANGLE - angle / 2;
 
 /**
  * Centers the children elements to te printer's build plate.

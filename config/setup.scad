@@ -37,5 +37,7 @@ include <version.scad>
 // Imports the global configuration
 include <config.scad>
 
-// Imports the global helpers
+// Imports the global helpers and constants
+include <constants.scad>
 include <helpers.scad>
+include <operators.scad>
