@@ -119,18 +119,6 @@ module straightLinks(length, linkHeight, base) {
 }
 
 /**
- * Extrudes the profile on the expected linear length.
- * @param Number length - The length of the element.
- */
-module extrudeStraightProfile(length) {
-    rotate([90, 0, 90]) {
-        linear_extrude(height=length, center=true, convexity=10) {
-            children();
-        }
-    }
-}
-
-/**
  * Draws the main shape of a straight barrier holder.
  * @param Number length - The length of the element.
  * @param Number thickness - The thickness of the barrier body.

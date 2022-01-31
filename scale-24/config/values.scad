@@ -137,13 +137,6 @@ function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeig
 function getBarrierBodyHeight(height) = height - (minThickness + layerHeight) * 2;
 
 /**
- * Gets the length of a curved track element (the length of the arc of the curve).
- * @param Number length - The length of the track element.
- * @returns Number
- */
-function getCurveLength(length) = getArcLength(radius = length, angle = 90);
-
-/**
  * Gets the difference between the length of a curved track element chunk and a straight track element.
  * @param Number length - The length of the track element.
  * @returns Number
@@ -188,20 +181,6 @@ function getOuterCurveRatio(length, width, radius) = (width + radius) / length;
  * @returns Number
  */
 function getCurveRadius(length, ratio) = length * ratio;
-
-/**
- * Computes the angle of a curve with respect to the ratio.
- * @param Number ratio - The ratio of the curve.
- * @returns Number
- */
-function getCurveAngle(ratio) = curveAngle / ratio;
-
-/**
- * Computes the rotation angle used to place a curve.
- * @param Number angle - The angle of the curve.
- * @returns Number
- */
-function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
 
 /**
  * Computes the radius of the accessory mast.
@@ -328,6 +307,3 @@ minWidth = shells(2);
 // The ratios applied to the base unit value used to design the barrier holder
 stripHeightRatio = 3;
 stripIndentRatio = 0.5;
-
-// The angle of a typical curve
-curveAngle = 90;
