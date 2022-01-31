@@ -129,27 +129,16 @@ function getBarrierPegInnerHeight(width, height) = layerAligned(getBarrierBaseUn
 function getBarrierPegHeight(width, height, thickness) = getBarrierPegInnerHeight(width, height) + thickness;
 
 /**
- * Computes the length of a straight section given the ratio.
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number [ratio] - The size factor.
- * @returns Number
- */
-function getStraightLength(length, width, ratio=1) = length * abs(ratio);
-
-/**
  * Computes the angle of a curve with respect to the ratio.
  * @param Number ratio - The ratio of the curve.
  * @returns Number
  */
-function getCurveAngle(ratio) = CURVE_ANGLE / (ratio < 1 ? 1 / ratio : ratio > 1 ? ratio * 2 : 1);
-
-/**
- * Computes the rotation angle used to place a curve.
- * @param Number angle - The angle of the curve.
- * @returns Number
- */
-function getCurveRotationAngle(angle) = 45 + (CURVE_ANGLE - angle) / 2;
+function getCurveAngle(ratio) =
+    let(
+        ratio = abs(ratio)
+    )
+    CURVE_ANGLE / (ratio < 1 ? 1 / ratio : ratio > 1 ? ratio * 2 : 1)
+;
 
 /**
  * Computes the inner radius of a curve given the ratio.
@@ -302,9 +291,6 @@ trackSectionWidth = getTrackSectionWidth(trackLaneWidth, barrierWidth);
 
 // The length of a barrier chunk
 barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
-
-// The angle of a typical curve
-CURVE_ANGLE = RIGHT;
 
 // The number of fastener holes per barrier chunks
 FASTENER_HOLES = 1;

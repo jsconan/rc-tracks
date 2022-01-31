@@ -99,7 +99,7 @@ module barrierLinkGroundHoles(width, height) {
  * @param Number [ratio] - The size factor.
  */
 module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
-    overallLength = getStraightLength(length, width, ratio);
+    overallLength = getStraightLength(length, ratio);
     overallChunks = getStraightBarrierChunks(barrierChunks, ratio);
 
     difference() {

@@ -144,18 +144,6 @@ module straightFastenerHoles(length, width, height, diameter, headDiameter, head
 }
 
 /**
- * Extrudes the profile on the expected linear length.
- * @param Number length - The length of the element.
- */
-module extrudeStraightProfile(length) {
-    rotate([RIGHT, 0, RIGHT]) {
-        linear_extrude(height=length, center=true, convexity=10) {
-            children();
-        }
-    }
-}
-
-/**
  * Draws the shape of a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.

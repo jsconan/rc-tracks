@@ -180,32 +180,6 @@ module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter,
 }
 
 /**
- * Place a curved element.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The angle of the curve.
- */
-module placeCurvedElement(radius, angle) {
-    translateY(getChordHeight(angle, radius) / 2 - radius) {
-        rotateZ(getCurveRotationAngle(angle)) {
-            children();
-        }
-    }
-}
-
-/**
- * Extrudes the profile on the expected circle path.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- */
-module extrudeCurvedProfile(radius, angle) {
-    rotate_extrude(angle=angle, convexity=10) {
-        translateX(radius) {
-            children();
-        }
-    }
-}
-
-/**
  * Draws the shape of a straight barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
