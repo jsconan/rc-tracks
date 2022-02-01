@@ -114,13 +114,12 @@ applyMode(mode=renderMode) {
         );
 
         // test the shape of the decoration for a starting ground tile
-        startingGroundTile(
+        startingGroundTileDecoration(
             length = trackSectionLength,
             width = trackSectionWidth,
             thickness = trackGroundThickness,
             barrierWidth = barrierWidth,
             barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
             startPositions = 3,
             startLines = 2
         );

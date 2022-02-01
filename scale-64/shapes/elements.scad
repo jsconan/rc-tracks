@@ -471,19 +471,77 @@ module straightTrackSectionGround(ratio=1) {
 }
 
 /**
+ * The decoration part of a starting track section.
+ */
+module startingTrackSectionGroundDecoration() {
+    flipElement(printGroundUpsideDown) {
+        startingGroundTileDecoration(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = layerHeight,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            startPositions = 3,
+            startLines = 2
+        );
+    }
+}
+
+
+/**
+ * A ground tile of a starting track section, with a pocket to add the decoration.
+ */
+module startingTrackSectionGroundPocket() {
+    flipElement(printGroundUpsideDown) {
+        difference() {
+            straightGroundTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                ratio = 1
+            );
+            translateZ((trackGroundThickness - layerHeight) / 2) {
+                startingGroundTileDecoration(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = layerHeight,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    startPositions = 3,
+                    startLines = 2
+                );
+            }
+        }
+    }
+}
+
+/**
  * A ground tile of a starting track section.
  */
 module startingTrackSectionGround() {
-    startingGroundTile(
+    straightGroundTile(
         length = trackSectionLength,
         width = trackSectionWidth,
         thickness = trackGroundThickness,
         barrierWidth = barrierWidth,
         barrierHeight = barrierHeight,
         barrierChunks = barrierChunks,
-        startPositions = 3,
-        startLines = 2
+        ratio = 1
     );
+    translateZ((trackGroundThickness + layerHeight) / 2) {
+        startingGroundTileDecoration(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = layerHeight,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            startPositions = 3,
+            startLines = 2
+        );
+    }
 }
 
 /**

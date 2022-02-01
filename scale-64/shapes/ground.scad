@@ -194,40 +194,6 @@ module startingGroundTileDecoration(length, width, thickness, barrierWidth, barr
 }
 
 /**
- * Draws the shape of a starting ground tile.
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number thickness - The thickness of the track ground.
- * @param Number barrierWidth - The width of the barrier.
- * @param Number barrierHeight - The height of the barrier.
- * @param Number barrierChunks - The number of barrier chunks per section.
- * @param Number startPositions - The number of parallel starting blocks.
- * @param Number startLines - The number of starting lines.
- */
-module startingGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, startPositions=3, startLines=2) {
-    straightGroundTile(
-        length = length,
-        width = width,
-        thickness = thickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = 1
-    );
-    translateZ((thickness + layerHeight) / 2) {
-        startingGroundTileDecoration(
-            length = length,
-            width = width,
-            thickness = layerHeight,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            startPositions = startPositions,
-            startLines = startLines
-        );
-    }
-}
-
-/**
  * Draws the shape of a curved ground.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
