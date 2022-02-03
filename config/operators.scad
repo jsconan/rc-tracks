@@ -28,7 +28,6 @@
  * @author jsconan
  */
 
-
 /**
  * Extrudes the profile on the expected linear length.
  * @param Number length - The length of the element.
@@ -55,7 +54,7 @@ module extrudeCurvedProfile(radius, angle) {
 }
 
 /**
- * Place a curved element.
+ * Places a curved element.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The angle of the curve.
  * @param Number z - An option Z-axis translation.
@@ -65,5 +64,34 @@ module placeCurvedElement(radius, angle, z=0) {
         rotateZ(getCurveRotationAngle(angle)) {
             children();
         }
+    }
+}
+
+/**
+ * Adjusts the position on the print plat to either print as it or to flip upside down the model.
+ * @param Boolean flip - Flip upside down the element.
+ */
+module flipElement(flip=false) {
+    rotate(flip ? [180, 0, 180] : [0, 0, 0]) {
+        children();
+    }
+}
+
+/**
+ * Repeats and place a shape on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The max number of elements per lines.
+ */
+module placeElements(length, width, quantity=1, line=undef) {
+    repeatGrid(
+        count = quantity,
+        intervalX = xAxis3D(getPrintInterval(length)),
+        intervalY = yAxis3D(getPrintInterval(width)),
+        line = uor(line, ceil(sqrt(quantity))),
+        center = true
+    ) {
+        children();
     }
 }

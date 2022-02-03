@@ -29,35 +29,6 @@
  */
 
 /**
- * Adjusts the position on the print plat to either print as it or to flip upside down the model.
- * @param Boolean flip - Flip upside down the element.
- */
-module flipElement(flip=false) {
-    rotate(flip ? [180, 0, 180] : [0, 0, 0]) {
-        children();
-    }
-}
-
-/**
- * Repeats and place a shape on a grid with respect to the expected quantity.
- * @param Number length - The length of the shape.
- * @param Number width - The width of the shape.
- * @param Number [quantity] - The number of elements to print.
- * @param Number [line] - The max number of elements per lines.
- */
-module placeElements(length, width, quantity=1, line=undef) {
-    repeatGrid(
-        count = quantity,
-        intervalX = xAxis3D(getPrintInterval(length)),
-        intervalY = yAxis3D(getPrintInterval(width)),
-        line = uor(line, ceil(sqrt(quantity))),
-        center = true
-    ) {
-        children();
-    }
-}
-
-/**
  * A set of pegs to fasten the barrier chunks to the track sections.
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
