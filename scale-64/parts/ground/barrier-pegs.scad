@@ -35,6 +35,6 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    barrierPegsSet(quantity=printQuantity * printQuantity * barrierChunks);
+    barrierPegsSet(quantity=printQuantity * barrierChunks);
 
 }
