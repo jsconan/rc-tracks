@@ -82,14 +82,19 @@ module flipElement(flip=false) {
  * @param Number length - The length of the shape.
  * @param Number width - The width of the shape.
  * @param Number [quantity] - The number of elements to print.
- * @param Number [line] - The max number of elements per lines.
+ * @param Number [line] - The number of elements per lines.
  */
 module placeElements(length, width, quantity=1, line=undef) {
+    intervalX = getPrintInterval(length);
+    intervalY = getPrintInterval(width);
+    maxLine = floor(printerLength / intervalX);
+    maxCol = floor(printerWidth / intervalY);
+    quantity = min(maxLine * maxCol, quantity);
     repeatGrid(
         count = quantity,
-        intervalX = xAxis3D(getPrintInterval(length)),
-        intervalY = yAxis3D(getPrintInterval(width)),
-        line = uor(line, ceil(sqrt(quantity))),
+        intervalX = xAxis3D(intervalX),
+        intervalY = yAxis3D(intervalY),
+        line = min(uor(line, ceil(sqrt(quantity))), maxLine),
         center = true
     ) {
         children();
