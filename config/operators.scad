@@ -100,3 +100,40 @@ module placeElements(length, width, quantity=1, line=undef) {
         children();
     }
 }
+
+/**
+ * Gets the overall length of the area taken to place the repeated shapes on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The number of elements per lines.
+ * @returns Number
+ */
+function getElementsLength(length, width, quantity=1, line=undef) =
+    let(
+        intervalX = getPrintInterval(length),
+        maxLine = floor(printerLength / intervalX),
+        line = min(uor(line, ceil(sqrt(quantity))), maxLine)
+    )
+    min(quantity, line) * intervalX
+;
+
+/**
+ * Gets the overall width of the area taken to place the repeated shapes on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of elements to print.
+ * @param Number [line] - The number of elements per lines.
+ * @returns Number
+ */
+function getElementsWidth(length, width, quantity=1, line=undef) =
+    let(
+        intervalX = getPrintInterval(length),
+        intervalY = getPrintInterval(width),
+        maxLine = floor(printerLength / intervalX),
+        maxCol = floor(printerWidth / intervalY),
+        quantity = min(maxLine * maxCol, quantity),
+        line = min(uor(line, ceil(sqrt(quantity))), maxLine)
+    )
+    ceil(quantity / line) * intervalY
+;
