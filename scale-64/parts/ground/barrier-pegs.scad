@@ -34,7 +34,10 @@ include <../../config/setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
+    ratio = 1;
+    pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
+
     // Draws the ready to print model
-    barrierPegsSet(quantity=printQuantity * barrierChunks);
+    barrierPegsSet(quantity=printQuantity * pegsQuantity);
 
 }
