@@ -478,7 +478,7 @@ module startingTrackSectionGroundPocket() {
                 startingGroundTileDecoration(
                     length = trackSectionLength,
                     width = trackSectionWidth,
-                    thickness = layerHeight,
+                    thickness = layerHeight + ALIGN,
                     barrierWidth = barrierWidth,
                     barrierHeight = barrierHeight,
                     startPositions = 3,
