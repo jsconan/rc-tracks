@@ -52,10 +52,10 @@ format=
 parallel=
 cleanUp=
 slice=
+renderBoth=
 renderFemale=
 renderMale=
-renderSet=
-renderElement=
+renderElements=
 renderGround=
 renderTools=
 renderAll=1
@@ -88,10 +88,10 @@ renderpath() {
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 renderpathall() {
-    if [ "${renderFemale}" != "" ]  || \
+    if [ "${renderBoth}" != "" ]  || \
+       [ "${renderFemale}" != "" ]     || \
        [ "${renderMale}" != "" ]    || \
-       [ "${renderElement}" != "" ] || \
-       [ "${renderSet}" != "" ]     || \
+       [ "${renderElements}" != "" ] || \
        [ "${renderGround}" != "" ]  || \
        [ "${renderTools}" != "" ]   || \
        [ "${renderAll}" != "" ]; then
@@ -99,21 +99,21 @@ renderpathall() {
     else
         printmessage "${C_MSG}Nothing will be rendered"
     fi
+    if [ "${renderBoth}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- sets of male and female barriers"
+        renderpath "$1/barriers/all" "$2/barriers/all"
+    fi
     if [ "${renderFemale}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- female barriers"
-        renderpath "$1/female" "$2/female"
+        printmessage "${C_MSG}- sets of female barriers"
+        renderpath "$1/barriers/female" "$2/barriers/female"
     fi
     if [ "${renderMale}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- male barriers"
-        renderpath "$1/male" "$2/male"
+        printmessage "${C_MSG}- set of male barriers"
+        renderpath "$1/barriers/male" "$2/barriers/male"
     fi
-    if [ "${renderElement}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- barrier elements"
+    if [ "${renderElements}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- all elements"
         renderpath "$1/elements" "$2/elements"
-    fi
-    if [ "${renderSet}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- barrier sets"
-        renderpath "$1/sets" "$2/sets"
     fi
     if [ "${renderGround}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- ground tiles"
@@ -143,6 +143,10 @@ while (( "$#" )); do
         "c"|"config")
             renderAll=
         ;;
+        "b"|"both")
+            renderBoth=1
+            renderAll=
+        ;;
         "f"|"female")
             renderFemale=1
             renderAll=
@@ -151,12 +155,8 @@ while (( "$#" )); do
             renderMale=1
             renderAll=
         ;;
-        "e"|"element")
-            renderElement=1
-            renderAll=
-        ;;
-        "s"|"set")
-            renderSet=1
+        "e"|"elements")
+            renderElements=1
             renderAll=
         ;;
         "g"|"ground")
@@ -227,10 +227,10 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  a,   all            ${C_RST}Render all elements (default)"
-            echo -e "${C_MSG}  f,   female         ${C_RST}Render the female variant of the barriers"
-            echo -e "${C_MSG}  m,   male           ${C_RST}Render the male variant of the barriers"
-            echo -e "${C_MSG}  e,   element        ${C_RST}Render the barriers elements"
-            echo -e "${C_MSG}  s,   set            ${C_RST}Render the set of barriers"
+            echo -e "${C_MSG}  b,   both           ${C_RST}Render the sets of male and female barriers"
+            echo -e "${C_MSG}  f,   female         ${C_RST}Render the sets of female barriers"
+            echo -e "${C_MSG}  m,   male           ${C_RST}Render the sets of male barriers"
+            echo -e "${C_MSG}  e,   elements       ${C_RST}Render the elements"
             echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
             echo -e "${C_MSG}  t,   tools          ${C_RST}Render the tools"
             echo -e "${C_MSG}  c,   config         ${C_RST}Show the config values"
