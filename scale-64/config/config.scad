@@ -38,4 +38,4 @@ fastenerDiameter = 2;           // The diameter of the fasteners that can be use
 fastenerHeadDiameter = 4;       // The diameter of the fasteners head
 fastenerHeadHeight = 1;         // The height of the fasteners head
 printGroundUpsideDown = true;   // Flip the ground tiles to print them upside down
-printQuantity = 4;              // Quantity of elements to print per set
+printQuantity = 1;              // Quantity of elements to print per set
