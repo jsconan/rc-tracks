@@ -64,6 +64,71 @@ function shells(N) = N * nozzleWidth;
 function getPrintInterval(size) = size + printInterval;
 
 /**
+ * Gets the adjusted quantity of shapes to place on a grid with repect to the size of one shape.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of shapes to place.
+ * @returns Number
+ */
+function getMaxQuantity(length, width, quantity=1) =
+    let(
+        maxLine = floor(printerLength / length),
+        maxCol = floor(printerWidth / width)
+    )
+    min(maxLine * maxCol, quantity)
+;
+
+/**
+ * Gets the maximal number of shapes that can be placed on a line with respect the size of one shape.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of shapes to place.
+ * @param Number [line] - The expected number of shapes per line.
+ * @returns Number
+ */
+function getMaxLine(length, width, quantity=1, line=undef) =
+    let(
+        maxLine = floor(printerLength / length)
+    )
+    min(uor(line, ceil(sqrt(quantity))), maxLine)
+;
+
+/**
+ * Gets the overall length of the area taken to place the repeated shapes on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of shapes to place.
+ * @param Number [line] - The expected number of shapes per line.
+ * @returns Number
+ */
+function getGridLength(length, width, quantity=1, line=undef) =
+    let(
+        length = getPrintInterval(length),
+        width = getPrintInterval(width),
+        quantity = getMaxQuantity(length, width, quantity)
+    )
+    min(quantity, getMaxLine(length, width, quantity, line)) * length
+;
+
+/**
+ * Gets the overall width of the area taken to place the repeated shapes on a grid with respect to the expected quantity.
+ * @param Number length - The length of the shape.
+ * @param Number width - The width of the shape.
+ * @param Number [quantity] - The number of shapes to place.
+ * @param Number [line] - The expected number of shapes per line.
+ * @returns Number
+ */
+function getGridWidth(length, width, quantity=1, line=undef) =
+    let(
+        length = getPrintInterval(length),
+        width = getPrintInterval(width),
+        quantity = getMaxQuantity(length, width, quantity),
+        line = getMaxLine(length, width, quantity, line)
+    )
+    ceil(quantity / line) * width
+;
+
+/**
  * Computes the length of a straight section given the ratio.
  * @param Number length - The length of a track section.
  * @param Number [ratio] - The size factor.
