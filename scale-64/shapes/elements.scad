@@ -35,15 +35,18 @@
  */
 module barrierPegSet(quantity=1, line=undef) {
     radius = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
+    pegHeight = getBarrierPegHeight(barrierWidth, barrierHeight, trackGroundThickness);
 
     placeElements(length=radius, width=radius, quantity=quantity, line=line) {
-        barrierPeg(
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            thickness = trackGroundThickness,
-            distance = 0
-        );
+        translateZ(pegHeight / 2) {
+            barrierPeg(
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                thickness = trackGroundThickness,
+                distance = 0
+            );
+        }
     }
 }
 
@@ -58,7 +61,7 @@ module straightBarrierSet(quantity=1, line=undef) {
     interval = getPrintInterval(barrierWidth) / 2;
 
     placeElements(length=length, width=width, quantity=quantity, line=line) {
-        translateY(-interval) {
+        translate([0, -interval, barrierHeight / 2]) {
             straightBarrierMale(
                 length = barrierLength,
                 width = barrierWidth,
@@ -69,7 +72,7 @@ module straightBarrierSet(quantity=1, line=undef) {
             );
         }
 
-        translateY(interval) {
+        translate([0, interval, barrierHeight / 2]) {
             straightBarrierFemale(
                 length = barrierLength,
                 width = barrierWidth,
@@ -91,14 +94,16 @@ module straightBarrierMaleSet(quantity=1, line=undef) {
     length = getStraightBarrierMaleLength(barrierLength, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        straightBarrierMale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            straightBarrierMale(
+                length = barrierLength,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -111,14 +116,16 @@ module straightBarrierFemaleSet(quantity=1, line=undef) {
     length = getStraightBarrierFemaleLength(barrierLength, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        straightBarrierFemale(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            straightBarrierFemale(
+                length = barrierLength,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -136,7 +143,7 @@ module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     interval = getPrintInterval(barrierWidth) / 2;
 
     placeElements(length=length, width=width, quantity=quantity, line=line) {
-        translateY(-interval) {
+        translate([0, -interval, barrierHeight / 2]) {
             curvedBarrierMale(
                 radius = radius,
                 angle = angle,
@@ -148,7 +155,7 @@ module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
             );
         }
 
-        translateY(interval) {
+        translate([0, interval, barrierHeight / 2]) {
             curvedBarrierFemale(
                 radius = radius,
                 angle = angle,
@@ -174,15 +181,17 @@ module innerCurveBarrierMaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -198,15 +207,17 @@ module innerCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierFemaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -224,7 +235,7 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     interval = getPrintInterval(barrierWidth) / 2;
 
     placeElements(length=length, width=width, quantity=quantity, line=line) {
-        translateY(-interval) {
+        translate([0, -interval, barrierHeight / 2]) {
             curvedBarrierMale(
                 radius = radius,
                 angle = angle,
@@ -236,7 +247,7 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
             );
         }
 
-        translateY(interval) {
+        translate([0, interval, barrierHeight / 2]) {
             curvedBarrierFemale(
                 radius = radius,
                 angle = angle,
@@ -262,15 +273,17 @@ module outerCurveBarrierMaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -286,15 +299,17 @@ module outerCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierFemaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -312,7 +327,7 @@ module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     interval = getPrintInterval(barrierWidth) / 2;
 
     placeElements(length=length, width=width, quantity=quantity, line=line) {
-        translateY(-interval) {
+        translate([0, -interval, barrierHeight / 2]) {
             curvedBarrierMale(
                 radius = radius,
                 angle = angle,
@@ -324,7 +339,7 @@ module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
             );
         }
 
-        translateY(interval) {
+        translate([0, interval, barrierHeight / 2]) {
             curvedBarrierFemale(
                 radius = radius,
                 angle = angle,
@@ -350,15 +365,17 @@ module enlargedCurveBarrierMaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierMale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierMale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -374,15 +391,17 @@ module enlargedCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
     length = getCurvedBarrierFemaleLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
-        curvedBarrierFemale(
-            radius = radius,
-            angle = angle,
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
+        translateZ(barrierHeight / 2) {
+            curvedBarrierFemale(
+                radius = radius,
+                angle = angle,
+                width = barrierWidth,
+                height = barrierHeight,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight
+            );
+        }
     }
 }
 
@@ -391,16 +410,18 @@ module enlargedCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
  * @param Number [ratio] - The size factor.
  */
 module straightTrackSectionGround(ratio=1) {
-    flipElement(printGroundUpsideDown) {
-        straightGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = ratio
-        );
+    translateZ(trackGroundThickness / 2) {
+        flipElement(printGroundUpsideDown) {
+            straightGroundTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                ratio = ratio
+            );
+        }
     }
 }
 
@@ -408,16 +429,18 @@ module straightTrackSectionGround(ratio=1) {
  * The decoration part of a starting track section.
  */
 module startingTrackSectionGroundDecoration() {
-    flipElement(printGroundUpsideDown) {
-        startingGroundTileDecoration(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = layerHeight,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            startPositions = 3,
-            startLines = 2
-        );
+    translateZ(layerHeight / 2) {
+        flipElement(printGroundUpsideDown) {
+            startingGroundTileDecoration(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = layerHeight,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                startPositions = 3,
+                startLines = 2
+            );
+        }
     }
 }
 
@@ -426,27 +449,29 @@ module startingTrackSectionGroundDecoration() {
  * A ground tile of a starting track section, with a pocket to add the decoration.
  */
 module startingTrackSectionGroundPocket() {
-    flipElement(printGroundUpsideDown) {
-        difference() {
-            straightGroundTile(
-                length = trackSectionLength,
-                width = trackSectionWidth,
-                thickness = trackGroundThickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = barrierChunks,
-                ratio = 1
-            );
-            translateZ((trackGroundThickness - layerHeight) / 2) {
-                startingGroundTileDecoration(
+    translateZ(trackGroundThickness / 2) {
+        flipElement(printGroundUpsideDown) {
+            difference() {
+                straightGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
-                    thickness = layerHeight + ALIGN,
+                    thickness = trackGroundThickness,
                     barrierWidth = barrierWidth,
                     barrierHeight = barrierHeight,
-                    startPositions = 3,
-                    startLines = 2
+                    barrierChunks = barrierChunks,
+                    ratio = 1
                 );
+                translateZ((trackGroundThickness - layerHeight) / 2) {
+                    startingGroundTileDecoration(
+                        length = trackSectionLength,
+                        width = trackSectionWidth,
+                        thickness = layerHeight + ALIGN,
+                        barrierWidth = barrierWidth,
+                        barrierHeight = barrierHeight,
+                        startPositions = 3,
+                        startLines = 2
+                    );
+                }
             }
         }
     }
@@ -456,25 +481,27 @@ module startingTrackSectionGroundPocket() {
  * A ground tile of a starting track section.
  */
 module startingTrackSectionGround() {
-    straightGroundTile(
-        length = trackSectionLength,
-        width = trackSectionWidth,
-        thickness = trackGroundThickness,
-        barrierWidth = barrierWidth,
-        barrierHeight = barrierHeight,
-        barrierChunks = barrierChunks,
-        ratio = 1
-    );
-    translateZ((trackGroundThickness + layerHeight) / 2) {
-        startingGroundTileDecoration(
+    translateZ(trackGroundThickness / 2) {
+        straightGroundTile(
             length = trackSectionLength,
             width = trackSectionWidth,
-            thickness = layerHeight,
+            thickness = trackGroundThickness,
             barrierWidth = barrierWidth,
             barrierHeight = barrierHeight,
-            startPositions = 3,
-            startLines = 2
+            barrierChunks = barrierChunks,
+            ratio = 1
         );
+        translateZ((trackGroundThickness + layerHeight) / 2) {
+            startingGroundTileDecoration(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = layerHeight,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                startPositions = 3,
+                startLines = 2
+            );
+        }
     }
 }
 
@@ -483,16 +510,18 @@ module startingTrackSectionGround() {
  * @param Number [ratio] - The size factor.
  */
 module curvedTrackSectionGround(ratio=1) {
-    flipElement(printGroundUpsideDown) {
-        curvedGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = ratio
-        );
+    translateZ(trackGroundThickness / 2) {
+        flipElement(printGroundUpsideDown) {
+            curvedGroundTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                ratio = ratio
+            );
+        }
     }
 }
 
@@ -501,15 +530,17 @@ module curvedTrackSectionGround(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurveTrackSectionGround(ratio=1) {
-    flipElement(printGroundUpsideDown) {
-        enlargedCurveGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = ratio
-        );
+    translateZ(trackGroundThickness / 2) {
+        flipElement(printGroundUpsideDown) {
+            enlargedCurveGroundTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                ratio = ratio
+            );
+        }
     }
 }
