@@ -56,14 +56,16 @@ module barrierLink(width, height, distance=0, neckDistance=0, center=false) {
  * @param Number [distance] - An additional distance added to the outline of the profile.
  */
 module barrierPeg(width, height, diameter, thickness, distance=0) {
-    rotate_extrude(angle=DEGREES, convexity=10) {
-        barrierPegProfile(
-            width = width,
-            height = height,
-            diameter = diameter,
-            thickness = thickness,
-            distance = distance
-        );
+    color(colorPeg) {
+        rotate_extrude(angle=DEGREES, convexity=10) {
+            barrierPegProfile(
+                width = width,
+                height = height,
+                diameter = diameter,
+                thickness = thickness,
+                distance = distance
+            );
+        }
     }
 }
 
@@ -117,13 +119,15 @@ module barrierFastenerHole(width, height, diameter, headDiameter, headHeight, di
  * @param Boolean [center] - The shape is centered vertically.
  */
 module startingBlock(length, width, height, thickness, distance=0, center=false) {
-    linear_extrude(height=height, center=center, convexity=10) {
-        startingBlockProfile(
-            length = length,
-            width = width,
-            thickness = thickness,
-            distance = distance
-        );
+    color(colorDecoration) {
+        linear_extrude(height=height, center=center, convexity=10) {
+            startingBlockProfile(
+                length = length,
+                width = width,
+                thickness = thickness,
+                distance = distance
+            );
+        }
     }
 }
 
@@ -137,12 +141,14 @@ module startingBlock(length, width, height, thickness, distance=0, center=false)
  * @param Boolean [center] - The shape is centered vertically.
  */
 module finishLine(length, width, height, lines=2, distance=0, center=false) {
-    linear_extrude(height=height, center=center, convexity=10) {
-        finishLineProfile(
-            length = length,
-            width = width,
-            lines = lines,
-            distance = distance
-        );
+    color(colorDecoration) {
+        linear_extrude(height=height, center=center, convexity=10) {
+            finishLineProfile(
+                length = length,
+                width = width,
+                lines = lines,
+                distance = distance
+            );
+        }
     }
 }

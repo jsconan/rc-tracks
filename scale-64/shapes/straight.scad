@@ -170,9 +170,11 @@ module straightBarrier(length, width, height) {
  * @param Number [holes] - The number of holes to drill.
  */
 module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-        straightLinkMale(length=length, width=width, height=height) {
-            straightBarrier(length=length, width=width, height=height);
+    color(colorMale) {
+        straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
+            straightLinkMale(length=length, width=width, height=height) {
+                straightBarrier(length=length, width=width, height=height);
+            }
         }
     }
 }
@@ -188,9 +190,11 @@ module straightBarrierMale(length, width, height, diameter, headDiameter, headHe
  * @param Number [holes] - The number of holes to drill.
  */
 module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-        straightLinkFemale(length=length, width=width, height=height) {
-            straightBarrier(length=length, width=width, height=height);
+    color(colorFemale) {
+        straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
+            straightLinkFemale(length=length, width=width, height=height) {
+                straightBarrier(length=length, width=width, height=height);
+            }
         }
     }
 }

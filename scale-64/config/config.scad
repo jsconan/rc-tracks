@@ -39,3 +39,11 @@ fastenerHeadDiameter = 4;       // The diameter of the fasteners head
 fastenerHeadHeight = 1;         // The height of the fasteners head
 printGroundUpsideDown = true;   // Flip the ground tiles to print them upside down
 printQuantity = 1;              // Quantity of elements to print per set
+
+// Colors applied to the preview
+// Note: this is a visual hint only, this won't have effect on the rendered shapes.
+colorGround = "gray";
+colorDecoration = "white";
+colorPeg = "yellow";
+colorMale = "beige";
+colorFemale = "crimson";
