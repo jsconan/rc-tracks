@@ -35,6 +35,12 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    barrierPegExtractorSet(quantity=1);
+    barrierPegExtractor(
+        width = barrierWidth,
+        height = barrierHeight,
+        diameter = fastenerDiameter,
+        thickness = trackGroundThickness,
+        distance = printTolerance
+    );
 
 }

@@ -35,6 +35,11 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    barrierPegRemoverSet(quantity=1);
+    barrierPegRemover(
+        diameter = fastenerDiameter,
+        headDiameter = fastenerHeadDiameter,
+        headHeight = fastenerHeadHeight,
+        distance = 0
+    );
 
 }
