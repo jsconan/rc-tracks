@@ -35,6 +35,6 @@ include <../../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    straightBarriersSet(quantity=getStraightBarrierChunks(barrierChunks, 1) * printQuantity, line=printQuantity);
+    straightBarrierSet(quantity=getStraightBarrierChunks(barrierChunks, 1) * printQuantity, line=printQuantity);
 
 }

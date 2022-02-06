@@ -59,11 +59,11 @@ applyMode(mode=renderMode) {
 
     // Draws the ready to print model
     translateY((straightInterval + outerCurveInterval) / 2) {
-        straightBarriersSet(quantity=straightChunks, line=printQuantity);
+        straightBarrierSet(quantity=straightChunks, line=printQuantity);
     }
-    enlargedCurveBarriersSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
+    enlargedCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
     translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
-        innerCurveBarriersSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
+        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
     }
 
 }

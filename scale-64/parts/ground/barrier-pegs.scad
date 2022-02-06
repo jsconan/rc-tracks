@@ -38,6 +38,6 @@ applyMode(mode=renderMode) {
     pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
 
     // Draws the ready to print model
-    barrierPegsSet(quantity=printQuantity * pegsQuantity);
+    barrierPegSet(quantity=printQuantity * pegsQuantity);
 
 }

@@ -55,9 +55,9 @@ applyMode(mode=renderMode) {
     outerCurveInterval = getGridWidth(outerCurveLength, setWidth, quantity=outerCurveChunks, line=printQuantity);
 
     // Draws the ready to print model
-    outerCurveBarriersSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
+    outerCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
     translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
-        innerCurveBarriersSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
+        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
     }
 
 }

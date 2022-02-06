@@ -40,7 +40,7 @@ applyMode(mode=renderMode) {
     // Draws the ready to print model
     straightTrackSectionGround(ratio=ratio);
     translateY(-getPrintInterval(trackSectionWidth / 2)) {
-        barrierPegsSet(quantity=pegsQuantity, line=pegsQuantity);
+        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
 
 }

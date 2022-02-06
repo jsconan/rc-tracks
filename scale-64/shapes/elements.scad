@@ -33,7 +33,7 @@
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
  */
-module barrierPegsSet(quantity=1, line=undef) {
+module barrierPegSet(quantity=1, line=undef) {
     radius = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
 
     placeElements(length=radius, width=radius, quantity=quantity, line=line) {
@@ -89,7 +89,7 @@ module barrierPegExtractorSet(quantity=1, line=undef) {
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
  */
-module straightBarriersSet(quantity=1, line=undef) {
+module straightBarrierSet(quantity=1, line=undef) {
     length = getStraightBarrierMaleLength(barrierLength, barrierWidth, barrierHeight);
     width = getPrintInterval(barrierWidth * 2);
     interval = getPrintInterval(barrierWidth) / 2;
@@ -165,7 +165,7 @@ module straightBarrierFemaleSet(quantity=1, line=undef) {
   * @param Number [quantity] - The number of elements to print.
   * @param Number [line] - The max number of elements per lines.
  */
-module innerCurveBarriersSet(ratio=1, quantity=1, line=undef) {
+module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
@@ -253,7 +253,7 @@ module innerCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
  */
-module outerCurveBarriersSet(ratio=1, quantity=1, line=undef) {
+module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
@@ -341,7 +341,7 @@ module outerCurveBarrierFemaleSet(ratio=1, quantity=1, line=undef) {
  * @param Number [quantity] - The number of elements to print.
  * @param Number [line] - The max number of elements per lines.
  */
-module enlargedCurveBarriersSet(ratio=1, quantity=1, line=undef) {
+module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierMaleLength(radius, angle, barrierWidth, barrierHeight);
