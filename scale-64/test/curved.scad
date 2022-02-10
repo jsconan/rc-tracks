@@ -34,52 +34,62 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    distributeGrid(intervalX=[getPrintInterval(barrierLength * 1.5), 0, 0], intervalY=[0, getPrintInterval(barrierWidth), 0], line=2, center=true) {
+    ratio = 1;
+    outerRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, ratio) - barrierWidth / 2;
+    outerAngle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
+    innerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2;
+    innerAngle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
 
-        ratio = 1;
+    distributeGrid(
+        intervalX = xAxis3D(getPrintInterval(getCurvedBarrierLength(outerRadius, outerAngle, barrierWidth, barrierHeight))),
+        intervalY = yAxis3D(getPrintInterval(getCurvedBarrierWidth(outerRadius, outerAngle, barrierWidth, barrierHeight))),
+        line = 1,
+        center = true
+    ) {
 
-        // test the shape of a curved barrier for the outer radius of a track section in the male variant
-        curvedBarrierMale(
-            radius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, ratio) - barrierWidth / 2,
-            angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
+        // test the shape of a curved barrier body for the outer radius of a track section
+        placeCurvedElement(radius=outerRadius, angle=outerAngle) {
+            curvedBarrierBody(
+                radius = outerRadius,
+                angle = outerAngle,
+                width = barrierWidth,
+                height = barrierHeight
+            );
+        }
+
+        // test the shape of a curved barrier body for the inner radius of a track section
+        placeCurvedElement(radius=innerRadius, angle=innerAngle) {
+            curvedBarrierBody(
+                radius = innerRadius,
+                angle = innerAngle,
+                width = barrierWidth,
+                height = barrierHeight
+            );
+        }
+
+        // test the shape of a curved barrier for the outer radius of a track section
+        curvedBarrier(
+            radius = outerRadius,
+            angle = outerAngle,
             width = barrierWidth,
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
+            headHeight = fastenerHeadHeight,
+            right = false
         );
 
-        // test the shape of a curved barrier for the outer radius of a track section in the female variant
-        curvedBarrierFemale(
-            radius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, ratio) - barrierWidth / 2,
-            angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
 
-        // test the shape of a curved barrier for the inner radius of a track section in the male variant
-        curvedBarrierMale(
-            radius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2,
-            angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
+        // test the shape of a curved barrier for the inner radius of a track section
+        curvedBarrier(
+            radius = innerRadius,
+            angle = innerAngle,
             width = barrierWidth,
             height = barrierHeight,
             diameter = fastenerDiameter,
             headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
-        );
-
-        // test the shape of a curved barrier for the inner radius of a track section in the female variant
-        curvedBarrierFemale(
-            radius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, ratio) + barrierWidth / 2,
-            angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
+            headHeight = fastenerHeadHeight,
+            right = true
         );
 
     }

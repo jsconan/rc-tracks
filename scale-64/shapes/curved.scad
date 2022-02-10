@@ -29,117 +29,73 @@
  */
 
 /**
- * Gets the outer length of the shape of a curved barrier in the female variant.
+ * Gets the outer length of the shape of a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getCurvedBarrierFemaleLength(radius, angle, width, height) =
-    getChordLength(angle, radius + width / 2)
+function getCurvedBarrierLength(radius, angle, width, height) =
+    getChordLength(angle, radius + width / 2) +
+    getBarrierLinkLength(width, height) * cos((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2)
 ;
 
 /**
- * Gets the outer width of the shape of a curved barrier in the female variant.
+ * Gets the outer width of the shape of a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getCurvedBarrierFemaleWidth(radius, angle, width, height) =
-    getChordHeight(angle, radius - width / 2) + width
-;
-
-/**
- * Gets the outer length of the shape of a curved barrier in the male variant.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getCurvedBarrierMaleLength(radius, angle, width, height) =
-    getCurvedBarrierFemaleLength(radius, angle, width, height) +
-    getBarrierLinkLength(width, height) * cos((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2) * 2
-;
-
-/**
- * Gets the outer width of the shape of a curved barrier in the male variant.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getCurvedBarrierMaleWidth(radius, angle, width, height) =
-    getCurvedBarrierFemaleWidth(radius, angle, width, height) +
+function getCurvedBarrierWidth(radius, angle, width, height) =
+    getChordHeight(angle, radius - width / 2) + width +
     getBarrierLinkLength(width, height) * sin((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2)
 ;
 
 /**
- * Adds the male links to a curved element.
+ * Adds the links to a curved element.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
+ * @param Boolean [right] - Tells on which side is the male link (default on the left).
  */
-module curvedLinkMale(radius, angle, width, height) {
+module curvedLinks(radius, angle, width, height, right=false) {
     linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
 
-    module maleLink() {
-        barrierLink(
-            width = width,
-            height = linkHeight,
-            distance = -printTolerance,
-            neckDistance = printTolerance
-        );
-    }
+    linkRotationMale = right ? CURVE_ANGLE : 0;
+    linkPositionMale = right ? [radius, 0, -height / 2] : [0, radius, -height / 2];
+    linkDirectionMale = right ? 0 : angle - CURVE_ANGLE;
 
-    translate([radius, 0, -height / 2]) {
-        rotateZ(CURVE_ANGLE) {
-            maleLink();
-        }
-    }
-    rotateZ(angle - CURVE_ANGLE) {
-        translate([0, radius, -height / 2]) {
-            maleLink();
-        }
-    }
-    children();
-}
+    linkRotationFemale = right ? CURVE_ANGLE : -CURVE_ANGLE;
+    linkPositionFemale = right ? [radius, 0, -height / 2 - ALIGN] : [radius, 0, -height / 2 - ALIGN];
+    linkDirectionFemale = right ? angle : 0;
 
-/**
- * Adds the female links to a curved element.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- */
-module curvedLinkFemale(radius, angle, width, height) {
-    linkHeight = getBarrierLinkHeight(width, height) + layerHeight;
-
-    module femaleLink() {
-        barrierLink(
-            width = width,
-            height = linkHeight + ALIGN,
-            distance = printTolerance,
-            neckDistance = 0
-        );
-    }
-
-    difference() {
-        children();
-        translate([radius, 0, -height / 2 - ALIGN]) {
-            rotateZ(-CURVE_ANGLE) {
-                femaleLink();
+    rotateZ(linkDirectionMale) {
+        translate(linkPositionMale) {
+            rotateZ(linkRotationMale) {
+                barrierLink(
+                    width = width,
+                    height = linkHeight,
+                    distance = -printTolerance,
+                    neckDistance = printTolerance
+                );
             }
         }
-        rotateZ(angle) {
-            translate([radius, 0, -height / 2 - ALIGN]) {
-                rotateZ(CURVE_ANGLE) {
-                    femaleLink();
+    }
+    difference() {
+        children();
+        rotateZ(linkDirectionFemale) {
+            translate(linkPositionFemale) {
+                rotateZ(linkRotationFemale) {
+                    barrierLink(
+                        width = width,
+                        height = linkHeight + ALIGN,
+                        distance = printTolerance,
+                        neckDistance = 0
+                    );
                 }
             }
         }
@@ -186,7 +142,7 @@ module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter,
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  */
-module curvedBarrier(radius, angle, width, height) {
+module curvedBarrierBody(radius, angle, width, height) {
     extrudeCurvedProfile(radius=radius, angle=angle) {
         barrierProfile(
             width = width,
@@ -197,7 +153,7 @@ module curvedBarrier(radius, angle, width, height) {
 }
 
 /**
- * Draws the shape of a curved barrier in the male variant.
+ * Draws the shape of a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
@@ -205,38 +161,14 @@ module curvedBarrier(radius, angle, width, height) {
  * @param Number diameter - The diameter of the fasteners.
  * @param Number headDiameter - The diameter of the fasteners head.
  * @param Number headHeight - The height of the fasteners head.
+ * @param Boolean [right] - Tells on which side is the male link (default on the left).
  * @param Number [holes] - The number of holes to drill.
  */
-module curvedBarrierMale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    color(colorMale) {
-        placeCurvedElement(radius=radius, angle=angle) {
-            curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-                curvedLinkMale(radius=radius, angle=angle, width=width, height=height) {
-                    curvedBarrier(radius=radius, angle=angle, width=width, height=height);
-                }
-            }
-        }
-    }
-}
-
-/**
- * Draws the shape of a curved barrier in the female variant.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @param Number diameter - The diameter of the fasteners.
- * @param Number headDiameter - The diameter of the fasteners head.
- * @param Number headHeight - The height of the fasteners head.
- * @param Number [holes] - The number of holes to drill.
- */
-module curvedBarrierFemale(radius, angle, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    color(colorFemale) {
-        placeCurvedElement(radius=radius, angle=angle) {
-            curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-                curvedLinkFemale(radius=radius, angle=angle, width=width, height=height) {
-                    curvedBarrier(radius=radius, angle=angle, width=width, height=height);
-                }
+module curvedBarrier(radius, angle, width, height, diameter, headDiameter, headHeight, right=false, holes=FASTENER_HOLES) {
+    placeCurvedElement(radius=radius, angle=angle) {
+        curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
+            curvedLinks(radius=radius, angle=angle, width=width, height=height, right=right) {
+                curvedBarrierBody(radius=radius, angle=angle, width=width, height=height);
             }
         }
     }

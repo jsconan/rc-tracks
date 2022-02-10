@@ -29,88 +29,49 @@
  */
 
 /**
- * Gets the outer length of the shape of a straight barrier in the female variant.
+ * Gets the outer length of the shape of a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getStraightBarrierFemaleLength(length, width, height) = length;
+function getStraightBarrierLength(length, width, height) = length + getBarrierLinkLength(width, height);
 
 /**
- * Gets the outer width of the shape of a straight barrier in the female variant.
+ * Gets the outer width of the shape of a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getStraightBarrierFemaleWidth(length, width, height) = width;
+function getStraightBarrierWidth(length, width, height) = width;
 
 /**
- * Gets the outer length of the shape of a straight barrier in the male variant.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getStraightBarrierMaleLength(length, width, height) =
-    getStraightBarrierFemaleLength(length, width, height) +
-    getBarrierLinkLength(width, height) * 2
-;
-
-/**
- * Gets the outer width of the shape of a straight barrier in the male variant.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getStraightBarrierMaleWidth(length, width, height) =
-    getStraightBarrierFemaleWidth(length, width, height)
-;
-
-/**
- * Adds the male links to a straight element.
+ * Adds the links to a straight element.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  */
-module straightLinkMale(length, width, height) {
-    linkHeight = getBarrierLinkHeight(width, height) - layerHeight;
+module straightLinks(length, width, height) {
+    linkHeight = getBarrierLinkHeight(width, height);
 
-    repeatRotate(count=2) {
-        translate([-length, 0, -height] / 2) {
-            barrierLink(
-                width = width,
-                height = linkHeight,
-                distance = -printTolerance,
-                neckDistance = printTolerance
-            );
-        }
+    translate([-length, 0, -height] / 2) {
+        barrierLink(
+            width = width,
+            height = linkHeight - layerHeight,
+            distance = -printTolerance,
+            neckDistance = printTolerance
+        );
     }
-    children();
-}
-
-/**
- * Adds the female links to a straight element.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- */
-module straightLinkFemale(length, width, height) {
-    linkHeight = getBarrierLinkHeight(width, height) + layerHeight;
-
     difference() {
         children();
-        repeatRotate(count=2) {
-            translate([length, 0, -height - ALIGN2] / 2) {
-                barrierLink(
-                    width = width,
-                    height = linkHeight + ALIGN,
-                    distance = printTolerance,
-                    neckDistance = 0
-                );
-            }
+        translate([length, 0, -height - ALIGN2] / 2) {
+            barrierLink(
+                width = width,
+                height = linkHeight + layerHeight + ALIGN,
+                distance = printTolerance,
+                neckDistance = 0
+            );
         }
     }
 }
@@ -149,7 +110,7 @@ module straightFastenerHoles(length, width, height, diameter, headDiameter, head
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
  */
-module straightBarrier(length, width, height) {
+module straightBarrierBody(length, width, height) {
     extrudeStraightProfile(length=length) {
         barrierProfile(
             width = width,
@@ -160,7 +121,7 @@ module straightBarrier(length, width, height) {
 }
 
 /**
- * Draws the shape of a straight barrier in the male variant.
+ * Draws the shape of a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
@@ -169,32 +130,10 @@ module straightBarrier(length, width, height) {
  * @param Number headHeight - The height of the fasteners head.
  * @param Number [holes] - The number of holes to drill.
  */
-module straightBarrierMale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    color(colorMale) {
-        straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-            straightLinkMale(length=length, width=width, height=height) {
-                straightBarrier(length=length, width=width, height=height);
-            }
-        }
-    }
-}
-
-/**
- * Draws the shape of a straight barrier in the female variant.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @param Number diameter - The diameter of the fasteners.
- * @param Number headDiameter - The diameter of the fasteners head.
- * @param Number headHeight - The height of the fasteners head.
- * @param Number [holes] - The number of holes to drill.
- */
-module straightBarrierFemale(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
-    color(colorFemale) {
-        straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-            straightLinkFemale(length=length, width=width, height=height) {
-                straightBarrier(length=length, width=width, height=height);
-            }
+module straightBarrier(length, width, height, diameter, headDiameter, headHeight, holes=FASTENER_HOLES) {
+    straightFastenerHoles(length=length, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
+        straightLinks(length=length, width=width, height=height) {
+            straightBarrierBody(length=length, width=width, height=height);
         }
     }
 }

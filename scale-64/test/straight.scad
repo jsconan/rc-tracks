@@ -34,20 +34,22 @@ include <setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    distributeGrid(intervalX=[getPrintInterval(barrierLength), 0, 0], intervalY=[0, getPrintInterval(barrierWidth), 0], line=1, center=true) {
+    distributeGrid(
+        intervalX = xAxis3D(getPrintInterval(getStraightBarrierLength(barrierLength, barrierWidth, barrierHeight))),
+        intervalY = yAxis3D(getPrintInterval(getStraightBarrierWidth(barrierLength, barrierWidth, barrierHeight))),
+        line = 1,
+        center = true
+    ) {
 
-        // test the shape of a straight barrier in the male variant
-        straightBarrierMale(
+        // test the shape of a straight barrier body
+        straightBarrierBody(
             length = barrierLength,
             width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight
+            height = barrierHeight
         );
 
-        // test the shape of a straight barrier in the female variant
-        straightBarrierFemale(
+        // test the shape of a straight barrier
+        straightBarrier(
             length = barrierLength,
             width = barrierWidth,
             height = barrierHeight,

@@ -23,39 +23,45 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track parts: a set of female barrier chunks for a tight curved track section.
+ * Ready to print track parts: a set of barrier chunks for an enlarged curved track section.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../../../config/setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
     ratio = 1;
-    innerCurveLength = getCurvedBarrierFemaleLength(
+    innerCurveLength = getCurvedBarrierLength(
         getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
         getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
         barrierWidth, barrierHeight
     );
-    outerCurveLength = getCurvedBarrierFemaleLength(
-        getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
-        getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
+    outerCurveLength = getCurvedBarrierLength(
+        getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
         barrierWidth, barrierHeight
     );
+    straightLength = getStraightBarrierLength(barrierLength, barrierWidth, barrierHeight);
 
-    innerCurveChunks = getCurveInnerBarrierChunks(barrierChunks, ratio) / 2 * printQuantity;
-    outerCurveChunks = getCurveOuterBarrierChunks(barrierChunks, ratio) / 2 * printQuantity;
+    innerCurveChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio) * printQuantity;
+    outerCurveChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio) * printQuantity;
+    straightChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio) * 2 * printQuantity;
 
     innerCurveInterval = getGridWidth(innerCurveLength, barrierWidth, quantity=innerCurveChunks, line=printQuantity);
     outerCurveInterval = getGridWidth(outerCurveLength, barrierWidth, quantity=outerCurveChunks, line=printQuantity);
+    straightInterval = getGridWidth(straightLength, barrierWidth, quantity=straightChunks, line=printQuantity);
 
     // Draws the ready to print model
-    outerCurveBarrierFemaleSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
+    translateY((straightInterval + outerCurveInterval) / 2) {
+        straightBarrierSet(quantity=straightChunks, line=printQuantity);
+    }
+    enlargedCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
     translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
-        innerCurveBarrierFemaleSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
+        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
     }
 
 }

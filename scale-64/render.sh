@@ -52,9 +52,7 @@ format=
 parallel=
 cleanUp=
 slice=
-renderBoth=
-renderFemale=
-renderMale=
+renderBarriers=
 renderElements=
 renderGround=
 renderTools=
@@ -88,9 +86,7 @@ renderpath() {
 # @param sourcepath - The path of the folder containing the SCAD files to render.
 # @param destpath - The path to the output folder.
 renderpathall() {
-    if [ "${renderBoth}" != "" ]  || \
-       [ "${renderFemale}" != "" ]     || \
-       [ "${renderMale}" != "" ]    || \
+    if [ "${renderBarriers}" != "" ]  || \
        [ "${renderElements}" != "" ] || \
        [ "${renderGround}" != "" ]  || \
        [ "${renderTools}" != "" ]   || \
@@ -99,17 +95,9 @@ renderpathall() {
     else
         printmessage "${C_MSG}Nothing will be rendered"
     fi
-    if [ "${renderBoth}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- sets of male and female barriers"
-        renderpath "$1/barriers/all" "$2/barriers/all"
-    fi
-    if [ "${renderFemale}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- sets of female barriers"
-        renderpath "$1/barriers/female" "$2/barriers/female"
-    fi
-    if [ "${renderMale}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- set of male barriers"
-        renderpath "$1/barriers/male" "$2/barriers/male"
+    if [ "${renderBarriers}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- sets of barriers"
+        renderpath "$1/barriers" "$2/barriers"
     fi
     if [ "${renderElements}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- all elements"
@@ -143,16 +131,8 @@ while (( "$#" )); do
         "c"|"config")
             renderAll=
         ;;
-        "b"|"both")
-            renderBoth=1
-            renderAll=
-        ;;
-        "f"|"female")
-            renderFemale=1
-            renderAll=
-        ;;
-        "m"|"male")
-            renderMale=1
+        "b"|"barriers")
+            renderBarriers=1
             renderAll=
         ;;
         "e"|"elements")
@@ -227,9 +207,7 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  a,   all            ${C_RST}Render all elements (default)"
-            echo -e "${C_MSG}  b,   both           ${C_RST}Render the sets of male and female barriers"
-            echo -e "${C_MSG}  f,   female         ${C_RST}Render the sets of female barriers"
-            echo -e "${C_MSG}  m,   male           ${C_RST}Render the sets of male barriers"
+            echo -e "${C_MSG}  b,   barriers       ${C_RST}Render the sets of barriers"
             echo -e "${C_MSG}  e,   elements       ${C_RST}Render the elements"
             echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
             echo -e "${C_MSG}  t,   tools          ${C_RST}Render the tools"

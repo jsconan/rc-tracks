@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a male barrier chunk for a straight section.
+ * Ready to print track part: a barrier chunk for the inner curve of a tight curved track section.
  *
  * @author jsconan
  */
@@ -35,6 +35,6 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    straightBarrierMaleSet(quantity=1, line=1);
+    innerCurveBarrierSet(ratio=1, quantity=1, line=1);
 
 }
