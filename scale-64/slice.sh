@@ -40,8 +40,8 @@ fi
 
 # redirect to the lib utils
 "$(dirname $0)/../lib/camelSCAD/scripts/slice.sh" \
-    --input "output" \
-    --output "dist" \
+    --input "dist/stl" \
+    --output "dist/gcode" \
     --config "${configpath}" \
     --prusaslicer \
     --recurse \
