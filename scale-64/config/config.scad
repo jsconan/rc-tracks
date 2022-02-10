@@ -45,5 +45,5 @@ printQuantity = 1;              // Quantity of elements to print per set
 colorGround = "gray";
 colorDecoration = "white";
 colorPeg = "yellow";
-colorMale = "beige";
-colorFemale = "crimson";
+colorEven = "beige";
+colorOdd = "crimson";
