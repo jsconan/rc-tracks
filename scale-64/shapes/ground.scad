@@ -101,7 +101,7 @@ module barrierLinkGround(width, height, thickness) {
                 width = width,
                 height = height,
                 distance = 0,
-                neckDistance = 0
+                neckDistance = printTolerance
             );
         }
     }
