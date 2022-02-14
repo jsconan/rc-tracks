@@ -348,11 +348,12 @@ module printConfig(lane, thickness, width, height, chunks, diameter, headDiamete
     base = getBarrierBaseUnit(width, height);
     trackSectionLength = getTrackSectionLength(lane, width);
     trackSectionWidth = getTrackSectionWidth(lane, width);
+    trackSectionPadding = (trackSectionLength - trackSectionWidth) / 2;
     barrierLength = getBarrierLength(lane, width, chunks);
-    tightCurveInnerRadius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, width, 1);
-    tightCurveOuterRadius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, width, 1);
-    largeCurveInnerRadius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, width, 2);
-    largeCurveOuterRadius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, width, 2);
+    tightCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 1) + barrierWidth;
+    tightCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 1) - barrierWidth;
+    largeCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 2) + barrierWidth;
+    largeCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 2) - barrierWidth;
 
     echo(join([
         "",
@@ -363,6 +364,7 @@ module printConfig(lane, thickness, width, height, chunks, diameter, headDiamete
         str("Track lane width:              ", lane / 10, "cm"),
         str("Track section length:          ", trackSectionLength / 10, "cm"),
         str("Track section width:           ", trackSectionWidth / 10, "cm"),
+        str("Track section padding:         ", trackSectionPadding / 10, "cm"),
         str("Tight curve inner radius:      ", tightCurveInnerRadius / 10, "cm"),
         str("Tight curve outer radius:      ", tightCurveOuterRadius / 10, "cm"),
         str("Large curve inner radius:      ", largeCurveInnerRadius / 10, "cm"),
