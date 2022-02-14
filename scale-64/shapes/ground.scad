@@ -76,8 +76,8 @@ module straightGroundHoles(length, width, thickness, barrierWidth, barrierHeight
 
 /**
  * Draws the shape of the link hole for a ground tile.
- * @param Number barrierWidth - The width of the barrier.
- * @param Number barrierHeight - The height of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
  */
 module barrierLinkGroundHole(width, height) {
     barrierLink(
@@ -90,8 +90,8 @@ module barrierLinkGroundHole(width, height) {
 
 /**
  * Draws the shape of the link for a ground tile.
- * @param Number barrierWidth - The width of the barrier.
- * @param Number barrierHeight - The height of the barrier.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
  * @param Number thickness - The thickness of the link.
  */
 module barrierLinkGround(width, height, thickness) {
@@ -167,7 +167,7 @@ module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight,
  */
 module startingGroundTileDecoration(length, width, thickness, barrierWidth, barrierHeight, startPositions=3, startLines=2) {
     // Prepare the parameters
-    laneWidth = getTrackLaneWidth(length, width);
+    laneWidth = getTrackLaneWidth(width, barrierWidth);
     finishLineWidth = laneWidth / 10;
     finishLineArea = finishLineWidth * 2;
     finishLinePosition = length / 2;

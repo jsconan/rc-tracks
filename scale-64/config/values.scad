@@ -46,11 +46,11 @@ function getTrackSectionLength(laneWidth, barrierWidth) = getTrackSectionWidth(l
 
 /**
  * Computes the width of the track lane from the given track section length and width.
- * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
+ * @param Number barrierWidth - The width of the barriers.
  * @returns Number
  */
-function getTrackLaneWidth(length, width) = width - 2 * (length - width) / 5;
+function getTrackLaneWidth(width, barrierWidth) = width - barrierWidth * 2;
 
 /**
  * Computes the length of a barrier chunk.
