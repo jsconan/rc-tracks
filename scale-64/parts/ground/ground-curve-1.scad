@@ -37,11 +37,12 @@ applyMode(mode=renderMode) {
     ratio = 1;
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
+    outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
     pegsQuantity = innerBarrierChunks + outerBarrierChunks;
 
     // Draws the ready to print model
     curvedTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(trackSectionLength / 2)) {
+    translateY(-getPrintInterval(sin(getCurveAngle(ratio)) * outerRadius / 2)) {
         barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
 

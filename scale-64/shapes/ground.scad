@@ -302,6 +302,9 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
 
+    centerX = (outerRadius - cos(angle) * innerRadius) / 2 - outerRadius;
+    centerY = -(sin(angle) * outerRadius) / 2;
+
     module maleLink() {
         barrierLinkGround(
             width = barrierWidth,
@@ -317,7 +320,7 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
         );
     }
 
-    translate([-innerRadius - (outerRadius - innerRadius) / 2, -length / 2, 0]) {
+    translate([centerX, centerY, 0]) {
         difference() {
             // Tile body
             curvedGround(
@@ -412,7 +415,7 @@ module enlargedCurveGroundTile(length, width, thickness, barrierWidth, barrierHe
         );
     }
 
-    translate([-innerRadius - (outerRadius - innerRadius) / 2, -length / 2, 0]) {
+    translate([-outerRadius, -outerRadius, 0] / 2) {
         difference() {
             // Tile body
             largeCurveGround(
