@@ -136,6 +136,19 @@ module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter,
 }
 
 /**
+ * Places a curved element.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The angle of the curve.
+ */
+module placeCurvedElement(radius, angle) {
+    translateY(-radius) {
+        rotateZ(getCurveRotationAngle(angle)) {
+            children();
+        }
+    }
+}
+
+/**
  * Draws the shape of a straight barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.

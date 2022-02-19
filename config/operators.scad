@@ -54,20 +54,6 @@ module extrudeCurvedProfile(radius, angle) {
 }
 
 /**
- * Places a curved element.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The angle of the curve.
- * @param Number z - An option Z-axis translation.
- */
-module placeCurvedElement(radius, angle, z=0) {
-    translate([0, getChordHeight(angle, radius) / 2 - radius, z]) {
-        rotateZ(getCurveRotationAngle(angle)) {
-            children();
-        }
-    }
-}
-
-/**
  * Adjusts the position on the print plat to either print as it or to flip upside down the model.
  * @param Boolean flip - Flip upside down the element.
  */

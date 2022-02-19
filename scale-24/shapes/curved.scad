@@ -115,6 +115,20 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
 }
 
 /**
+ * Places a curved element.
+ * @param Number radius - The radius of the curve.
+ * @param Number angle - The angle of the curve.
+ * @param Number z - An option Z-axis translation.
+ */
+module placeCurvedElement(radius, angle, z=0) {
+    translate([0, getChordHeight(angle, radius) / 2 - radius, z]) {
+        rotateZ(getCurveRotationAngle(angle)) {
+            children();
+        }
+    }
+}
+
+/**
  * Adds the links to a curved element.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The angle of the curve.
