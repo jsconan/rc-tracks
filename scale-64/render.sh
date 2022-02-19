@@ -61,6 +61,23 @@ renderAll=1
 # include libs
 source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 
+# Builds the list of config parameters.
+paramlist() {
+    local params=(
+        "$(varif "trackLaneWidth" ${trackLaneWidth})"
+        "$(varif "trackGroundThickness" ${trackGroundThickness})"
+        "$(varif "barrierWidth" ${barrierWidth})"
+        "$(varif "barrierHeight" ${barrierHeight})"
+        "$(varif "barrierChunks" ${barrierChunks})"
+        "$(varif "fastenerDiameter" ${fastenerDiameter})"
+        "$(varif "fastenerHeadDiameter" ${fastenerHeadDiameter})"
+        "$(varif "fastenerHeadHeight" ${fastenerHeadHeight})"
+        "$(varif "printGroundUpsideDown" ${printGroundUpsideDown})"
+        "$(varif "printQuantity" ${printQuantity})"
+    )
+    echo "${params[@]}"
+}
+
 # Renders the files from a path.
 #
 # @param sourcepath - The path of the folder containing the SCAD files to render.
@@ -68,17 +85,7 @@ source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 # @param prefix - Optional prefix added to the output file name
 # @param suffix - Optional suffix added to the output file name
 renderpath() {
-    scadrenderall "$1" "$2" "$3" "$4" \
-        "$(varif "trackLaneWidth" ${trackLaneWidth})" \
-        "$(varif "trackGroundThickness" ${trackGroundThickness})" \
-        "$(varif "barrierWidth" ${barrierWidth})" \
-        "$(varif "barrierHeight" ${barrierHeight})" \
-        "$(varif "barrierChunks" ${barrierChunks})" \
-        "$(varif "fastenerDiameter" ${fastenerDiameter})" \
-        "$(varif "fastenerHeadDiameter" ${fastenerHeadDiameter})" \
-        "$(varif "fastenerHeadHeight" ${fastenerHeadHeight})" \
-        "$(varif "printGroundUpsideDown" ${printGroundUpsideDown})" \
-        "$(varif "printQuantity" ${printQuantity})"
+    scadrenderall "$1" "$2" "$3" "$4" --quiet $(paramlist)
 }
 
 # Renders the files from a path.
@@ -115,10 +122,14 @@ renderpathall() {
 
 # Display the render config
 showconfig() {
+    local input="${configpath}/print.scad"
+    local output="${dstpath}/print.echo"
     local config="${dstpath}/config.txt"
     createpath "${dstpath}" "output"
     printmessage "${C_MSG}The track elements would be generated with respect to the following config:"
-    renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,8ba' -e 'P;D' > "${config}"
+    scadecho "${input}" "${dstpath}" "" "" $(paramlist) > /dev/null
+    sed '1d; $d' "${output}" > "${config}"
+    rm "${output}" > /dev/null
     cat "${config}"
 }
 
