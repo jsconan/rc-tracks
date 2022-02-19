@@ -101,14 +101,6 @@ applyMode(mode=renderMode) {
             ratio = 1
         );
 
-        // test the barrier peg remover profile
-        barrierPegRemoverProfile(
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            distance = printTolerance
-        );
-
         // test the starting block profile
         startingBlockProfile(
             length = max(barrierWidth, barrierHeight),

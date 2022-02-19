@@ -31,6 +31,48 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
+/**
+ * Draws the shape of the barrier peg extractor.
+ * @param Number width - The width of the barrier.
+ * @param Number height - The height of the barrier.
+ * @param Number diameter - The diameter of the fastener.
+ * @param Number thickness - The thickness of the track ground.
+ * @param Number [distance] - An additional distance added to the outline of the profile.
+ */
+module barrierPegExtractor(width, height, diameter, thickness, distance=0) {
+    // Prepare the parameters for the polygon
+    pegDiameter = getBarrierPegDiameter(width, height);
+
+    jawLength = pegDiameter * 5;
+    jawWidth = pegDiameter * 3;
+    radius = pegDiameter / 2;
+    handleHeight = thickness * 6;
+    handleWidth = jawWidth + (handleHeight + radius + distance) * 2;
+    handleLength = jawLength * 2;
+
+    remainingLength = jawLength - radius + ALIGN;
+    remainingWidth = jawWidth;
+    brushHeight = handleHeight + ALIGN2;
+
+    jawPoints = outline(path([
+        ["P", radius, radius],
+        ["C", radius, 90, 270],
+        ["L", remainingLength, radius - remainingWidth / 2],
+        ["V", remainingWidth],
+    ]), distance);
+
+    difference() {
+        cushion([handleLength, handleWidth, handleHeight], r=radius, center=true);
+        translateZ(-brushHeight / 2) {
+            simplePolyhedron(
+                bottom = jawPoints,
+                top = outline(jawPoints, brushHeight),
+                distance = zAxis3D(brushHeight)
+            );
+        }
+    }
+}
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
