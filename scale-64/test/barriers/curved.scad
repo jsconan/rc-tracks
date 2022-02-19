@@ -23,13 +23,13 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Test the curved elements shapes.
+ * Test the shapes for the curved barriers.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
@@ -46,26 +46,6 @@ applyMode(mode=renderMode) {
         line = 1,
         center = true
     ) {
-
-        // test the shape of a curved barrier body for the outer radius of a track section
-        placeCurvedElement(radius=outerRadius, angle=outerAngle) {
-            curvedBarrierBody(
-                radius = outerRadius,
-                angle = outerAngle,
-                width = barrierWidth,
-                height = barrierHeight
-            );
-        }
-
-        // test the shape of a curved barrier body for the inner radius of a track section
-        placeCurvedElement(radius=innerRadius, angle=innerAngle) {
-            curvedBarrierBody(
-                radius = innerRadius,
-                angle = innerAngle,
-                width = barrierWidth,
-                height = barrierHeight
-            );
-        }
 
         // test the shape of a curved barrier for the outer radius of a track section
         curvedBarrier(

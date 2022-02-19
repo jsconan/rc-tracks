@@ -23,13 +23,13 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Test the straight elements shapes.
+ * Test the shapes for the straight barriers.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
@@ -40,13 +40,6 @@ applyMode(mode=renderMode) {
         line = 1,
         center = true
     ) {
-
-        // test the shape of a straight barrier body
-        straightBarrierBody(
-            length = barrierLength,
-            width = barrierWidth,
-            height = barrierHeight
-        );
 
         // test the shape of a straight barrier
         straightBarrier(

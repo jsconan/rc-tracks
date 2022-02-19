@@ -23,39 +23,13 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Defines the curved track parts.
+ * Defines the shapes for the curved barriers.
  *
  * @author jsconan
  */
 
 /**
- * Gets the outer length of the shape of a curved barrier.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getCurvedBarrierLength(radius, angle, width, height) =
-    getChordLength(angle, radius + width / 2) +
-    getBarrierLinkLength(width, height) * cos((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2)
-;
-
-/**
- * Gets the outer width of the shape of a curved barrier.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getCurvedBarrierWidth(radius, angle, width, height) =
-    getChordHeight(angle, radius - width / 2) + width +
-    getBarrierLinkLength(width, height) * sin((CURVE_ANGLE - getCurveRotationAngle(angle)) / 2)
-;
-
-/**
- * Adds the links to a curved element.
+ * Adds the links to a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
@@ -103,7 +77,7 @@ module curvedLinks(radius, angle, width, height, right=false) {
 }
 
 /**
- * Adds the fastener holes to a curved element.
+ * Adds the fastener holes to a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
@@ -136,20 +110,7 @@ module curvedFastenerHoles(radius, angle, width, height, diameter, headDiameter,
 }
 
 /**
- * Places a curved element.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The angle of the curve.
- */
-module placeCurvedElement(radius, angle) {
-    translateY(-radius) {
-        rotateZ(getCurveRotationAngle(angle)) {
-            children();
-        }
-    }
-}
-
-/**
- * Draws the shape of a straight barrier.
+ * Draws the body of a curved barrier.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The extrusion angle.
  * @param Number width - The width of the barrier.
@@ -178,10 +139,12 @@ module curvedBarrierBody(radius, angle, width, height) {
  * @param Number [holes] - The number of holes to drill.
  */
 module curvedBarrier(radius, angle, width, height, diameter, headDiameter, headHeight, right=false, holes=FASTENER_HOLES) {
-    placeCurvedElement(radius=radius, angle=angle) {
-        curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
-            curvedLinks(radius=radius, angle=angle, width=width, height=height, right=right) {
-                curvedBarrierBody(radius=radius, angle=angle, width=width, height=height);
+    translateY(-radius) {
+        rotateZ(getCurveRotationAngle(angle)) {
+            curvedFastenerHoles(radius=radius, angle=angle, width=width, height=height, diameter=diameter, headDiameter=headDiameter, headHeight=headHeight, holes=holes) {
+                curvedLinks(radius=radius, angle=angle, width=width, height=height, right=right) {
+                    curvedBarrierBody(radius=radius, angle=angle, width=width, height=height);
+                }
             }
         }
     }

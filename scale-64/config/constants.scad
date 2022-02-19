@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2022 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/rc-tracks.
  *
@@ -21,12 +21,12 @@
  */
 
 /**
- * A race track system for 1/64 to 1/76 scale RC cars.
+ * A race track system for RC cars of various scales.
  *
- * Setup the context and define the config for the tests.
+ * Local constants for the project.
  *
  * @author jsconan
  */
 
-// Import the project's setup.
-include <../config/setup.scad>
+// The number of fastener holes per barrier chunks
+FASTENER_HOLES = 1;

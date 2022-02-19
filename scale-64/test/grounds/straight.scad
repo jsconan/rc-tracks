@@ -23,13 +23,13 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Test the ground elements shapes.
+ * Test the shapes for the straight ground tiles.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
@@ -56,61 +56,6 @@ applyMode(mode=renderMode) {
             barrierHeight = barrierHeight,
             barrierChunks = barrierChunks,
             ratio = .5
-        );
-
-        // test the shape of a curved ground tile: 1 per corner
-        curvedGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = 1
-        );
-
-        // test the shape of a curved ground tile: 2 per corner
-        curvedGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = .5
-        );
-
-        // test the shape of a curved ground tile: 4 per corner
-        curvedGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = 2
-        );
-
-        // test the shape of a curved ground tile: 8 per corner
-        curvedGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = 4
-        );
-
-        // test the shape of a curved ground tile with extra space
-        enlargedCurveGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = 1
         );
 
         // test the shape of the decoration for a starting ground tile

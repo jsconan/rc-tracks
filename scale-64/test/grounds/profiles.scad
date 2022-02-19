@@ -23,73 +23,64 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Test the fragments shapes.
+ * Test the profiles for the ground tiles.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <setup.scad>
+include <../../config/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
     distributeGrid(intervalX=[getPrintInterval(barrierWidth), 0, 0], intervalY=[0, getPrintInterval(barrierHeight), 0], line=2, center=true) {
 
-        // test the barrier link shape
-        barrierLink(
-            width = barrierWidth,
-            height = barrierHeight,
-            distance = printTolerance,
-            neckDistance = printTolerance,
-            center = true
-        );
-
-        // test the barrier peg shape
-        barrierPeg(
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            thickness = trackGroundThickness,
-            distance = printTolerance
-        );
-
-        // test the barrier peg hole shape
-        barrierPegHole(
+        // test the barrier peg hole profile
+        barrierPegHoleProfile(
             width = barrierWidth,
             height = barrierHeight,
             thickness = trackGroundThickness,
             distance = printTolerance
         );
 
-        // test the barrier fastening hole shape
-        barrierFastenerHole(
-            width = barrierWidth,
-            height = barrierHeight,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            distance = printTolerance
+        // test the curved track ground profile with a size ratio of 2
+        curvedGroundProfile(
+            length = max(barrierWidth, barrierHeight) / 2,
+            width = min(barrierWidth, barrierHeight) / 2,
+            angle = CURVE_ANGLE,
+            ratio = 2
         );
 
-        // test the starting block shape
-        startingBlock(
+        // test the curved track ground profile with a size ratio of 1
+        curvedGroundProfile(
+            length = max(barrierWidth, barrierHeight) / 2,
+            width = min(barrierWidth, barrierHeight) / 2,
+            angle = CURVE_ANGLE,
+            ratio = 1
+        );
+
+        // test the enlarged curve track ground profile
+        enlargedCurveGroundProfile(
+            length = max(barrierWidth, barrierHeight) / 2,
+            width = min(barrierWidth, barrierHeight) / 2,
+            ratio = 1
+        );
+
+        // test the starting block profile
+        startingBlockProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight) / 2,
-            height = trackGroundThickness,
             thickness = getBarrierBaseUnit(barrierWidth, barrierHeight) / 2,
-            distance = printTolerance,
-            center = true
+            distance = printTolerance
         );
 
-        // test the finish line shape
-        finishLine(
+        // test the finish line profile
+        finishLineProfile(
             length = max(barrierWidth, barrierHeight),
             width = min(barrierWidth, barrierHeight) / 2,
-            height = trackGroundThickness,
             lines = 4,
-            distance = printTolerance,
-            center = true
+            distance = printTolerance
         );
 
     }

@@ -23,31 +23,13 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Defines the straight track parts.
+ * Defines the shapes for the straight barriers.
  *
  * @author jsconan
  */
 
 /**
- * Gets the outer length of the shape of a straight barrier.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getStraightBarrierLength(length, width, height) = length + getBarrierLinkLength(width, height);
-
-/**
- * Gets the outer width of the shape of a straight barrier.
- * @param Number length - The length of the barrier.
- * @param Number width - The width of the barrier.
- * @param Number height - The height of the barrier.
- * @returns Number
- */
-function getStraightBarrierWidth(length, width, height) = width;
-
-/**
- * Adds the links to a straight element.
+ * Adds the links to a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
@@ -77,7 +59,7 @@ module straightLinks(length, width, height) {
 }
 
 /**
- * Adds the fastener holes to a straight element.
+ * Adds the fastener holes to a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
@@ -105,7 +87,7 @@ module straightFastenerHoles(length, width, height, diameter, headDiameter, head
 }
 
 /**
- * Draws the shape of a straight barrier.
+ * Draws the body of a straight barrier.
  * @param Number length - The length of the barrier.
  * @param Number width - The width of the barrier.
  * @param Number height - The height of the barrier.
