@@ -52,6 +52,12 @@ include <../shapes/grounds/straight.scad>
 include <../shapes/grounds/curved.scad>
 include <../shapes/grounds/elements.scad>
 
+// Include the shapes for the animations
+include <../shapes/animations/helpers.scad>
+include <../shapes/animations/operators.scad>
+include <../shapes/animations/straight.scad>
+include <../shapes/animations/curved.scad>
+
 // The overall length of a track section (size of a tile in the track)
 trackSectionLength = getTrackSectionLength(trackLaneWidth, barrierWidth);
 
