@@ -80,3 +80,44 @@ module animatedStraightSection(start, end, domain, ratio=1) {
         }
     }
 }
+
+/**
+ * An assembled straight section.
+ * @param Number [ratio] - The size factor.
+ */
+module straightSection(ratio=1) {
+    elements = getStraightSectionSteps(ratio);
+    steps = len(elements);
+
+    for (step = [0 : steps - 1]) {
+        element = elements[step][0];
+        i = elements[step][1];
+        right = elements[step][2];
+
+        barrierX = getStraightBarrierX(i, ratio, right);
+        barrierY = getStraightBarrierY(i, ratio, right);
+        rotation = getStraightRotation(i, ratio, right);
+
+        if (element == "peg") {
+            color(colorPeg) {
+                translate([barrierX, barrierY, 0]) {
+                    barrierPegSet();
+                }
+            }
+        }
+        if (element == "barrier") {
+            color(even(i) ? colorEven : colorOdd) {
+                translate([barrierX, barrierY, trackGroundThickness]) {
+                    rotate(zAxis3D(rotation)) {
+                        straightBarrierSet();
+                    }
+                }
+            }
+        }
+        if (element == "ground") {
+            color(colorGround) {
+                straightTrackSectionGround(ratio=ratio);
+            }
+        }
+    }
+}
