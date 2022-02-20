@@ -122,12 +122,12 @@ renderpathall() {
 
 # Display the render config
 showconfig() {
-    local input="${configpath}/print.scad"
-    local output="${dstpath}/print.echo"
+    local input="${configpath}/setup.scad"
+    local output="${dstpath}/setup.echo"
     local config="${dstpath}/config.txt"
     createpath "${dstpath}" "output"
     printmessage "${C_MSG}The track elements would be generated with respect to the following config:"
-    scadecho "${input}" "${dstpath}" "" "" $(paramlist) > /dev/null
+    scadecho "${input}" "${dstpath}" "" "" showConfig=1 $(paramlist) > /dev/null
     sed '1d; $d' "${output}" > "${config}"
     rm "${output}" > /dev/null
     cat "${config}"

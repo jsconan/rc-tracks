@@ -34,13 +34,10 @@ include <../../config/setup.scad>
 // Include the config for the project
 include <config.scad>
 include <constants.scad>
-
-// Include the helpers
 include <helpers.scad>
-include <../shapes/barriers/helpers.scad>
-include <../shapes/grounds/helpers.scad>
 
 // Include the shapes for the barriers
+include <../shapes/barriers/helpers.scad>
 include <../shapes/barriers/profiles.scad>
 include <../shapes/barriers/fragments.scad>
 include <../shapes/barriers/straight.scad>
@@ -48,6 +45,7 @@ include <../shapes/barriers/curved.scad>
 include <../shapes/barriers/elements.scad>
 
 // Include the shapes for the ground tiles
+include <../shapes/grounds/helpers.scad>
 include <../shapes/grounds/profiles.scad>
 include <../shapes/grounds/fragments.scad>
 include <../shapes/grounds/straight.scad>
@@ -62,6 +60,51 @@ trackSectionWidth = getTrackSectionWidth(trackLaneWidth, barrierWidth);
 
 // The length of a barrier chunk
 barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks);
+
+// Show the config values
+if (showConfig) {
+    let(
+        barrierBaseUnit = getBarrierBaseUnit(barrierWidth, barrierHeight),
+        trackSectionPadding = (trackSectionLength - trackSectionWidth) / 2,
+        tightCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 1) + barrierWidth,
+        tightCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 1) - barrierWidth,
+        largeCurveInnerRadius = getCurveInnerRadius(trackSectionLength, trackSectionWidth, 2) + barrierWidth,
+        largeCurveOuterRadius = getCurveOuterRadius(trackSectionLength, trackSectionWidth, 2) - barrierWidth
+    ) {
+        echo(join([
+            "",
+            str("-- RC Track System ------------------"),
+            str("Version:                       ", projectVersion),
+            str("Scale:                         ", "1/64 to 1/76"),
+            str("-- Track elements -------------------"),
+            str("Track lane width:              ", trackLaneWidth / 10, "cm"),
+            str("Track section length:          ", trackSectionLength / 10, "cm"),
+            str("Track section width:           ", trackSectionWidth / 10, "cm"),
+            str("Track section padding:         ", trackSectionPadding / 10, "cm"),
+            str("Tight curve inner radius:      ", tightCurveInnerRadius / 10, "cm"),
+            str("Tight curve outer radius:      ", tightCurveOuterRadius / 10, "cm"),
+            str("Large curve inner radius:      ", largeCurveInnerRadius / 10, "cm"),
+            str("Large curve outer radius:      ", largeCurveOuterRadius / 10, "cm"),
+            str("Barrier width:                 ", barrierWidth, "mm"),
+            str("Barrier height:                ", barrierHeight, "mm"),
+            str("Barrier length:                ", barrierLength, "mm"),
+            str("Barrier chunks:                ", barrierChunks, " per section"),
+            str("Barrier base value:            ", barrierBaseUnit, "mm"),
+            str("Barrier fastener diameter      ", fastenerDiameter, "mm"),
+            str("Barrier fastener head diameter ", fastenerHeadDiameter, "mm"),
+            str("Barrier fastener head height   ", fastenerHeadHeight, "mm"),
+            str("Ground thickness:              ", trackGroundThickness, "mm"),
+            str("-- Printer settings -----------------"),
+            str("Nozzle diameter:               ", nozzleWidth, "mm"),
+            str("Print layer:                   ", layerHeight, "mm"),
+            str("Print tolerance:               ", printTolerance, "mm"),
+            str("Printer's length:              ", printerLength / 10, "cm"),
+            str("Printer's width:               ", printerWidth / 10, "cm"),
+            str("Print interval:                ", printInterval, "mm"),
+            ""
+        ], str(chr(13), chr(10))));
+    }
+}
 
 // Validate the config values, checking if they match the critical constraints.
 let(
