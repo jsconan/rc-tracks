@@ -157,3 +157,9 @@ function getCurveAngle(ratio) = CURVE_ANGLE / abs(ratio);
  * @returns Number
  */
 function getCurveRotationAngle(angle) = CURVE_ANGLE - angle / 2;
+
+/**
+ * Prints the project version, including the package version.
+ * @returns String
+ */
+function printVersion() = str(PROJECT_VERSION, " (package: ", PACKAGE_VERSION, ")");

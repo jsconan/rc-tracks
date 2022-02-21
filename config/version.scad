@@ -23,9 +23,11 @@
 /**
  * A race track system for RC cars of various scales.
  *
- * Version of the project.
+ * Version of the package.
  *
  * @author jsconan
  */
 
-projectVersion = "0.5.0";
+PACKAGE_VERSION = "0.5.0";
+PROJECT_VERSION = "0.0.0";
+PROJECT_SCALE = "various";

@@ -31,7 +31,7 @@
 // Imports the library.
 include <../lib/camelSCAD/shapes.scad>
 
-// Defines the project's version
+// Defines the package's version
 include <version.scad>
 
 // Imports the global configuration
