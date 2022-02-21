@@ -258,8 +258,8 @@ module printConfig(length, width, lane, height, radius, base) {
     echo(join([
         "",
         str("-- RC Track System ------------"),
-        str("Version:               ", projectVersion),
-        str("Scale:                 ", "1/24 to 1/32"),
+        str("Scale:                 ", PROJECT_SCALE),
+        str("Version:               ", printVersion()),
         str("-- Track elements -------------"),
         str("Track section length:  ", length / 10, "cm"),
         str("Curve section length:  ", getCurveLength(length) / 10, "cm"),

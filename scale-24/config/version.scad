@@ -23,37 +23,10 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Setup the context.
+ * Version of the project.
  *
  * @author jsconan
  */
 
-// Bootstrap the project using the global config
-include <../../config/setup.scad>
-
-// Defines the project's version
-include <version.scad>
-
-// Then we need the config for the project, as well as the related functions
-include <config.scad>
-include <values.scad>
-
-// Finally, include the shapes
-include <../shapes/profiles.scad>
-include <../shapes/fragments.scad>
-include <../shapes/straight.scad>
-include <../shapes/curved.scad>
-include <../shapes/uturn.scad>
-include <../shapes/arch.scad>
-include <../shapes/connector.scad>
-include <../shapes/accessories.scad>
-
-// Validate the config against the constraints
-validateConfig(
-    length = trackSectionLength,
-    width = trackSectionWidth,
-    lane = trackLaneWidth,
-    height = barrierHeight,
-    radius = trackRadius,
-    base = barrierHolderBase
-);
+PROJECT_VERSION = "0.5.0";
+PROJECT_SCALE = "1/24 to 1/32";
