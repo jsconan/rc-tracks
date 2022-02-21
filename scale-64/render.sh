@@ -273,6 +273,9 @@ if [ "${cleanUp}" != "" ]; then
     fi
 fi
 
+# make sure the config exists
+distfile "${configpath}/config.scad"
+
 # show the config
 showconfig
 

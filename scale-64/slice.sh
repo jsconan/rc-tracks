@@ -29,14 +29,14 @@
 #
 
 # script config
+scriptpath=$(dirname $0)
 configpath="config/config.ini"
-configdefault="config/config-dist.ini"
+
+# include libs
+source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 
 # defines the config path
-if [ "${configpath}" != "" ] && [ ! -f "${configpath}" ]; then
-    printmessage "${C_ERR}Warning! The config for Slic3r does not exist.\nWill use the default one"
-    cp "${configdefault}" "${configpath}"
-fi
+distfile "${configpath}"
 
 # redirect to the lib utils
 "$(dirname $0)/../lib/camelSCAD/scripts/slice.sh" \

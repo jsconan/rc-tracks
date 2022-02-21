@@ -34,6 +34,7 @@ project=$(pwd)
 srcpath="${project}/pictures"
 dstpath="${project}/dist/pictures"
 tmppath="${project}/tmp"
+configpath="${project}/config"
 
 # include libs
 source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
@@ -51,6 +52,9 @@ theme="Starnight"
 # prepate the output folder
 createpath "${dstpath}" "output"
 createpath "${tmppath}" "tmp"
+
+# make sure the config exists
+distfile "${configpath}/config.scad"
 
 # list the pictures to render
 printmessage "Processing rendering from ${C_SEL}${srcpath}${C_RST}..."
