@@ -31,6 +31,9 @@
 // Bootstrap the project using the global config
 include <../../config/setup.scad>
 
+// Defines the project's version
+include <version.scad>
+
 // Include the config for the project
 include <config.scad>
 include <constants.scad>
@@ -80,8 +83,8 @@ if (showConfig) {
         echo(join([
             "",
             str("-- RC Track System ------------------"),
-            str("Version:                       ", projectVersion),
-            str("Scale:                         ", "1/64 to 1/76"),
+            str("Scale:                         ", PROJECT_SCALE),
+            str("Version:                       ", printVersion()),
             str("-- Track elements -------------------"),
             str("Track lane width:              ", trackLaneWidth / 10, "cm"),
             str("Track section length:          ", trackSectionLength / 10, "cm"),
