@@ -84,3 +84,14 @@ module placeElements(length, width, quantity=1, line=undef) {
         children();
     }
 }
+
+/**
+ * Centers the children elements to te printer's build plate.
+ * @param Boolean [moveOrigin] - Translate the children in order to be centered on the build plate.
+ */
+module centerBuildPlate(moveOrigin = false) {
+    buildPlate([printerLength, printerWidth], center=!moveOrigin);
+    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
+        children();
+    }
+};

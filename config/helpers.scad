@@ -157,14 +157,3 @@ function getCurveAngle(ratio) = CURVE_ANGLE / abs(ratio);
  * @returns Number
  */
 function getCurveRotationAngle(angle) = CURVE_ANGLE - angle / 2;
-
-/**
- * Centers the children elements to te printer's build plate.
- * @param Boolean [moveOrigin] - Translate the children in order to be centered on the build plate.
- */
-module centerBuildPlate(moveOrigin = false) {
-    buildPlate([printerLength, printerWidth], center=!moveOrigin);
-    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
-        children();
-    }
-};
