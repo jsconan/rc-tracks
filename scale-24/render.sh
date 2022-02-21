@@ -231,6 +231,9 @@ if [ "${cleanUp}" != "" ]; then
     rm -rf "${dstpath}"
 fi
 
+# make sure the config exists
+distfile "${configpath}/config.scad"
+
 # show the config
 if [ "${showConfig}" != "" ]; then
     showconfig
