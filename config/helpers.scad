@@ -64,7 +64,7 @@ function shells(N) = N * nozzleWidth;
 function getPrintInterval(size) = size + printInterval;
 
 /**
- * Gets the adjusted quantity of shapes to place on a grid with repect to the size of one shape.
+ * Gets the adjusted quantity of shapes to place on a grid with respect to the size of one shape.
  * @param Number length - The length of the shape.
  * @param Number width - The width of the shape.
  * @param Number [quantity] - The number of shapes to place.
