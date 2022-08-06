@@ -29,7 +29,7 @@
 #
 
 # script config
-scriptpath=$(dirname $0)
+scriptpath="$(dirname $0)"
 configpath="config/config.ini"
 
 # include libs
@@ -46,3 +46,9 @@ distfile "${configpath}"
     --prusaslicer \
     --recurse \
     "$@"
+
+# run a post-slice script
+if [ -x "${scriptpath}/post-slice.sh" ]; then
+    printmessage "${C_CTX}Calling the post-slice script"
+    "${scriptpath}/post-slice.sh"
+fi

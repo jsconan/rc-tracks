@@ -41,13 +41,13 @@ printGroundUpsideDown=
 printQuantity=
 
 # script config
-scriptpath=$(dirname $0)
-project=$(pwd)
-srcpath=${project}
-dstpath=${project}/dist/stl
-slcpath=${project}/dist/gcode
-configpath=${srcpath}/config
-partpath=${srcpath}/parts
+scriptpath="$(dirname $0)"
+project="$(pwd)"
+srcpath="${project}"
+dstpath="${project}/dist/stl"
+slcpath="${project}/dist/gcode"
+configpath="${srcpath}/config"
+partpath="${srcpath}/parts"
 format=
 parallel=
 cleanUp=
@@ -281,6 +281,12 @@ showconfig
 
 # render the files
 renderpathall "${partpath}" "${dstpath}"
+
+# run a post-render script
+if [ -x "${scriptpath}/post-render.sh" ]; then
+    printmessage "${C_CTX}Calling the post-render script"
+    "${scriptpath}/post-render.sh"
+fi
 
 # slice the rendered files
 if [ "${slice}" != "" ]; then
