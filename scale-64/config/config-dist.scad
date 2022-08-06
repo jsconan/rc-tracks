@@ -46,6 +46,7 @@ showConfig = 0;                 // Show the config when rendering a model. The r
 // Colors applied to the elements when previewed.
 // This will be used for the animations and other pictures, but this won't have effect on the ready to print elements.
 colorGround = "#444";           // Color of the ground tiles
+colorTile = "#468";             // Color of the full tiles
 colorDecoration = "#eed";       // Color of the ground tiles decoration
 colorPeg = "#aaa";              // Color of the barrier pegs
 colorEven = "#eec";             // Color of the barriers, when placed at an even coordinate
