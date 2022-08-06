@@ -29,8 +29,8 @@
 #
 
 # script config
-scriptpath=$(dirname $0)
-project=$(pwd)
+scriptpath="$(dirname $0)"
+project="$(pwd)"
 srcpath="${project}/pictures"
 dstpath="${project}/dist/pictures"
 tmppath="${project}/tmp"
@@ -64,12 +64,15 @@ list=($(find "${srcpath}" -maxdepth 1 -name "${mask}"))
 for filename in "${list[@]}"; do
     name=$(basename "${filename%.*}" )
     showsteps="${tmppath}/${name}.${echoext}"
+    picture=
 
     # get the number of steps
     scadecho "${filename}" "${tmppath}" "" "" showSteps=1 > /dev/null
     step=$(sed 's/[^0-9]*//g' "${showsteps}")
 
     if [ "$step" != "" ]; then
+        picture="${dstpath}/${name}.${vidext}"
+
         # compute the number of images to render
         length=$((${step} * ${imgstep}))
 
@@ -79,15 +82,20 @@ for filename in "${list[@]}"; do
 
         # produce the video
         printmessage "${C_RST}Will render a video of ${C_SEL}${length}${C_RST} frames with a rate of ${C_SEL}${framerate}${C_RST} images per seconds"
-        ffmpeg -framerate ${framerate} -i "${tmppath}/${name}%5d.${imgext}" "${dstpath}/${name}.${vidext}" -y
-
-        # clean up the place
-        rm "${tmppath}/${name}"*."${imgext}" 2> /dev/null
-        rm "${showsteps}" 2> /dev/null
+        ffmpeg -framerate ${framerate} -i "${tmppath}/${name}%5d.${imgext}" "${picture}" -y
     else
+        picture="${dstpath}/${name}.${imgext}"
+
         # generate a single image
         printmessage "${C_RST}Will render a picture from ${C_SEL}${filename}${C_RST}"
         scadpreview "${filename}" "${dstpath}" "${imgext}" "" "" --quiet --projection p --colorscheme "${theme}" --imgsize ${imgwidth},${imgheight}
     fi
-done
 
+    # clean up the place
+    rm "${tmppath}/${name}"*."${imgext}" 2> /dev/null
+    rm "${showsteps}" 2> /dev/null
+
+    if [ -f "${picture}" ]; then
+        printmessage "${C_RST}Picture rendered at ${C_SEL}${picture}${C_RST}"
+    fi
+done
