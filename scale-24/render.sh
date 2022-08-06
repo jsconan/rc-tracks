@@ -145,7 +145,7 @@ while (( "$#" )); do
             trackLaneWidth=$2
             shift
         ;;
-        "-s"|"--sample")
+        "-m"|"--sample")
             sampleSize=$2
             shift
         ;;
@@ -180,7 +180,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the actual width of a track lane (physical width, used for the arches)"
             echo -e "${C_MSG}  -b   --height       ${C_RST}Set the height of the track barrier"
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
-            echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
+            echo -e "${C_MSG}  -m   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
             echo -e "${C_MSG}  -s   --slice        ${C_RST}Slice the rendered files using the default configuration"
