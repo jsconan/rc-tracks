@@ -29,7 +29,7 @@
 #
 
 # script config
-scriptpath=$(dirname $0)
+scriptpath="$(dirname $0)"
 configpath="config/config.ini"
 
 # include libs
@@ -40,8 +40,8 @@ distfile "${configpath}"
 
 # redirect to the lib utils
 "$(dirname $0)/../lib/camelSCAD/scripts/slice.sh" \
-    --input "output" \
-    --output "dist" \
+    --input "dist/stl" \
+    --output "dist/gcode" \
     --config "${configpath}" \
     --prusaslicer \
     --recurse \
