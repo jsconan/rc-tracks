@@ -77,7 +77,7 @@ module startingTrackSectionGround() {
 }
 
 /**
- * A ground tile of a tight curved track section.
+ * A ground tile of a curved track section.
  * @param Number [ratio] - The size factor.
  */
 module curvedTrackSectionGround(ratio=1) {
@@ -97,7 +97,7 @@ module curvedTrackSectionGround(ratio=1) {
 }
 
 /**
- * A ground tile of a tight curved track section with extra space.
+ * A ground tile of a curved track section with extra space.
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurveTrackSectionGround(ratio=1) {

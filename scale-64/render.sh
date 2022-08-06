@@ -55,6 +55,7 @@ slice=
 renderBarriers=
 renderElements=
 renderGround=
+renderTiles=
 renderTools=
 renderAll=1
 
@@ -96,6 +97,7 @@ renderpathall() {
     if [ "${renderBarriers}" != "" ]  || \
        [ "${renderElements}" != "" ] || \
        [ "${renderGround}" != "" ]  || \
+       [ "${renderTiles}" != "" ]   || \
        [ "${renderTools}" != "" ]   || \
        [ "${renderAll}" != "" ]; then
         printmessage "${C_MSG}Rendering track elements"
@@ -113,6 +115,10 @@ renderpathall() {
     if [ "${renderGround}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- ground tiles"
         renderpath "$1/ground" "$2/ground"
+    fi
+    if [ "${renderTiles}" == "1" ] || [ "${renderAll}" == "1" ]; then
+        printmessage "${C_MSG}- tiles"
+        renderpath "$1/tiles" "$2/tiles"
     fi
     if [ "${renderTools}" == "1" ] || [ "${renderAll}" == "1" ]; then
         printmessage "${C_MSG}- tools"
@@ -152,6 +158,10 @@ while (( "$#" )); do
         ;;
         "g"|"ground")
             renderGround=1
+            renderAll=
+        ;;
+        "f"|"tiles")
+            renderTiles=1
             renderAll=
         ;;
         "t"|"tools")
@@ -221,6 +231,7 @@ while (( "$#" )); do
             echo -e "${C_MSG}  b,   barriers       ${C_RST}Render the sets of barriers"
             echo -e "${C_MSG}  e,   elements       ${C_RST}Render the elements"
             echo -e "${C_MSG}  g,   ground         ${C_RST}Render the ground tiles"
+            echo -e "${C_MSG}  f,   tiles          ${C_RST}Render the full tiles"
             echo -e "${C_MSG}  t,   tools          ${C_RST}Render the tools"
             echo -e "${C_MSG}  c,   config         ${C_RST}Show the config values"
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"

@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a ground tile for a tight curved track section with extra space.
+ * Ready to print track part: a full tile for an enlarged curved track section.
  *
  * @author jsconan
  */
@@ -34,17 +34,9 @@ include <../../config/setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    ratio = 1;
-    sideBarrierChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio);
-    innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
-    outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
-    outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
-    pegsQuantity = sideBarrierChunks * 2 + innerBarrierChunks + outerBarrierChunks;
+    ratio = 2;
 
     // Draws the ready to print model
-    enlargedCurveTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(outerRadius / 2)) {
-        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
-    }
+    curvedTrackSection(ratio=ratio);
 
 }

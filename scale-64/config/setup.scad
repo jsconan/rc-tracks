@@ -55,6 +55,13 @@ include <../shapes/grounds/straight.scad>
 include <../shapes/grounds/curved.scad>
 include <../shapes/grounds/elements.scad>
 
+// Include the shapes for the full tiles
+include <../shapes/tiles/profiles.scad>
+include <../shapes/tiles/fragments.scad>
+include <../shapes/tiles/straight.scad>
+include <../shapes/tiles/curved.scad>
+include <../shapes/tiles/elements.scad>
+
 // Include the shapes for the animations
 include <../shapes/animations/helpers.scad>
 include <../shapes/animations/operators.scad>
