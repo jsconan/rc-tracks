@@ -37,6 +37,6 @@ applyMode(mode=renderMode) {
     ratio = 2;
 
     // Draws the ready to print model
-    curvedTrackSection(ratio=ratio);
+    curvedTrackTile(ratio=ratio);
 
 }

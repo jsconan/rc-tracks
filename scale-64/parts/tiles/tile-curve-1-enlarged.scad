@@ -37,6 +37,6 @@ applyMode(mode=renderMode) {
     ratio = 1;
 
     // Draws the ready to print model
-    enlargedCurveTrackSection(ratio=ratio);
+    enlargedCurveTrackTile(ratio=ratio);
 
 }

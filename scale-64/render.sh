@@ -117,7 +117,7 @@ renderpathall() {
         renderpath "$1/ground" "$2/ground"
     fi
     if [ "${renderTiles}" == "1" ] || [ "${renderAll}" == "1" ]; then
-        printmessage "${C_MSG}- tiles"
+        printmessage "${C_MSG}- full tiles"
         renderpath "$1/tiles" "$2/tiles"
     fi
     if [ "${renderTools}" == "1" ] || [ "${renderAll}" == "1" ]; then

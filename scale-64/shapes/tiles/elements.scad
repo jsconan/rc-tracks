@@ -32,7 +32,7 @@
  * A full tile of a straight track section.
  * @param Number [ratio] - The size factor.
  */
-module straightTrackSection(ratio=1) {
+module straightTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         straightTile(
             length = trackSectionLength,
@@ -53,7 +53,7 @@ module straightTrackSection(ratio=1) {
  * A full tile of a curved track section.
  * @param Number [ratio] - The size factor.
  */
-module curvedTrackSection(ratio=1) {
+module curvedTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         curvedTile(
             length = trackSectionLength,
@@ -74,7 +74,7 @@ module curvedTrackSection(ratio=1) {
  * A full tile of a curved track section with extra space.
  * @param Number [ratio] - The size factor.
  */
-module enlargedCurveTrackSection(ratio=1) {
+module enlargedCurveTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         enlargedCurveTile(
             length = trackSectionLength,
