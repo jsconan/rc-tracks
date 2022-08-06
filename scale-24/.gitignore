@@ -2,3 +2,5 @@
 /dist
 /config/config.ini
 /config/config.scad
+/post-render.sh
+/post-slice.sh
