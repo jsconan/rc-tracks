@@ -68,7 +68,7 @@ source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 # @param suffix - Optional suffix added to the output fil name
 renderpath() {
     local rightOriented=$3
-    scadrenderall "$1" "$2" "$4" "$5" \
+    scadrenderall "$1" "$2" "$4" "$5" --quiet \
         "$(varif "trackSectionLength" ${trackSectionLength})" \
         "$(varif "trackSectionWidth" ${trackSectionWidth})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
