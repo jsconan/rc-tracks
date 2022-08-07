@@ -178,6 +178,36 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
 }
 
 /**
+ * Animates the construction of a curved full tile.
+ * @param Number [start] - The start threshold under what the from-coordinates will persist and above what it will be interpolated.
+ * @param Number [end] - The end threshold above what the to-coordinates will persist and under what it will be interpolated.
+ * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
+ * @param Number [ratio] - The size factor.
+ */
+module animatedCurvedTile(start, end, domain, ratio=1) {
+    color(colorGround) {
+        animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+            curvedTrackTile(ratio=ratio);
+        }
+    }
+}
+
+/**
+ * Animates the construction of an enlarged curve full tile.
+ * @param Number [start] - The start threshold under what the from-coordinates will persist and above what it will be interpolated.
+ * @param Number [end] - The end threshold above what the to-coordinates will persist and under what it will be interpolated.
+ * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
+ * @param Number [ratio] - The size factor.
+ */
+module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
+    color(colorGround) {
+        animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+            enlargedCurveTrackTile(ratio=ratio);
+        }
+    }
+}
+
+/**
  * An assembled curved section.
  * @param Number [ratio] - The size factor.
  */
