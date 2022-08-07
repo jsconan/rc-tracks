@@ -164,8 +164,9 @@ module straightGroundTile(length, width, thickness, barrierWidth, barrierHeight,
  * @param Number barrierHeight - The height of the barrier.
  * @param Number startPositions - The number of parallel starting blocks.
  * @param Number startLines - The number of starting lines.
+ * @param Boolean shiftPositions - Tells if the positions on a same starting line should be shifted.
  */
-module startingGroundTileDecoration(length, width, thickness, barrierWidth, barrierHeight, startPositions=3, startLines=2) {
+module startingGroundTileDecoration(length, width, thickness, barrierWidth, barrierHeight, startPositions=2, startLines=2, shiftPositions=false) {
     // Prepare the parameters
     laneWidth = getTrackLaneWidth(width, barrierWidth);
     finishLineWidth = laneWidth / 10;
@@ -177,7 +178,7 @@ module startingGroundTileDecoration(length, width, thickness, barrierWidth, barr
     startingBlockThickness = getBarrierBaseUnit(barrierWidth, barrierHeight);
     startingBlockIntervalX = laneWidth / startPositions;
     startingBlockIntervalY = startingArea / startLines;
-    startingBlockShift = startingBlockWidth;
+    startingBlockShift = shiftPositions ? startingBlockWidth : 0;
     startingBlockPosition = length / 2 + startingArea - length;
 
     // Uncomment to debug:

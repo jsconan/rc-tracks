@@ -65,8 +65,9 @@ applyMode(mode=renderMode) {
             thickness = trackGroundThickness,
             barrierWidth = barrierWidth,
             barrierHeight = barrierHeight,
-            startPositions = 3,
-            startLines = 2
+            startPositions = startPositions,
+            startLines = startLines,
+            shiftPositions = shiftStartPositions
         );
 
     }

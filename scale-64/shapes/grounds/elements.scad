@@ -69,8 +69,9 @@ module startingTrackSectionGround() {
                 thickness = layerHeight,
                 barrierWidth = barrierWidth,
                 barrierHeight = barrierHeight,
-                startPositions = 3,
-                startLines = 2
+                startPositions = startPositions,
+                startLines = startLines,
+                shiftPositions = shiftStartPositions
             );
         }
     }
