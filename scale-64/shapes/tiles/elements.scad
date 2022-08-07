@@ -50,6 +50,38 @@ module straightTrackTile(ratio=1) {
 }
 
 /**
+ * A full tile of a starting track section.
+ */
+module startingTrackTile() {
+    translateZ(trackGroundThickness / 2) {
+        straightTile(
+            length = trackSectionLength,
+            width = trackSectionWidth,
+            thickness = trackGroundThickness,
+            barrierWidth = barrierWidth,
+            barrierHeight = barrierHeight,
+            barrierChunks = barrierChunks,
+            diameter = fastenerDiameter,
+            headDiameter = fastenerHeadDiameter,
+            headHeight = fastenerHeadHeight,
+            ratio = 1
+        );
+        translateZ(layerHeight / 2) {
+            startingGroundTileDecoration(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = layerHeight,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                startPositions = startPositions,
+                startLines = startLines,
+                shiftPositions = shiftStartPositions
+            );
+        }
+    }
+}
+
+/**
  * A full tile of a curved track section.
  * @param Number [ratio] - The size factor.
  */
