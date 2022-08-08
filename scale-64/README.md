@@ -7,7 +7,7 @@ A printable race track systems for remote controlled cars from scale 1/64 to 1/7
 -   [At a glance](#Ataglance)
     -   [Split tiles](#Splittiles)
     -   [Full tiles](#Fulltiles)
-    -   [Configuration](#Configuration)
+-   [Configuration](#Configuration)
 -   [Render the parts](#Rendertheparts)
 -   [Post-scripts](#Post-scripts)
 
@@ -30,20 +30,47 @@ There are multiple ways of using this modular system:
 -   barriers only
 -   ground tiles only with another set of barriers
 -   both barriers and ground tiles
+-   full tiles printed with ground and barriers together
 
 ### <a name='Splittiles'></a>Split tiles
 
-The base variant relies on split parts, barriers and ground, to be assembled together. This allows to print each part in a different color. However, this makes the build less easier as each single part must be added and fastened separately.
+The base variant relies on split parts, barriers and ground, to be assembled together. This allows to print each part in a different color. However, this variant may take longer to be printed, and this makes the build less easier as each single part must be added and fastened separately. This is a good choice when the race track is intended to be fixed on a board, the barriers have holes for screwing or nailing the track to a support.
 
 ![assembling track sections](./doc/track-sections.gif)
 
 ### <a name='Fulltiles'></a>Full tiles
 
-An additional variant is proposed, with full tiles printed in place, containing both the ground and the barrier. It makes it easier to build the race track, however, each tile will come in a single color (it could be painted though).
+An additional variant is proposed, with full tiles printed in place, containing both the ground and the barrier. This variant is a bit faster to be printed, and it makes it easier to build the race track. However, each tile will come in a single color. but it could still be painted if needed. This variant also have holes for screwing or nailing the track to a support.
 
 ![full tiles](./doc/full-tiles.gif)
 
-### <a name='Configuration'></a>Configuration
+### Printing tweaks
+
+Depending on the printed material, the surface may not be rough enough for the car wheels to grip. This can be fixed by sanding the printed tiles. This can also be fixed by tweaking the print in order to give the tiles ground a bit more grip.
+
+Using [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer), the print model can be adjusted so that a part of it has a different setting. For example, we can change how the last layer of the tile ground is printed. A good choice is to turn off the top layer infill, then change the infill pattern for this layer only.
+
+From the PrusaSlicer GUI, do a right-click on the model, then add a **Height range modifier**.
+
+![adding an height range modifier](./doc/adding-custom-layer.png)
+
+Select the newly added layer range, then set the right position. With respect to the default config, the ground is 0.8mm thick, and each layer is 0.2mm, so we need to position the modifier on the layer 0.6 to 0.8.
+
+![custom layer position](./doc/custom-layer-position.png)
+
+As wee want to tweak the infill, right-click on the range, and add an infill from the menu.
+
+![custom layer infill](./doc/custom-layer-add-infill.png)
+
+Finally, we need to switch off the top layer infill and set a different infill for this particular layer. Make sure to set `0` to the **Top solid layers** entry. Then select a fill pattern for the regular infill. As a suggestion, the **Hilbert curve** with a 50% density gives a decent grip and a pretty nice finish.
+
+![custom layer settings](./doc/custom-layer-settings.png)
+
+Note: this tweak applies from the version 2.3 of the software.
+
+This tweak could also apply to the original software, say [Slic3r](https://slic3r.org/). But the settings may differ slightly.
+
+## <a name='Configuration'></a>Configuration
 
 The configuration may be changed locally. To not collide with changes in the main implementation, the configuration files are not versioned. Instead, you will find `-dist` files that contain a copy of the typical configuration.
 
