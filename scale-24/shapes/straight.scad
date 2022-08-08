@@ -78,7 +78,7 @@ module barrierBody(length, height, thickness, base, notches = 1) {
 module straightLinkMale(length, linkHeight, base) {
     translateX(-length / 2) {
         barrierLink(
-            height = linkHeight - printResolution,
+            height = linkHeight - layerHeight,
             base = base
         );
     }
@@ -96,7 +96,7 @@ module straightLinkFemale(length, linkHeight, base) {
         children();
         translate([length / 2, 0, -1]) {
             barrierLink(
-                height = linkHeight + printResolution + 1,
+                height = linkHeight + layerHeight + 1,
                 base = base,
                 distance = printTolerance
             );
@@ -113,18 +113,6 @@ module straightLinkFemale(length, linkHeight, base) {
 module straightLinks(length, linkHeight, base) {
     straightLinkMale(length=length, linkHeight=linkHeight, base=base) {
         straightLinkFemale(length=length, linkHeight=linkHeight, base=base) {
-            children();
-        }
-    }
-}
-
-/**
- * Extrudes the profile on the expected linear length.
- * @param Number length - The length of the element.
- */
-module extrudeStraightProfile(length) {
-    rotate([90, 0, 90]) {
-        linear_extrude(height=length, center=true, convexity=10) {
             children();
         }
     }

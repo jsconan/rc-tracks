@@ -75,7 +75,7 @@ module archTower(length, thickness, base, wall) {
     thickness = thickness + printTolerance;
     holderHeight = getBarrierHolderHeight(base);
     clipHeight = getBarrierHolderHeight(base, wall + printTolerance);
-    indent = getBarrierStripIndent(base) + printResolution;
+    indent = getBarrierStripIndent(base) + layerHeight;
     length = length / 2;
 
     translateX(-clipHeight / 2) {

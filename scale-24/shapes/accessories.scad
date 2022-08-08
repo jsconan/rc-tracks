@@ -110,7 +110,7 @@ function getAccessoryStraightMastWidth(wall, base) =
  * @returns Number
  */
 function getAccessoryFlagLength(width, thickness, mast) =
-    width + mast / 2 + printResolution + thickness
+    width + mast / 2 + layerHeight + thickness
 ;
 
 /**
@@ -338,14 +338,14 @@ module accessoryBentMast(width, height, wall, base, thickness) {
  * @param Number wave - The height of the wave
  */
 module accessoryFlag(width, height, thickness, mast, wave = 0) {
-    distance = printResolution;
+    distance = layerHeight;
     ringHeight = height / 4;
     ringInterval = height - ringHeight;
     ringOffset = apothem(n=mastFacets, r=getMastRadius(mast)) + distance + thickness;
     type = wave ? "S" : "V";
 
     rotateZ(270) {
-        translateY((mast - width) / 2 - printResolution) {
+        translateY((mast - width) / 2 - layerHeight) {
             translateZ(ringOffset) {
                 mastRings(
                     width = mast,

@@ -37,13 +37,14 @@ barrierHeight=
 sampleSize=
 
 # script config
-scriptpath=$(dirname $0)
-project=$(pwd)
-srcpath=${project}
-dstpath=${project}/output
-configpath=${srcpath}/config
-partpath=${srcpath}/parts
-platepath=${srcpath}/plates
+scriptpath="$(dirname $0)"
+project="$(pwd)"
+srcpath="${project}"
+dstpath="${project}/dist/stl"
+slcpath="${project}/dist/gcode"
+configpath="${srcpath}/config"
+partpath="${srcpath}/parts"
+platepath="${srcpath}/plates"
 format=
 parallel=
 showConfig=
@@ -53,9 +54,26 @@ renderUnibody=
 renderSamples=
 renderPlates=
 cleanUp=
+slice=
 
 # include libs
 source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
+
+# Builds the list of config parameters.
+# @param right - Right oriented or left oriented
+paramlist() {
+    local rightOriented=$1
+    local params=(
+        "$(varif "trackSectionLength" ${trackSectionLength})" \
+        "$(varif "trackSectionWidth" ${trackSectionWidth})" \
+        "$(varif "trackLaneWidth" ${trackLaneWidth})" \
+        "$(varif "trackRadius" ${trackRadius})" \
+        "$(varif "barrierHeight" ${barrierHeight})" \
+        "$(varif "sampleSize" ${sampleSize})" \
+        "$(varif "rightOriented" ${rightOriented})"
+    )
+    echo "${params[@]}"
+}
 
 # Renders the files from a path.
 #
@@ -65,15 +83,7 @@ source "${scriptpath}/../lib/camelSCAD/scripts/utils.sh"
 # @param prefix - Optional prefix added to the output fil name
 # @param suffix - Optional suffix added to the output fil name
 renderpath() {
-    local rightOriented=$3
-    scadrenderall "$1" "$2" "$4" "$5" \
-        "$(varif "trackSectionLength" ${trackSectionLength})" \
-        "$(varif "trackSectionWidth" ${trackSectionWidth})" \
-        "$(varif "trackLaneWidth" ${trackLaneWidth})" \
-        "$(varif "trackRadius" ${trackRadius})" \
-        "$(varif "barrierHeight" ${barrierHeight})" \
-        "$(varif "sampleSize" ${sampleSize})" \
-        "$(varif "rightOriented" ${rightOriented})"
+    scadrenderall "$1" "$2" "$4" "$5" --quiet $(paramlist $3)
 }
 
 # Renders the files from a path, taking care of the curves.
@@ -91,10 +101,14 @@ renderpathall() {
 
 # Display the render config
 showconfig() {
+    local input="${configpath}/print.scad"
+    local output="${dstpath}/print.echo"
     local config="${dstpath}/config.txt"
     createpath "${dstpath}" "output"
-    printmessage "${C_MSG}Will generates the track elements with respect to the following config:"
-    renderpath "${configpath}/print.scad" "${dstpath}" 2>&1 | sed -e '1,4d' | sed -e :a -e '$d;N;2,3ba' -e 'P;D' > "${config}"
+    printmessage "${C_MSG}The track elements would be generated with respect to the following config:"
+    scadecho "${input}" "${dstpath}" "" "" $(paramlist) > /dev/null
+    sed '1d; $d' "${output}" > "${config}"
+    rm "${output}" > /dev/null
     cat "${config}"
 }
 
@@ -143,7 +157,7 @@ while (( "$#" )); do
             trackLaneWidth=$2
             shift
         ;;
-        "-s"|"--sample")
+        "-m"|"--sample")
             sampleSize=$2
             shift
         ;;
@@ -154,6 +168,9 @@ while (( "$#" )); do
         "-p"|"--parallel")
             parallel=$2
             shift
+        ;;
+        "-s"|"--slice")
+            slice=1
         ;;
         "-c"|"--clean")
             cleanUp=1
@@ -175,9 +192,10 @@ while (( "$#" )); do
             echo -e "${C_MSG}  -t   --track        ${C_RST}Set the actual width of a track lane (physical width, used for the arches)"
             echo -e "${C_MSG}  -b   --height       ${C_RST}Set the height of the track barrier"
             echo -e "${C_MSG}  -r   --radius       ${C_RST}Set the radius of the track inner curve"
-            echo -e "${C_MSG}  -s   --sample       ${C_RST}Set the size of sample element"
+            echo -e "${C_MSG}  -m   --sample       ${C_RST}Set the size of sample element"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
+            echo -e "${C_MSG}  -s   --slice        ${C_RST}Slice the rendered files using the default configuration"
             echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
             echo
             exit 0
@@ -229,7 +247,15 @@ scadprocesses "${parallel}"
 if [ "${cleanUp}" != "" ]; then
     printmessage "${C_CTX}Cleaning up the output folder"
     rm -rf "${dstpath}"
+
+    if [ "${slice}" != "" ]; then
+        printmessage "${C_CTX}Cleaning up the slicer output folder"
+        rm -rf "${slcpath}"
+    fi
 fi
+
+# make sure the config exists
+distfile "${configpath}/config.scad"
 
 # show the config
 if [ "${showConfig}" != "" ]; then
@@ -263,3 +289,14 @@ if [ "${renderSamples}" != "" ]; then
     renderpathall "${partpath}/samples" "${dstpath}/samples"
 fi
 
+# run a post-render script
+if [ -x "${scriptpath}/post-render.sh" ]; then
+    printmessage "${C_CTX}Calling the post-render script"
+    "${scriptpath}/post-render.sh"
+fi
+
+# slice the rendered files
+if [ "${slice}" != "" ]; then
+    printmessage "${C_CTX}Slicing the rendered files"
+    ./slice.sh
+fi

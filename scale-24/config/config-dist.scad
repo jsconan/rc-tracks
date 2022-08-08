@@ -23,22 +23,10 @@
 /**
  * A race track system for 1/24 to 1/32 scale RC cars.
  *
- * Configures the project.
+ * Local configuration for the project.
  *
  * @author jsconan
  */
-
- projectVersion = "0.5.0";
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the printer.
-printResolution = 0.2;  // The target layer height
-nozzleWidth = 0.4;      // The size of the printer's nozzle
-printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
-printerLength = 250;    // The length of the printer's build plate
-printerWidth = 210;     // The width of the printer's build plate
 
 // The dimensions and constraints of a track element
 trackSectionLength = 100;       // The nominal length of a track element: the length for straight element, or the radius for a curved element
@@ -60,4 +48,3 @@ flagWidth = 40;                 // The width of the accessory flag
 flagHeight = 20;                // The height of the accessory flag
 flagThickness = 0.8;            // The thickness of the accessory flag
 rightOriented = false;          // The orientation of the curved elements
-printInterval = 5;              // Interval between 2 pieces when presented together

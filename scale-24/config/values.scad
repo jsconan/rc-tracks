@@ -29,34 +29,6 @@
  */
 
 /**
- * Aligns a value with respect to the target layer height.
- * @param Number value
- * @returns Number
- */
-function layerAligned(value) = roundBy(value, printResolution);
-
-/**
- * Aligns a value with respect to the target nozzle size.
- * @param Number value
- * @returns Number
- */
-function nozzleAligned(value) = roundBy(value, nozzleWidth);
-
-/**
- * Gets the thickness of N layers.
- * @param Number N
- * @returns Number
- */
-function layers(N) = N * printResolution;
-
-/**
- * Gets the width of N times the nozzle width.
- * @param Number N
- * @returns Number
- */
-function shells(N) = N * nozzleWidth;
-
-/**
  * Computes the height of the barrier body part that will be inserted in the holder.
  * @param Number base - The base unit value used to design the barrier holder.
  * @returns Number
@@ -124,7 +96,7 @@ function getBarrierHolderTopWidth(base, thickness) = nozzleAligned((getBarrierLi
  * @param Number [distance] - An additional distance added to the outline of the barrier holder.
  * @returns Number
  */
-function getBarrierHolderHeight(base, distance = 0) = getBarrierStripHeight(base) + minThickness + printResolution + distance * 2;
+function getBarrierHolderHeight(base, distance = 0) = getBarrierStripHeight(base) + minThickness + layerHeight + distance * 2;
 
 /**
  * Computes the height of the link for a barrier holder.
@@ -162,14 +134,7 @@ function getBarrierBodyInnerHeight(height, base) = height - (getBarrierStripHeig
  * @param Number height - The height of the barrier.
  * @returns Number
  */
-function getBarrierBodyHeight(height) = height - (minThickness + printResolution) * 2;
-
-/**
- * Gets the length of a curved ctrack elementhunk (the length of the arc of the curve).
- * @param Number length - The length of the track element.
- * @returns Number
- */
-function getCurveLength(length) = getArcLength(radius = length, angle = 90);
+function getBarrierBodyHeight(height) = height - (minThickness + layerHeight) * 2;
 
 /**
  * Gets the difference between the length of a curved track element chunk and a straight track element.
@@ -218,42 +183,11 @@ function getOuterCurveRatio(length, width, radius) = (width + radius) / length;
 function getCurveRadius(length, ratio) = length * ratio;
 
 /**
- * Computes the angle of a curve with respect to the ratio.
- * @param Number ratio - The ratio of the curve.
- * @returns Number
- */
-function getCurveAngle(ratio) = curveAngle / ratio;
-
-/**
- * Computes the rotation angle used to place a curve.
- * @param Number angle - The angle of the curve.
- * @returns Number
- */
-function getCurveRotationAngle(angle) = 45 + (curveAngle - angle) / 2;
-
-/**
  * Computes the radius of the accessory mast.
  * @param Number width - The width of the mast.
  * @returns Number
  */
 function getMastRadius(width) = circumradius(n = mastFacets, a = width / 2);
-
-/**
- * Computes the print interval between the centers of 2 objects.
- * @param Number size - The size of the shape.
- * @returns Number
- */
-function getPrintInterval(size) = size + printInterval;
-
-/**
- * Centers the children elements to te printer's build plate.
- */
-module centerBuildPlate(moveOrigin = false) {
-    buildPlate([printerLength, printerWidth], center=!moveOrigin);
-    translate(moveOrigin ? [printerLength, printerWidth, 0] / 2 : [0, 0, 0]) {
-        children();
-    }
-};
 
 /**
  * Validates the config values, checking if it match the critical constraints.
@@ -324,7 +258,8 @@ module printConfig(length, width, lane, height, radius, base) {
     echo(join([
         "",
         str("-- RC Track System ------------"),
-        str("Version:               ", projectVersion),
+        str("Scale:                 ", PROJECT_SCALE),
+        str("Version:               ", printVersion()),
         str("-- Track elements -------------"),
         str("Track section length:  ", length / 10, "cm"),
         str("Curve section length:  ", getCurveLength(length) / 10, "cm"),
@@ -354,7 +289,7 @@ module printConfig(length, width, lane, height, radius, base) {
         str("Flag thickness:        ", flagThickness, "mm"),
         str("-- Printer settings -----------"),
         str("Nozzle diameter:       ", nozzleWidth, "mm"),
-        str("Print layer:           ", printResolution, "mm"),
+        str("Print layer:           ", layerHeight, "mm"),
         str("Print tolerance:       ", printTolerance, "mm"),
         str("Printer's length:      ", printerLength / 10, "cm"),
         str("Printer's width:       ", printerWidth / 10, "cm"),
@@ -372,6 +307,3 @@ minWidth = shells(2);
 // The ratios applied to the base unit value used to design the barrier holder
 stripHeightRatio = 3;
 stripIndentRatio = 0.5;
-
-// The angle of a typical curve
-curveAngle = 90;

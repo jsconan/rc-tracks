@@ -28,8 +28,11 @@
  * @author jsconan
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-include <../../lib/camelSCAD/shapes.scad>
+// Bootstrap the project using the global config
+include <../../config/setup.scad>
+
+// Defines the project's version
+include <version.scad>
 
 // Then we need the config for the project, as well as the related functions
 include <config.scad>
