@@ -42,7 +42,7 @@ function getCurvedBarrierLength(length, width, base, ratio) =
         radius = getCurveRadius(length, ratio),
         rotationAngle = getCurveRotationAngle(angle),
         projectedWidth = width * cos(rotationAngle) / 2,
-        projectedLink = getBarrierLinkLength(base) * cos(curveAngle + rotationAngle)
+        projectedLink = getBarrierLinkLength(base) * cos(CURVE_ANGLE + rotationAngle)
     )
     getChordLength(angle, radius) +
     width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
@@ -62,7 +62,7 @@ function getCurvedBarrierWidth(length, width, base, ratio) =
         radius = getCurveRadius(length, ratio),
         rotationAngle = getCurveRotationAngle(angle),
         projectedWidth = width * sin(rotationAngle) / 2,
-        projectedLink = getBarrierLinkLength(base) * sin(curveAngle + rotationAngle)
+        projectedLink = getBarrierLinkLength(base) * sin(CURVE_ANGLE + rotationAngle)
     )
     getChordHeight(angle, radius) +
     width / 2 + projectedWidth + max(0, projectedLink - projectedWidth)
@@ -115,13 +115,12 @@ module curvedBarrierNotch(radius, thickness, base, distance = 0) {
 }
 
 /**
- * Place a curved element with respect to the length and the ratio.
- * @param Number length - The length of a track element.
+ * Places a curved element.
  * @param Number radius - The radius of the curve.
  * @param Number angle - The angle of the curve.
- * @param Number z - An option Z-axis translation
+ * @param Number z - An option Z-axis translation.
  */
-module placeCurvedElement(length, radius, angle, z = 0) {
+module placeCurvedElement(radius, angle, z=0) {
     translate([0, getChordHeight(angle, radius) / 2 - radius, z]) {
         rotateZ(getCurveRotationAngle(angle)) {
             children();
@@ -138,7 +137,7 @@ module placeCurvedElement(length, radius, angle, z = 0) {
  * @param Number right - Is the curve oriented to the right?
  */
 module curvedLinks(radius, angle, linkHeight, base, right = false) {
-    remainingAngle = curveAngle - angle;
+    remainingAngle = CURVE_ANGLE - angle;
     maleLinkDirection = right ? 180 : 0;
     maleLinkPosition = right ? 270 : -remainingAngle;
     femaleLinkDirection = right ? 90 : -90;
@@ -148,7 +147,7 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
         translateY(radius) {
             rotateZ(maleLinkDirection) {
                 barrierLink(
-                    height = linkHeight - printResolution,
+                    height = linkHeight - layerHeight,
                     base = base
                 );
             }
@@ -160,25 +159,12 @@ module curvedLinks(radius, angle, linkHeight, base, right = false) {
             translate([radius, 0, -1]) {
                 rotateZ(femaleLinkDirection) {
                     barrierLink(
-                        height = linkHeight + printResolution + 1,
+                        height = linkHeight + layerHeight + 1,
                         base = base,
                         distance = printTolerance
                     );
                 }
             }
-        }
-    }
-}
-
-/**
- * Extrudes the profile on the expected circle path.
- * @param Number radius - The radius of the curve.
- * @param Number angle - The extrusion angle.
- */
-module extrudeCurvedProfile(radius, angle) {
-    rotate_extrude(angle=angle, convexity=10) {
-        translateX(radius) {
-            children();
         }
     }
 }
@@ -196,7 +182,7 @@ module curvedBarrierMain(length, thickness, base, ratio = 1, right = false) {
     angle = getCurveAngle(ratio);
     linkHeight = getBarrierHolderLinkHeight(base);
 
-    placeCurvedElement(length=length, radius=radius, angle=angle) {
+    placeCurvedElement(radius=radius, angle=angle) {
         curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
             extrudeCurvedProfile(radius=radius, angle=angle) {
                 barrierHolderProfile(
@@ -222,7 +208,7 @@ module curvedBarrierUnibody(length, height, thickness, base, ratio = 1, right = 
     angle = getCurveAngle(ratio);
     linkHeight = getBarrierUnibodyLinkHeight(height, base);
 
-    placeCurvedElement(length=length, radius=radius, angle=angle) {
+    placeCurvedElement(radius=radius, angle=angle) {
         curvedLinks(radius=radius, angle=angle, linkHeight=linkHeight, base=base, right=right) {
             extrudeCurvedProfile(radius=radius, angle=angle) {
                 barrierUnibodyProfile(
@@ -257,7 +243,7 @@ module curvedBarrierHolder(length, thickness, base, ratio = 1, right = false) {
             ratio = ratio,
             right = right
         );
-        placeCurvedElement(length=length, radius=radius, angle=angle, z=minThickness) {
+        placeCurvedElement(radius=radius, angle=angle, z=minThickness) {
             difference() {
                 pipeSegment(
                     r = radius + thickness / 2,
