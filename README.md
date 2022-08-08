@@ -27,7 +27,12 @@ The project contains designs for a modular race track system aimed at remote con
 The project contains two different systems, each targeting a particular RC car scale:
 
 -   [1/24 to 1/32 scale](scale-24/README.md)
+
+    ![RC track](./doc/rctrack-24.jpg)
+
 -   [1/64 to 1/76 scale](scale-64/README.md)
+
+    ![RC track](./doc/rctrack-64.jpg)
 
 Please refer to the readme file for each variant in order to get the proper documentation.
 

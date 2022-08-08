@@ -32,6 +32,8 @@ There are multiple ways of using this modular system:
 -   both barriers and ground tiles
 -   full tiles printed with ground and barriers together
 
+![RC track](./doc/rctrack-64.jpg)
+
 ### <a name='Splittiles'></a>Split tiles
 
 The base variant relies on split parts, barriers and ground, to be assembled together. This allows to print each part in a different color. However, this variant may take longer to be printed, and this makes the build less easier as each single part must be added and fastened separately. This is a good choice when the race track is intended to be fixed on a board, the barriers have holes for screwing or nailing the track to a support.

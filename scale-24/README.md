@@ -5,7 +5,7 @@ A printable race track systems for remote controlled cars from scale 1/24 to 1/3
 <!-- vscode-markdown-toc -->
 
 -   [At a glance](#Ataglance)
-    -   [Configuration](#Configuration)
+-   [Configuration](#Configuration)
 -   [Render the parts](#Rendertheparts)
 -   [Post-scripts](#Post-scripts)
 
@@ -30,7 +30,9 @@ Two versions of the barriers exist:
 
 A particular set of parts is also proposed to allow joining barriers from both versions.
 
-### <a name='Configuration'></a>Configuration
+![RC track](./doc/rctrack-24.jpg)
+
+## <a name='Configuration'></a>Configuration
 
 The configuration may be changed locally. To not collide with changes in the main implementation, the configuration files are not versioned. Instead, you will find `-dist` files that contain a copy of the typical configuration.
 
