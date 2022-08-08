@@ -34,8 +34,9 @@
  * @param Number [end] - The end threshold above what the to-coordinates will persist and under what it will be interpolated.
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
+ * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module animatedStraightSection(start, end, domain, ratio=1) {
+module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
     elements = getStraightSectionSteps(ratio);
     steps = len(elements);
 
@@ -49,14 +50,12 @@ module animatedStraightSection(start, end, domain, ratio=1) {
         rotation = getStraightRotation(i, ratio, right);
 
         if (element == "peg") {
-            color(colorPeg) {
-                animateStep(
-                    step = step,
-                    translateTo=[barrierX, barrierY, 0],
-                    steps=steps, start=start, end=end, domain=domain
-                ) {
-                    barrierPegSet();
-                }
+            animateStep(
+                step = step,
+                translateTo=[barrierX, barrierY, 0],
+                steps=steps, start=start, end=end, domain=domain
+            ) {
+                barrierPegSet();
             }
         }
         if (element == "barrier") {
@@ -72,8 +71,10 @@ module animatedStraightSection(start, end, domain, ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
-                animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
+            animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
+                if (starting) {
+                    startingTrackSectionGround();
+                } else {
                     straightTrackSectionGround(ratio=ratio);
                 }
             }
@@ -87,10 +88,13 @@ module animatedStraightSection(start, end, domain, ratio=1) {
  * @param Number [end] - The end threshold above what the to-coordinates will persist and under what it will be interpolated.
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
+ * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module animatedStraightTile(start, end, domain, ratio=1) {
-    color(colorTile) {
-        animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+module animatedStraightTile(start, end, domain, ratio=1, starting=false) {
+    animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+        if (starting) {
+            startingTrackTile();
+        } else {
             straightTrackTile(ratio=ratio);
         }
     }
@@ -99,8 +103,9 @@ module animatedStraightTile(start, end, domain, ratio=1) {
 /**
  * An assembled straight section.
  * @param Number [ratio] - The size factor.
+ * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module straightSection(ratio=1) {
+module straightSection(ratio=1, starting=false) {
     elements = getStraightSectionSteps(ratio);
     steps = len(elements);
 
@@ -114,10 +119,8 @@ module straightSection(ratio=1) {
         rotation = getStraightRotation(i, ratio, right);
 
         if (element == "peg") {
-            color(colorPeg) {
-                translate([barrierX, barrierY, 0]) {
-                    barrierPegSet();
-                }
+            translate([barrierX, barrierY, 0]) {
+                barrierPegSet();
             }
         }
         if (element == "barrier") {
@@ -130,7 +133,9 @@ module straightSection(ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
+            if (starting) {
+                startingTrackSectionGround();
+            } else {
                 straightTrackSectionGround(ratio=ratio);
             }
         }

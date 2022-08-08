@@ -41,6 +41,7 @@ $vpd = 500;
 
 // Prepare the list of animations
 list = buildAnimationList([
+    getAnimationThresholds("starting", 1, getStraightSectionSteps(1)),
     getAnimationThresholds("straight", 1, getStraightSectionSteps(1)),
     getAnimationThresholds("enlarged", 1, getEnlargedCurveSectionSteps(1)),
     getAnimationThresholds("curve", 1, getCurveSectionSteps(1)),
@@ -69,11 +70,20 @@ applyMode(mode=renderMode) {
         endThreshold = interpolationThreshold(step=present, steps=steps);
 
         presentSteps(from=start, to=end, steps=steps) {
+            if (type == "starting") {
+                animatedStraightSection(
+                    start = startThreshold,
+                    end = endThreshold,
+                    ratio = ratio,
+                    starting = true
+                );
+            }
             if (type == "straight") {
                 animatedStraightSection(
                     start = startThreshold,
                     end = endThreshold,
-                    ratio = ratio
+                    ratio = ratio,
+                    starting = false
                 );
             }
             if (type == "enlarged") {

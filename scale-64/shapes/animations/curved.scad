@@ -49,15 +49,13 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
         barrierY = getCurveBarrierY(i, ratio, inner);
         rotation = getCurveRotation(i, ratio, inner);
 
-        if (element == "peg") {
-            color(colorPeg) {
-                animateStep(
-                    step = step,
-                    translateTo = [barrierX, barrierY, 0],
-                    steps=steps, start=start, end=end, domain=domain
-                ) {
-                    barrierPegSet();
-                }
+    if (element == "peg") {
+            animateStep(
+                step = step,
+                translateTo = [barrierX, barrierY, 0],
+                steps=steps, start=start, end=end, domain=domain
+            ) {
+                barrierPegSet();
             }
         }
         if (element == "barrier") {
@@ -77,10 +75,8 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
-                animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
-                    curvedTrackSectionGround(ratio=ratio);
-                }
+            animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
+                curvedTrackSectionGround(ratio=ratio);
             }
         }
     }
@@ -110,14 +106,12 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
             rotation = getEnlargedCurveSideRotation(i, ratio, right);
 
             if (element == "peg") {
-                color(colorPeg) {
-                    animateStep(
-                        step = step,
-                        translateTo = [barrierX, barrierY, 0],
-                        steps=steps, start=start, end=end, domain=domain
-                    ) {
-                        barrierPegSet();
-                    }
+                animateStep(
+                    step = step,
+                    translateTo = [barrierX, barrierY, 0],
+                    steps=steps, start=start, end=end, domain=domain
+                ) {
+                    barrierPegSet();
                 }
             }
             if (element == "barrier") {
@@ -140,14 +134,12 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
             rotation = getEnlargedCurveRotation(i, ratio, inner);
 
             if (element == "peg") {
-                color(colorPeg) {
-                    animateStep(
-                        step = step,
-                        translateTo = [barrierX, barrierY, 0],
-                        steps=steps, start=start, end=end, domain=domain
-                    ) {
-                        barrierPegSet();
-                    }
+                animateStep(
+                    step = step,
+                    translateTo = [barrierX, barrierY, 0],
+                    steps=steps, start=start, end=end, domain=domain
+                ) {
+                    barrierPegSet();
                 }
             }
             if (element == "barrier") {
@@ -168,10 +160,8 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
-                animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
-                    enlargedCurveTrackSectionGround(ratio=ratio);
-                }
+            animateStep(step=step, steps=steps, start=start, end=end, domain=domain) {
+                enlargedCurveTrackSectionGround(ratio=ratio);
             }
         }
     }
@@ -185,10 +175,8 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module animatedCurvedTile(start, end, domain, ratio=1) {
-    color(colorTile) {
-        animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
-            curvedTrackTile(ratio=ratio);
-        }
+    animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+        curvedTrackTile(ratio=ratio);
     }
 }
 
@@ -200,10 +188,8 @@ module animatedCurvedTile(start, end, domain, ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
-    color(colorTile) {
-        animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
-            enlargedCurveTrackTile(ratio=ratio);
-        }
+    animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
+        enlargedCurveTrackTile(ratio=ratio);
     }
 }
 
@@ -226,10 +212,8 @@ module curvedSection(ratio=1) {
         rotation = getCurveRotation(i, ratio, inner);
 
         if (element == "peg") {
-            color(colorPeg) {
-                translate([barrierX, barrierY, 0]) {
-                    barrierPegSet();
-                }
+            translate([barrierX, barrierY, 0]) {
+                barrierPegSet();
             }
         }
         if (element == "barrier") {
@@ -246,9 +230,7 @@ module curvedSection(ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
-                curvedTrackSectionGround(ratio=ratio);
-            }
+            curvedTrackSectionGround(ratio=ratio);
         }
     }
 }
@@ -274,10 +256,8 @@ module enlargedCurveSection(ratio=1) {
             rotation = getEnlargedCurveSideRotation(i, ratio, right);
 
             if (element == "peg") {
-                color(colorPeg) {
-                    translate([barrierX, barrierY, 0]) {
-                        barrierPegSet();
-                    }
+                translate([barrierX, barrierY, 0]) {
+                    barrierPegSet();
                 }
             }
             if (element == "barrier") {
@@ -297,10 +277,8 @@ module enlargedCurveSection(ratio=1) {
             rotation = getEnlargedCurveRotation(i, ratio, inner);
 
             if (element == "peg") {
-                color(colorPeg) {
-                    translate([barrierX, barrierY, 0]) {
-                        barrierPegSet();
-                    }
+                translate([barrierX, barrierY, 0]) {
+                    barrierPegSet();
                 }
             }
             if (element == "barrier") {
@@ -318,9 +296,7 @@ module enlargedCurveSection(ratio=1) {
             }
         }
         if (element == "ground") {
-            color(colorGround) {
-                enlargedCurveTrackSectionGround(ratio=ratio);
-            }
+            enlargedCurveTrackSectionGround(ratio=ratio);
         }
     }
 }

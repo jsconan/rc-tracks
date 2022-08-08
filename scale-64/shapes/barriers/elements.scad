@@ -39,13 +39,15 @@ module barrierPegSet(quantity=1, line=undef) {
 
     placeElements(length=radius, width=radius, quantity=quantity, line=line) {
         translateZ(pegHeight / 2) {
-            barrierPeg(
-                width = barrierWidth,
-                height = barrierHeight,
-                diameter = fastenerDiameter,
-                thickness = trackGroundThickness,
-                distance = 0
-            );
+            color(colorPeg) {
+                barrierPeg(
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    diameter = fastenerDiameter,
+                    thickness = trackGroundThickness,
+                    distance = 0
+                );
+            }
         }
     }
 }
@@ -60,14 +62,16 @@ module straightBarrierSet(quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            straightBarrier(
-                length = barrierLength,
-                width = barrierWidth,
-                height = barrierHeight,
-                diameter = fastenerDiameter,
-                headDiameter = fastenerHeadDiameter,
-                headHeight = fastenerHeadHeight
-            );
+            color(colorBarrier) {
+                straightBarrier(
+                    length = barrierLength,
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    diameter = fastenerDiameter,
+                    headDiameter = fastenerHeadDiameter,
+                    headHeight = fastenerHeadHeight
+                );
+            }
         }
     }
 }
@@ -85,16 +89,18 @@ module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            curvedBarrier(
-                radius = radius,
-                angle = angle,
-                width = barrierWidth,
-                height = barrierHeight,
-                diameter = fastenerDiameter,
-                headDiameter = fastenerHeadDiameter,
-                headHeight = fastenerHeadHeight,
-                right = true
-            );
+            color(colorBarrier) {
+                curvedBarrier(
+                    radius = radius,
+                    angle = angle,
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    diameter = fastenerDiameter,
+                    headDiameter = fastenerHeadDiameter,
+                    headHeight = fastenerHeadHeight,
+                    right = true
+                );
+            }
         }
     }
 }
@@ -112,16 +118,18 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            curvedBarrier(
-                radius = radius,
-                angle = angle,
-                width = barrierWidth,
-                height = barrierHeight,
-                diameter = fastenerDiameter,
-                headDiameter = fastenerHeadDiameter,
-                headHeight = fastenerHeadHeight,
-                right = false
-            );
+            color(colorBarrier) {
+                curvedBarrier(
+                    radius = radius,
+                    angle = angle,
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    diameter = fastenerDiameter,
+                    headDiameter = fastenerHeadDiameter,
+                    headHeight = fastenerHeadHeight,
+                    right = false
+                );
+            }
         }
     }
 }
@@ -139,16 +147,18 @@ module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            curvedBarrier(
-                radius = radius,
-                angle = angle,
-                width = barrierWidth,
-                height = barrierHeight,
-                diameter = fastenerDiameter,
-                headDiameter = fastenerHeadDiameter,
-                headHeight = fastenerHeadHeight,
-                right = false
-            );
+            color(colorBarrier) {
+                curvedBarrier(
+                    radius = radius,
+                    angle = angle,
+                    width = barrierWidth,
+                    height = barrierHeight,
+                    diameter = fastenerDiameter,
+                    headDiameter = fastenerHeadDiameter,
+                    headHeight = fastenerHeadHeight,
+                    right = false
+                );
+            }
         }
     }
 }

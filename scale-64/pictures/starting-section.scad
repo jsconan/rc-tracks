@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * A complete enlarged curve track section.
+ * An assembled starting track section.
  *
  * @author jsconan
  */
@@ -42,6 +42,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    enlargedCurveTrackTile(1);
+    straightSection(1, starting=true);
 
 }

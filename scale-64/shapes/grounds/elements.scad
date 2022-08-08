@@ -35,15 +35,17 @@
 module straightTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            straightGroundTile(
-                length = trackSectionLength,
-                width = trackSectionWidth,
-                thickness = trackGroundThickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = barrierChunks,
-                ratio = ratio
-            );
+            color(colorGround) {
+                straightGroundTile(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = trackGroundThickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = barrierChunks,
+                    ratio = ratio
+                );
+            }
         }
     }
 }
@@ -53,26 +55,30 @@ module straightTrackSectionGround(ratio=1) {
  */
 module startingTrackSectionGround() {
     translateZ(trackGroundThickness / 2) {
-        straightGroundTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            ratio = 1
-        );
-        translateZ((trackGroundThickness + layerHeight) / 2) {
-            startingGroundTileDecoration(
+        color(colorGround) {
+            straightGroundTile(
                 length = trackSectionLength,
                 width = trackSectionWidth,
-                thickness = layerHeight,
+                thickness = trackGroundThickness,
                 barrierWidth = barrierWidth,
                 barrierHeight = barrierHeight,
-                startPositions = startPositions,
-                startLines = startLines,
-                shiftPositions = shiftStartPositions
+                barrierChunks = barrierChunks,
+                ratio = 1
             );
+        }
+        translateZ((trackGroundThickness + layerHeight) / 2) {
+            color(colorDecoration) {
+                startingGroundTileDecoration(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = layerHeight,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    startPositions = startPositions,
+                    startLines = startLines,
+                    shiftPositions = shiftStartPositions
+                );
+            }
         }
     }
 }
@@ -84,15 +90,17 @@ module startingTrackSectionGround() {
 module curvedTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            curvedGroundTile(
-                length = trackSectionLength,
-                width = trackSectionWidth,
-                thickness = trackGroundThickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = barrierChunks,
-                ratio = ratio
-            );
+            color(colorGround) {
+                curvedGroundTile(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = trackGroundThickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = barrierChunks,
+                    ratio = ratio
+                );
+            }
         }
     }
 }
@@ -104,15 +112,17 @@ module curvedTrackSectionGround(ratio=1) {
 module enlargedCurveTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            enlargedCurveGroundTile(
-                length = trackSectionLength,
-                width = trackSectionWidth,
-                thickness = trackGroundThickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = barrierChunks,
-                ratio = ratio
-            );
+            color(colorGround) {
+                enlargedCurveGroundTile(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = trackGroundThickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = barrierChunks,
+                    ratio = ratio
+                );
+            }
         }
     }
 }

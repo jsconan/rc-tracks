@@ -34,18 +34,20 @@
  */
 module straightTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
-        straightTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            ratio = ratio
-        );
+        color(colorTile) {
+            straightTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight,
+                ratio = ratio
+            );
+        }
     }
 }
 
@@ -54,29 +56,33 @@ module straightTrackTile(ratio=1) {
  */
 module startingTrackTile() {
     translateZ(trackGroundThickness / 2) {
-        straightTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            ratio = 1
-        );
-        translateZ(layerHeight / 2) {
-            startingGroundTileDecoration(
+        color(colorTile) {
+            straightTile(
                 length = trackSectionLength,
                 width = trackSectionWidth,
-                thickness = layerHeight,
+                thickness = trackGroundThickness,
                 barrierWidth = barrierWidth,
                 barrierHeight = barrierHeight,
-                startPositions = startPositions,
-                startLines = startLines,
-                shiftPositions = shiftStartPositions
+                barrierChunks = barrierChunks,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight,
+                ratio = 1
             );
+        }
+        translateZ(layerHeight / 2) {
+            color(colorDecoration) {
+                startingGroundTileDecoration(
+                    length = trackSectionLength,
+                    width = trackSectionWidth,
+                    thickness = layerHeight,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    startPositions = startPositions,
+                    startLines = startLines,
+                    shiftPositions = shiftStartPositions
+                );
+            }
         }
     }
 }
@@ -87,18 +93,20 @@ module startingTrackTile() {
  */
 module curvedTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
-        curvedTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            ratio = ratio
-        );
+        color(colorTile) {
+            curvedTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight,
+                ratio = ratio
+            );
+        }
     }
 }
 
@@ -108,17 +116,19 @@ module curvedTrackTile(ratio=1) {
  */
 module enlargedCurveTrackTile(ratio=1) {
     translateZ(trackGroundThickness / 2) {
-        enlargedCurveTile(
-            length = trackSectionLength,
-            width = trackSectionWidth,
-            thickness = trackGroundThickness,
-            barrierWidth = barrierWidth,
-            barrierHeight = barrierHeight,
-            barrierChunks = barrierChunks,
-            diameter = fastenerDiameter,
-            headDiameter = fastenerHeadDiameter,
-            headHeight = fastenerHeadHeight,
-            ratio = ratio
-        );
+        color(colorTile) {
+            enlargedCurveTile(
+                length = trackSectionLength,
+                width = trackSectionWidth,
+                thickness = trackGroundThickness,
+                barrierWidth = barrierWidth,
+                barrierHeight = barrierHeight,
+                barrierChunks = barrierChunks,
+                diameter = fastenerDiameter,
+                headDiameter = fastenerHeadDiameter,
+                headHeight = fastenerHeadHeight,
+                ratio = ratio
+            );
+        }
     }
 }

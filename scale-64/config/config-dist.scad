@@ -52,6 +52,7 @@ colorGround = "#444";           // Color of the ground tiles
 colorTile = "#468";             // Color of the full tiles
 colorDecoration = "#eed";       // Color of the ground tiles decoration
 colorPeg = "#aaa";              // Color of the barrier pegs
+colorBarrier = "#88a";          // Color of the barriers, no matter the coordinate
 colorEven = "#eec";             // Color of the barriers, when placed at an even coordinate
 colorOdd = "#c24";              // Color of the barriers, when placed at an odd coordinate
 

@@ -42,8 +42,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    color(colorTile) {
-        straightTrackTile(1);
-    }
+    straightTrackTile(1);
 
 }
