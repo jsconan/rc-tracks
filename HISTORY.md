@@ -1,5 +1,19 @@
 # rc-tracks history
 
+## [Version 1.0.0](https://github.com/jsconan/rc-tracks/releases/tag/1.0.0)
+
+Add a variant of the race track system for 1/64 to 1/76 scale RC cars.
+
+![scale 64](https://github.com/jsconan/rc-tracks/raw/2635fe50cdf437d53924655f017a9943ff9a0d68/doc/rctrack-64.jpg)
+
+This variant can be fully printed, barriers and ground included. It still comes with a modular approach, each element being able to be printed separately. Full tiles can also be printed all at once (barriers + ground).
+
+Regarding the changes impacting the whole project:
+
+-   The structure and the config have been unified, common config is available at the top level.
+-   The script files also got unified, with support added for post-processing scripts.
+-   Readme files are provided with details for each variant.
+
 ## [Version 0.5.0](https://github.com/jsconan/rc-tracks/releases/tag/0.5.0)
 
 Finalize the extract of the race track system for 1/24 to 1/32 scale RC cars from the repository [jsconan/things](https://github.com/jsconan/things).
