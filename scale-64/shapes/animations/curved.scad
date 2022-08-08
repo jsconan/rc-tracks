@@ -185,7 +185,7 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module animatedCurvedTile(start, end, domain, ratio=1) {
-    color(colorGround) {
+    color(colorTile) {
         animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
             curvedTrackTile(ratio=ratio);
         }
@@ -200,7 +200,7 @@ module animatedCurvedTile(start, end, domain, ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
-    color(colorGround) {
+    color(colorTile) {
         animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
             enlargedCurveTrackTile(ratio=ratio);
         }

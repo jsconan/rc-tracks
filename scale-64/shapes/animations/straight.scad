@@ -89,7 +89,7 @@ module animatedStraightSection(start, end, domain, ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module animatedStraightTile(start, end, domain, ratio=1) {
-    color(colorGround) {
+    color(colorTile) {
         animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
             straightTrackTile(ratio=ratio);
         }
