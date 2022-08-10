@@ -29,33 +29,6 @@
  */
 
 /**
- * Computes the length of the outer side of an enlarged curved track.
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number [ratio] - The size factor.
- * @returns Number
- */
-function getEnlargedCurveSide(length, width, ratio=1) = length * ratio / 2;
-
-/**
- * Computes the inner radius of a curve given the ratio.
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number [ratio] - The size factor.
- * @returns Number
- */
-function getEnlargedCurveInnerRadius(length, width, ratio=1) = getCurveInnerRadius(length=length, width=width, ratio=ratio);
-
-/**
- * Computes the outer radius of an enlarged curved track.
- * @param Number length - The length of a track section.
- * @param Number width - The width of a track section.
- * @param Number [ratio] - The size factor.
- * @returns Number
- */
-function getEnlargedCurveOuterRadius(length, width, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - getEnlargedCurveSide(length=length, width=width, ratio=ratio);
-
-/**
  * Computes the position of the inner barrier of a curve given the ratio.
  * @param Number length - The length of a track section.
  * @param Number width - The width of a track section.
@@ -119,7 +92,13 @@ function getStraightBarrierChunks(barrierChunks, ratio=1) = barrierChunks * abs(
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = ratio < 1 ? 1 : barrierChunks / 2;
+function getCurveInnerBarrierChunks(barrierChunks, ratio=1) =
+    let(
+        ratio = abs(ratio),
+        chunksDivider = ratio < 2 || !forceFullTile ? 2 : 1
+    )
+    ratio < 1 ? 1 : barrierChunks / chunksDivider
+;
 
 /**
  * Computes the number of barrier chunks for an outer curved section given the ratio.
@@ -127,7 +106,13 @@ function getCurveInnerBarrierChunks(barrierChunks, ratio=1) = ratio < 1 ? 1 : ba
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveOuterBarrierChunks(barrierChunks, ratio=1) = ratio == 1 ? barrierChunks : barrierChunks / 2;
+function getCurveOuterBarrierChunks(barrierChunks, ratio=1) =
+    let(
+        ratio = abs(ratio),
+        chunksDivider = ratio == 1 || forceFullTile ? 1 : 2
+    )
+    barrierChunks / chunksDivider
+;
 
 /**
  * Computes the number of barrier chunks for the straight sides of large curve track.
@@ -143,7 +128,12 @@ function getEnlargedCurveSideBarrierChunks(barrierChunks, ratio=1) = getStraight
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio=1) = getCurveInnerBarrierChunks(barrierChunks, ratio) * ratio;
+function getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio=1) =
+    let(
+        ratio = abs(ratio)
+    )
+    ratio == 1 ? barrierChunks / 2 : barrierChunks * ratio
+;
 
 /**
  * Computes the number of barrier chunks for the outer curve of large curve track.
@@ -151,4 +141,4 @@ function getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio=1) = getCurveIn
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio=1) = ratio == 1 ? barrierChunks / 2 : barrierChunks;
+function getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio=1) = barrierChunks / 2 * abs(ratio);

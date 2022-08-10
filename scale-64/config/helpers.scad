@@ -68,9 +68,12 @@ function getBarrierLength(laneWidth, barrierWidth, barrierChunks) = getTrackSect
  */
 function getCurveAngle(ratio) =
     let(
-        ratio = abs(ratio)
+        ratio = abs(ratio),
+        angleDivider = ratio < 1 ? 1 / ratio
+                     : ratio > 1 && !forceFullTile ? ratio * 2
+                     : ratio
     )
-    CURVE_ANGLE / (ratio < 1 ? 1 / ratio : ratio > 1 ? ratio * 2 : 1)
+    CURVE_ANGLE / angleDivider
 ;
 
 /**
@@ -80,7 +83,7 @@ function getCurveAngle(ratio) =
  * @param Number [ratio] - The size factor.
  * @returns Number
  */
-function getCurveInnerRadius(length, width, ratio=1) = length * (ratio - 1) +  (length - width) / 2;
+function getCurveInnerRadius(length, width, ratio=1) = length * (abs(ratio) - 1) + (length - width) / 2;
 
 /**
  * Computes the outer radius of a curve given the ratio.
@@ -90,3 +93,30 @@ function getCurveInnerRadius(length, width, ratio=1) = length * (ratio - 1) +  (
  * @returns Number
  */
 function getCurveOuterRadius(length, width, ratio=1) = width + getCurveInnerRadius(length=length, width=width, ratio=ratio);
+
+/**
+ * Computes the length of the outer side of an enlarged curved track.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveSide(length, width, ratio=1) = length * abs(ratio) / 2;
+
+/**
+ * Computes the inner radius of a curve given the ratio.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveInnerRadius(length, width, ratio=1) = getCurveInnerRadius(length=length, width=width, ratio=ratio);
+
+/**
+ * Computes the outer radius of an enlarged curved track.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Number
+ */
+function getEnlargedCurveOuterRadius(length, width, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - getEnlargedCurveSide(length=length, width=width, ratio=ratio);

@@ -45,6 +45,7 @@ shiftStartPositions = false;    // Tells if the positions on a same starting lin
 printGroundUpsideDown = true;   // Flip the ground tiles to print them upside down
 printQuantity = 1;              // Quantity of elements to print per set
 showConfig = 0;                 // Show the config when rendering a model. The render script uses it to extract the config
+forceFullTile = false;          // When activated, make sure all tiles are full size, otherwise tiles with ratio greater or equal to 2 are split
 
 // Colors applied to the elements when previewed.
 // This will be used for the animations and other pictures, but this won't have effect on the ready to print elements.
