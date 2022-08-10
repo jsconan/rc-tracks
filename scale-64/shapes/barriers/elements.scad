@@ -142,7 +142,7 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
  */
 module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
     radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
-    angle = getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
+    angle = CURVE_ANGLE / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierLength(radius, angle, barrierWidth, barrierHeight);
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
