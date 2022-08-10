@@ -144,114 +144,61 @@ function getAnimationSteps(list) =
 ;
 
 /**
- * Gets the X-coordinate of a straight barrier given its position.
+ * Gets the coordinates and the rotation angle of a straight barrier given its position.
  * @param Number i - The position of the barrier on its side.
  * @param Number [ratio] - The size ratio.
  * @param Boolean [right] - Tells on which side is the male link (default on the left).
- * @returns Number
+ * @returns Vector
  */
-function getStraightBarrierX(i, ratio=1, right=false) =
+function getStraightBarrierCoordinates(i, ratio=1, right=false) =
     let(
         barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks),
         sectionLength = getStraightLength(trackSectionLength, ratio),
-        barrierX = right ? (barrierLength - sectionLength) / 2 : (sectionLength - barrierLength) / 2
-    )
-    barrierX + i * barrierLength * (right ? 1 : -1)
-;
-
-/**
- * Gets the Y-coordinate of a straight barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [right] - Tells on which side is the male link (default on the left).
- * @returns Number
- */
-function getStraightBarrierY(i, ratio=1, right=false) =
-    let(
+        barrierX = right ? (barrierLength - sectionLength) / 2 : (sectionLength - barrierLength) / 2,
         barrierY = (trackSectionWidth - barrierWidth) / 2
     )
-    right ? -barrierY : barrierY
+    [
+        barrierX + i * barrierLength * (right ? 1 : -1),
+        barrierY * (right ? -1 : 1),
+        right ? STRAIGHT : 0
+    ]
 ;
 
 /**
- * Gets the angle of a straight barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [right] - Tells on which side is the male link (default on the left).
- * @returns Number
- */
-function getStraightRotation(i, ratio=1, right=false) = right ? STRAIGHT : 0;
-
-/**
- * Gets the X-coordinate of a curved barrier given its position.
+ * Gets the coordinates and the rotation angle of a curved barrier given its position.
  * @param Number i - The position of the barrier on its side.
  * @param Number [ratio] - The size ratio.
  * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
+ * @returns Vector
  */
-function getCurveBarrierX(i, ratio=1, inner=false) =
+function getCurveBarrierCoordinates(i, ratio=1, inner=false) =
     let(
         sizeRatio = max(1, ratio),
         angle = getCurveAngle(ratio),
-        innerRadius = getCurveInnerRadius(length=trackSectionLength, width=trackSectionWidth, ratio=sizeRatio),
-        outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=sizeRatio),
+        placementAngle = CURVE_ANGLE - angle,
         radius = inner ? getCurveInnerBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=sizeRatio)
                        : getCurveOuterBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=sizeRatio),
         chunks = inner ? getCurveInnerBarrierChunks(barrierChunks, ratio)
                        : getCurveOuterBarrierChunks(barrierChunks, ratio),
+        center = getRawCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
         interval = angle / chunks,
-        rotation = interval * i + interval / 2
+        positionAngle = interval * (i + .5),
+        positionX = radius * cos(inner ? angle - positionAngle : positionAngle) - center.x,
+        positionY = radius * sin(inner ? angle - positionAngle : positionAngle) - center.y,
+        rotation = placementAngle + (inner ? angle - interval * (i + 1) : interval * i) - getCurveRotationAngle(interval),
+        position = rotp([positionX, positionY], placementAngle)
     )
-    radius * cos(inner ? angle - rotation : rotation) + (outerRadius - cos(angle) * innerRadius) / 2 - outerRadius
+    [position.x, position.y, rotation]
 ;
 
 /**
- * Gets the Y-coordinate of a curved barrier given its position.
+ * Gets the coordinates and the rotation angle of an enlarged curved barrier given its position.
  * @param Number i - The position of the barrier on its side.
  * @param Number [ratio] - The size ratio.
  * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
+ * @returns Vector
  */
-function getCurveBarrierY(i, ratio=1, inner=false) =
-    let(
-        sizeRatio = max(1, ratio),
-        angle = getCurveAngle(ratio),
-        outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=sizeRatio),
-        radius = inner ? getCurveInnerBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=sizeRatio)
-                       : getCurveOuterBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=sizeRatio),
-        chunks = inner ? getCurveInnerBarrierChunks(barrierChunks, ratio)
-                       : getCurveOuterBarrierChunks(barrierChunks, ratio),
-        interval = angle / chunks,
-        rotation = interval * i + interval / 2
-    )
-    radius * sin(inner ? angle - rotation : rotation) - (sin(angle) * outerRadius) / 2
-;
-
-/**
- * Gets the angle of a curved barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
- */
-function getCurveRotation(i, ratio=1, inner=false) =
-    let(
-        angle = getCurveAngle(ratio),
-        chunks = inner ? getCurveInnerBarrierChunks(barrierChunks, ratio)
-                       : getCurveOuterBarrierChunks(barrierChunks, ratio),
-        interval = angle / chunks
-    )
-    (inner ? angle - interval * (i + 1) : interval * i) - getCurveRotationAngle(interval)
-;
-
-/**
- * Gets the X-coordinate of an enlarged curved barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
- */
-function getEnlargedCurveBarrierX(i, ratio=1, inner=false) =
+function getEnlargedCurveBarrierCoordinates(i, ratio=1, inner=false) =
     let(
         angle = CURVE_ANGLE,
         innerRadius = getCurveInnerRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
@@ -261,90 +208,35 @@ function getEnlargedCurveBarrierX(i, ratio=1, inner=false) =
                        : getEnlargedCurveOuterBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=ratio),
         chunks = inner ? getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio)
                        : getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
+        center = getRawEnlargedCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
         interval = angle / chunks,
-        rotation = interval * i + interval / 2
+        positionAngle = interval * (i + .5),
+        positionX = radius * cos(inner ? angle - positionAngle : positionAngle) + side - center.x,
+        positionY = radius * sin(inner ? angle - positionAngle : positionAngle) + side - center.y,
+        rotation = (inner ? angle - interval * (i + 1) : interval * i) - getCurveRotationAngle(interval)
     )
-    radius * cos(inner ? angle - rotation : rotation) - outerRadius / 2 + side
+    [positionX, positionY, rotation]
 ;
 
 /**
- * Gets the Y-coordinate of an enlarged curved barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
- */
-function getEnlargedCurveBarrierY(i, ratio=1, inner=false) =
-    let(
-        angle = CURVE_ANGLE,
-        outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
-        side = inner ? 0 : getEnlargedCurveSide(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
-        radius = inner ? getEnlargedCurveInnerBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=ratio)
-                       : getEnlargedCurveOuterBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=ratio),
-        chunks = inner ? getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio)
-                       : getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
-        interval = angle / chunks,
-        rotation = interval * i + interval / 2
-    )
-    radius * sin(inner ? angle - rotation : rotation) - outerRadius / 2 + side
-;
-
-/**
- * Gets the angle of an enlarged curved barrier given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [inner] - Tells if this is the inner or the outer curve (default: inner).
- * @returns Number
- */
-function getEnlargedCurveRotation(i, ratio=1, inner=false) =
-    let(
-        angle = getCurveAngle(ratio),
-        chunks = inner ? getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio)
-                       : getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
-        interval = angle / chunks
-    )
-    (inner ? angle - interval * (i + 1) : interval * i) - getCurveRotationAngle(interval)
-;
-
-/**
- * Gets the X-coordinate of a side barrier for an enlarged curve given its position.
+ * Gets the coordinates and the rotation angle of a side barrier for an enlarged curve given its position.
  * @param Number i - The position of the barrier on its side.
  * @param Number [ratio] - The size ratio.
  * @param Boolean [right] - Tells on which side is the barrier (default on the left).
- * @returns Number
+ * @returns Vector
  */
-function getEnlargedCurveSideBarrierX(i, ratio=1, right=false) =
+function getEnlargedCurveSideBarrierCoordinates(i, ratio=1, right=false) =
     let(
         outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
         sideOffset = outerRadius / 2,
         sidePosition = getEnlargedCurveSideBarrierPosition(length=trackSectionLength, width=trackSectionWidth, barrierWidth=barrierWidth, ratio=ratio) - sideOffset,
         barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks),
         sectionLength = getStraightLength(trackSectionLength, ratio),
-        barrierX = (sectionLength - barrierLength) / 2 - sideOffset
+        barrierX = (sectionLength - barrierLength) / 2 - sideOffset,
+        positionX = right ? sidePosition : barrierX - i * barrierLength,
+        positionY = right ? (barrierLength - outerRadius) / 2 + i * barrierLength : (outerRadius - barrierWidth) / 2,
+        rotation = right ? -RIGHT : 0
     )
-    right ? sidePosition : barrierX - i * barrierLength
-;
 
-/**
- * Gets the Y-coordinate of a side barrier for an enlarged curve given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [right] - Tells on which side is the barrier (default on the left).
- * @returns Number
- */
-function getEnlargedCurveSideBarrierY(i, ratio=1, right=false) =
-    let(
-        outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio),
-        barrierLength = getBarrierLength(trackLaneWidth, barrierWidth, barrierChunks)
-    )
-    right ? (barrierLength - outerRadius) / 2 + i * barrierLength : (outerRadius - barrierWidth) / 2
+    [positionX, positionY, rotation]
 ;
-
-/**
- * Gets the angle of a side barrier for an enlarged curve given its position.
- * @param Number i - The position of the barrier on its side.
- * @param Number [ratio] - The size ratio.
- * @param Boolean [right] - Tells on which side is the barrier (default on the left).
- * @returns Number
- */
-function getEnlargedCurveSideRotation(i, ratio=1, right=false) = right ? -RIGHT : 0;

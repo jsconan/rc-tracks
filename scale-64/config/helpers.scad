@@ -120,3 +120,39 @@ function getEnlargedCurveInnerRadius(length, width, ratio=1) = getCurveInnerRadi
  * @returns Number
  */
 function getEnlargedCurveOuterRadius(length, width, ratio=1) = getCurveOuterRadius(length=length, width=width, ratio=ratio) - getEnlargedCurveSide(length=length, width=width, ratio=ratio);
+
+/**
+ * Computes the coordinates of the center for a raw curve given the ratio.
+ * This is useful for translating the tile to its final position.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Vector
+ */
+function getRawCurveCenter(length, width, ratio=1) =
+    let(
+        sizeRatio = max(1, ratio),
+        angle = getCurveAngle(ratio) / 2,
+        innerRadius = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio),
+        middleRadius = innerRadius + width / 2
+    )
+    [
+        cos(angle) * middleRadius,
+        sin(angle) * middleRadius
+    ]
+;
+
+/**
+ * Computes the coordinates of the center for a raw enlarged curve given the ratio.
+ * This is useful for translating the tile to its final position.
+ * @param Number length - The length of a track section.
+ * @param Number width - The width of a track section.
+ * @param Number [ratio] - The size factor.
+ * @returns Vector
+ */
+function getRawEnlargedCurveCenter(length, width, ratio=1) =
+    let(
+        center = getCurveOuterRadius(length=length, width=width, ratio=ratio) / 2
+    )
+    [center, center]
+;

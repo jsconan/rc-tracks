@@ -38,12 +38,12 @@ applyMode(mode=renderMode) {
     sideBarrierChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio);
     innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
-    outerRadius = getCurveOuterRadius(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
+    center = getRawEnlargedCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
     pegsQuantity = sideBarrierChunks * 2 + innerBarrierChunks + outerBarrierChunks;
 
     // Draws the ready to print model
     enlargedCurveTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(outerRadius / 2)) {
+    translateY(-getPrintInterval(center.x)) {
         barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
 

@@ -45,9 +45,10 @@ module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
         i = elements[step][1];
         right = elements[step][2];
 
-        barrierX = getStraightBarrierX(i, ratio, right);
-        barrierY = getStraightBarrierY(i, ratio, right);
-        rotation = getStraightRotation(i, ratio, right);
+        coordinates = getStraightBarrierCoordinates(i, ratio, right);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             animateStep(
@@ -114,9 +115,10 @@ module straightSection(ratio=1, starting=false) {
         i = elements[step][1];
         right = elements[step][2];
 
-        barrierX = getStraightBarrierX(i, ratio, right);
-        barrierY = getStraightBarrierY(i, ratio, right);
-        rotation = getStraightRotation(i, ratio, right);
+        coordinates = getStraightBarrierCoordinates(i, ratio, right);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             translate([barrierX, barrierY, 0]) {

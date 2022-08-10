@@ -76,16 +76,12 @@ module curvedTileHoles(radius, angle, thickness, barrierWidth, barrierHeight, ba
 module curvedTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, diameter, headDiameter, headHeight, ratio=1) {
     sizeRatio = max(1, ratio);
     angle = getCurveAngle(ratio);
-    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio);
-    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=sizeRatio);
+    center = getRawCurveCenter(length=length, width=width, ratio=ratio);
     barrierInnerPosition = getCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     barrierOuterPosition = getCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
     linkHeight = getBarrierLinkHeight(barrierWidth, barrierHeight);
-
-    centerX = (outerRadius - cos(angle) * innerRadius) / 2 - outerRadius;
-    centerY = -(sin(angle) * outerRadius) / 2;
 
     module maleLink() {
         tileLink(
@@ -107,82 +103,84 @@ module curvedTile(length, width, thickness, barrierWidth, barrierHeight, barrier
         );
     }
 
-    translate([centerX, centerY, 0]) {
-        difference() {
-            union() {
-                // Tile body
-                translateZ(-thickness / 2) {
-                    curvedGround(
-                        length = length,
-                        width = width,
-                        thickness = thickness,
-                        angle = angle,
-                        ratio = sizeRatio
-                    );
+    rotate(CURVE_ANGLE - angle) {
+        translate(-center) {
+            difference() {
+                union() {
+                    // Tile body
+                    translateZ(-thickness / 2) {
+                        curvedGround(
+                            length = length,
+                            width = width,
+                            thickness = thickness,
+                            angle = angle,
+                            ratio = sizeRatio
+                        );
+                    }
+                    // Barriers body
+                    translateZ(barrierHeight / 2) {
+                        curvedBarrierBody(
+                            radius = barrierInnerPosition,
+                            angle = angle,
+                            width = barrierWidth,
+                            height = barrierHeight
+                        );
+                        curvedBarrierBody(
+                            radius = barrierOuterPosition,
+                            angle = angle,
+                            width = barrierWidth,
+                            height = barrierHeight
+                        );
+                    }
                 }
-                // Barriers body
-                translateZ(barrierHeight / 2) {
-                    curvedBarrierBody(
-                        radius = barrierInnerPosition,
-                        angle = angle,
-                        width = barrierWidth,
-                        height = barrierHeight
-                    );
-                    curvedBarrierBody(
-                        radius = barrierOuterPosition,
-                        angle = angle,
-                        width = barrierWidth,
-                        height = barrierHeight
-                    );
-                }
-            }
-            // Fastener holes
-            curvedTileHoles(
-                radius = barrierInnerPosition,
-                angle = angle,
-                thickness = thickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = innerBarrierChunks,
-                diameter = diameter,
-                headDiameter = headDiameter,
-                headHeight = headHeight,
-            );
-            curvedTileHoles(
-                radius = barrierOuterPosition,
-                angle = angle,
-                thickness = thickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = outerBarrierChunks,
-                diameter = diameter,
-                headDiameter = headDiameter,
-                headHeight = headHeight,
-            );
-            // Barrier link holes
-            translateX(barrierOuterPosition) {
-                rotateZ(-CURVE_ANGLE) {
-                    femaleLink();
-                }
-            }
-            rotateZ(angle) {
-                translateX(barrierInnerPosition) {
-                    rotateZ(CURVE_ANGLE) {
+                // Fastener holes
+                curvedTileHoles(
+                    radius = barrierInnerPosition,
+                    angle = angle,
+                    thickness = thickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = innerBarrierChunks,
+                    diameter = diameter,
+                    headDiameter = headDiameter,
+                    headHeight = headHeight,
+                );
+                curvedTileHoles(
+                    radius = barrierOuterPosition,
+                    angle = angle,
+                    thickness = thickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = outerBarrierChunks,
+                    diameter = diameter,
+                    headDiameter = headDiameter,
+                    headHeight = headHeight,
+                );
+                // Barrier link holes
+                translateX(barrierOuterPosition) {
+                    rotateZ(-CURVE_ANGLE) {
                         femaleLink();
                     }
                 }
+                rotateZ(angle) {
+                    translateX(barrierInnerPosition) {
+                        rotateZ(CURVE_ANGLE) {
+                            femaleLink();
+                        }
+                    }
+                }
             }
-        }
-        // Barrier links
-        translateX(barrierInnerPosition) {
-            rotateZ(CURVE_ANGLE) {
-                maleLink();
-            }
-        }
-        rotateZ(angle) {
-            translateX(barrierOuterPosition) {
-                rotateZ(-CURVE_ANGLE) {
+            // Barrier links
+            translateX(barrierInnerPosition) {
+                rotateZ(CURVE_ANGLE) {
                     maleLink();
+                }
+            }
+            rotateZ(angle) {
+                translateX(barrierOuterPosition) {
+                    rotateZ(-CURVE_ANGLE) {
+                        maleLink();
+                    }
                 }
             }
         }
@@ -206,8 +204,7 @@ module enlargedCurveTile(length, width, thickness, barrierWidth, barrierHeight, 
     angle = CURVE_ANGLE;
     side = getEnlargedCurveSide(length=length, width=width, ratio=ratio);
     sideOffset = side / 2;
-    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=ratio);
-    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=ratio);
+    center = getRawEnlargedCurveCenter(length=length, width=width, ratio=ratio);
     barrierSidePosition = getEnlargedCurveSideBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio) - sideOffset;
     barrierInnerPosition = getEnlargedCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
     barrierOuterPosition = getEnlargedCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
@@ -237,7 +234,7 @@ module enlargedCurveTile(length, width, thickness, barrierWidth, barrierHeight, 
         );
     }
 
-    translate([-outerRadius, -outerRadius, 0] / 2) {
+    translate(-center) {
         difference() {
             union() {
                 // Tile body
@@ -297,7 +294,7 @@ module enlargedCurveTile(length, width, thickness, barrierWidth, barrierHeight, 
                     thickness = thickness,
                     barrierWidth = barrierWidth,
                     barrierHeight = barrierHeight,
-                    barrierChunks = innerBarrierChunks,
+                    barrierChunks = outerBarrierChunks,
                     diameter = diameter,
                     headDiameter = headDiameter,
                     headHeight = headHeight,

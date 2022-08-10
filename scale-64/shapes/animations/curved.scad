@@ -45,9 +45,10 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
         i = elements[step][1];
         inner = elements[step][2];
 
-        barrierX = getCurveBarrierX(i, ratio, inner);
-        barrierY = getCurveBarrierY(i, ratio, inner);
-        rotation = getCurveRotation(i, ratio, inner);
+        coordinates = getCurveBarrierCoordinates(i, ratio, inner);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
     if (element == "peg") {
             animateStep(
@@ -101,9 +102,10 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
 
         if (type == "side") {
             right = elements[step][3];
-            barrierX = getEnlargedCurveSideBarrierX(i, ratio, right);
-            barrierY = getEnlargedCurveSideBarrierY(i, ratio, right);
-            rotation = getEnlargedCurveSideRotation(i, ratio, right);
+            coordinates = getEnlargedCurveSideBarrierCoordinates(i, ratio, right);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 animateStep(
@@ -129,9 +131,10 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
         }
         if (type == "curve") {
             inner = elements[step][3];
-            barrierX = getEnlargedCurveBarrierX(i, ratio, inner);
-            barrierY = getEnlargedCurveBarrierY(i, ratio, inner);
-            rotation = getEnlargedCurveRotation(i, ratio, inner);
+            coordinates = getEnlargedCurveBarrierCoordinates(i, ratio, inner);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 animateStep(
@@ -207,9 +210,10 @@ module curvedSection(ratio=1) {
         i = elements[step][1];
         inner = elements[step][2];
 
-        barrierX = getCurveBarrierX(i, ratio, inner);
-        barrierY = getCurveBarrierY(i, ratio, inner);
-        rotation = getCurveRotation(i, ratio, inner);
+        coordinates = getCurveBarrierCoordinates(i, ratio, inner);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             translate([barrierX, barrierY, 0]) {
@@ -251,9 +255,10 @@ module enlargedCurveSection(ratio=1) {
 
         if (type == "side") {
             right = elements[step][3];
-            barrierX = getEnlargedCurveSideBarrierX(i, ratio, right);
-            barrierY = getEnlargedCurveSideBarrierY(i, ratio, right);
-            rotation = getEnlargedCurveSideRotation(i, ratio, right);
+            coordinates = getEnlargedCurveSideBarrierCoordinates(i, ratio, right);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 translate([barrierX, barrierY, 0]) {
@@ -272,9 +277,10 @@ module enlargedCurveSection(ratio=1) {
         }
         if (type == "curve") {
             inner = elements[step][3];
-            barrierX = getEnlargedCurveBarrierX(i, ratio, inner);
-            barrierY = getEnlargedCurveBarrierY(i, ratio, inner);
-            rotation = getEnlargedCurveRotation(i, ratio, inner);
+            coordinates = getEnlargedCurveBarrierCoordinates(i, ratio, inner);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 translate([barrierX, barrierY, 0]) {
