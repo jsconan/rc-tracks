@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a ground tile for an enlarged curved track section.
+ * Ready to print track part: a ground tile for an enlarged curved track section with a half size.
  *
  * @author jsconan
  */
@@ -32,7 +32,7 @@
 include <../../config/setup.scad>
 
 // Override the default config
-forceFullTile = true;
+forceFullTile = false;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
