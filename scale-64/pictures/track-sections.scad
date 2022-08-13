@@ -42,7 +42,6 @@ $vpd = 500;
 
 // Prepare the list of animations
 list = buildAnimationList([
-    getAnimationThresholds("starting", 1, getStraightSectionSteps(1)),
     getAnimationThresholds("straight", 1, getStraightSectionSteps(1)),
     getAnimationThresholds("enlarged", 1, getEnlargedCurveSectionSteps(1)),
     getAnimationThresholds("curve", 1, getCurveSectionSteps(1)),
