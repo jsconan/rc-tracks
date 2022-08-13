@@ -109,7 +109,7 @@ function getCurveInnerBarrierChunks(barrierChunks, ratio=1) =
 function getCurveOuterBarrierChunks(barrierChunks, ratio=1) =
     let(
         ratio = abs(ratio),
-        chunksDivider = ratio == 1 || forceFullTile ? 1 : 2
+        chunksDivider = ratio == 1 || (ratio > 1 && forceFullTile) ? 1 : 2
     )
     barrierChunks / chunksDivider
 ;
