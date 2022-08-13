@@ -33,6 +33,7 @@ include <../config/setup.scad>
 
 // Override the default config
 printGroundUpsideDown = false;
+forceFullTile = false;
 
 // Setup the viewport
 $vpr = [55, 0, 25];
@@ -42,6 +43,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    enlargedCurveSection(1);
+    enlargedCurveSection(ratio=1);
 
 }

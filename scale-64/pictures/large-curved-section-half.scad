@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * A complete large curved track section.
+ * An assembled large curved track section with a half size.
  *
  * @author jsconan
  */
@@ -33,16 +33,16 @@ include <../config/setup.scad>
 
 // Override the default config
 printGroundUpsideDown = false;
-forceFullTile = true;
+forceFullTile = false;
 
 // Setup the viewport
 $vpr = [55, 0, 25];
 $vpt = [0, 0, 0];
-$vpd = 660;
+$vpd = 500;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    curvedTrackTile(ratio=2);
+    curvedSection(ratio=2);
 
 }
