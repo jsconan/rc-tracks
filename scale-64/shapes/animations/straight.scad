@@ -36,8 +36,8 @@
  * @param Number [ratio] - The size factor.
  * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
-    elements = getStraightSectionSteps(ratio);
+module animatedStraightTrackSection(start, end, domain, ratio=1, starting=false) {
+    elements = getStraightSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -45,9 +45,10 @@ module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
         i = elements[step][1];
         right = elements[step][2];
 
-        barrierX = getStraightBarrierX(i, ratio, right);
-        barrierY = getStraightBarrierY(i, ratio, right);
-        rotation = getStraightRotation(i, ratio, right);
+        coordinates = getStraightBarrierCoordinates(i, ratio, right);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             animateStep(
@@ -59,7 +60,7 @@ module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 animateStep(
                     step = step,
                     translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -90,7 +91,7 @@ module animatedStraightSection(start, end, domain, ratio=1, starting=false) {
  * @param Number [ratio] - The size factor.
  * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module animatedStraightTile(start, end, domain, ratio=1, starting=false) {
+module animatedStraightTrackTile(start, end, domain, ratio=1, starting=false) {
     animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
         if (starting) {
             startingTrackTile();
@@ -105,8 +106,8 @@ module animatedStraightTile(start, end, domain, ratio=1, starting=false) {
  * @param Number [ratio] - The size factor.
  * @param Boolean [starting] - Should the ground be the starting variant.
  */
-module straightSection(ratio=1, starting=false) {
-    elements = getStraightSectionSteps(ratio);
+module assembledStraightTrackSection(ratio=1, starting=false) {
+    elements = getStraightSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -114,9 +115,10 @@ module straightSection(ratio=1, starting=false) {
         i = elements[step][1];
         right = elements[step][2];
 
-        barrierX = getStraightBarrierX(i, ratio, right);
-        barrierY = getStraightBarrierY(i, ratio, right);
-        rotation = getStraightRotation(i, ratio, right);
+        coordinates = getStraightBarrierCoordinates(i, ratio, right);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             translate([barrierX, barrierY, 0]) {
@@ -124,7 +126,7 @@ module straightSection(ratio=1, starting=false) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 translate([barrierX, barrierY, trackGroundThickness]) {
                     rotate(zAxis3D(rotation)) {
                         straightBarrierSet();

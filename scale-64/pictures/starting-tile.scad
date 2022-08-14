@@ -33,6 +33,7 @@ include <../config/setup.scad>
 
 // Override the default config
 printGroundUpsideDown = false;
+forceFullTile = false;
 
 // Setup the viewport
 $vpr = [55, 0, 25];

@@ -31,31 +31,13 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
+// Override the default config
+forceFullTile = true;
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    ratio = 2;
-    innerCurveLength = getCurvedBarrierLength(
-        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
-        getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
-        barrierWidth, barrierHeight
-    );
-    outerCurveLength = getCurvedBarrierLength(
-        getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
-        getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
-        barrierWidth, barrierHeight
-    );
-
-    innerCurveChunks = getCurveInnerBarrierChunks(barrierChunks, ratio) * printQuantity;
-    outerCurveChunks = getCurveOuterBarrierChunks(barrierChunks, ratio) * printQuantity;
-
-    innerCurveInterval = getGridWidth(innerCurveLength, barrierWidth, quantity=innerCurveChunks, line=printQuantity);
-    outerCurveInterval = getGridWidth(outerCurveLength, barrierWidth, quantity=outerCurveChunks, line=printQuantity);
-
     // Draws the ready to print model
-    outerCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
-    translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
-        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
-    }
+    curvedTrackSectionBarrierSet(ratio=2);
 
 }

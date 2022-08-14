@@ -35,7 +35,7 @@
 module straightTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 straightGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -55,7 +55,7 @@ module straightTrackSectionGround(ratio=1) {
  */
 module startingTrackSectionGround() {
     translateZ(trackGroundThickness / 2) {
-        color(colorGround) {
+        color(COLOR_GROUND) {
             straightGroundTile(
                 length = trackSectionLength,
                 width = trackSectionWidth,
@@ -67,7 +67,7 @@ module startingTrackSectionGround() {
             );
         }
         translateZ((trackGroundThickness + layerHeight) / 2) {
-            color(colorDecoration) {
+            color(COLOR_DECORATION) {
                 startingGroundTileDecoration(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -90,7 +90,7 @@ module startingTrackSectionGround() {
 module curvedTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 curvedGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -112,7 +112,7 @@ module curvedTrackSectionGround(ratio=1) {
 module enlargedCurveTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 enlargedCurveGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -124,5 +124,67 @@ module enlargedCurveTrackSectionGround(ratio=1) {
                 );
             }
         }
+    }
+}
+
+/**
+ * A ground tile and set of barrier chunks for a straight track section.
+ * @param Number [ratio] - The size factor.
+ */
+module straightTrackSectionSet(ratio=1) {
+    pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
+
+    straightTrackSectionGround(ratio=ratio);
+    translateY(-getPrintInterval(trackSectionWidth / 2)) {
+        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
+    }
+ }
+
+/**
+ * A ground tile and set of barrier chunks for a starting track section.
+ */
+module startingTrackSectionSet() {
+    pegsQuantity = getStraightBarrierChunks(barrierChunks, 1) * 2;
+
+    startingTrackSectionGround();
+    translateY(-getPrintInterval(trackSectionWidth / 2)) {
+        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
+    }
+}
+
+/**
+ * A ground tile and set of barrier chunks for a curved track section.
+ * @param Number [ratio] - The size factor.
+ */
+module curvedTrackSectionSet(ratio=1) {
+    angle = getCurveAngle(ratio);
+    innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
+    outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
+    center = getRawCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
+    pegsQuantity = innerBarrierChunks + outerBarrierChunks;
+    pegWidth = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
+
+    curvedTrackSectionGround(ratio=ratio);
+    rotate(printGroundUpsideDown ? angle : 180 - angle) {
+        translateX(-(center.y + pegWidth)) {
+            barrierPegSet(quantity=pegsQuantity, line=1);
+        }
+    }
+}
+
+/**
+ * A ground tile and set of barrier chunks for a curved track section with extra space..
+ * @param Number [ratio] - The size factor.
+ */
+module enlargedCurveTrackSectionSet(ratio=1) {
+    sideBarrierChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio);
+    innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
+    outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
+    center = getRawEnlargedCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
+    pegsQuantity = sideBarrierChunks * 2 + innerBarrierChunks + outerBarrierChunks;
+
+    enlargedCurveTrackSectionGround(ratio=ratio);
+    translateY(-getPrintInterval(center.y)) {
+        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
 }
