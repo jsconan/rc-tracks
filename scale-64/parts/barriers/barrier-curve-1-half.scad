@@ -23,7 +23,7 @@
 /**
  * A race track system for 1/64 to 1/76 scale RC cars.
  *
- * Ready to print track part: a full tile for an enlarged curved track section.
+ * Ready to print track parts: a set of barrier chunks for a tight curved track section with a half size.
  *
  * @author jsconan
  */
@@ -31,13 +31,10 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
-// Override the default config
-forceFullTile = true;
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
     // Draws the ready to print model
-    curvedTrackTile(ratio=3);
+    curvedTrackSectionBarrierSet(ratio=.5);
 
 }

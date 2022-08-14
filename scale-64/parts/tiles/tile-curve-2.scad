@@ -31,6 +31,9 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
+// Override the default config
+forceFullTile = true;
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
