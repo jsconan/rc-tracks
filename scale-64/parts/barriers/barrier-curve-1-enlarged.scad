@@ -34,9 +34,7 @@ include <../../config/setup.scad>
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    ratio = 1;
-
     // Draws the ready to print model
-    enlargedCurveTrackSectionBarrierSet(ratio=ratio);
+    enlargedCurveTrackSectionBarrierSet(ratio=1);
 
 }
