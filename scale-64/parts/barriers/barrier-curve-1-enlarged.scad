@@ -35,33 +35,8 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     ratio = 1;
-    innerCurveLength = getCurvedBarrierLength(
-        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
-        getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
-        barrierWidth, barrierHeight
-    );
-    outerCurveLength = getCurvedBarrierLength(
-        getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
-        getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
-        barrierWidth, barrierHeight
-    );
-    straightLength = getStraightBarrierLength(barrierLength, barrierWidth, barrierHeight);
-
-    innerCurveChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio) * printQuantity;
-    outerCurveChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio) * printQuantity;
-    straightChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio) * 2 * printQuantity;
-
-    innerCurveInterval = getGridWidth(innerCurveLength, barrierWidth, quantity=innerCurveChunks, line=printQuantity);
-    outerCurveInterval = getGridWidth(outerCurveLength, barrierWidth, quantity=outerCurveChunks, line=printQuantity);
-    straightInterval = getGridWidth(straightLength, barrierWidth, quantity=straightChunks, line=printQuantity);
 
     // Draws the ready to print model
-    translateY((straightInterval + outerCurveInterval) / 2) {
-        straightBarrierSet(quantity=straightChunks, line=printQuantity);
-    }
-    enlargedCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
-    translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
-        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
-    }
+    enlargedCurveTrackSectionBarrierSet(ratio=ratio);
 
 }

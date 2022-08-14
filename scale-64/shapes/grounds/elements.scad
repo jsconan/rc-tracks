@@ -131,7 +131,7 @@ module enlargedCurveTrackSectionGround(ratio=1) {
  * A ground tile and set of barrier chunks for a straight track section.
  * @param Number [ratio] - The size factor.
  */
- module straightTrackSectionSet(ratio=1) {
+module straightTrackSectionSet(ratio=1) {
     pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
 
     straightTrackSectionGround(ratio=ratio);
@@ -143,20 +143,20 @@ module enlargedCurveTrackSectionGround(ratio=1) {
 /**
  * A ground tile and set of barrier chunks for a starting track section.
  */
- module startingTrackSectionSet() {
+module startingTrackSectionSet() {
     pegsQuantity = getStraightBarrierChunks(barrierChunks, 1) * 2;
 
     startingTrackSectionGround();
     translateY(-getPrintInterval(trackSectionWidth / 2)) {
         barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
- }
+}
 
- /**
+/**
  * A ground tile and set of barrier chunks for a curved track section.
  * @param Number [ratio] - The size factor.
  */
- module curvedTrackSectionSet(ratio=1) {
+module curvedTrackSectionSet(ratio=1) {
     angle = getCurveAngle(ratio);
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
@@ -170,13 +170,13 @@ module enlargedCurveTrackSectionGround(ratio=1) {
             barrierPegSet(quantity=pegsQuantity, line=1);
         }
     }
- }
+}
 
- /**
+/**
  * A ground tile and set of barrier chunks for a curved track section with extra space..
  * @param Number [ratio] - The size factor.
  */
- module enlargedCurveTrackSectionSet(ratio=1) {
+module enlargedCurveTrackSectionSet(ratio=1) {
     sideBarrierChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio);
     innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
@@ -187,4 +187,4 @@ module enlargedCurveTrackSectionGround(ratio=1) {
     translateY(-getPrintInterval(center.y)) {
         barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
- }
+}

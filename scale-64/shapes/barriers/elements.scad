@@ -162,3 +162,77 @@ module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
         }
     }
 }
+
+
+/**
+ * A full set of barrier chunks for a straight track section.
+ * @param Number [ratio] - The size factor.
+ */
+module straightTrackSectionBarrierSet(ratio=1) {
+    pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
+
+    straightBarrierSet(quantity=pegsQuantity * printQuantity, line=printQuantity);
+}
+
+/**
+ * A full set of barrier chunks for a curved track section.
+ * @param Number [ratio] - The size factor.
+ */
+module curvedTrackSectionBarrierSet(ratio=1) {
+    innerCurveLength = getCurvedBarrierLength(
+        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
+        barrierWidth, barrierHeight
+    );
+    outerCurveLength = getCurvedBarrierLength(
+        getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
+        barrierWidth, barrierHeight
+    );
+
+    innerCurveChunks = getCurveInnerBarrierChunks(barrierChunks, ratio) * printQuantity;
+    outerCurveChunks = getCurveOuterBarrierChunks(barrierChunks, ratio) * printQuantity;
+
+    innerCurveInterval = getGridWidth(innerCurveLength, barrierWidth, quantity=innerCurveChunks, line=printQuantity);
+    outerCurveInterval = getGridWidth(outerCurveLength, barrierWidth, quantity=outerCurveChunks, line=printQuantity);
+
+    // Draws the ready to print model
+    outerCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
+    translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
+        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
+    }
+}
+
+/**
+ * A full set of barrier chunks for a curved track section with extra space.
+ * @param Number [ratio] - The size factor.
+ */
+module enlargedCurveTrackSectionBarrierSet(ratio=1) {
+    innerCurveLength = getCurvedBarrierLength(
+        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
+        barrierWidth, barrierHeight
+    );
+    outerCurveLength = getCurvedBarrierLength(
+        getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveAngle(ratio) / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio),
+        barrierWidth, barrierHeight
+    );
+    straightLength = getStraightBarrierLength(barrierLength, barrierWidth, barrierHeight);
+
+    innerCurveChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio) * printQuantity;
+    outerCurveChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio) * printQuantity;
+    straightChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio) * 2 * printQuantity;
+
+    innerCurveInterval = getGridWidth(innerCurveLength, barrierWidth, quantity=innerCurveChunks, line=printQuantity);
+    outerCurveInterval = getGridWidth(outerCurveLength, barrierWidth, quantity=outerCurveChunks, line=printQuantity);
+    straightInterval = getGridWidth(straightLength, barrierWidth, quantity=straightChunks, line=printQuantity);
+
+    translateY((straightInterval + outerCurveInterval) / 2) {
+        straightBarrierSet(quantity=straightChunks, line=printQuantity);
+    }
+    enlargedCurveBarrierSet(ratio=ratio, quantity=outerCurveChunks, line=printQuantity);
+    translateY(-(innerCurveInterval + outerCurveInterval) / 2) {
+        innerCurveBarrierSet(ratio=ratio, quantity=innerCurveChunks, line=printQuantity);
+    }
+}
