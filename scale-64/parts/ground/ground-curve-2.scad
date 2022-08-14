@@ -45,7 +45,7 @@ applyMode(mode=renderMode) {
     // Draws the ready to print model
     curvedTrackSectionGround(ratio=ratio);
     rotate(printGroundUpsideDown ? angle : 180 - angle) {
-        translate([-(center.y + pegWidth), pegWidth]) {
+        translateX(-(center.y + pegWidth)) {
             barrierPegSet(quantity=pegsQuantity, line=1);
         }
     }

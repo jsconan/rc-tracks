@@ -35,15 +35,19 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     ratio = 1;
+    angle = getCurveAngle(ratio);
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
     center = getRawCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
     pegsQuantity = innerBarrierChunks + outerBarrierChunks;
+    pegWidth = getBarrierPegDiameter(barrierWidth, barrierHeight) + trackGroundThickness * 2;
 
     // Draws the ready to print model
     curvedTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(center.x)) {
-        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
+    rotate(printGroundUpsideDown ? angle : 180 - angle) {
+        translateX(-(center.y + pegWidth)) {
+            barrierPegSet(quantity=pegsQuantity, line=1);
+        }
     }
 
 }

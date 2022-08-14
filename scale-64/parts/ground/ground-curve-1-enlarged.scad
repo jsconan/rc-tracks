@@ -43,7 +43,7 @@ applyMode(mode=renderMode) {
 
     // Draws the ready to print model
     enlargedCurveTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(center.x)) {
+    translateY(-getPrintInterval(center.y)) {
         barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
     }
 
