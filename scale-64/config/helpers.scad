@@ -133,8 +133,9 @@ function getRawCurveCenter(length, width, ratio=1) =
     let(
         sizeRatio = max(1, ratio),
         angle = getCurveAngle(ratio) / 2,
+        minRadius = getCurveInnerRadius(length=length, width=width, ratio=1),
         innerRadius = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio),
-        middleRadius = innerRadius + width / 2
+        middleRadius = innerRadius + minRadius + width / 2
     )
     [
         cos(angle) * middleRadius,
