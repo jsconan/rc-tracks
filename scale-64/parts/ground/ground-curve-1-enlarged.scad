@@ -35,16 +35,8 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     ratio = 1;
-    sideBarrierChunks = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio);
-    innerBarrierChunks = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio);
-    outerBarrierChunks = getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
-    center = getRawEnlargedCurveCenter(length=trackSectionLength, width=trackSectionWidth, ratio=ratio);
-    pegsQuantity = sideBarrierChunks * 2 + innerBarrierChunks + outerBarrierChunks;
 
     // Draws the ready to print model
-    enlargedCurveTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(center.y)) {
-        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
-    }
+    enlargedCurveTrackSectionSet(ratio=ratio);
 
 }

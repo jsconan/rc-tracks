@@ -35,12 +35,8 @@ include <../../config/setup.scad>
 applyMode(mode=renderMode) {
 
     ratio = 1;
-    pegsQuantity = getStraightBarrierChunks(barrierChunks, ratio) * 2;
 
     // Draws the ready to print model
-    straightTrackSectionGround(ratio=ratio);
-    translateY(-getPrintInterval(trackSectionWidth / 2)) {
-        barrierPegSet(quantity=pegsQuantity, line=pegsQuantity);
-    }
+    straightTrackSectionSet(ratio=ratio);
 
 }
