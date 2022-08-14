@@ -60,7 +60,7 @@ module animatedCurvedTrackSection(start, end, domain, ratio=1) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 animateStep(
                     step = step,
                     translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -117,7 +117,7 @@ module animatedEnlargedCurveTrackSection(start, end, domain, ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     animateStep(
                         step = step,
                         translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -146,7 +146,7 @@ module animatedEnlargedCurveTrackSection(start, end, domain, ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     animateStep(
                         step = step,
                         translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -221,7 +221,7 @@ module assembledCurvedTrackSection(ratio=1) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 translate([barrierX, barrierY, trackGroundThickness]) {
                     rotate(zAxis3D(rotation)) {
                         if (inner) {
@@ -266,7 +266,7 @@ module assembledEnlargedCurveTrackSection(ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     translate([barrierX, barrierY, trackGroundThickness]) {
                         rotate(zAxis3D(rotation)) {
                             straightBarrierSet();
@@ -288,7 +288,7 @@ module assembledEnlargedCurveTrackSection(ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     translate([barrierX, barrierY, trackGroundThickness]) {
                         rotate(zAxis3D(rotation)) {
                             if (inner) {

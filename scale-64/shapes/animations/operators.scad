@@ -46,9 +46,9 @@
  * @param Vector [scaleRange] - A pre-built interpolation range for the scaling.
  */
 module animate(
-    translateFrom=defaultTranslateFrom, translateTo=defaultTranslateTo,
-    rotateFrom=defaultRotateFrom, rotateTo=defaultRotateTo,
-    scaleFrom=defaultScaleFrom, scaleTo=defaultScaleTo,
+    translateFrom=ANIMATION_TRANSLATE_FROM, translateTo=ANIMATION_TRANSLATE_TO,
+    rotateFrom=ANIMATION_ROTATE_FROM, rotateTo=ANIMATION_ROTATE_TO,
+    scaleFrom=ANIMATION_SCALE_FROM, scaleTo=ANIMATION_SCALE_TO,
     start, end,
     translateValues, translateRange,
     rotateValues, rotateRange,
@@ -80,7 +80,7 @@ module animateStep(step, steps, translateTo, rotateTo, start, end, domain) {
         translateTo = translateTo,
         rotateTo = rotateTo,
         start = interpolationThreshold(step=step, steps=steps, start=start, end=end, domain=domain),
-        end = interpolationThreshold(step=step + animateSteps, steps=steps, start=start, end=end, domain=domain)
+        end = interpolationThreshold(step=step + ANIMATION_ANIMATE_STEPS, steps=steps, start=start, end=end, domain=domain)
     ) {
         children();
     }
@@ -93,23 +93,23 @@ module animateStep(step, steps, translateTo, rotateTo, start, end, domain) {
  */
 module animateSlide(step, steps) {
     start = interpolationThreshold(step=step, steps=steps);
-    end = interpolationThreshold(step=step + slideSteps, steps=steps);
+    end = interpolationThreshold(step=step + ANIMATION_SLIDE_STEPS, steps=steps);
 
     translateAnimate(
-        from = defaultPresentation,
-        to = defaultSlideTo,
+        from = ANIMATION_SLIDE_FROM,
+        to = ANIMATION_SLIDE_TO,
         start = start,
         end = end
     ) {
         rotateAnimate(
-            from = defaultRotateTo,
-            to = defaultRotateFrom,
+            from = ANIMATION_ROTATE_TO,
+            to = ANIMATION_ROTATE_FROM,
             start = start,
             end = end
         ) {
             scaleAnimate(
-                from = defaultScaleTo,
-                to = defaultScaleFrom,
+                from = ANIMATION_SCALE_TO,
+                to = ANIMATION_SCALE_FROM,
                 start = start,
                 end = end
             ) {
@@ -127,7 +127,7 @@ module animateSlide(step, steps) {
  */
 module presentSteps(from, to, steps) {
     let(
-        slide = to - slideSteps,
+        slide = to - ANIMATION_SLIDE_STEPS,
         start = interpolationThreshold(step=from, steps=steps),
         end = interpolationThreshold(step=to, steps=steps)
     ) {

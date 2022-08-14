@@ -35,7 +35,7 @@
 module straightTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 straightGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -55,7 +55,7 @@ module straightTrackSectionGround(ratio=1) {
  */
 module startingTrackSectionGround() {
     translateZ(trackGroundThickness / 2) {
-        color(colorGround) {
+        color(COLOR_GROUND) {
             straightGroundTile(
                 length = trackSectionLength,
                 width = trackSectionWidth,
@@ -67,7 +67,7 @@ module startingTrackSectionGround() {
             );
         }
         translateZ((trackGroundThickness + layerHeight) / 2) {
-            color(colorDecoration) {
+            color(COLOR_DECORATION) {
                 startingGroundTileDecoration(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -90,7 +90,7 @@ module startingTrackSectionGround() {
 module curvedTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 curvedGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,
@@ -112,7 +112,7 @@ module curvedTrackSectionGround(ratio=1) {
 module enlargedCurveTrackSectionGround(ratio=1) {
     translateZ(trackGroundThickness / 2) {
         flipElement(printGroundUpsideDown) {
-            color(colorGround) {
+            color(COLOR_GROUND) {
                 enlargedCurveGroundTile(
                     length = trackSectionLength,
                     width = trackSectionWidth,

@@ -60,7 +60,7 @@ module animatedStraightTrackSection(start, end, domain, ratio=1, starting=false)
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 animateStep(
                     step = step,
                     translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -126,7 +126,7 @@ module assembledStraightTrackSection(ratio=1, starting=false) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 translate([barrierX, barrierY, trackGroundThickness]) {
                     rotate(zAxis3D(rotation)) {
                         straightBarrierSet();

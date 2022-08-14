@@ -101,7 +101,7 @@ function getAnimationThresholds(type, ratio, steps) =
         steps = is_list(steps) ? len(steps) : float(steps),
         start = 0,
         present = start + steps,
-        end = present + presentationSteps + slideSteps
+        end = present + ANIMATION_PRESENTATION_STEPS + ANIMATION_SLIDE_STEPS
     )
     [type, ratio, start, present, end]
 ;

@@ -39,7 +39,7 @@ module barrierPegSet(quantity=1, line=undef) {
 
     placeElements(length=radius, width=radius, quantity=quantity, line=line) {
         translateZ(pegHeight / 2) {
-            color(colorPeg) {
+            color(COLOR_PEG) {
                 barrierPeg(
                     width = barrierWidth,
                     height = barrierHeight,
@@ -62,7 +62,7 @@ module straightBarrierSet(quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            color(colorBarrier) {
+            color(COLOR_BARRIER) {
                 straightBarrier(
                     length = barrierLength,
                     width = barrierWidth,
@@ -89,7 +89,7 @@ module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            color(colorBarrier) {
+            color(COLOR_BARRIER) {
                 curvedBarrier(
                     radius = radius,
                     angle = angle,
@@ -118,7 +118,7 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            color(colorBarrier) {
+            color(COLOR_BARRIER) {
                 curvedBarrier(
                     radius = radius,
                     angle = angle,
@@ -147,7 +147,7 @@ module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
 
     placeElements(length=length, width=barrierWidth, quantity=quantity, line=line) {
         translateZ(barrierHeight / 2) {
-            color(colorBarrier) {
+            color(COLOR_BARRIER) {
                 curvedBarrier(
                     radius = radius,
                     angle = angle,
