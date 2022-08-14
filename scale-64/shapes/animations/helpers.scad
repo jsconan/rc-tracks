@@ -33,7 +33,7 @@
  * @param Number [ratio] - The size ratio.
  * @returns Vector
  */
-function getStraightSectionSteps(ratio=1) =
+function getStraightSectionAnimationSteps(ratio=1) =
     let(
         chunks = getStraightBarrierChunks(barrierChunks, ratio)
     )
@@ -51,7 +51,7 @@ function getStraightSectionSteps(ratio=1) =
  * @param Number [ratio] - The size ratio.
  * @returns Vector
  */
-function getCurveSectionSteps(ratio=1) =
+function getCurveSectionAnimationSteps(ratio=1) =
     let(
         inner = getCurveInnerBarrierChunks(barrierChunks, ratio),
         outer = getCurveOuterBarrierChunks(barrierChunks, ratio)
@@ -70,7 +70,7 @@ function getCurveSectionSteps(ratio=1) =
  * @param Number [ratio] - The size ratio.
  * @returns Vector
  */
-function getEnlargedCurveSectionSteps(ratio=1) =
+function getEnlargedCurveSectionAnimationSteps(ratio=1) =
     let(
         side = getEnlargedCurveSideBarrierChunks(barrierChunks, ratio),
         inner = getEnlargedCurveInnerBarrierChunks(barrierChunks, ratio),

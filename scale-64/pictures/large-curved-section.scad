@@ -43,6 +43,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    curvedSection(ratio=2);
+    assembledCurvedTrackSection(ratio=2);
 
 }

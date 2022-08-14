@@ -42,10 +42,10 @@ $vpd = 500;
 
 // Prepare the list of animations
 list = buildAnimationList([
-    getAnimationThresholds("straight", 1, getStraightSectionSteps(1)),
-    getAnimationThresholds("enlarged", 1, getEnlargedCurveSectionSteps(1)),
-    getAnimationThresholds("curve", 1, getCurveSectionSteps(1)),
-    getAnimationThresholds("curve", 2, getCurveSectionSteps(2)),
+    getAnimationThresholds("straight", 1, getStraightSectionAnimationSteps(1)),
+    getAnimationThresholds("enlarged", 1, getEnlargedCurveSectionAnimationSteps(1)),
+    getAnimationThresholds("curve", 1, getCurveSectionAnimationSteps(1)),
+    getAnimationThresholds("curve", 2, getCurveSectionAnimationSteps(2)),
 ]);
 steps = getAnimationSteps(list);
 count = len(list);
@@ -71,7 +71,7 @@ applyMode(mode=renderMode) {
 
         presentSteps(from=start, to=end, steps=steps) {
             if (type == "starting") {
-                animatedStraightSection(
+                animatedStraightTrackSection(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio,
@@ -79,7 +79,7 @@ applyMode(mode=renderMode) {
                 );
             }
             if (type == "straight") {
-                animatedStraightSection(
+                animatedStraightTrackSection(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio,
@@ -87,14 +87,14 @@ applyMode(mode=renderMode) {
                 );
             }
             if (type == "enlarged") {
-                animatedEnlargedCurveSection(
+                animatedEnlargedCurveTrackSection(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio
                 );
             }
             if (type == "curve") {
-                animatedCurvedSection(
+                animatedCurvedTrackSection(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio

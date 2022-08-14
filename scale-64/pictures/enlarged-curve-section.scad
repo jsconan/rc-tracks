@@ -43,6 +43,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    enlargedCurveSection(ratio=1);
+    assembledEnlargedCurveTrackSection(ratio=1);
 
 }

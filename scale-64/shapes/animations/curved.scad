@@ -35,9 +35,9 @@
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedCurvedSection(start, end, domain, ratio=1) {
+module animatedCurvedTrackSection(start, end, domain, ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getCurveSectionSteps(ratio);
+    elements = getCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -90,9 +90,9 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
+module animatedEnlargedCurveTrackSection(start, end, domain, ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getEnlargedCurveSectionSteps(ratio);
+    elements = getEnlargedCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -177,7 +177,7 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedCurvedTile(start, end, domain, ratio=1) {
+module animatedCurvedTrackTile(start, end, domain, ratio=1) {
     animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
         curvedTrackTile(ratio=ratio);
     }
@@ -190,7 +190,7 @@ module animatedCurvedTile(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
+module animatedEnlargedCurveTrackTile(start, end, domain, ratio=1) {
     animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
         enlargedCurveTrackTile(ratio=ratio);
     }
@@ -200,9 +200,9 @@ module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
  * An assembled curved section.
  * @param Number [ratio] - The size factor.
  */
-module curvedSection(ratio=1) {
+module assembledCurvedTrackSection(ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getCurveSectionSteps(ratio);
+    elements = getCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -243,9 +243,9 @@ module curvedSection(ratio=1) {
  * An assembled enlarged curve section.
  * @param Number [ratio] - The size factor.
  */
-module enlargedCurveSection(ratio=1) {
+module assembledEnlargedCurveTrackSection(ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getEnlargedCurveSectionSteps(ratio);
+    elements = getEnlargedCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {

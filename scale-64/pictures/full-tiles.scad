@@ -71,7 +71,7 @@ applyMode(mode=renderMode) {
 
         presentSteps(from=start, to=end, steps=steps) {
             if (type == "starting") {
-                animatedStraightTile(
+                animatedStraightTrackTile(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio,
@@ -79,7 +79,7 @@ applyMode(mode=renderMode) {
                 );
             }
             if (type == "straight") {
-                animatedStraightTile(
+                animatedStraightTrackTile(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio,
@@ -87,14 +87,14 @@ applyMode(mode=renderMode) {
                 );
             }
             if (type == "enlarged") {
-                animatedEnlargedCurveTile(
+                animatedEnlargedCurveTrackTile(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio
                 );
             }
             if (type == "curve") {
-                animatedCurvedTile(
+                animatedCurvedTrackTile(
                     start = startThreshold,
                     end = endThreshold,
                     ratio = ratio

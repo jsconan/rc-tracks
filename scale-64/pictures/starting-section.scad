@@ -43,6 +43,6 @@ $vpd = 500;
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    straightSection(ratio=1, starting=true);
+    assembledStraightTrackSection(ratio=1, starting=true);
 
 }
