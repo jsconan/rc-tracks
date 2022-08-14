@@ -1,5 +1,16 @@
 # rc-tracks history
 
+## [Version 1.1.0](https://github.com/jsconan/rc-tracks/releases/tag/1.1.0)
+
+**For the 1/64 scale variant.**
+
+Add a low-level config option to render large-curve tiles full size instead of a split in halves, and add parts for both modes.
+Add larger curves with ratios 3 and 4.
+
+Move config options that were low-level to the constants.
+Also, refactor the way curves are placed, unify the way sets of elements are built, and improve naming consistency.
+Rework a bit the animated pictures.
+
 ## [Version 1.0.0](https://github.com/jsconan/rc-tracks/releases/tag/1.0.0)
 
 Add a variant of the race track system for 1/64 to 1/76 scale RC cars.
