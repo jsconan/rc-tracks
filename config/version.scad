@@ -28,6 +28,6 @@
  * @author jsconan
  */
 
-PACKAGE_VERSION = "1.0.0";
+PACKAGE_VERSION = "1.1.0";
 PROJECT_VERSION = "0.0.0";
 PROJECT_SCALE = "various";

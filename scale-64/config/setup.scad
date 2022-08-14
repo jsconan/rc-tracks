@@ -35,8 +35,8 @@ include <../../config/setup.scad>
 include <version.scad>
 
 // Include the config for the project
-include <config.scad>
 include <constants.scad>
+include <config.scad>
 include <helpers.scad>
 
 // Include the shapes for the barriers

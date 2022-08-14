@@ -31,12 +31,13 @@
 // Import the project's setup.
 include <../../config/setup.scad>
 
+// Override the default config
+forceFullTile = true;
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
 
-    ratio = 2;
-
     // Draws the ready to print model
-    curvedTrackTile(ratio=ratio);
+    curvedTrackTile(ratio=2);
 
 }

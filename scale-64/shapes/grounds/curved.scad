@@ -103,15 +103,11 @@ module curvedGroundHoles(radius, angle, thickness, barrierWidth, barrierHeight, 
 module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, barrierChunks, ratio=1) {
     sizeRatio = max(1, ratio);
     angle = getCurveAngle(ratio);
-    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=sizeRatio);
-    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=sizeRatio);
+    center = getRawCurveCenter(length=length, width=width, ratio=ratio);
     barrierInnerPosition = getCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     barrierOuterPosition = getCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=sizeRatio);
     innerBarrierChunks = getCurveInnerBarrierChunks(barrierChunks, ratio);
     outerBarrierChunks = getCurveOuterBarrierChunks(barrierChunks, ratio);
-
-    centerX = (outerRadius - cos(angle) * innerRadius) / 2 - outerRadius;
-    centerY = -(sin(angle) * outerRadius) / 2;
 
     module maleLink() {
         barrierLinkGround(
@@ -128,57 +124,59 @@ module curvedGroundTile(length, width, thickness, barrierWidth, barrierHeight, b
         );
     }
 
-    translate([centerX, centerY, 0]) {
-        difference() {
-            // Tile body
-            curvedGround(
-                length = length,
-                width = width,
-                thickness = thickness,
-                angle = angle,
-                ratio = sizeRatio
-            );
-            // Fastener holes
-            curvedGroundHoles(
-                radius = barrierInnerPosition,
-                angle = angle,
-                thickness = thickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = innerBarrierChunks
-            );
-            curvedGroundHoles(
-                radius = barrierOuterPosition,
-                angle = angle,
-                thickness = thickness,
-                barrierWidth = barrierWidth,
-                barrierHeight = barrierHeight,
-                barrierChunks = outerBarrierChunks
-            );
-            // Barrier link holes
-            translate([barrierOuterPosition, 0, -barrierHeight / 2]) {
-                rotateZ(-CURVE_ANGLE) {
-                    femaleLink();
-                }
-            }
-            rotateZ(angle) {
-                translate([barrierInnerPosition, 0, -barrierHeight / 2]) {
-                    rotateZ(CURVE_ANGLE) {
+    rotate(CURVE_ANGLE - angle) {
+        translate(-center) {
+            difference() {
+                // Tile body
+                curvedGround(
+                    length = length,
+                    width = width,
+                    thickness = thickness,
+                    angle = angle,
+                    ratio = sizeRatio
+                );
+                // Fastener holes
+                curvedGroundHoles(
+                    radius = barrierInnerPosition,
+                    angle = angle,
+                    thickness = thickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = innerBarrierChunks
+                );
+                curvedGroundHoles(
+                    radius = barrierOuterPosition,
+                    angle = angle,
+                    thickness = thickness,
+                    barrierWidth = barrierWidth,
+                    barrierHeight = barrierHeight,
+                    barrierChunks = outerBarrierChunks
+                );
+                // Barrier link holes
+                translate([barrierOuterPosition, 0, -barrierHeight / 2]) {
+                    rotateZ(-CURVE_ANGLE) {
                         femaleLink();
                     }
                 }
+                rotateZ(angle) {
+                    translate([barrierInnerPosition, 0, -barrierHeight / 2]) {
+                        rotateZ(CURVE_ANGLE) {
+                            femaleLink();
+                        }
+                    }
+                }
             }
-        }
-        // Barrier links
-        translateX(barrierInnerPosition) {
-            rotateZ(-CURVE_ANGLE) {
-                maleLink();
-            }
-        }
-        rotateZ(angle) {
-            translateX(barrierOuterPosition) {
-                rotateZ(CURVE_ANGLE) {
+            // Barrier links
+            translateX(barrierInnerPosition) {
+                rotateZ(-CURVE_ANGLE) {
                     maleLink();
+                }
+            }
+            rotateZ(angle) {
+                translateX(barrierOuterPosition) {
+                    rotateZ(CURVE_ANGLE) {
+                        maleLink();
+                    }
                 }
             }
         }
@@ -199,8 +197,7 @@ module enlargedCurveGroundTile(length, width, thickness, barrierWidth, barrierHe
     angle = CURVE_ANGLE;
     side = getEnlargedCurveSide(length=length, width=width, ratio=ratio);
     sideOffset = side / 2;
-    innerRadius = getCurveInnerRadius(length=length, width=width, ratio=ratio);
-    outerRadius = getCurveOuterRadius(length=length, width=width, ratio=ratio);
+    center = getRawEnlargedCurveCenter(length=length, width=width, ratio=ratio);
     barrierSidePosition = getEnlargedCurveSideBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio) - sideOffset;
     barrierInnerPosition = getEnlargedCurveInnerBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
     barrierOuterPosition = getEnlargedCurveOuterBarrierPosition(length=length, width=width, barrierWidth=barrierWidth, ratio=ratio);
@@ -223,7 +220,7 @@ module enlargedCurveGroundTile(length, width, thickness, barrierWidth, barrierHe
         );
     }
 
-    translate([-outerRadius, -outerRadius, 0] / 2) {
+    translate(-center) {
         difference() {
             // Tile body
             enlargedCurveGround(

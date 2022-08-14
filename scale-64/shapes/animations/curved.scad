@@ -35,9 +35,9 @@
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedCurvedSection(start, end, domain, ratio=1) {
+module animatedCurvedTrackSection(start, end, domain, ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getCurveSectionSteps(ratio);
+    elements = getCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -45,9 +45,10 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
         i = elements[step][1];
         inner = elements[step][2];
 
-        barrierX = getCurveBarrierX(i, ratio, inner);
-        barrierY = getCurveBarrierY(i, ratio, inner);
-        rotation = getCurveRotation(i, ratio, inner);
+        coordinates = getCurveBarrierCoordinates(i, ratio, inner);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
     if (element == "peg") {
             animateStep(
@@ -59,7 +60,7 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 animateStep(
                     step = step,
                     translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -89,9 +90,9 @@ module animatedCurvedSection(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
+module animatedEnlargedCurveTrackSection(start, end, domain, ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getEnlargedCurveSectionSteps(ratio);
+    elements = getEnlargedCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -101,9 +102,10 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
 
         if (type == "side") {
             right = elements[step][3];
-            barrierX = getEnlargedCurveSideBarrierX(i, ratio, right);
-            barrierY = getEnlargedCurveSideBarrierY(i, ratio, right);
-            rotation = getEnlargedCurveSideRotation(i, ratio, right);
+            coordinates = getEnlargedCurveSideBarrierCoordinates(i, ratio, right);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 animateStep(
@@ -115,7 +117,7 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     animateStep(
                         step = step,
                         translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -129,9 +131,10 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
         }
         if (type == "curve") {
             inner = elements[step][3];
-            barrierX = getEnlargedCurveBarrierX(i, ratio, inner);
-            barrierY = getEnlargedCurveBarrierY(i, ratio, inner);
-            rotation = getEnlargedCurveRotation(i, ratio, inner);
+            coordinates = getEnlargedCurveBarrierCoordinates(i, ratio, inner);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 animateStep(
@@ -143,7 +146,7 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     animateStep(
                         step = step,
                         translateTo = [barrierX, barrierY, trackGroundThickness],
@@ -174,7 +177,7 @@ module animatedEnlargedCurveSection(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedCurvedTile(start, end, domain, ratio=1) {
+module animatedCurvedTrackTile(start, end, domain, ratio=1) {
     animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
         curvedTrackTile(ratio=ratio);
     }
@@ -187,7 +190,7 @@ module animatedCurvedTile(start, end, domain, ratio=1) {
  * @param Number [domain] - The percentage domain applied to compute the percentage ratio for the thresholds (default: 100).
  * @param Number [ratio] - The size factor.
  */
-module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
+module animatedEnlargedCurveTrackTile(start, end, domain, ratio=1) {
     animateStep(step=0, steps=1, start=start, end=end, domain=domain) {
         enlargedCurveTrackTile(ratio=ratio);
     }
@@ -197,9 +200,9 @@ module animatedEnlargedCurveTile(start, end, domain, ratio=1) {
  * An assembled curved section.
  * @param Number [ratio] - The size factor.
  */
-module curvedSection(ratio=1) {
+module assembledCurvedTrackSection(ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getCurveSectionSteps(ratio);
+    elements = getCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -207,9 +210,10 @@ module curvedSection(ratio=1) {
         i = elements[step][1];
         inner = elements[step][2];
 
-        barrierX = getCurveBarrierX(i, ratio, inner);
-        barrierY = getCurveBarrierY(i, ratio, inner);
-        rotation = getCurveRotation(i, ratio, inner);
+        coordinates = getCurveBarrierCoordinates(i, ratio, inner);
+        barrierX = coordinates.x;
+        barrierY = coordinates.y;
+        rotation = coordinates.z;
 
         if (element == "peg") {
             translate([barrierX, barrierY, 0]) {
@@ -217,7 +221,7 @@ module curvedSection(ratio=1) {
             }
         }
         if (element == "barrier") {
-            color(even(i) ? colorEven : colorOdd) {
+            color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                 translate([barrierX, barrierY, trackGroundThickness]) {
                     rotate(zAxis3D(rotation)) {
                         if (inner) {
@@ -239,9 +243,9 @@ module curvedSection(ratio=1) {
  * An assembled enlarged curve section.
  * @param Number [ratio] - The size factor.
  */
-module enlargedCurveSection(ratio=1) {
+module assembledEnlargedCurveTrackSection(ratio=1) {
     sizeRatio = max(1, ratio);
-    elements = getEnlargedCurveSectionSteps(ratio);
+    elements = getEnlargedCurveSectionAnimationSteps(ratio);
     steps = len(elements);
 
     for (step = [0 : steps - 1]) {
@@ -251,9 +255,10 @@ module enlargedCurveSection(ratio=1) {
 
         if (type == "side") {
             right = elements[step][3];
-            barrierX = getEnlargedCurveSideBarrierX(i, ratio, right);
-            barrierY = getEnlargedCurveSideBarrierY(i, ratio, right);
-            rotation = getEnlargedCurveSideRotation(i, ratio, right);
+            coordinates = getEnlargedCurveSideBarrierCoordinates(i, ratio, right);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 translate([barrierX, barrierY, 0]) {
@@ -261,7 +266,7 @@ module enlargedCurveSection(ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     translate([barrierX, barrierY, trackGroundThickness]) {
                         rotate(zAxis3D(rotation)) {
                             straightBarrierSet();
@@ -272,9 +277,10 @@ module enlargedCurveSection(ratio=1) {
         }
         if (type == "curve") {
             inner = elements[step][3];
-            barrierX = getEnlargedCurveBarrierX(i, ratio, inner);
-            barrierY = getEnlargedCurveBarrierY(i, ratio, inner);
-            rotation = getEnlargedCurveRotation(i, ratio, inner);
+            coordinates = getEnlargedCurveBarrierCoordinates(i, ratio, inner);
+            barrierX = coordinates.x;
+            barrierY = coordinates.y;
+            rotation = coordinates.z;
 
             if (element == "peg") {
                 translate([barrierX, barrierY, 0]) {
@@ -282,7 +288,7 @@ module enlargedCurveSection(ratio=1) {
                 }
             }
             if (element == "barrier") {
-                color(even(i) ? colorEven : colorOdd) {
+                color(even(i) ? COLOR_BARRIER_EVEN : COLOR_BARRIER_ODD) {
                     translate([barrierX, barrierY, trackGroundThickness]) {
                         rotate(zAxis3D(rotation)) {
                             if (inner) {
