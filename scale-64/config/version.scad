@@ -28,5 +28,5 @@
  * @author jsconan
  */
 
-PROJECT_VERSION = "1.0.0";
+PROJECT_VERSION = "1.1.0";
 PROJECT_SCALE = "1/64 to 1/76";
