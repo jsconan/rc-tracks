@@ -38,7 +38,7 @@ forceFullTile = true;
 // Setup the viewport
 $vpr = [55, 0, 25];
 $vpt = [0, 0, 0];
-$vpd = 660;
+$vpd = 500;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
