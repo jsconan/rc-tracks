@@ -83,7 +83,8 @@ module straightBarrierSet(quantity=1, line=undef) {
   * @param Number [line] - The max number of elements per lines.
  */
 module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
-    radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
+    sizeRatio = max(1, ratio);
+    radius = getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, sizeRatio);
     angle = getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierLength(radius, angle, barrierWidth, barrierHeight);
 
@@ -112,7 +113,8 @@ module innerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
  * @param Number [line] - The max number of elements per lines.
  */
 module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
-    radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
+    sizeRatio = max(1, ratio);
+    radius = getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, sizeRatio);
     angle = getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierLength(radius, angle, barrierWidth, barrierHeight);
 
@@ -141,6 +143,7 @@ module outerCurveBarrierSet(ratio=1, quantity=1, line=undef) {
  * @param Number [line] - The max number of elements per lines.
  */
 module enlargedCurveBarrierSet(ratio=1, quantity=1, line=undef) {
+    ratio = max(1, ratio);
     radius = getEnlargedCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio);
     angle = CURVE_ANGLE / getEnlargedCurveOuterBarrierChunks(barrierChunks, ratio);
     length = getCurvedBarrierLength(radius, angle, barrierWidth, barrierHeight);
@@ -179,13 +182,14 @@ module straightTrackSectionBarrierSet(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module curvedTrackSectionBarrierSet(ratio=1) {
+    sizeRatio = max(1, ratio);
     innerCurveLength = getCurvedBarrierLength(
-        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, sizeRatio),
         getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
         barrierWidth, barrierHeight
     );
     outerCurveLength = getCurvedBarrierLength(
-        getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
+        getCurveOuterBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, sizeRatio),
         getCurveAngle(ratio) / getCurveOuterBarrierChunks(barrierChunks, ratio),
         barrierWidth, barrierHeight
     );
@@ -208,6 +212,7 @@ module curvedTrackSectionBarrierSet(ratio=1) {
  * @param Number [ratio] - The size factor.
  */
 module enlargedCurveTrackSectionBarrierSet(ratio=1) {
+    ratio = max(1, ratio);
     innerCurveLength = getCurvedBarrierLength(
         getCurveInnerBarrierPosition(trackSectionLength, trackSectionWidth, barrierWidth, ratio),
         getCurveAngle(ratio) / getCurveInnerBarrierChunks(barrierChunks, ratio),
